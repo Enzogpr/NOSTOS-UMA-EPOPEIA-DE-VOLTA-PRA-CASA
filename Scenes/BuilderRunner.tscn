@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://builderrunner"]
+
+[ext_resource type="Script" path="res://Code/SceneBuilder.gd" id="1_builder"]
+
+[node name="BuilderRunner" type="Node"]
+script = ExtResource("1_builder")

@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://dekuxbkne1ccr"]
+
+[ext_resource type="Script" uid="uid://jdjpayu8run" path="res://Code/TitleScreen.gd" id="1_uebgo"]
+
+[node name="TitleScreen" type="Control" unique_id=1700905370]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uebgo")
+
+[node name="BG" type="ColorRect" parent="." unique_id=411728047]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.05, 0.05, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1616949745]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="LogoRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 100.0
+offset_bottom = -250.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="." unique_id=2100071830]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.99607843, 0.5411765, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "NOSTOS: UMA EPOPEIA DE VOLTA PRA CASA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="." unique_id=1419587586]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -150.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "Pressione qualquer botão para jogar"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,74 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Code/TutorialOverlay.gd" id="1_tut"]
+
+[node name="TutorialOverlay" type="CanvasLayer"]
+process_mode = 3
+layer = 100
+script = ExtResource("1_tut")
+
+[node name="DimBG" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="AthenaTex" type="TextureRect" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -550.0
+offset_right = -50.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SpeechBubble" type="ColorRect" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -350.0
+offset_right = -450.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.1, 0.15, 0.25, 0.95)
+
+[node name="Label" type="Label" parent="SpeechBubble"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 20.0
+offset_right = -30.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+text = "..."
+
+[node name="ContinueLabel" type="Label" parent="SpeechBubble"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -40.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
+text = "Pressione qualquer botão para continuar"
