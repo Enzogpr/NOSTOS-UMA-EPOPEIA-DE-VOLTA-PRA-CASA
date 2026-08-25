@@ -170,7 +170,7 @@ func _on_tower_entered(body: Node) -> void:
 		message_label.visible = true
 		message_bg.visible    = true
 		var t = get_tree().create_timer(2.0)
-		t.timeout.connect(func(): get_tree().change_scene_to_file("res://Scenes/Level3.tscn"))
+		t.timeout.connect(func(): get_tree().change_scene_to_file("res://Scenes/Level3Cutscene.tscn"))
 
 func _on_game_over() -> void:
 	message_label.text = "ODISSEU CAIU EM BATALHA!\nPressione R para tentar de novo"

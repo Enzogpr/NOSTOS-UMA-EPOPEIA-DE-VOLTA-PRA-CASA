@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 [autoload]
 
 GameManager="*res://Code/GameManager.gd"
+PauseMenu="*res://Scenes/PauseMenu.tscn"
 
 [rendering]
 

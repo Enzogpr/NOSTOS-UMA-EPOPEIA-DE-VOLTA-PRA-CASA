@@ -1,8 +1,5 @@
-res://Code/IntroCutscene.gd
+res://Scenes/TutorialOverlay.tscn
+res://Code/TutorialOverlay.gd
+res://Code/Level.gd
 res://Code/Level2.gd
 res://Code/Level3.gd
-res://Code/Level.gd
-res://Scenes/TutorialOverlay.tscn
-res://Scenes/TitleScreen.tscn
-res://Code/Guard.gd
-res://Code/TitleScreen.gd

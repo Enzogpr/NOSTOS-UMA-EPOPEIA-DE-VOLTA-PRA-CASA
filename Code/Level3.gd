@@ -104,9 +104,11 @@ func update_boss_health(current: float, maximum: float) -> void:
 
 func show_victory() -> void:
 	GameManager.game_over = true
-	message_label.text = "VITÓRIA!\nO REI CAIU. A GUERRA ACABOU."
+	message_label.text = "O REI CAIU!"
 	message_label.visible = true
 	message_bg.visible    = true
+	var t = get_tree().create_timer(2.0)
+	t.timeout.connect(func(): get_tree().change_scene_to_file("res://Scenes/Act1EndingCutscene.tscn"))
 
 func _on_game_over() -> void:
 	message_label.text = "ODISSEU FOI DERROTADO!\nPressione R para tentar de novo"

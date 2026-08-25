@@ -12,6 +12,8 @@ func setup(text: String) -> void:
 	get_tree().paused = true
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.keycode == KEY_ESCAPE:
+		return
 	if event.is_pressed() and not event.is_echo():
 		get_tree().paused = false
 		queue_free()

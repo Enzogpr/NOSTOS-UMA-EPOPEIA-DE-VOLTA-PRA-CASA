@@ -460,7 +460,7 @@ func _on_victory() -> void:
 	message_label.visible = true
 	message_bg.visible    = true
 	var t = get_tree().create_timer(2.0)
-	t.timeout.connect(func(): get_tree().change_scene_to_file("res://Scenes/Level2.tscn"))
+	t.timeout.connect(func(): get_tree().change_scene_to_file("res://Scenes/Level2Cutscene.tscn"))
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
