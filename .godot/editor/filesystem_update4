@@ -1,5 +1,5 @@
-res://Scenes/TutorialOverlay.tscn
-res://Code/TutorialOverlay.gd
-res://Code/Level.gd
-res://Code/Level2.gd
-res://Code/Level3.gd
+res://Code/GameManager.gd
+res://Code/Guard.gd
+res://Code/Player.gd
+res://Code/PlayerStatsMenu.gd
+res://Scenes/PlayerStatsMenu.tscn

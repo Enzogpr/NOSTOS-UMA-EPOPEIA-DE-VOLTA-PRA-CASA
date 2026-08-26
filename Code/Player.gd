@@ -24,7 +24,9 @@ var _dash_cooldown: Timer
 var _attack_timer: Timer
 
 func _ready() -> void:
-	current_hp = max_hp
+	current_hp = GameManager.player_current_hp
+	max_hp = GameManager.player_max_hp
+	move_speed = 120.0 * GameManager.player_speed_mult
 	add_to_group("player")
 	
 	# Attack hitbox
@@ -94,7 +96,7 @@ func _physics_process(delta: float) -> void:
 			visual = get_node_or_null("Polygon2D")
 
 	if not _dash_cooldown.is_stopped():
-		dash_bar.size.x = 30.0 * (1.0 - (_dash_cooldown.time_left / 3.0))
+		dash_bar.size.x = 30.0 * (1.0 - (_dash_cooldown.time_left / GameManager.player_dash_cooldown))
 		dash_bar_bg.visible = true
 		dash_bar.visible = true
 	else:
@@ -145,7 +147,7 @@ func _input(event: InputEvent) -> void:
 func _dash() -> void:
 	is_dashing = true
 	_dash_timer.start(0.2)
-	_dash_cooldown.start(3.0)
+	_dash_cooldown.start(GameManager.player_dash_cooldown)
 	
 	var input := Vector2.ZERO
 	if Input.is_action_pressed("ui_up") or Input.is_key_pressed(KEY_W): input.y -= 1
@@ -169,11 +171,12 @@ func _attack() -> void:
 	var overlapping = attack_area.get_overlapping_bodies()
 	for body in overlapping:
 		if body.has_method("take_damage"):
-			body.take_damage(1)
+			body.take_damage(GameManager.player_damage)
 
 func take_damage(amount: int) -> void:
 	if GameManager.game_over or not GameManager.combat_mode: return
-	current_hp -= amount
+	GameManager.player_current_hp -= amount
+	current_hp = GameManager.player_current_hp
 	GameManager.player_health_changed.emit(current_hp)
 	
 	if visual:
@@ -187,7 +190,8 @@ func take_damage(amount: int) -> void:
 
 func heal(amount: int) -> void:
 	if GameManager.game_over or not GameManager.combat_mode: return
-	current_hp = clampi(current_hp + amount, 0, max_hp)
+	GameManager.player_current_hp = clampi(GameManager.player_current_hp + amount, 0, GameManager.player_max_hp)
+	current_hp = GameManager.player_current_hp
 	GameManager.player_health_changed.emit(current_hp)
 	if visual:
 		visual.modulate = Color(0.2, 1.0, 0.2)

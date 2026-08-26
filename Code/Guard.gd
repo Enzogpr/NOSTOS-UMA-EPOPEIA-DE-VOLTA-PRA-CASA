@@ -196,7 +196,7 @@ func _check_vision(delta: float) -> void:
 	else:
 		var dist_ratio = clamp(dist / vision_range, 0.0, 1.0)
 		# De 500 de suspeita (perto) a 150 (longe) -> Aprox. 0.6s de longe
-		var detection_speed = lerp(500.0, 150.0, dist_ratio)
+		var detection_speed = lerp(500.0, 150.0, dist_ratio) * GameManager.guard_detection_mult
 		GameManager.add_suspicion(detection_speed * delta)
 
 func set_chase_target() -> void:
