@@ -101,17 +101,33 @@ func _try_load(path: String) -> Texture2D:
 	return null
 
 func _update_cone() -> void:
-	if current_state == State.CHASE:
+	if current_state == State.CHASE or not is_inside_tree():
 		_cone.visible = false
 		return
 	_cone.visible = true
 	var half_angle: float = deg_to_rad(vision_angle_deg) * 0.5
 	var base_angle: float = _facing_dir.angle()
 	var pts := PackedVector2Array([Vector2.ZERO])
-	var steps := 10
+	var steps := 24
+	
+	var world_2d = get_world_2d()
+	var space_state = world_2d.direct_space_state if world_2d else null
+	
 	for i in range(steps + 1):
 		var a: float = base_angle - half_angle + (2.0 * half_angle) * (float(i) / float(steps))
-		pts.append(Vector2(cos(a), sin(a)) * vision_range)
+		var dir_vec := Vector2(cos(a), sin(a)) * vision_range
+		var target_global := global_position + dir_vec
+		
+		if space_state and not is_wall_guard:
+			var query = PhysicsRayQueryParameters2D.create(global_position, target_global, 1)
+			var hit: Dictionary = space_state.intersect_ray(query)
+			if not hit.is_empty():
+				pts.append(to_local(hit.position))
+			else:
+				pts.append(to_local(target_global))
+		else:
+			pts.append(to_local(target_global))
+			
 	_cone.polygon = pts
 
 func _physics_process(delta: float) -> void:
@@ -126,6 +142,7 @@ func _physics_process(delta: float) -> void:
 			_move_points()
 		else:
 			_move_random(delta)
+		_update_cone()
 		_check_vision(delta)
 	elif current_state == State.CHASE:
 		_chase_player(delta)
@@ -173,7 +190,7 @@ func _check_vision(delta: float) -> void:
 		return
 
 	var angle_to_player: float = absf(_facing_dir.angle_to(to_player.normalized()))
-	if angle_to_player > deg_to_rad(vision_angle_deg * 0.5):
+	if angle_to_player > deg_to_rad(vision_angle_deg * 0.5) + 0.08:
 		if not GameManager.combat_mode: GameManager.reduce_suspicion(8.0 * delta)
 		return
 
@@ -182,10 +199,18 @@ func _check_vision(delta: float) -> void:
 		return
 
 	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(global_position, _player.global_position)
-	query.collision_mask = 1 
-	var result = space_state.intersect_ray(query)
-	if result:
+	# Testar o centro e extremidades do jogador para garantir detecção fiel na ponta do cone
+	var sample_offsets = [Vector2.ZERO, Vector2(0, -8), Vector2(0, 8), Vector2(-8, 0), Vector2(8, 0)]
+	var visible_hit: bool = false
+	for offset in sample_offsets:
+		var target_pos = _player.global_position + offset
+		var query = PhysicsRayQueryParameters2D.create(global_position, target_pos, 1)
+		var result: Dictionary = space_state.intersect_ray(query)
+		if result.is_empty():
+			visible_hit = true
+			break
+			
+	if not visible_hit:
 		if not GameManager.combat_mode: GameManager.reduce_suspicion(8.0 * delta)
 		return
 
@@ -195,8 +220,8 @@ func _check_vision(delta: float) -> void:
 		_alert_nearby_guards()
 	else:
 		var dist_ratio = clamp(dist / vision_range, 0.0, 1.0)
-		# De 500 de suspeita (perto) a 150 (longe) -> Aprox. 0.6s de longe
-		var detection_speed = lerp(500.0, 150.0, dist_ratio) * GameManager.guard_detection_mult
+		# De 550 de suspeita (bem perto) a 280 (na ponta da visão)
+		var detection_speed = lerp(550.0, 280.0, dist_ratio) * GameManager.guard_detection_mult
 		GameManager.add_suspicion(detection_speed * delta)
 
 func set_chase_target() -> void:

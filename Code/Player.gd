@@ -24,9 +24,9 @@ var _dash_cooldown: Timer
 var _attack_timer: Timer
 
 func _ready() -> void:
-	current_hp = GameManager.player_current_hp
 	max_hp = GameManager.player_max_hp
-	move_speed = 120.0 * GameManager.player_speed_mult
+	current_hp = max_hp
+	GameManager.player_current_hp = max_hp
 	add_to_group("player")
 	
 	# Attack hitbox
@@ -123,7 +123,8 @@ func _physics_process(delta: float) -> void:
 
 	facing_dir = (get_global_mouse_position() - global_position).normalized()
 
-	velocity = input * move_speed
+	var current_move_speed = 120.0 * GameManager.player_speed_mult
+	velocity = input * current_move_speed
 		
 	move_and_slide()
 	

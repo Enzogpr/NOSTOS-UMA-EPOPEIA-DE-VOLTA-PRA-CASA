@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 enum Phase { PHASE_1, PHASE_2, PHASE_3 }
 
-@export var max_hp: int = 20
+@export var max_hp: int = 60
 @export var move_speed: float = 100.0
 @export var dash_speed: float = 600.0
 @export var attack_range: float = 45.0
@@ -12,7 +12,7 @@ enum Phase { PHASE_1, PHASE_2, PHASE_3 }
 @onready var arrow_scene = preload("res://Code/Arrow.gd")
 @onready var guard_scene = preload("res://Code/Guard.gd")
 
-var current_hp: int = 20
+var current_hp: int = 60
 var current_phase: Phase = Phase.PHASE_1
 
 var _player: Node2D
@@ -214,7 +214,8 @@ func _attack_player(is_dash_hit: bool) -> void:
 		get_tree().create_timer(0.2).timeout.connect(func(): if is_instance_valid(_attack_visual): _attack_visual.visible = false)
 	
 	if _player.has_method("take_damage"):
-		_player.take_damage(1)
+		var damage = 2 if is_dash_hit else 1
+		_player.take_damage(damage)
 
 func _summon_guards() -> void:
 	var corners = [Vector2(50, 50), Vector2(950, 50), Vector2(50, 750), Vector2(950, 750)]
@@ -251,10 +252,10 @@ func _check_phase() -> void:
 	if current_phase == Phase.PHASE_3:
 		return # Nunca sai da Fase 3
 		
-	if current_hp <= 6:
+	if current_hp <= 18:
 		current_phase = Phase.PHASE_3
 		move_speed = 160.0 # Fica mais rápido no desespero
-		current_hp = 10 # Cura para 50%
+		current_hp = 30 # Cura para 50%
 		if _level.has_method("update_boss_health"):
 			_level.update_boss_health(current_hp, max_hp)
 		_summon_guards()
@@ -264,7 +265,7 @@ func _check_phase() -> void:
 		# Reinicia a lógica do arco para ele voltar atirando
 		bow_shots_left = 5
 		bow_reload_timer = 0.0
-	elif current_hp <= 12 and current_phase == Phase.PHASE_1:
+	elif current_hp <= 36 and current_phase == Phase.PHASE_1:
 		current_phase = Phase.PHASE_2
 		if _level.has_method("spawn_heart"):
 			_level.spawn_heart()

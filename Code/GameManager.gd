@@ -21,9 +21,9 @@ var player_age: int = 20
 var player_max_hp: int = 10
 var player_current_hp: int = 10
 var player_speed_mult: float = 1.0
-var player_damage: int = 1
+var player_damage: int = 3
 var player_dash_cooldown: float = 3.0
-var player_intellect: int = 1
+var player_intellect: int = 5
 var guard_detection_mult: float = 1.0
 
 func add_suspicion(amount: float) -> void:
@@ -68,9 +68,9 @@ func reset() -> void:
 	player_max_hp = 10
 	player_current_hp = 10
 	player_speed_mult = 1.0
-	player_damage = 1
+	player_damage = 3
 	player_dash_cooldown = 3.0
-	player_intellect = 1
+	player_intellect = 5
 	guard_detection_mult = 1.0
 	
 	suspicion_changed.emit(suspicion)
@@ -84,6 +84,7 @@ func enable_combat_mode() -> void:
 	suspicion_changed.emit(suspicion)
 
 func heal_fully() -> void:
+	game_over = false
 	player_current_hp = player_max_hp
 	player_health_changed.emit(player_current_hp)
 
@@ -111,9 +112,10 @@ func sacrifice_year() -> void:
 		
 	if player_max_hp < 1: player_max_hp = 1
 	if player_dash_cooldown < 0.5: player_dash_cooldown = 0.5
+	if player_speed_mult < 0.3: player_speed_mult = 0.3
 	
-	# Inteligência reduz a velocidade de detecção (aumenta furtividade)
-	guard_detection_mult = clamp(1.0 - (player_intellect - 1) * 0.1, 0.4, 2.0)
+	# Inteligência reduz a velocidade de detecção (aumenta furtividade). Base é 5.
+	guard_detection_mult = clamp(1.0 - (player_intellect - 5) * 0.1, 0.4, 2.0)
 	
 	player_current_hp = clampi(player_current_hp, 0, player_max_hp)
 	

@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://mainhud001"]
+
+[ext_resource type="Script" path="res://Code/MainHUD.gd" id="1_hud"]
+
+[node name="MainHUD" type="CanvasLayer"]
+process_mode = 3
+layer = 90
+script = ExtResource("1_hud")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_bottom = 80.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 0
+
+[node name="StationLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+text = "Estação 1 de 13: Troia"
+horizontal_alignment = 2
+
+[node name="AgeLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+text = "Idade: 20 Anos"
+horizontal_alignment = 2

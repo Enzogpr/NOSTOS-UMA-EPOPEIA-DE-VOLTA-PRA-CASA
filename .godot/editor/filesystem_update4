@@ -1,5 +1,7 @@
-res://Code/GameManager.gd
 res://Code/Guard.gd
+res://Code/MainHUD.gd
+res://Code/GameManager.gd
+res://Code/Level2.gd
+res://Code/Level3.gd
+res://Code/PauseMenu.gd
 res://Code/Player.gd
-res://Code/PlayerStatsMenu.gd
-res://Scenes/PlayerStatsMenu.tscn

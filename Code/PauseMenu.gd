@@ -34,6 +34,7 @@ func _on_resume_pressed() -> void:
 func _on_restart_pressed() -> void:
 	get_tree().paused = false
 	visible = false
+	GameManager.heal_fully()
 	get_tree().reload_current_scene()
 
 func _on_menu_pressed() -> void:

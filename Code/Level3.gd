@@ -23,6 +23,8 @@ func _try_load(path: String) -> Texture2D:
 func _ready() -> void:
 	add_to_group("level")
 	GameManager.enable_combat_mode()
+	GameManager.heal_fully()
+	MainHUD.set_station("Estação 1 de 13: O Rei de Troia")
 	randomize()
 
 	var boss_style = StyleBoxFlat.new()
@@ -38,6 +40,8 @@ func _ready() -> void:
 
 	GameManager.player_health_changed.connect(_on_health_changed)
 	GameManager.game_over_combat.connect(_on_game_over)
+	
+	_on_health_changed(GameManager.player_current_hp)
 
 # Interface e arena criadas via Scene
 
@@ -88,7 +92,13 @@ func _build_player() -> void:
 	
 	var tutorial = preload("res://Scenes/TutorialOverlay.tscn").instantiate()
 	add_child(tutorial)
-	tutorial.setup("O portão está aberto e nossos aliados entraram, mas o Rei de Troia despertou!\n\n- Sobreviva aos ataques dele e ataque sem piedade.\n- Quando ele mudar de fase, ele deixará corações no chão para recuperar a sua vida.\n\nEsta é a batalha final, e os Deuses observam. Vença!")
+	tutorial.setup([
+		"O portão está aberto e nossos aliados entraram...",
+		"Mas o Rei de Troia despertou!",
+		"Sobreviva aos ataques dele e ataque sem piedade.",
+		"Quando ele mudar de fase, ele deixará corações no chão para recuperar a sua vida.",
+		"Esta é a batalha final, e os Deuses observam. Vença!"
+	])
 
 func _on_health_changed(hp: int) -> void:
 	for i in range(10):
@@ -117,6 +127,7 @@ func _on_game_over() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
+		GameManager.heal_fully()
 		get_tree().reload_current_scene()
 
 func spawn_heart() -> void:

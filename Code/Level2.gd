@@ -41,6 +41,8 @@ func _try_load(path: String) -> Texture2D:
 func _ready() -> void:
 	add_to_group("level")
 	GameManager.enable_combat_mode()
+	GameManager.heal_fully()
+	MainHUD.set_station("Estação 1 de 13: O Exército")
 	randomize()
 
 	_build_background()
@@ -55,6 +57,8 @@ func _ready() -> void:
 
 	GameManager.player_health_changed.connect(_on_health_changed)
 	GameManager.game_over_combat.connect(_on_game_over)
+	
+	_on_health_changed(GameManager.player_current_hp)
 
 func _build_background() -> void:
 	var bg := ColorRect.new()
@@ -146,7 +150,14 @@ func _build_player() -> void:
 	
 	var tutorial = preload("res://Scenes/TutorialOverlay.tscn").instantiate()
 	add_child(tutorial)
-	tutorial.setup("- Use o Mouse para mirar e clique com o Botão Esquerdo para atacar.\n- Aperte SHIFT ou o Botão Direito para dar um Dash (esquiva rápida).\n\nO exército troiano foi alertado! Lute contra a horda de guardas nas ruas e chegue à Torre do Palácio, no extremo direito da fortaleza.")
+	tutorial.setup([
+		"O exército troiano foi alertado!",
+		"Lute contra a horda de guardas nas ruas e chegue à Torre do Palácio.",
+		"Use o Mouse para mirar e clique com o Botão Esquerdo para atacar.",
+		"Aperte SHIFT ou o Botão Direito para dar um Dash (esquiva rápida).",
+		"Você está fraco. Aperte TAB para abrir seus atributos e sacrifique anos da sua vida para ganhar força.",
+		"Sacrificar anos é uma habilidade poderosa, mas nada vem sem preço. Seja responsável."
+	])
 
 func _build_allies() -> void:
 	var ally_script = load("res://Code/Ally.gd")
@@ -179,4 +190,5 @@ func _on_game_over() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
+		GameManager.heal_fully()
 		get_tree().reload_current_scene()

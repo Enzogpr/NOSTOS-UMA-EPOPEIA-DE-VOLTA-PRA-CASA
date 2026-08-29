@@ -28,6 +28,7 @@ func _try_load(path: String) -> Texture2D:
 func _ready() -> void:
 	add_to_group("level")
 	GameManager.reset()
+	MainHUD.set_station("Estação 1 de 13: Infiltração")
 	randomize()
 
 	# A cena visual (.tscn) já possui as paredes, UI e sombras.
@@ -310,7 +311,12 @@ func _build_player() -> void:
 	
 	var tutorial = preload("res://Scenes/TutorialOverlay.tscn").instantiate()
 	add_child(tutorial)
-	tutorial.setup("Bem-vindo a Troia, Odisseu.\n\n- Use as Teclas WASD ou as Setas Direcionais para se mover.\n- Fique em cima das áreas de Sombra para ficar invisível aos guardas.\n\nVocê saiu do Cavalo de Madeira. Mova-se furtivamente até os portões da fortaleza e esmague o botão Espaço para abri-los!")
+	tutorial.setup([
+		"Bem-vindo a Troia, Odisseu.",
+		"Use as Teclas WASD ou as Setas Direcionais para se mover.",
+		"Fique em cima das áreas de Sombra para ficar invisível aos guardas.",
+		"Você saiu do Cavalo de Madeira. Mova-se furtivamente até os portões da fortaleza e esmague o botão Espaço para abri-los!"
+	])
 
 # ── UI ────────────────────────────────────────────────────────────────────
 

@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 GameManager="*res://Code/GameManager.gd"
 PauseMenu="*res://Scenes/PauseMenu.tscn"
 PlayerStatsMenu="*res://Scenes/PlayerStatsMenu.tscn"
+MainHUD="*res://Scenes/MainHUD.tscn"
 
 [rendering]
 
