@@ -26,6 +26,26 @@ var player_dash_cooldown: float = 3.0
 var player_intellect: int = 5
 var guard_detection_mult: float = 1.0
 
+var inventory: Array = []
+
+func add_item(id: String, item_name: String, icon_path: String, description: String, usage: String) -> void:
+	for item in inventory:
+		if item["id"] == id:
+			return
+	inventory.append({
+		"id": id,
+		"name": item_name,
+		"icon": icon_path,
+		"description": description,
+		"usage": usage
+	})
+
+func has_item(id: String) -> bool:
+	for item in inventory:
+		if item["id"] == id:
+			return true
+	return false
+
 func add_suspicion(amount: float) -> void:
 	if game_over:
 		return

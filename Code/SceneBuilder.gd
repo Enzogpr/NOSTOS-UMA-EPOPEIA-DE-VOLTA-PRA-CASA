@@ -103,53 +103,55 @@ func _build_title_screen() -> void:
 func _build_intro_cutscene() -> void:
 	var cut = Control.new()
 	cut.name = "IntroCutscene"
-	cut.set_script(load("res://Code/IntroCutscene.gd"))
-	cut.set_anchors_preset(Control.PRESET_FULL_RECT)
+	cut.set_script(load("res://Estoria/Ato1/IntroCutscene.gd"))
 	
-	var bg = ColorRect.new()
+	var bg := ColorRect.new()
 	bg.name = "BG"
 	bg.color = Color(0, 0, 0)
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.anchors_preset = Control.PRESET_FULL_RECT
 	cut.add_child(bg)
 	
-	var tex = TextureRect.new()
+	var tex := TextureRect.new()
 	tex.name = "TextureRect"
-	tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tex.anchors_preset = Control.PRESET_FULL_RECT
 	tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	cut.add_child(tex)
 	
-	var panel = ColorRect.new()
-	panel.name = "TextPanel"
-	panel.color = Color(0, 0, 0, 0.8)
-	panel.custom_minimum_size = Vector2(0, 150)
-	panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	panel.position = Vector2(0, 648 - 150)
-	cut.add_child(panel)
+	var pnl := ColorRect.new()
+	pnl.name = "TextPanel"
+	pnl.color = Color(0, 0, 0, 0.8)
+	pnl.anchors_preset = Control.PRESET_BOTTOM_WIDE
+	pnl.offset_top = -150
+	pnl.custom_minimum_size = Vector2(0, 150)
+	cut.add_child(pnl)
 	
-	var lbl = Label.new()
+	var lbl := Label.new()
 	lbl.name = "Label"
-	lbl.text = "..."
-	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	lbl.add_theme_font_size_override("font_size", 24)
-	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	lbl.anchors_preset = Control.PRESET_FULL_RECT
 	lbl.offset_left = 40
 	lbl.offset_top = 20
 	lbl.offset_right = -40
 	lbl.offset_bottom = -40
-	panel.add_child(lbl)
+	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lbl.add_theme_font_size_override("font_size", 24)
+	lbl.text = "..."
+	pnl.add_child(lbl)
 	
-	var sub = Label.new()
-	sub.name = "ContinueLabel"
-	sub.text = "Pressione qualquer botão para continuar..."
-	sub.add_theme_font_size_override("font_size", 16)
-	sub.add_theme_color_override("font_color", Color(0.6, 0.6, 0.6))
-	sub.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	sub.position = Vector2(1152 - 350, 150 - 30)
-	panel.add_child(sub)
+	var cont := Label.new()
+	cont.name = "ContinueLabel"
+	cont.anchors_preset = Control.PRESET_BOTTOM_RIGHT
+	cont.offset_left = -350
+	cont.offset_top = -40
+	cont.offset_right = -20
+	cont.offset_bottom = -10
+	cont.text = "Pressione qualquer botão para continuar..."
+	cont.add_theme_font_size_override("font_size", 16)
+	cont.add_theme_color_override("font_color", Color(0.6, 0.6, 0.6))
+	pnl.add_child(cont)
 	
 	_set_owner_recursive(cut, cut)
-	var pack = PackedScene.new()
+	var pack := PackedScene.new()
 	pack.pack(cut)
-	ResourceSaver.save(pack, "res://Scenes/IntroCutscene.tscn")
+	ResourceSaver.save(pack, "res://Estoria/Ato1/IntroCutscene.tscn")
 	print("IntroCutscene salva!")

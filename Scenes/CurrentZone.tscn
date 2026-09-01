@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://7kqqcv4gqqu4"]
+
+[ext_resource type="Script" path="res://Code/CurrentZone.gd" id="1_czone"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cz"]
+size = Vector2(400, 300)
+
+[node name="CurrentZone" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_czone")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cz")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Arrow1" type="Line2D" parent="Visual"]
+position = Vector2(-120, -60)
+points = PackedVector2Array(0, -30, 0, 30, -10, 15, 0, 30, 10, 15)
+width = 3.0
+default_color = Color(0.4, 0.8, 1, 0.45)
+
+[node name="Arrow2" type="Line2D" parent="Visual"]
+position = Vector2(0, 0)
+points = PackedVector2Array(0, -30, 0, 30, -10, 15, 0, 30, 10, 15)
+width = 3.0
+default_color = Color(0.4, 0.8, 1, 0.45)
+
+[node name="Arrow3" type="Line2D" parent="Visual"]
+position = Vector2(120, 60)
+points = PackedVector2Array(0, -30, 0, 30, -10, 15, 0, 30, 10, 15)
+width = 3.0
+default_color = Color(0.4, 0.8, 1, 0.45)

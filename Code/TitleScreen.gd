@@ -12,4 +12,4 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_pressed() and not event.is_echo():
-		get_tree().change_scene_to_file("res://Scenes/IntroCutscene.tscn")
+		get_tree().change_scene_to_file("res://Estoria/Ato1/IntroCutscene.tscn")

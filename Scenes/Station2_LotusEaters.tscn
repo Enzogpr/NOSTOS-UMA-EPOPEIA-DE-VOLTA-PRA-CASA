@@ -1,0 +1,310 @@
+[gd_scene format=3 uid="uid://glkmn45h2b13"]
+
+[ext_resource type="Script" path="res://Code/Station2_LotusEaters.gd" id="1_s2main"]
+[ext_resource type="Script" path="res://Code/LotusEatersViewRenderer.gd" id="2_s2view"]
+[ext_resource type="Script" path="res://Code/LotusEatersMinimapRenderer.gd" id="3_s2map"]
+[ext_resource type="PackedScene" uid="uid://invmenu001lotus" path="res://Scenes/InventoryMenu.tscn" id="4_invmenu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dark_panel"]
+bg_color = Color(0.06, 0.08, 0.07, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.32, 0.22, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Station2_LotusEaters" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_s2main")
+
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.06, 0.05, 1)
+
+[node name="HUD" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 30.0
+offset_top = 15.0
+offset_right = -350.0
+offset_bottom = 55.0
+grow_horizontal = 2
+theme_override_constants/separation = 40
+
+[node name="TimerLabel" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_font_sizes/font_size = 20
+text = "⏱️ Tempo: 05:00"
+
+[node name="CrewLabel" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 18
+text = "👥 Tripulantes: 0 / 3"
+
+[node name="MainLayout" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 65.0
+offset_right = -30.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="ViewContainer" type="PanelContainer" parent="MainLayout"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.4
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark_panel")
+
+[node name="FirstPersonView" type="Control" parent="MainLayout/ViewContainer"]
+clip_contents = true
+layout_mode = 2
+script = ExtResource("2_s2view")
+
+[node name="SideContainer" type="VBoxContainer" parent="MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.0
+theme_override_constants/separation = 15
+
+[node name="CompassLabel" type="Label" parent="MainLayout/SideContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "🧭 Olhando para: LESTE"
+horizontal_alignment = 1
+
+[node name="MinimapContainer" type="PanelContainer" parent="MainLayout/SideContainer"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark_panel")
+
+[node name="Minimap" type="Control" parent="MainLayout/SideContainer/MinimapContainer"]
+layout_mode = 2
+script = ExtResource("3_s2map")
+
+[node name="ControlsPanel" type="PanelContainer" parent="MainLayout/SideContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark_panel")
+
+[node name="Margin" type="MarginContainer" parent="MainLayout/SideContainer/ControlsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="MainLayout/SideContainer/ControlsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="MainLayout/SideContainer/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.5, 1)
+theme_override_font_sizes/font_size = 15
+text = "Controles de Exploração:"
+
+[node name="C1" type="Label" parent="MainLayout/SideContainer/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "[ W / ↑ ] Avançar um passo"
+
+[node name="C2" type="Label" parent="MainLayout/SideContainer/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "[ S / ↓ ] Recuar um passo"
+
+[node name="C3" type="Label" parent="MainLayout/SideContainer/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "[ A / D ] Girar visão em 90°"
+
+[node name="C4" type="Label" parent="MainLayout/SideContainer/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "[ R ] Reiniciar Estação"
+
+[node name="DialogueBox" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -180.0
+offset_right = -50.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dark_panel")
+
+[node name="Margin" type="MarginContainer" parent="DialogueBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 15
+
+[node name="VBox" type="VBoxContainer" parent="DialogueBox/Margin"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="DialogueBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "Nome do Personagem"
+
+[node name="Text" type="Label" parent="DialogueBox/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+text = "Texto do diálogo aqui..."
+autowrap_mode = 3
+
+[node name="Continue" type="Label" parent="DialogueBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 13
+text = "Pressione qualquer botão para continuar..."
+horizontal_alignment = 2
+
+[node name="CutsceneOverlay" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="ColorRect" parent="CutsceneOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="CutsceneOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextPanel" type="ColorRect" parent="CutsceneOverlay"]
+custom_minimum_size = Vector2(0, 165)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -165.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 0.85)
+
+[node name="Margin" type="MarginContainer" parent="CutsceneOverlay/TextPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 35
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="CutsceneOverlay/TextPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SpeakerLabel" type="Label" parent="CutsceneOverlay/TextPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "Nome do Personagem"
+
+[node name="DialogueLabel" type="Label" parent="CutsceneOverlay/TextPanel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+text = "Texto do diálogo aqui..."
+autowrap_mode = 3
+
+[node name="ContinueLabel" type="Label" parent="CutsceneOverlay/TextPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 13
+text = "Pressione qualquer botão para continuar..."
+horizontal_alignment = 2
+
+[node name="MessageOverlay" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="Label" type="Label" parent="MessageOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -60.0
+offset_right = 300.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 24
+text = "Mensagem do Jogo"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="InventoryMenu" parent="." instance=ExtResource("4_invmenu")]
+visible = false

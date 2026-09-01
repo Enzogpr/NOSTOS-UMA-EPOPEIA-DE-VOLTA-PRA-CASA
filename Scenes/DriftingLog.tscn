@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://c3f0o44y0tmqy"]
+
+[ext_resource type="Script" path="res://Code/DriftingLog.gd" id="1_dlog"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dl"]
+radius = 18.0
+height = 90.0
+
+[node name="DriftingLog" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_dlog")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_dl")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="LogBase" type="Polygon2D" parent="Visual"]
+color = Color(0.35, 0.22, 0.12, 1)
+polygon = PackedVector2Array(-12, -42, 12, -38, 14, 40, -10, 44)
+
+[node name="SpikesLeft" type="Polygon2D" parent="Visual"]
+color = Color(0.7, 0.65, 0.55, 1)
+polygon = PackedVector2Array(-11, -25, -24, -22, -10, -15, -26, 5, -9, 12, -22, 28, -8, 32)
+
+[node name="SpikesRight" type="Polygon2D" parent="Visual"]
+color = Color(0.7, 0.65, 0.55, 1)
+polygon = PackedVector2Array(11, -22, 24, -18, 12, -10, 26, 12, 10, 18, 22, 32, 9, 36)
+
+[node name="Foam" type="Line2D" parent="Visual"]
+points = PackedVector2Array(-16, -46, 0, -50, 16, -46)
+width = 3.0
+default_color = Color(0.8, 0.95, 1, 0.7)

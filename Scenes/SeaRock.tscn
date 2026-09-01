@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bqwbjlux8l7vt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rock"]
+radius = 45.0
+
+[node name="SeaRock" type="StaticBody2D" groups=["rocks"]]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rock")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="WaterShallow" type="Polygon2D" parent="Visual"]
+color = Color(0.2, 0.55, 0.65, 0.6)
+polygon = PackedVector2Array(-55, -25, -25, -55, 30, -50, 58, -15, 45, 40, -10, 55, -50, 30)
+
+[node name="RockBase" type="Polygon2D" parent="Visual"]
+color = Color(0.25, 0.28, 0.3, 1)
+polygon = PackedVector2Array(-42, -18, -18, -42, 22, -38, 45, -10, 35, 30, -8, 42, -38, 22)
+
+[node name="RockTop" type="Polygon2D" parent="Visual"]
+color = Color(0.42, 0.45, 0.48, 1)
+polygon = PackedVector2Array(-25, -10, -10, -25, 12, -22, 25, -5, 20, 18, -5, 25, -22, 12)
+
+[node name="Moss" type="Polygon2D" parent="Visual"]
+color = Color(0.25, 0.45, 0.22, 0.8)
+polygon = PackedVector2Array(-15, -8, 0, -18, 15, -8, 8, 10, -8, 8)

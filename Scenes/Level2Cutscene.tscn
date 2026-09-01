@@ -1,8 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://c4sfue1xrqp23"]
 
 [ext_resource type="Script" path="res://Code/Level2Cutscene.gd" id="1_l2cut"]
 
-[node name="Level2Cutscene" type="Control"]
+[node name="Level2Cutscene" type="Control" unique_id=692798848]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l2cut")
 
-[node name="BG" type="ColorRect" parent="."]
+[node name="BG" type="ColorRect" parent="." unique_id=2058071900]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1568148936]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,7 +30,7 @@ grow_vertical = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TextPanel" type="ColorRect" parent="."]
+[node name="TextPanel" type="ColorRect" parent="." unique_id=265580775]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 1
 anchors_preset = 12
@@ -42,7 +42,7 @@ grow_horizontal = 2
 grow_vertical = 0
 color = Color(0, 0, 0, 0.8)
 
-[node name="Label" type="Label" parent="TextPanel"]
+[node name="Label" type="Label" parent="TextPanel" unique_id=203797385]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,7 +57,7 @@ theme_override_font_sizes/font_size = 24
 text = "..."
 autowrap_mode = 3
 
-[node name="ContinueLabel" type="Label" parent="TextPanel"]
+[node name="ContinueLabel" type="Label" parent="TextPanel" unique_id=1833763801]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -70,6 +70,6 @@ offset_right = -20.0
 offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 16
 text = "Pressione qualquer botão para continuar..."

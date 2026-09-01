@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cvvfe5bxaxrm3"]
+
+[ext_resource type="Script" path="res://Code/StormZone.gd" id="1_storm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sz"]
+size = Vector2(1600, 1400)
+
+[node name="StormZone" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_storm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_sz")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="DarkClouds" type="Polygon2D" parent="Visual"]
+color = Color(0.02, 0.05, 0.09, 0.45)
+polygon = PackedVector2Array(-800, -700, 800, -700, 800, 700, -800, 700)
+
+[node name="RainParticles" type="CPUParticles2D" parent="Visual"]
+amount = 120
+lifetime = 0.9
+preprocess = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(800, 700)
+direction = Vector2(0.4, 1)
+spread = 10.0
+gravity = Vector2(0, 500)
+initial_velocity_min = 250.0
+initial_velocity_max = 400.0
+scale_amount_min = 2.0
+scale_amount_max = 3.5
+color = Color(0.7, 0.85, 1, 0.6)

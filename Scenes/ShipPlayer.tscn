@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://dxusf3po6qs5g"]
+
+[ext_resource type="Script" path="res://Code/ShipPlayer.gd" id="1_ships"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ship"]
+radius = 16.0
+height = 70.0
+
+[node name="ShipPlayer" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_ships")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ship")
+
+[node name="WakeParticles" type="CPUParticles2D" parent="."]
+position = Vector2(-32, 0)
+emitting = false
+amount = 24
+lifetime = 0.8
+speed_scale = 1.2
+emission_shape = 3
+emission_rect_extents = Vector2(4, 12)
+direction = Vector2(-1, 0)
+spread = 25.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 80.0
+scale_amount_min = 3.0
+scale_amount_max = 7.0
+color = Color(0.85, 0.95, 1, 0.6)
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="HullBase" type="Polygon2D" parent="Visual"]
+color = Color(0.42, 0.28, 0.16, 1)
+polygon = PackedVector2Array(35, 0, 26, -15, -25, -14, -34, -8, -34, 8, -25, 14, 26, 15)
+
+[node name="HullDeck" type="Polygon2D" parent="Visual"]
+color = Color(0.6, 0.44, 0.26, 1)
+polygon = PackedVector2Array(30, 0, 22, -11, -22, -10, -28, -5, -28, 5, -22, 10, 22, 11)
+
+[node name="BronzeRam" type="Polygon2D" parent="Visual"]
+color = Color(0.85, 0.68, 0.25, 1)
+polygon = PackedVector2Array(35, 0, 42, 0, 36, -4, 30, -2, 30, 2, 36, 4)
+
+[node name="GreekEye" type="Polygon2D" parent="Visual"]
+position = Vector2(20, -6)
+scale = Vector2(0.6, 0.6)
+color = Color(0.9, 0.9, 0.9, 1)
+polygon = PackedVector2Array(6, 0, 0, -4, -6, 0, 0, 4)
+
+[node name="EyePupil" type="Polygon2D" parent="Visual/GreekEye"]
+color = Color(0.1, 0.2, 0.6, 1)
+polygon = PackedVector2Array(2, 0, 0, -2, -2, 0, 0, 2)
+
+[node name="Mast" type="Line2D" parent="Visual"]
+points = PackedVector2Array(5, -20, 5, 20)
+width = 4.0
+default_color = Color(0.35, 0.22, 0.12, 1)
+
+[node name="Sail" type="Polygon2D" parent="Visual"]
+color = Color(0.92, 0.88, 0.8, 0.95)
+polygon = PackedVector2Array(5, -19, 14, -15, 16, 0, 14, 15, 5, 19, 9, 0)
+
+[node name="OarsLeft" type="Node2D" parent="Visual"]
+
+[node name="Oar1" type="Line2D" parent="Visual/OarsLeft"]
+points = PackedVector2Array(-15, -12, -18, -26)
+width = 2.0
+default_color = Color(0.5, 0.35, 0.2, 1)
+
+[node name="Oar2" type="Line2D" parent="Visual/OarsLeft"]
+points = PackedVector2Array(-5, -12, -8, -26)
+width = 2.0
+default_color = Color(0.5, 0.35, 0.2, 1)
+
+[node name="Oar3" type="Line2D" parent="Visual/OarsLeft"]
+points = PackedVector2Array(5, -12, 2, -26)
+width = 2.0
+default_color = Color(0.5, 0.35, 0.2, 1)
+
+[node name="OarsRight" type="Node2D" parent="Visual"]
+
+[node name="Oar1" type="Line2D" parent="Visual/OarsRight"]
+points = PackedVector2Array(-15, 12, -18, 26)
+width = 2.0
+default_color = Color(0.5, 0.35, 0.2, 1)
+
+[node name="Oar2" type="Line2D" parent="Visual/OarsRight"]
+points = PackedVector2Array(-5, 12, -8, 26)
+width = 2.0
+default_color = Color(0.5, 0.35, 0.2, 1)
+
+[node name="Oar3" type="Line2D" parent="Visual/OarsRight"]
+points = PackedVector2Array(5, 12, 2, 26)
+width = 2.0
+default_color = Color(0.5, 0.35, 0.2, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 5.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true

@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bo2li2ur76w55"]
+
+[ext_resource type="Script" path="res://Code/SeaBirds.gd" id="1_birds"]
+
+[node name="SeaBirds" type="Node2D"]
+script = ExtResource("1_birds")
+
+[node name="Birds" type="Node2D" parent="."]
+
+[node name="Bird1" type="Line2D" parent="Birds"]
+points = PackedVector2Array(-8, -4, 0, 0, 8, -4)
+width = 2.5
+default_color = Color(1, 1, 1, 0.9)
+
+[node name="Bird2" type="Line2D" parent="Birds"]
+position = Vector2(-25, 18)
+points = PackedVector2Array(-6, -3, 0, 0, 6, -3)
+width = 2.0
+default_color = Color(1, 1, 1, 0.85)
+
+[node name="Bird3" type="Line2D" parent="Birds"]
+position = Vector2(-20, -22)
+points = PackedVector2Array(-6, -3, 0, 0, 6, -3)
+width = 2.0
+default_color = Color(1, 1, 1, 0.85)
+
+[node name="Bird4" type="Line2D" parent="Birds"]
+position = Vector2(-45, 6)
+points = PackedVector2Array(-5, -2, 0, 0, 5, -2)
+width = 1.8
+default_color = Color(1, 1, 1, 0.75)
