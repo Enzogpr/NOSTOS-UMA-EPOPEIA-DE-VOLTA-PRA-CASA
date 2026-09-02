@@ -9,17 +9,12 @@ signal item_collected(item_name: String)
 @export var max_hull: int = 100
 var current_hull: int = 100
 
-@export var max_speed: float = 230.0
-@export var acceleration: float = 85.0
-@export var deceleration: float = 55.0
-@export var turn_speed: float = 2.0 # rad/s
-
-# Corrente marítima contínua leve de fundo (exige correção constante do leme)
-@export var ocean_drift: Vector2 = Vector2(5.0, 18.0)
+@export var max_speed: float = 260.0
+@export var acceleration: float = 110.0
+@export var deceleration: float = 65.0
+@export var turn_speed: float = 2.4 # rad/s
 
 var current_speed: float = 0.0
-var boost_timer: float = 0.0
-var boost_cooldown: float = 0.0
 var is_invulnerable: bool = false
 var invuln_timer: float = 0.0
 
@@ -34,7 +29,7 @@ func _physics_process(delta: float) -> void:
 	if current_hull <= 0:
 		return
 		
-	# Cooldowns
+	# Cooldown de invulnerabilidade após colisão
 	if invuln_timer > 0.0:
 		invuln_timer -= delta
 		visual.modulate.a = 0.5 if fmod(invuln_timer * 10.0, 1.0) > 0.5 else 1.0
@@ -42,27 +37,34 @@ func _physics_process(delta: float) -> void:
 			is_invulnerable = false
 			visual.modulate.a = 1.0
 			
-	if boost_cooldown > 0.0:
-		boost_cooldown -= delta
+	# Leitura direta de Teclado (W, A, S, D + Setas)
+	var turn_input: float = 0.0
+	if Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+		turn_input += 1.0
+	if Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+		turn_input -= 1.0
 		
-	if boost_timer > 0.0:
-		boost_timer -= delta
+	var throttle_input: float = 0.0
+	if Input.is_action_pressed("ui_up") or Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
+		throttle_input += 1.0
+	if Input.is_action_pressed("ui_down") or Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
+		throttle_input -= 1.0
 		
-	# Rotação do Leme (A / D ou Esquerda / Direita)
-	var turn_input = Input.get_axis("ui_left", "ui_right")
-	if abs(current_speed) > 5.0 or boost_timer > 0.0:
-		rotation += turn_input * turn_speed * delta * (1.0 if current_speed >= 0 else -0.8)
+	# Rotação do Leme
+	if turn_input != 0.0:
+		var turn_factor = 1.0
+		if current_speed < -5.0:
+			turn_factor = -0.8
+		elif abs(current_speed) < 20.0 and throttle_input == 0.0:
+			turn_factor = 0.6 # Permite alinhar a proa mesmo quase parado
+		rotation += turn_input * turn_speed * delta * turn_factor
 		
-	# Aceleração das Velas / Remos (W / S ou Cima / Baixo)
-	var throttle_input = Input.get_axis("ui_down", "ui_up")
+	# Aceleração das Velas / Remos
 	var target_speed = 0.0
-	
-	if throttle_input > 0:
+	if throttle_input > 0.0:
 		target_speed = max_speed
-		if boost_timer > 0.0:
-			target_speed *= 1.6
-	elif throttle_input < 0:
-		target_speed = -max_speed * 0.35
+	elif throttle_input < 0.0:
+		target_speed = -max_speed * 0.4
 	else:
 		target_speed = 0.0
 		
@@ -71,19 +73,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		current_speed = move_toward(current_speed, target_speed, deceleration * delta)
 		
-	# Impulso de Remadores (Espaço) - CUSTA 5 DE CASCO (Esforço Extremo)
-	if Input.is_action_just_pressed("ui_accept") and boost_cooldown <= 0.0 and current_hull > 10:
-		boost_timer = 1.8
-		boost_cooldown = 5.0
-		current_speed = max_speed * 1.55
-		# Custo de integridade pelo esforço extremo dos remadores
-		current_hull = maxi(1, current_hull - 5)
-		hull_changed.emit(current_hull, max_hull)
-		item_collected.emit("⚡ Esforço Máximo dos Remadores! (-5 Casco)")
-		
-	# Movimento do Barco + Deriva contínua do oceano
+	# Movimento do Barco na direção da proa
 	var forward_dir = Vector2.RIGHT.rotated(rotation)
-	velocity = (forward_dir * current_speed) + ocean_drift
+	velocity = forward_dir * current_speed
 	
 	# Partículas de esteira de água
 	if wake_particles:
@@ -98,8 +90,8 @@ func _physics_process(delta: float) -> void:
 		var collider = collision.get_collider()
 		if collider and collider.is_in_group("rocks") and not is_invulnerable:
 			_take_damage(20)
-			# Rebote violento
-			current_speed = -current_speed * 0.6
+			# Rebote do barco
+			current_speed = -current_speed * 0.5
 			break
 
 func _take_damage(amount: int) -> void:

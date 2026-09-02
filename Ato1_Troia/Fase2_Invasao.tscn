@@ -1,0 +1,363 @@
+[gd_scene format=3 uid="uid://fase2invasaodetroia001"]
+
+[ext_resource type="Script" path="res://Ato1_Troia/Fase2_Invasao.gd" id="1_llwst"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0plju"]
+size = Vector2(3000, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ms0wi"]
+size = Vector2(3000, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5awjf"]
+size = Vector2(40, 2000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n3cqh"]
+size = Vector2(40, 2000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jriq2"]
+size = Vector2(600, 400)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehjmi"]
+size = Vector2(400, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4u3k"]
+size = Vector2(400, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_70df5"]
+size = Vector2(600, 400)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejprb"]
+size = Vector2(400, 800)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_au75x"]
+size = Vector2(200, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_62f1r"]
+size = Vector2(40, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1je60"]
+size = Vector2(200, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ycmr1"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2jwna"]
+size = Vector2(40, 200)
+
+[node name="Fase2_Invasao" type="Node2D"]
+script = ExtResource("1_llwst")
+
+[node name="WallTop" type="Polygon2D" parent="."]
+z_index = -5
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 3000, 0, 3000, 40, 0, 40)
+
+[node name="StaticBodyTop" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyTop"]
+position = Vector2(1500, 20)
+shape = SubResource("RectangleShape2D_0plju")
+
+[node name="WallBottom" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(0, 1960)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 3000, 0, 3000, 40, 0, 40)
+
+[node name="StaticBodyBottom" type="StaticBody2D" parent="."]
+position = Vector2(0, 1960)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBottom"]
+position = Vector2(1500, 20)
+shape = SubResource("RectangleShape2D_ms0wi")
+
+[node name="WallLeft" type="Polygon2D" parent="."]
+z_index = -5
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 40, 0, 40, 2000, 0, 2000)
+
+[node name="StaticBodyLeft" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyLeft"]
+position = Vector2(20, 1000)
+shape = SubResource("RectangleShape2D_5awjf")
+
+[node name="WallRight" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(2960, 0)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 40, 0, 40, 2000, 0, 2000)
+
+[node name="StaticBodyRight" type="StaticBody2D" parent="."]
+position = Vector2(2960, 0)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRight"]
+position = Vector2(20, 1000)
+shape = SubResource("RectangleShape2D_n3cqh")
+
+[node name="Building1" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(400, 400)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 600, 0, 600, 400, 0, 400)
+
+[node name="StaticBodyBuilding1" type="StaticBody2D" parent="."]
+position = Vector2(400, 400)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding1"]
+position = Vector2(300, 200)
+shape = SubResource("RectangleShape2D_jriq2")
+
+[node name="Building2" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(400, 1200)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 600, 0, 600)
+
+[node name="StaticBodyBuilding2" type="StaticBody2D" parent="."]
+position = Vector2(400, 1200)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding2"]
+position = Vector2(200, 300)
+shape = SubResource("RectangleShape2D_ehjmi")
+
+[node name="Building3" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(1200, 0)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 600, 0, 600)
+
+[node name="StaticBodyBuilding3" type="StaticBody2D" parent="."]
+position = Vector2(1200, 0)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding3"]
+position = Vector2(200, 300)
+shape = SubResource("RectangleShape2D_p4u3k")
+
+[node name="Building4" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(1200, 1000)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 600, 0, 600, 400, 0, 400)
+
+[node name="StaticBodyBuilding4" type="StaticBody2D" parent="."]
+position = Vector2(1200, 1000)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding4"]
+position = Vector2(300, 200)
+shape = SubResource("RectangleShape2D_70df5")
+
+[node name="Building5" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(2000, 600)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 800, 0, 800)
+
+[node name="StaticBodyBuilding5" type="StaticBody2D" parent="."]
+position = Vector2(2000, 600)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding5"]
+position = Vector2(200, 400)
+shape = SubResource("RectangleShape2D_ejprb")
+
+[node name="WallMazeA" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(200, 800)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 200, 0, 200, 40, 0, 40)
+
+[node name="StaticBodyMazeA" type="StaticBody2D" parent="."]
+position = Vector2(200, 800)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeA"]
+position = Vector2(100, 20)
+shape = SubResource("RectangleShape2D_au75x")
+
+[node name="WallMazeB" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(1000, 1600)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 40, 0, 40, 200, 0, 200)
+
+[node name="StaticBodyMazeB" type="StaticBody2D" parent="."]
+position = Vector2(1000, 1600)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeB"]
+position = Vector2(20, 100)
+shape = SubResource("RectangleShape2D_62f1r")
+
+[node name="WallMazeC" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(1600, 600)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 200, 0, 200, 40, 0, 40)
+
+[node name="StaticBodyMazeC" type="StaticBody2D" parent="."]
+position = Vector2(1600, 600)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeC"]
+position = Vector2(100, 20)
+shape = SubResource("RectangleShape2D_1je60")
+
+[node name="WallMazeD" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(2400, 1400)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
+
+[node name="StaticBodyMazeD" type="StaticBody2D" parent="."]
+position = Vector2(2400, 1400)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeD"]
+position = Vector2(200, 20)
+shape = SubResource("RectangleShape2D_ycmr1")
+
+[node name="WallMazeE" type="Polygon2D" parent="."]
+z_index = -5
+position = Vector2(2400, 400)
+color = Color(0.25, 0.15, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 40, 0, 40, 200, 0, 200)
+
+[node name="StaticBodyMazeE" type="StaticBody2D" parent="."]
+position = Vector2(2400, 400)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeE"]
+position = Vector2(20, 100)
+shape = SubResource("RectangleShape2D_2jwna")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HealthBarBG" type="ColorRect" parent="UILayer"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 290.0
+offset_bottom = 70.0
+color = Color(0, 0, 0, 0.55)
+
+[node name="HealthTitle" type="Label" parent="UILayer"]
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 18.0
+offset_bottom = 12.0
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+text = "❤ VIDA DE ODISSEU"
+
+[node name="HPIcon_0" type="ColorRect" parent="UILayer"]
+offset_left = 18.0
+offset_top = 34.0
+offset_right = 38.0
+offset_bottom = 54.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="HPIcon_1" type="ColorRect" parent="UILayer"]
+offset_left = 43.0
+offset_top = 34.0
+offset_right = 63.0
+offset_bottom = 54.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="HPIcon_2" type="ColorRect" parent="UILayer"]
+offset_left = 68.0
+offset_top = 34.0
+offset_right = 88.0
+offset_bottom = 54.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="HPIcon_3" type="ColorRect" parent="UILayer"]
+offset_left = 93.0
+offset_top = 34.0
+offset_right = 113.0
+offset_bottom = 54.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="HPIcon_4" type="ColorRect" parent="UILayer"]
+offset_left = 118.0
+offset_top = 34.0
+offset_right = 138.0
+offset_bottom = 54.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="HPIcon_5" type="ColorRect" parent="UILayer"]
+offset_left = 143.0
+offset_top = 34.0
+offset_right = 163.0
+offset_bottom = 54.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="HPIcon_6" type="ColorRect" parent="UILayer"]
+offset_left = 168.0
+offset_top = 34.0
+offset_right = 188.0
+offset_bottom = 54.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="HPIcon_7" type="ColorRect" parent="UILayer"]
+offset_left = 193.0
+offset_top = 34.0
+offset_right = 213.0
+offset_bottom = 54.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="HPIcon_8" type="ColorRect" parent="UILayer"]
+offset_left = 218.0
+offset_top = 34.0
+offset_right = 238.0
+offset_bottom = 54.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="HPIcon_9" type="ColorRect" parent="UILayer"]
+offset_left = 243.0
+offset_top = 34.0
+offset_right = 263.0
+offset_bottom = 54.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="MessageBG" type="ColorRect" parent="UILayer"]
+visible = false
+offset_left = 300.0
+offset_top = 350.0
+offset_right = 700.0
+offset_bottom = 450.0
+color = Color(0, 0, 0, 0.72)
+
+[node name="MessageLabel" type="Label" parent="UILayer"]
+visible = false
+offset_left = 300.0
+offset_top = 350.0
+offset_right = 700.0
+offset_bottom = 450.0
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HintBG" type="ColorRect" parent="UILayer"]
+offset_top = 620.0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.45)
+
+[node name="HintLabel" type="Label" parent="UILayer"]
+offset_left = 12.0
+offset_top = 624.0
+offset_right = 12.0
+offset_bottom = 624.0
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+text = "WASD / Setas: Mover  |  Clique Esq: Atacar  |  Shift: Esquiva  |  Tab: Atributos"

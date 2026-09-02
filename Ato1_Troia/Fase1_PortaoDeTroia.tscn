@@ -1,6 +1,7 @@
-[gd_scene format=3 uid="uid://cvhvqiqyitbqt"]
+[gd_scene format=3 uid="uid://fase1portaodetroia001"]
 
-[ext_resource type="Texture2D" uid="uid://c4yjlcg3s5uk8" path="res://Assets/paredes.jpg" id="2_6itv5"]
+[ext_resource type="Script" path="res://Ato1_Troia/Fase1_PortaoDeTroia.gd" id="1_1ftuo"]
+[ext_resource type="Texture2D" uid="uid://b3w3066n2onrf" path="res://Assets/paredes.jpg" id="2_6itv5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6itv5"]
 size = Vector2(4000, 40)
@@ -93,9 +94,10 @@ corner_radius_bottom_left = 4
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmvhl"]
 bg_color = Color(0.2, 0.7, 0.2, 1)
 
-[node name="TrojanHorse" type="Node2D" unique_id=975379340]
+[node name="Fase1_PortaoDeTroia" type="Node2D"]
+script = ExtResource("1_1ftuo")
 
-[node name="@ColorRect@2" type="ColorRect" parent="." unique_id=1578486795]
+[node name="ColorRect" type="ColorRect" parent="."]
 z_index = -10
 offset_left = -400.0
 offset_top = -400.0
@@ -103,318 +105,318 @@ offset_right = 4400.0
 offset_bottom = 2800.0
 color = Color(0.05, 0.07, 0.14, 1)
 
-[node name="@Polygon2D@3" type="Polygon2D" parent="." unique_id=1863350549]
+[node name="Courtyard" type="Polygon2D" parent="."]
 z_index = -9
 color = Color(0.25, 0.22, 0.18, 1)
 polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 2400, 0, 2400)
 
-[node name="@Polygon2D@354" type="Polygon2D" parent="." unique_id=1056529852]
+[node name="WallTop" type="Polygon2D" parent="."]
 z_index = -5
 color = Color(0.35, 0.3, 0.25, 1)
 texture = ExtResource("2_6itv5")
 polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 40, 0, 40)
 
-[node name="@StaticBody2D@356" type="StaticBody2D" parent="." unique_id=234394202]
+[node name="StaticBodyTop" type="StaticBody2D" parent="."]
 collision_mask = 0
 
-[node name="@CollisionShape2D@355" type="CollisionShape2D" parent="@StaticBody2D@356" unique_id=1129345356]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyTop"]
 position = Vector2(2000, 20)
 shape = SubResource("RectangleShape2D_6itv5")
 
-[node name="@Polygon2D@357" type="Polygon2D" parent="." unique_id=1224760106]
+[node name="WallBottom" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(0, 2360)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 40, 0, 40)
 
-[node name="@StaticBody2D@359" type="StaticBody2D" parent="." unique_id=1281112767]
+[node name="StaticBodyBottom" type="StaticBody2D" parent="."]
 position = Vector2(0, 2360)
 collision_mask = 0
 
-[node name="@CollisionShape2D@358" type="CollisionShape2D" parent="@StaticBody2D@359" unique_id=819241470]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBottom"]
 position = Vector2(2000, 20)
 shape = SubResource("RectangleShape2D_rcsnb")
 
-[node name="@Polygon2D@360" type="Polygon2D" parent="." unique_id=1485892904]
+[node name="WallLeft" type="Polygon2D" parent="."]
 z_index = -5
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 2400, 0, 2400)
 
-[node name="@StaticBody2D@362" type="StaticBody2D" parent="." unique_id=2038338138]
+[node name="StaticBodyLeft" type="StaticBody2D" parent="."]
 collision_mask = 0
 
-[node name="@CollisionShape2D@361" type="CollisionShape2D" parent="@StaticBody2D@362" unique_id=1062164929]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyLeft"]
 position = Vector2(20, 1200)
 shape = SubResource("RectangleShape2D_aek51")
 
-[node name="@Polygon2D@363" type="Polygon2D" parent="." unique_id=913565945]
+[node name="WallRightTop" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3960, 0)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 200, 0, 200)
 
-[node name="@StaticBody2D@365" type="StaticBody2D" parent="." unique_id=753777939]
+[node name="StaticBodyRightTop" type="StaticBody2D" parent="."]
 position = Vector2(3960, 0)
 collision_mask = 0
 
-[node name="@CollisionShape2D@364" type="CollisionShape2D" parent="@StaticBody2D@365" unique_id=962502513]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightTop"]
 position = Vector2(20, 100)
 shape = SubResource("RectangleShape2D_kmvtg")
 
-[node name="@Polygon2D@366" type="Polygon2D" parent="." unique_id=1725784945]
+[node name="WallRightBottom" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3960, 360)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 2040, 0, 2040)
 
-[node name="@StaticBody2D@368" type="StaticBody2D" parent="." unique_id=515111464]
+[node name="StaticBodyRightBottom" type="StaticBody2D" parent="."]
 position = Vector2(3960, 360)
 collision_mask = 0
 
-[node name="@CollisionShape2D@367" type="CollisionShape2D" parent="@StaticBody2D@368" unique_id=103464084]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightBottom"]
 position = Vector2(20, 1020)
 shape = SubResource("RectangleShape2D_0pe3d")
 
-[node name="@Polygon2D@369" type="Polygon2D" parent="." unique_id=816464120]
+[node name="WallMaze1" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(400, 1589)
 color = Color(0.35, 0.3, 0.25, 1)
 texture = ExtResource("2_6itv5")
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 560, 0, 560)
 
-[node name="@StaticBody2D@371" type="StaticBody2D" parent="." unique_id=2062001709]
+[node name="StaticBodyMaze1" type="StaticBody2D" parent="."]
 position = Vector2(400, 1800)
 collision_mask = 0
 
-[node name="@CollisionShape2D@370" type="CollisionShape2D" parent="@StaticBody2D@371" unique_id=787853412]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze1"]
 position = Vector2(20, 66)
 shape = SubResource("RectangleShape2D_oaaf1")
 
-[node name="@Polygon2D@372" type="Polygon2D" parent="." unique_id=200612204]
+[node name="WallMaze2" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(40, 1800)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 200, 0, 200, 40, 0, 40)
 
-[node name="@StaticBody2D@374" type="StaticBody2D" parent="." unique_id=141423919]
+[node name="StaticBodyMaze2" type="StaticBody2D" parent="."]
 position = Vector2(40, 1800)
 collision_mask = 0
 
-[node name="@CollisionShape2D@373" type="CollisionShape2D" parent="@StaticBody2D@374" unique_id=478941029]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze2"]
 position = Vector2(100, 20)
 shape = SubResource("RectangleShape2D_80m3e")
 
-[node name="@Polygon2D@375" type="Polygon2D" parent="." unique_id=310283320]
+[node name="WallMaze3" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(440, 2100)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 600, 0, 600, 40, 0, 40)
 
-[node name="@StaticBody2D@377" type="StaticBody2D" parent="." unique_id=67682216]
+[node name="StaticBodyMaze3" type="StaticBody2D" parent="."]
 position = Vector2(440, 2100)
 collision_mask = 0
 
-[node name="@CollisionShape2D@376" type="CollisionShape2D" parent="@StaticBody2D@377" unique_id=1819044770]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze3"]
 position = Vector2(300, 20)
 shape = SubResource("RectangleShape2D_j370j")
 
-[node name="@Polygon2D@378" type="Polygon2D" parent="." unique_id=157419009]
+[node name="WallMaze4" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(1000, 1500)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 860, 0, 860)
 
-[node name="@StaticBody2D@380" type="StaticBody2D" parent="." unique_id=13345207]
+[node name="StaticBodyMaze4" type="StaticBody2D" parent="."]
 position = Vector2(1000, 1500)
 collision_mask = 0
 
-[node name="@CollisionShape2D@379" type="CollisionShape2D" parent="@StaticBody2D@380" unique_id=1334683713]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze4"]
 position = Vector2(20, 430)
 shape = SubResource("RectangleShape2D_1t1nk")
 
-[node name="@Polygon2D@381" type="Polygon2D" parent="." unique_id=1508154172]
+[node name="WallMaze5" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(800, 800)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 1000, 0, 1000)
 
-[node name="@StaticBody2D@383" type="StaticBody2D" parent="." unique_id=287233703]
+[node name="StaticBodyMaze5" type="StaticBody2D" parent="."]
 position = Vector2(800, 800)
 collision_mask = 0
 
-[node name="@CollisionShape2D@382" type="CollisionShape2D" parent="@StaticBody2D@383" unique_id=642945163]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze5"]
 position = Vector2(20, 500)
 shape = SubResource("RectangleShape2D_e11xk")
 
-[node name="@Polygon2D@384" type="Polygon2D" parent="." unique_id=1126707472]
+[node name="WallMaze6" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(400, 800)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
 
-[node name="@StaticBody2D@386" type="StaticBody2D" parent="." unique_id=204124065]
+[node name="StaticBodyMaze6" type="StaticBody2D" parent="."]
 position = Vector2(400, 800)
 collision_mask = 0
 
-[node name="@CollisionShape2D@385" type="CollisionShape2D" parent="@StaticBody2D@386" unique_id=971739917]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze6"]
 position = Vector2(200, 20)
 shape = SubResource("RectangleShape2D_qq6yy")
 
-[node name="@Polygon2D@387" type="Polygon2D" parent="." unique_id=1910364355]
+[node name="WallMaze7" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(400, 400)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 400, 0, 400)
 
-[node name="@StaticBody2D@389" type="StaticBody2D" parent="." unique_id=1074592091]
+[node name="StaticBodyMaze7" type="StaticBody2D" parent="."]
 position = Vector2(400, 400)
 collision_mask = 0
 
-[node name="@CollisionShape2D@388" type="CollisionShape2D" parent="@StaticBody2D@389" unique_id=80506748]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze7"]
 position = Vector2(20, 200)
 shape = SubResource("RectangleShape2D_8lwpu")
 
-[node name="@Polygon2D@390" type="Polygon2D" parent="." unique_id=2094034777]
+[node name="WallFortress" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(1500, 600)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 800, 0, 800, 800, 0, 800)
 
-[node name="@StaticBody2D@392" type="StaticBody2D" parent="." unique_id=409562599]
+[node name="StaticBodyFortress" type="StaticBody2D" parent="."]
 position = Vector2(1500, 600)
 collision_mask = 0
 
-[node name="@CollisionShape2D@391" type="CollisionShape2D" parent="@StaticBody2D@392" unique_id=1977880138]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyFortress"]
 position = Vector2(400, 400)
 shape = SubResource("RectangleShape2D_pv4em")
 
-[node name="@Polygon2D@393" type="Polygon2D" parent="." unique_id=1523933986]
+[node name="WallMaze8" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(1200, 400)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 1000, 0, 1000, 40, 0, 40)
 
-[node name="@StaticBody2D@395" type="StaticBody2D" parent="." unique_id=858671912]
+[node name="StaticBodyMaze8" type="StaticBody2D" parent="."]
 position = Vector2(1200, 400)
 collision_mask = 0
 
-[node name="@CollisionShape2D@394" type="CollisionShape2D" parent="@StaticBody2D@395" unique_id=978269177]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze8"]
 position = Vector2(500, 20)
 shape = SubResource("RectangleShape2D_fm6hb")
 
-[node name="@Polygon2D@396" type="Polygon2D" parent="." unique_id=1633740414]
+[node name="WallMaze9" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(2300, 40)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 800, 0, 800)
 
-[node name="@StaticBody2D@398" type="StaticBody2D" parent="." unique_id=795553080]
+[node name="StaticBodyMaze9" type="StaticBody2D" parent="."]
 position = Vector2(2300, 40)
 collision_mask = 0
 
-[node name="@CollisionShape2D@397" type="CollisionShape2D" parent="@StaticBody2D@398" unique_id=525769032]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze9"]
 position = Vector2(20, 400)
 shape = SubResource("RectangleShape2D_rm6c8")
 
-[node name="@Polygon2D@399" type="Polygon2D" parent="." unique_id=512977020]
+[node name="WallMaze10" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(2600, 800)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 1560, 0, 1560)
 
-[node name="@StaticBody2D@401" type="StaticBody2D" parent="." unique_id=896330547]
+[node name="StaticBodyMaze10" type="StaticBody2D" parent="."]
 position = Vector2(2600, 800)
 collision_mask = 0
 
-[node name="@CollisionShape2D@400" type="CollisionShape2D" parent="@StaticBody2D@401" unique_id=179425813]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze10"]
 position = Vector2(20, 780)
 shape = SubResource("RectangleShape2D_oog5g")
 
-[node name="@Polygon2D@402" type="Polygon2D" parent="." unique_id=1580431659]
+[node name="WallMaze11" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(2600, 1600)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 800, 0, 800, 40, 0, 40)
 
-[node name="@StaticBody2D@404" type="StaticBody2D" parent="." unique_id=855482409]
+[node name="StaticBodyMaze11" type="StaticBody2D" parent="."]
 position = Vector2(2600, 1600)
 collision_mask = 0
 
-[node name="@CollisionShape2D@403" type="CollisionShape2D" parent="@StaticBody2D@404" unique_id=186530584]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze11"]
 position = Vector2(400, 20)
 shape = SubResource("RectangleShape2D_12253")
 
-[node name="@Polygon2D@405" type="Polygon2D" parent="." unique_id=1151923573]
+[node name="WallMaze12" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3400, 1200)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 1160, 0, 1160)
 
-[node name="@StaticBody2D@407" type="StaticBody2D" parent="." unique_id=2105151369]
+[node name="StaticBodyMaze12" type="StaticBody2D" parent="."]
 position = Vector2(3400, 1200)
 collision_mask = 0
 
-[node name="@CollisionShape2D@406" type="CollisionShape2D" parent="@StaticBody2D@407" unique_id=280684710]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze12"]
 position = Vector2(20, 580)
 shape = SubResource("RectangleShape2D_1ufmn")
 
-[node name="@Polygon2D@408" type="Polygon2D" parent="." unique_id=2116843255]
+[node name="WallMaze13" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(2800, 400)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 800, 0, 800, 40, 0, 40)
 
-[node name="@StaticBody2D@410" type="StaticBody2D" parent="." unique_id=1899923344]
+[node name="StaticBodyMaze13" type="StaticBody2D" parent="."]
 position = Vector2(2800, 400)
 collision_mask = 0
 
-[node name="@CollisionShape2D@409" type="CollisionShape2D" parent="@StaticBody2D@410" unique_id=93682758]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze13"]
 position = Vector2(400, 20)
 shape = SubResource("RectangleShape2D_sbojv")
 
-[node name="@Polygon2D@411" type="Polygon2D" parent="." unique_id=980733407]
+[node name="WallMaze14" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3200, 700)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
 
-[node name="@StaticBody2D@413" type="StaticBody2D" parent="." unique_id=941710383]
+[node name="StaticBodyMaze14" type="StaticBody2D" parent="."]
 position = Vector2(3200, 700)
 collision_mask = 0
 
-[node name="@CollisionShape2D@412" type="CollisionShape2D" parent="@StaticBody2D@413" unique_id=876850279]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze14"]
 position = Vector2(200, 20)
 shape = SubResource("RectangleShape2D_kvnmv")
 
-[node name="@Polygon2D@414" type="Polygon2D" parent="." unique_id=1692717755]
+[node name="WallMaze15" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3600, 400)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 340, 0, 340)
 
-[node name="@StaticBody2D@416" type="StaticBody2D" parent="." unique_id=2056117231]
+[node name="StaticBodyMaze15" type="StaticBody2D" parent="."]
 position = Vector2(3600, 400)
 collision_mask = 0
 
-[node name="@CollisionShape2D@415" type="CollisionShape2D" parent="@StaticBody2D@416" unique_id=321011902]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze15"]
 position = Vector2(20, 170)
 shape = SubResource("RectangleShape2D_yufs2")
 
-[node name="@Polygon2D@417" type="Polygon2D" parent="." unique_id=236241406]
+[node name="WallMaze16" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3200, 440)
 color = Color(0.35, 0.3, 0.25, 1)
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 100, 0, 100)
 
-[node name="@StaticBody2D@419" type="StaticBody2D" parent="." unique_id=1190200337]
+[node name="StaticBodyMaze16" type="StaticBody2D" parent="."]
 position = Vector2(3200, 440)
 collision_mask = 0
 
-[node name="@CollisionShape2D@418" type="CollisionShape2D" parent="@StaticBody2D@419" unique_id=1357736602]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze16"]
 position = Vector2(20, 50)
 shape = SubResource("RectangleShape2D_l04mo")
 
-[node name="@ColorRect@420" type="ColorRect" parent="." unique_id=576143484]
+[node name="Shadow1" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 200.0
 offset_top = 2000.0
@@ -422,7 +424,7 @@ offset_right = 300.0
 offset_bottom = 2080.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@421" type="ColorRect" parent="." unique_id=1422870978]
+[node name="Shadow2" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 605.0
 offset_top = 2198.0
@@ -430,7 +432,7 @@ offset_right = 685.0
 offset_bottom = 2278.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@422" type="ColorRect" parent="." unique_id=1283530538]
+[node name="Shadow3" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 850.0
 offset_top = 1200.0
@@ -438,7 +440,7 @@ offset_right = 950.0
 offset_bottom = 1300.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@423" type="ColorRect" parent="." unique_id=1023104203]
+[node name="Shadow4" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 450.0
 offset_top = 600.0
@@ -446,7 +448,7 @@ offset_right = 530.0
 offset_bottom = 680.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@424" type="ColorRect" parent="." unique_id=1955511671]
+[node name="Shadow5" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 1100.0
 offset_top = 1600.0
@@ -454,7 +456,7 @@ offset_right = 1180.0
 offset_bottom = 1700.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@425" type="ColorRect" parent="." unique_id=226032621]
+[node name="Shadow6" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 1300.0
 offset_top = 500.0
@@ -462,7 +464,7 @@ offset_right = 1400.0
 offset_bottom = 580.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@426" type="ColorRect" parent="." unique_id=1525935291]
+[node name="Shadow7" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 2400.0
 offset_top = 900.0
@@ -470,7 +472,7 @@ offset_right = 2480.0
 offset_bottom = 980.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@427" type="ColorRect" parent="." unique_id=95266884]
+[node name="Shadow8" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 2700.0
 offset_top = 1800.0
@@ -478,7 +480,7 @@ offset_right = 2800.0
 offset_bottom = 1880.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@428" type="ColorRect" parent="." unique_id=1928444806]
+[node name="Shadow9" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 3100.0
 offset_top = 1400.0
@@ -486,7 +488,7 @@ offset_right = 3180.0
 offset_bottom = 1500.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@429" type="ColorRect" parent="." unique_id=664819231]
+[node name="Shadow10" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 3500.0
 offset_top = 1000.0
@@ -494,7 +496,7 @@ offset_right = 3580.0
 offset_bottom = 1080.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@430" type="ColorRect" parent="." unique_id=1372884957]
+[node name="Shadow11" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 2900.0
 offset_top = 200.0
@@ -502,7 +504,7 @@ offset_right = 3000.0
 offset_bottom = 300.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@ColorRect@431" type="ColorRect" parent="." unique_id=369539634]
+[node name="Shadow12" type="ColorRect" parent="."]
 z_index = -1
 offset_left = 3700.0
 offset_top = 500.0
@@ -510,37 +512,37 @@ offset_right = 3780.0
 offset_bottom = 580.0
 color = Color(0, 0, 0, 0.35)
 
-[node name="@Node2D@433" type="Node2D" parent="." unique_id=1916086222]
+[node name="Horse" type="Node2D" parent="."]
 position = Vector2(120, 2250)
 
-[node name="@Polygon2D@432" type="Polygon2D" parent="@Node2D@433" unique_id=696332676]
+[node name="HorseVisual" type="Polygon2D" parent="Horse"]
 color = Color(0.55, 0.4, 0.22, 1)
 polygon = PackedVector2Array(-40, 0, 40, 0, 50, -60, 20, -90, -10, -70, -40, -50)
 
-[node name="@Polygon2D@434" type="Polygon2D" parent="." unique_id=599385245]
+[node name="GateVisual" type="Polygon2D" parent="."]
 position = Vector2(3940, 200)
 color = Color(0.2, 0.15, 0.1, 1)
 polygon = PackedVector2Array(0, 0, 60, 0, 60, 160, 0, 160)
 
-[node name="@Area2D@436" type="Area2D" parent="." unique_id=1498065371]
+[node name="GateArea" type="Area2D" parent="."]
 position = Vector2(3940, 200)
 collision_layer = 3
 collision_mask = 2
 
-[node name="@CollisionShape2D@435" type="CollisionShape2D" parent="@Area2D@436" unique_id=653105962]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GateArea"]
 position = Vector2(30, 80)
 shape = SubResource("RectangleShape2D_uvscy")
 
-[node name="UILayer" type="CanvasLayer" parent="." unique_id=361199281]
+[node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="@ColorRect@437" type="ColorRect" parent="UILayer" unique_id=936809931]
+[node name="BarBG" type="ColorRect" parent="UILayer"]
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 310.0
 offset_bottom = 54.0
 color = Color(0, 0, 0, 0.55)
 
-[node name="@Label@438" type="Label" parent="UILayer" unique_id=817634381]
+[node name="SuspicionLabel" type="Label" parent="UILayer"]
 offset_left = 18.0
 offset_top = 12.0
 offset_right = 18.0
@@ -549,7 +551,7 @@ theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
 theme_override_font_sizes/font_size = 13
 text = "👁  Suspeita"
 
-[node name="SuspicionBar" type="ProgressBar" parent="UILayer" unique_id=1204472334]
+[node name="SuspicionBar" type="ProgressBar" parent="UILayer"]
 offset_left = 18.0
 offset_top = 28.0
 offset_right = 290.0
@@ -558,12 +560,12 @@ theme_override_styles/background = SubResource("StyleBoxFlat_63qfg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_lsn0v")
 show_percentage = false
 
-[node name="GateUIContainer" type="Control" parent="UILayer" unique_id=705524478]
+[node name="GateUIContainer" type="Control" parent="UILayer"]
 visible = false
 layout_mode = 3
 anchors_preset = 0
 
-[node name="@Label@439" type="Label" parent="UILayer/GateUIContainer" unique_id=670590637]
+[node name="GatePrompt" type="Label" parent="UILayer/GateUIContainer"]
 layout_mode = 0
 offset_left = 370.0
 offset_top = 480.0
@@ -573,7 +575,7 @@ theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
 theme_override_font_sizes/font_size = 20
 text = "ESMAGUE [ESPAÇO] PARA ABRIR O PORTÃO!"
 
-[node name="GateProgressBar" type="ProgressBar" parent="UILayer/GateUIContainer" unique_id=243047504]
+[node name="GateProgressBar" type="ProgressBar" parent="UILayer/GateUIContainer"]
 layout_mode = 0
 offset_left = 376.0
 offset_top = 510.0
@@ -581,7 +583,7 @@ offset_right = 776.0
 offset_bottom = 537.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_tmvhl")
 
-[node name="MessageBG" type="ColorRect" parent="UILayer" unique_id=363274354]
+[node name="MessageBG" type="ColorRect" parent="UILayer"]
 visible = false
 offset_left = 326.0
 offset_top = 264.0
@@ -589,7 +591,7 @@ offset_right = 826.0
 offset_bottom = 384.0
 color = Color(0, 0, 0, 0.72)
 
-[node name="MessageLabel" type="Label" parent="UILayer" unique_id=278041342]
+[node name="MessageLabel" type="Label" parent="UILayer"]
 visible = false
 offset_left = 336.0
 offset_top = 274.0
@@ -601,17 +603,17 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="@ColorRect@440" type="ColorRect" parent="UILayer" unique_id=105918146]
+[node name="HintBG" type="ColorRect" parent="UILayer"]
 offset_top = 620.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 0.45)
 
-[node name="@Label@441" type="Label" parent="UILayer" unique_id=1801463522]
+[node name="HintLabel" type="Label" parent="UILayer"]
 offset_left = 12.0
 offset_top = 624.0
 offset_right = 12.0
 offset_bottom = 624.0
 theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
 theme_override_font_sizes/font_size = 13
-text = "Setas: mover  |  Sombras: ocultam  |  R: reiniciar"
+text = "Setas / WASD: mover  |  Sombras: ocultam  |  R: reiniciar"

@@ -1,0 +1,216 @@
+[gd_scene format=3 uid="uid://fase2navegacaomaritima001"]
+
+[ext_resource type="Script" path="res://Ato2_Lotofagos/Fase2_NavegacaoMaritima.gd" id="1_slevel"]
+[ext_resource type="PackedScene" uid="uid://shipplayer001odysseus" path="res://Scenes/ShipPlayer.tscn" id="2_ship"]
+[ext_resource type="PackedScene" uid="uid://searock001reef" path="res://Scenes/SeaRock.tscn" id="3_rock"]
+[ext_resource type="PackedScene" uid="uid://whirlpool001water" path="res://Scenes/Whirlpool.tscn" id="4_whirl"]
+[ext_resource type="PackedScene" uid="uid://supplycrate001water" path="res://Scenes/SupplyCrate.tscn" id="5_crate"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dest"]
+size = Vector2(400, 2000)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud_bg"]
+bg_color = Color(0.05, 0.08, 0.07, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.35, 0.25, 0.7)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="Fase2_NavegacaoMaritima" type="Node2D"]
+script = ExtResource("1_slevel")
+
+[node name="OceanBG" type="ColorRect" parent="."]
+offset_left = -800.0
+offset_top = -800.0
+offset_right = 6000.0
+offset_bottom = 3200.0
+color = Color(0.06, 0.2, 0.35, 1)
+
+[node name="StartCoast" type="Node2D" parent="."]
+
+[node name="SandBeach" type="Polygon2D" parent="StartCoast"]
+color = Color(0.85, 0.75, 0.5, 1)
+polygon = PackedVector2Array(-800, -800, 140, -800, 200, 400, 140, 1200, 220, 2000, 120, 3200, -800, 3200)
+
+[node name="JungleGreen" type="Polygon2D" parent="StartCoast"]
+color = Color(0.15, 0.35, 0.2, 1)
+polygon = PackedVector2Array(-800, -800, 50, -800, 100, 400, 40, 1200, 90, 2000, 30, 3200, -800, 3200)
+
+[node name="DestCoast" type="Node2D" parent="."]
+position = Vector2(4800, 0)
+
+[node name="RockyCliffs" type="Polygon2D" parent="DestCoast"]
+color = Color(0.25, 0.28, 0.32, 1)
+polygon = PackedVector2Array(150, -800, 800, -800, 800, 3200, 140, 3200, 90, 2200, 180, 1200, 70, 400)
+
+[node name="BeachLanding" type="Polygon2D" parent="DestCoast"]
+color = Color(0.7, 0.62, 0.45, 1)
+polygon = PackedVector2Array(70, 400, 180, 1200, 90, 2200, -30, 2200, 30, 1200, -40, 400)
+
+[node name="DestinationIsland" type="Area2D" parent="."]
+position = Vector2(4780, 1200)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DestinationIsland"]
+shape = SubResource("RectangleShape2D_dest")
+
+[node name="Obstacles" type="Node2D" parent="."]
+
+[node name="Rock1" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(800, 600)
+
+[node name="Rock2" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(850, 1300)
+
+[node name="Rock3" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(1350, 450)
+
+[node name="Rock4" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(1450, 1050)
+
+[node name="Rock5" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(1400, 1600)
+
+[node name="Rock6" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(2000, 750)
+
+[node name="Rock7" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(2300, 1350)
+
+[node name="Rock8" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(2650, 600)
+
+[node name="Rock9" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(2950, 1000)
+
+[node name="Rock10" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(3300, 1550)
+
+[node name="Rock11" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(3650, 700)
+
+[node name="Rock12" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(3950, 1250)
+
+[node name="Rock13" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(4300, 550)
+
+[node name="Rock14" parent="Obstacles" instance=ExtResource("3_rock")]
+position = Vector2(4350, 1450)
+
+[node name="Whirlpools" type="Node2D" parent="."]
+
+[node name="Whirlpool1" parent="Whirlpools" instance=ExtResource("4_whirl")]
+position = Vector2(1700, 750)
+
+[node name="Whirlpool2" parent="Whirlpools" instance=ExtResource("4_whirl")]
+position = Vector2(2650, 1200)
+
+[node name="Whirlpool3" parent="Whirlpools" instance=ExtResource("4_whirl")]
+position = Vector2(3650, 1200)
+
+[node name="SupplyCrates" type="Node2D" parent="."]
+
+[node name="Crate1" parent="SupplyCrates" instance=ExtResource("5_crate")]
+position = Vector2(1050, 900)
+
+[node name="Crate2" parent="SupplyCrates" instance=ExtResource("5_crate")]
+position = Vector2(1750, 1350)
+
+[node name="Crate3" parent="SupplyCrates" instance=ExtResource("5_crate")]
+position = Vector2(2300, 700)
+
+[node name="Crate4" parent="SupplyCrates" instance=ExtResource("5_crate")]
+position = Vector2(3100, 1300)
+
+[node name="Crate5" parent="SupplyCrates" instance=ExtResource("5_crate")]
+position = Vector2(4000, 850)
+
+[node name="ShipPlayer" parent="." instance=ExtResource("2_ship")]
+position = Vector2(300, 1000)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="PanelContainer" parent="CanvasLayer"]
+offset_left = 20.0
+offset_top = 15.0
+offset_right = 560.0
+offset_bottom = 68.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud_bg")
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/HUD"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="HBox" type="HBoxContainer" parent="CanvasLayer/HUD/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="HullContainer" type="HBoxContainer" parent="CanvasLayer/HUD/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HullText" type="Label" parent="CanvasLayer/HUD/Margin/HBox/HullContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 1, 0.5, 1)
+theme_override_font_sizes/font_size = 16
+text = "🛡️ Casco: 100 / 100"
+
+[node name="HullBar" type="ProgressBar" parent="CanvasLayer/HUD/Margin/HBox/HullContainer"]
+custom_minimum_size = Vector2(140, 16)
+layout_mode = 2
+size_flags_vertical = 4
+value = 100.0
+show_percentage = false
+
+[node name="NavContainer" type="HBoxContainer" parent="CanvasLayer/HUD/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DistLabel" type="Label" parent="CanvasLayer/HUD/Margin/HBox/NavContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "🏝️ Ilha a Leste: 4500 m"
+
+[node name="CompassArrow" type="Label" parent="CanvasLayer/HUD/Margin/HBox/NavContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 16
+text = "➔ (Leste)"
+
+[node name="MessageOverlay" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="Label" type="Label" parent="CanvasLayer/MessageOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -60.0
+offset_right = 350.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 24
+text = "Mensagem do Jogo"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
