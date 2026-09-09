@@ -1,0 +1,324 @@
+[gd_scene format=3 uid="uid://act3caveencounter001"]
+
+[ext_resource type="Script" path="res://Ato3_Ciclope/Cutscenes/Act3_CaveEncounterCutscene.gd" id="1_cave"]
+[ext_resource type="PackedScene" uid="uid://invmenu001lotus" path="res://Scenes/InventoryMenu.tscn" id="2_inv"]
+
+[sub_resource type="Gradient" id="Gradient_cutscene_shade"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.95)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cutscene_shade"]
+gradient = SubResource("Gradient_cutscene_shade")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_timer_panel"]
+bg_color = Color(0.12, 0.04, 0.04, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9, 0.2, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_gold"]
+bg_color = Color(0.25, 0.18, 0.05, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.8, 0.2, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_name_panel"]
+bg_color = Color(0.1, 0.1, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.8, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Act3_CaveEncounterCutscene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cave")
+
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BottomGradient" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -240.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = SubResource("GradientTexture2D_cutscene_shade")
+expand_mode = 1
+
+[node name="TextPanel" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -150.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 0.75)
+
+[node name="Margin" type="MarginContainer" parent="TextPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="TextPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SpeakerLabel" type="Label" parent="TextPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 19
+text = "Personagem"
+
+[node name="DialogueLabel" type="Label" parent="TextPanel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.95)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 18
+theme_override_constants/line_spacing = 4
+text = "Texto do diálogo aqui..."
+autowrap_mode = 3
+
+[node name="ContinueLabel" type="Label" parent="TextPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 13
+text = "Pressione qualquer botão para continuar..."
+horizontal_alignment = 2
+
+[node name="PanicHUD" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TimerPanel" type="Panel" parent="PanicHUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -190.0
+offset_top = 25.0
+offset_right = 190.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_timer_panel")
+
+[node name="TimerLabel" type="Label" parent="PanicHUD/TimerPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.2, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "⏱️ TEMPO RESTANTE: 60 s"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InstructionLabel" type="Label" parent="PanicHUD"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = -140.0
+offset_right = 450.0
+offset_bottom = -90.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.9, 0.3, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "⚠️ Polifemo agarrou Odisseu! Abra o Inventário [ I ], misture o Lótus no Vinho e ofereça a ele!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ActionButtons" type="HBoxContainer" parent="PanicHUD"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -380.0
+offset_top = -75.0
+offset_right = 380.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="BtnOpenInventory" type="Button" parent="PanicHUD/ActionButtons"]
+custom_minimum_size = Vector2(260, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "🎒 ABRIR INVENTÁRIO [ I ]"
+
+[node name="BtnOfferWine" type="Button" parent="PanicHUD/ActionButtons"]
+custom_minimum_size = Vector2(340, 48)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_gold")
+theme_override_font_sizes/font_size = 15
+disabled = true
+text = "🔒 Vinho Sonífero Não Preparado"
+
+[node name="NameInputPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -150.0
+offset_right = 350.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_name_panel")
+
+[node name="Margin" type="MarginContainer" parent="NameInputPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="NameInputPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="HintLabel" type="Label" parent="NameInputPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 15
+text = "* Dica de Atena: Se você revelar sua verdadeira identidade, a fúria dos ciclopes cairá sobre Ítaca. Seja astuto. Diga a ele que você não é pessoa alguma... que você é Ninguém. *"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="PromptLabel" type="Label" parent="NameInputPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Polifemo perguntou seu nome. O que você responde?"
+horizontal_alignment = 1
+
+[node name="NameLineEdit" type="LineEdit" parent="NameInputPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+placeholder_text = "Insira o seu nome..."
+alignment = 1
+max_length = 20
+
+[node name="BtnConfirmName" type="Button" parent="NameInputPanel/Margin/VBox"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+text = "Confirmar Nome"
+
+[node name="InventoryMenu" parent="." instance=ExtResource("2_inv")]
+visible = false
+layout_mode = 1
+
+[node name="GameOverOverlay" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15, 0, 0, 0.9)
+
+[node name="Label" type="Label" parent="GameOverOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -80.0
+offset_right = 350.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.8, 1)
+theme_override_font_sizes/font_size = 24
+text = "O TEMPO ACABOU!
+Polifemo esmagou Odisseu.
+Pressione [ R ] para tentar novamente."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

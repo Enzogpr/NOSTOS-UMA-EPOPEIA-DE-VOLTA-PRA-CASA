@@ -6,6 +6,7 @@ var current_state: State = State.WAITING
 var _run_dir: Vector2 = Vector2.ZERO
 var _run_timer: float = 0.0
 var move_speed: float = 110.0
+var hp: int = 1
 var _visual: Node2D
 var attack_area: Area2D
 var attack_timer: float = 0.0
@@ -104,3 +105,8 @@ func _try_attack() -> void:
 				_visual.modulate = Color(1.0, 1.0, 1.0, 2.0)
 				get_tree().create_timer(0.1).timeout.connect(func(): if is_instance_valid(_visual): _visual.modulate = original_color)
 			break
+
+func take_damage(amount: int) -> void:
+	hp -= amount
+	if hp <= 0:
+		queue_free()

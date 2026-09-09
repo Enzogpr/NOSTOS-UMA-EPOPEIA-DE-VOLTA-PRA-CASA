@@ -1,0 +1,219 @@
+[gd_scene format=3 uid="uid://bl2t3iyuosg7w"]
+
+[ext_resource type="Script" path="res://Ato3_Ciclope/Cutscenes/Act3_BlindingCutscene.gd" id="1_blinding"]
+
+[sub_resource type="Gradient" id="Gradient_shade"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.95)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_shade"]
+gradient = SubResource("Gradient_shade")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mini_bg"]
+bg_color = Color(0.1, 0.1, 0.1, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.4, 0.1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mini_fg"]
+bg_color = Color(1, 0.4, 0.1, 1)
+
+[node name="Act3_BlindingCutscene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_blinding")
+
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BottomGradient" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -240.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = SubResource("GradientTexture2D_shade")
+expand_mode = 1
+
+[node name="TextPanel" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -150.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 0.75)
+
+[node name="Margin" type="MarginContainer" parent="TextPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="TextPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SpeakerLabel" type="Label" parent="TextPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 19
+text = "Personagem"
+
+[node name="DialogueLabel" type="Label" parent="TextPanel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.95)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 18
+theme_override_constants/line_spacing = 4
+text = "Texto do diálogo aqui..."
+autowrap_mode = 3
+
+[node name="ContinueLabel" type="Label" parent="TextPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 13
+text = "Pressione qualquer botão para continuar..."
+horizontal_alignment = 2
+
+[node name="MinigamePanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InstructionLabel" type="Label" parent="MinigamePanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -200.0
+offset_right = 400.0
+offset_bottom = -160.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
+theme_override_font_sizes/font_size = 24
+text = "Passe o mouse freneticamente na madeira abaixo para afiá-la!"
+horizontal_alignment = 1
+
+[node name="SharpenBar" type="ProgressBar" parent="MinigamePanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -100.0
+offset_right = 300.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_mini_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mini_fg")
+show_percentage = false
+
+[node name="HitArea" type="ColorRect" parent="MinigamePanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 0.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3, 0.2, 0.1, 1)
+
+[node name="TipLabel" type="Label" parent="MinigamePanel/HitArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.8, 0.7, 0.6, 1)
+text = "[ PASSE O MOUSE AQUI ]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameOverOverlay" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0, 0, 0.95)
+
+[node name="Label" type="Label" parent="GameOverOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -50.0
+offset_right = 400.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 24
+text = "Você revelou sua verdadeira identidade para Polifemo!
+Os outros ciclopes destruíram a caverna e massacraram todos.
+Pressione [ R ] para voltar ao começo da batalha."
+horizontal_alignment = 1
+vertical_alignment = 1

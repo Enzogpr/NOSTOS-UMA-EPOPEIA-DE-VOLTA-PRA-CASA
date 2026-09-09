@@ -16,6 +16,7 @@ var max_suspicion: float = 100.0
 var game_over: bool = false
 var combat_mode: bool = false
 var has_player_moved: bool = false
+var player_fake_name: String = ""
 
 var player_age: int = 20
 var player_max_hp: int = 10
@@ -45,6 +46,18 @@ func has_item(id: String) -> bool:
 		if item["id"] == id:
 			return true
 	return false
+
+func remove_item(id: String) -> void:
+	for i in range(inventory.size() - 1, -1, -1):
+		if inventory[i]["id"] == id:
+			inventory.remove_at(i)
+			break
+
+func get_item(id: String) -> Dictionary:
+	for item in inventory:
+		if item["id"] == id:
+			return item
+	return {}
 
 func add_suspicion(amount: float) -> void:
 	if game_over:
