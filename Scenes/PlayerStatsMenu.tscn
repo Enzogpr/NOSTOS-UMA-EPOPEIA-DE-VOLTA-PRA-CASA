@@ -3,6 +3,21 @@
 [ext_resource type="Script" uid="uid://bd2ya7svdwfrs" path="res://Code/PlayerStatsMenu.gd" id="1_stats"]
 [ext_resource type="Texture2D" uid="uid://kahfhwakhcgy" path="res://Assets/attributes_bg.jpg" id="2_bg"]
 [ext_resource type="Texture2D" uid="uid://dfpe765cmf26g" path="res://Assets/botao.png" id="3_btn"]
+[ext_resource type="Texture2D" uid="uid://odisseuport001" path="res://Assets/odisseu.png" id="4_odisseu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_portrait_frame"]
+bg_color = Color(0.04, 0.06, 0.1, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.7, 0.35, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
 bg_color = Color(0.1, 0.15, 0.22, 0.95)
@@ -88,6 +103,64 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.02, 0.02, 0.03, 0.85)
 
+[node name="PortraitPanel" type="PanelContainer" parent="Control" unique_id=1847192031]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -460.0
+offset_top = -260.0
+offset_right = -170.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_portrait_frame")
+
+[node name="Margin" type="MarginContainer" parent="Control/PortraitPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Control/PortraitPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="PortraitRect" type="TextureRect" parent="Control/PortraitPanel/Margin/VBox" unique_id=1498302194]
+custom_minimum_size = Vector2(240, 320)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_odisseu")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="Control/PortraitPanel/Margin/VBox" unique_id=1284930182]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_font_sizes/font_size = 20
+text = "ODISSEU"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="Control/PortraitPanel/Margin/VBox" unique_id=1738491029]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_font_sizes/font_size = 14
+text = "Rei de Ítaca"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="Control/PortraitPanel/Margin/VBox" unique_id=1940285721]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 12
+text = "Jovem Guerreiro"
+horizontal_alignment = 1
+
 [node name="Diagram" type="TextureRect" parent="Control" unique_id=98535617]
 modulate = Color(0.85, 0.95, 1, 0.95)
 layout_mode = 1
@@ -96,10 +169,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -270.0
-offset_right = 250.0
-offset_bottom = 230.0
+offset_left = -140.0
+offset_top = -260.0
+offset_right = 440.0
+offset_bottom = 210.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_bg")
