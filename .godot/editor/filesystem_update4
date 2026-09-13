@@ -1,2 +1,4 @@
-res://Code/Guard.gd
-res://Ato1_Troia/Fase1_PortaoDeTroia.gd
+res://Ato3_Ciclope/Act3_CyclopsBossFight.gd
+res://Ato3_Ciclope/CyclopsBoss.gd
+res://Code/Ally.gd
+res://Ato3_Ciclope/Cutscenes/Act3_BlindingCutscene.gd
