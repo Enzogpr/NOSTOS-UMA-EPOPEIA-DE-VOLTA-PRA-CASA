@@ -9,6 +9,8 @@ extends CanvasLayer
 @onready var damage_label = $Control/Diagram/LeftNode/DamageLabel
 @onready var sacrifice_btn = $Control/ButtonsBox/SacrificeBtn
 @onready var close_btn = $Control/ButtonsBox/CloseBtn
+@onready var portrait_rect = $Control/PortraitPanel/Margin/VBox/PortraitRect
+@onready var status_label = $Control/PortraitPanel/Margin/VBox/StatusLabel
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -37,6 +39,15 @@ func _update_stats_ui() -> void:
 	speed_label.text = str(snapped(GameManager.player_speed_mult, 0.01)) + "x"
 	dash_label.text = str(snapped(GameManager.player_dash_cooldown, 0.01)) + "s"
 	intellect_label.text = str(GameManager.player_intellect)
+
+	if GameManager.player_age >= 40:
+		if ResourceLoader.exists("res://Assets/odisseu_velho.png"):
+			portrait_rect.texture = load("res://Assets/odisseu_velho.png")
+		status_label.text = "Veterano Experiente (" + str(GameManager.player_age) + " Anos)"
+	else:
+		if ResourceLoader.exists("res://Assets/odisseu.png"):
+			portrait_rect.texture = load("res://Assets/odisseu.png")
+		status_label.text = "Jovem Guerreiro (" + str(GameManager.player_age) + " Anos)"
 
 func _on_sacrifice_pressed() -> void:
 	GameManager.sacrifice_year()
