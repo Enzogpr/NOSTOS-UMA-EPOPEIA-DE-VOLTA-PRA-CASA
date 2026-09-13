@@ -91,8 +91,11 @@ func _ready() -> void:
 	_attack_timer.one_shot = true
 	_attack_timer.timeout.connect(func():
 		is_attacking = false
-		if is_instance_valid(visual) and visual is AnimatedSprite2D:
-			visual.play("idle")
+		var anim_spr = get_node_or_null("AttackAnimSprite")
+		if anim_spr:
+			anim_spr.visible = false
+		if is_instance_valid(visual):
+			visual.visible = true
 	)
 	add_child(_attack_timer)
 	
@@ -101,27 +104,17 @@ func _ready() -> void:
 	call_deferred("_setup_animations")
 
 func _setup_animations() -> void:
-	var old_visual = get_node_or_null("Sprite2D")
-	if not old_visual: 
-		old_visual = get_node_or_null("Polygon2D")
-	
 	var anim_spr = AnimatedSprite2D.new()
-	anim_spr.name = "AnimatedSprite2D"
+	anim_spr.name = "AttackAnimSprite"
+	anim_spr.visible = false
 	
 	var frames = SpriteFrames.new()
-	frames.add_animation("idle")
 	
-	# Tenta carregar a textura idle (antiga player.png)
-	var idle_tex = load("res://Assets/player.png") if ResourceLoader.exists("res://Assets/player.png") else null
-	if idle_tex:
-		frames.add_frame("idle", idle_tex)
-		
-	# Cria a animação de ataque
+	# Cria a animação de ataque lateral
 	frames.add_animation("attack")
 	frames.set_animation_loop("attack", false)
-	frames.set_animation_speed("attack", 20.0) # 8 frames em 0.4 seg = 20 fps
+	frames.set_animation_speed("attack", 20.0)
 	
-	# Adiciona os 8 frames da pasta animations (ataque lateral)
 	for i in range(1, 9):
 		var path = "res://Assets/animations/odisseuAtack_frame_%d.png" % i
 		if ResourceLoader.exists(path):
@@ -138,27 +131,15 @@ func _setup_animations() -> void:
 			frames.add_frame("attack_up", load(path))
 			
 	anim_spr.sprite_frames = frames
-	anim_spr.animation = "idle"
-	anim_spr.play("idle")
 	
-	# Encontra e remove QUALQUER visual antigo (Sprite2D ou Polygon2D)
-	var old_position = Vector2.ZERO
-	for child in get_children():
-		if child is Sprite2D or (child is Polygon2D and child.name != "AnimatedSprite2D"):
-			old_position = child.position
-			child.queue_free()
-			
-	anim_spr.position = old_position
-		
-	# Força a escala correta para o personagem não ficar gigante
-	if idle_tex:
-		var target_w := 22.0
-		anim_spr.scale = Vector2.ONE * (target_w / idle_tex.get_width())
+	var old_visual = get_node_or_null("Sprite2D")
+	if old_visual:
+		anim_spr.scale = old_visual.scale
+		anim_spr.position = old_visual.position
 	else:
-		anim_spr.scale = Vector2(0.2, 0.2) # fallback
+		anim_spr.scale = Vector2(0.2, 0.2)
 		
 	add_child(anim_spr)
-	visual = anim_spr
 
 func _physics_process(delta: float) -> void:
 	if GameManager.game_over:
@@ -275,11 +256,19 @@ func _attack() -> void:
 	is_attacking = true
 	_attack_timer.start(0.4)
 	
-	if is_instance_valid(visual) and visual is AnimatedSprite2D:
+	var anim_spr = get_node_or_null("AttackAnimSprite") as AnimatedSprite2D
+	if anim_spr:
+		if is_instance_valid(visual):
+			visual.visible = false
+		anim_spr.visible = true
+		
 		if facing_dir.y < -0.5:
-			visual.play("attack_up")
+			anim_spr.play("attack_up")
+			anim_spr.flip_h = false
 		else:
-			visual.play("attack")
+			anim_spr.play("attack")
+			if facing_dir.x != 0:
+				anim_spr.flip_h = (facing_dir.x < 0)
 	
 	var overlapping = attack_area.get_overlapping_bodies()
 	for body in overlapping:
