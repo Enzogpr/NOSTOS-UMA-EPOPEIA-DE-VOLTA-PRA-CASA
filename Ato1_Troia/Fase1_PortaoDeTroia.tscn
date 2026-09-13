@@ -1,7 +1,23 @@
 [gd_scene format=3 uid="uid://fase1portaodetroia001"]
 
 [ext_resource type="Script" path="res://Ato1_Troia/Fase1_PortaoDeTroia.gd" id="1_1ftuo"]
-[ext_resource type="Texture2D" uid="uid://b3w3066n2onrf" path="res://Assets/paredes.jpg" id="2_6itv5"]
+[ext_resource type="Texture2D" path="res://Assets/muro_troia.png" id="2_muro"]
+[ext_resource type="Texture2D" path="res://Assets/chao_troia.png" id="8_chao"]
+[ext_resource type="Texture2D" path="res://Assets/cavalo_troia.png" id="3_horse"]
+[ext_resource type="Texture2D" path="res://Assets/barracas/barraca_1.png" id="4_barraca1"]
+[ext_resource type="Texture2D" path="res://Assets/barracas/barraca_2.png" id="5_barraca2"]
+[ext_resource type="Texture2D" path="res://Assets/barracas/barraca_3.png" id="6_barraca3"]
+[ext_resource type="Texture2D" path="res://Assets/barracas/barraca_4.png" id="7_barraca4"]
+
+[ext_resource type="Texture2D" path="res://Assets/decor/tocha.png" id="10_tocha"]
+[ext_resource type="Texture2D" path="res://Assets/decor/rack_armas.png" id="11_rack"]
+[ext_resource type="Texture2D" path="res://Assets/decor/estandarte_grande.png" id="12_estandarte"]
+[ext_resource type="Texture2D" path="res://Assets/decor/barris_caixas.png" id="13_barris"]
+[ext_resource type="Texture2D" path="res://Assets/decor/vasos_anforas.png" id="14_vasos"]
+[ext_resource type="Texture2D" path="res://Assets/decor/roda_carroca.png" id="15_roda"]
+[ext_resource type="Texture2D" path="res://Assets/decor/cerca_estandarte.png" id="16_cerca"]
+[ext_resource type="Texture2D" path="res://Assets/decor/trilha_carroca.png" id="17_trilha"]
+[ext_resource type="Texture2D" path="res://Assets/decor/arbusto_verde.png" id="18_arbusto"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6itv5"]
 size = Vector2(4000, 40)
@@ -107,13 +123,16 @@ color = Color(0.05, 0.07, 0.14, 1)
 
 [node name="Courtyard" type="Polygon2D" parent="."]
 z_index = -9
-color = Color(0.25, 0.22, 0.18, 1)
+texture_repeat = 2
+texture = ExtResource("8_chao")
+texture_scale = Vector2(1, 1)
 polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 2400, 0, 2400)
 
 [node name="WallTop" type="Polygon2D" parent="."]
 z_index = -5
-color = Color(0.35, 0.3, 0.25, 1)
-texture = ExtResource("2_6itv5")
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 40, 0, 40)
 
 [node name="StaticBodyTop" type="StaticBody2D" parent="."]
@@ -126,7 +145,9 @@ shape = SubResource("RectangleShape2D_6itv5")
 [node name="WallBottom" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(0, 2360)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 40, 0, 40)
 
 [node name="StaticBodyBottom" type="StaticBody2D" parent="."]
@@ -139,7 +160,9 @@ shape = SubResource("RectangleShape2D_rcsnb")
 
 [node name="WallLeft" type="Polygon2D" parent="."]
 z_index = -5
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 2400, 0, 2400)
 
 [node name="StaticBodyLeft" type="StaticBody2D" parent="."]
@@ -152,7 +175,9 @@ shape = SubResource("RectangleShape2D_aek51")
 [node name="WallRightTop" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3960, 0)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 200, 0, 200)
 
 [node name="StaticBodyRightTop" type="StaticBody2D" parent="."]
@@ -166,7 +191,9 @@ shape = SubResource("RectangleShape2D_kmvtg")
 [node name="WallRightBottom" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3960, 360)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 2040, 0, 2040)
 
 [node name="StaticBodyRightBottom" type="StaticBody2D" parent="."]
@@ -180,8 +207,9 @@ shape = SubResource("RectangleShape2D_0pe3d")
 [node name="WallMaze1" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(400, 1589)
-color = Color(0.35, 0.3, 0.25, 1)
-texture = ExtResource("2_6itv5")
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 560, 0, 560)
 
 [node name="StaticBodyMaze1" type="StaticBody2D" parent="."]
@@ -195,7 +223,9 @@ shape = SubResource("RectangleShape2D_oaaf1")
 [node name="WallMaze2" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(40, 1800)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 200, 0, 200, 40, 0, 40)
 
 [node name="StaticBodyMaze2" type="StaticBody2D" parent="."]
@@ -209,7 +239,9 @@ shape = SubResource("RectangleShape2D_80m3e")
 [node name="WallMaze3" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(440, 2100)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 600, 0, 600, 40, 0, 40)
 
 [node name="StaticBodyMaze3" type="StaticBody2D" parent="."]
@@ -223,7 +255,9 @@ shape = SubResource("RectangleShape2D_j370j")
 [node name="WallMaze4" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(1000, 1500)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 860, 0, 860)
 
 [node name="StaticBodyMaze4" type="StaticBody2D" parent="."]
@@ -237,7 +271,9 @@ shape = SubResource("RectangleShape2D_1t1nk")
 [node name="WallMaze5" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(800, 800)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 1000, 0, 1000)
 
 [node name="StaticBodyMaze5" type="StaticBody2D" parent="."]
@@ -251,7 +287,9 @@ shape = SubResource("RectangleShape2D_e11xk")
 [node name="WallMaze6" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(400, 800)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
 
 [node name="StaticBodyMaze6" type="StaticBody2D" parent="."]
@@ -265,7 +303,9 @@ shape = SubResource("RectangleShape2D_qq6yy")
 [node name="WallMaze7" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(400, 400)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 400, 0, 400)
 
 [node name="StaticBodyMaze7" type="StaticBody2D" parent="."]
@@ -279,7 +319,9 @@ shape = SubResource("RectangleShape2D_8lwpu")
 [node name="WallFortress" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(1500, 600)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 800, 0, 800, 800, 0, 800)
 
 [node name="StaticBodyFortress" type="StaticBody2D" parent="."]
@@ -293,7 +335,9 @@ shape = SubResource("RectangleShape2D_pv4em")
 [node name="WallMaze8" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(1200, 400)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 1000, 0, 1000, 40, 0, 40)
 
 [node name="StaticBodyMaze8" type="StaticBody2D" parent="."]
@@ -307,7 +351,9 @@ shape = SubResource("RectangleShape2D_fm6hb")
 [node name="WallMaze9" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(2300, 40)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 800, 0, 800)
 
 [node name="StaticBodyMaze9" type="StaticBody2D" parent="."]
@@ -321,7 +367,9 @@ shape = SubResource("RectangleShape2D_rm6c8")
 [node name="WallMaze10" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(2600, 800)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 1560, 0, 1560)
 
 [node name="StaticBodyMaze10" type="StaticBody2D" parent="."]
@@ -335,7 +383,9 @@ shape = SubResource("RectangleShape2D_oog5g")
 [node name="WallMaze11" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(2600, 1600)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 800, 0, 800, 40, 0, 40)
 
 [node name="StaticBodyMaze11" type="StaticBody2D" parent="."]
@@ -349,7 +399,9 @@ shape = SubResource("RectangleShape2D_12253")
 [node name="WallMaze12" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3400, 1200)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 1160, 0, 1160)
 
 [node name="StaticBodyMaze12" type="StaticBody2D" parent="."]
@@ -363,7 +415,9 @@ shape = SubResource("RectangleShape2D_1ufmn")
 [node name="WallMaze13" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(2800, 400)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 800, 0, 800, 40, 0, 40)
 
 [node name="StaticBodyMaze13" type="StaticBody2D" parent="."]
@@ -377,7 +431,9 @@ shape = SubResource("RectangleShape2D_sbojv")
 [node name="WallMaze14" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3200, 700)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
 
 [node name="StaticBodyMaze14" type="StaticBody2D" parent="."]
@@ -391,7 +447,9 @@ shape = SubResource("RectangleShape2D_kvnmv")
 [node name="WallMaze15" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3600, 400)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 340, 0, 340)
 
 [node name="StaticBodyMaze15" type="StaticBody2D" parent="."]
@@ -405,7 +463,9 @@ shape = SubResource("RectangleShape2D_yufs2")
 [node name="WallMaze16" type="Polygon2D" parent="."]
 z_index = -5
 position = Vector2(3200, 440)
-color = Color(0.35, 0.3, 0.25, 1)
+color = Color(1, 1, 1, 1)
+texture = ExtResource("2_muro")
+texture_repeat = 2
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 100, 0, 100)
 
 [node name="StaticBodyMaze16" type="StaticBody2D" parent="."]
@@ -416,108 +476,90 @@ collision_mask = 0
 position = Vector2(20, 50)
 shape = SubResource("RectangleShape2D_l04mo")
 
-[node name="Shadow1" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 200.0
-offset_top = 2000.0
-offset_right = 300.0
-offset_bottom = 2080.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent1" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(250, 2040)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("4_barraca1")
 
-[node name="Shadow2" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 605.0
-offset_top = 2198.0
-offset_right = 685.0
-offset_bottom = 2278.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent2" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(645, 2238)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("5_barraca2")
 
-[node name="Shadow3" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 850.0
-offset_top = 1200.0
-offset_right = 950.0
-offset_bottom = 1300.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent3" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(900, 1250)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("6_barraca3")
 
-[node name="Shadow4" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 450.0
-offset_top = 600.0
-offset_right = 530.0
-offset_bottom = 680.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent4" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(490, 640)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("7_barraca4")
 
-[node name="Shadow5" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 1100.0
-offset_top = 1600.0
-offset_right = 1180.0
-offset_bottom = 1700.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent5" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(1140, 1650)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("4_barraca1")
 
-[node name="Shadow6" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 1300.0
-offset_top = 500.0
-offset_right = 1400.0
-offset_bottom = 580.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent6" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(1350, 540)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("5_barraca2")
 
-[node name="Shadow7" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 2400.0
-offset_top = 900.0
-offset_right = 2480.0
-offset_bottom = 980.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent7" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(2440, 940)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("6_barraca3")
 
-[node name="Shadow8" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 2700.0
-offset_top = 1800.0
-offset_right = 2800.0
-offset_bottom = 1880.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent8" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(2750, 1840)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("7_barraca4")
 
-[node name="Shadow9" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 3100.0
-offset_top = 1400.0
-offset_right = 3180.0
-offset_bottom = 1500.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent9" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(3140, 1450)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("4_barraca1")
 
-[node name="Shadow10" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 3500.0
-offset_top = 1000.0
-offset_right = 3580.0
-offset_bottom = 1080.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent10" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(3540, 1040)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("5_barraca2")
 
-[node name="Shadow11" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 2900.0
-offset_top = 200.0
-offset_right = 3000.0
-offset_bottom = 300.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent11" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(2950, 250)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("6_barraca3")
 
-[node name="Shadow12" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 3700.0
-offset_top = 500.0
-offset_right = 3780.0
-offset_bottom = 580.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent12" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(3740, 540)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("7_barraca4")
 
-[node name="Horse" type="Node2D" parent="."]
-position = Vector2(120, 2250)
+[node name="Horse" type="Sprite2D" parent="."]
+z_index = -2
+position = Vector2(110, 2220)
+scale = Vector2(0.13, 0.13)
+texture = ExtResource("3_horse")
 
-[node name="HorseVisual" type="Polygon2D" parent="Horse"]
-color = Color(0.55, 0.4, 0.22, 1)
-polygon = PackedVector2Array(-40, 0, 40, 0, 50, -60, 20, -90, -10, -70, -40, -50)
+[node name="StaticBodyHorse" type="StaticBody2D" parent="."]
+position = Vector2(110, 2250)
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBodyHorse"]
+polygon = PackedVector2Array(-70, 30, 70, 30, 70, 0, -70, 0)
 
 [node name="GateVisual" type="Polygon2D" parent="."]
 position = Vector2(3940, 200)
@@ -532,6 +574,50 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GateArea"]
 position = Vector2(30, 80)
 shape = SubResource("RectangleShape2D_uvscy")
+
+
+[node name="Decorations" type="Node2D" parent="."]
+z_index = -3
+
+[node name="TochaCorredor1" type="Sprite2D" parent="Decorations"]
+position = Vector2(460, 1850)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaCorredor2" type="Sprite2D" parent="Decorations"]
+position = Vector2(1060, 1530)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaCorredor3" type="Sprite2D" parent="Decorations"]
+position = Vector2(1260, 440)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaCentro1" type="Sprite2D" parent="Decorations"]
+position = Vector2(2360, 840)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaLeste1" type="Sprite2D" parent="Decorations"]
+position = Vector2(3460, 1240)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaLeste2" type="Sprite2D" parent="Decorations"]
+position = Vector2(3260, 740)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaPortao1" type="Sprite2D" parent="Decorations"]
+position = Vector2(3900, 190)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaPortao2" type="Sprite2D" parent="Decorations"]
+position = Vector2(3900, 370)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
