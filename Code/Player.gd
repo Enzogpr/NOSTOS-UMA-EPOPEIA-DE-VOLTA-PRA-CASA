@@ -18,25 +18,16 @@ var is_attacking: bool = false
 var visual: Node2D
 var attack_visual: Polygon2D
 
+# Timers físicos (Nodes)
 var _dash_timer: Timer
 var _dash_cooldown: Timer
 var _attack_timer: Timer
-
-# Animation state
-var _anims: Dictionary = {}
-var _anim_timer: float = 0.0
-var _frame_index: int = 0
-var _current_dir: String = "down"
-var _facing_left: bool = false
 
 func _ready() -> void:
 	max_hp = GameManager.player_max_hp
 	current_hp = max_hp
 	GameManager.player_current_hp = max_hp
 	add_to_group("player")
-	
-	GameManager.player_stats_changed.connect(_update_odysseus_sprite)
-	_update_odysseus_sprite()
 	
 	# Attack hitbox
 	attack_area = Area2D.new()
@@ -123,23 +114,12 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A): input.x -= 1
 	if Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D): input.x += 1
 
-	var is_moving := (input != Vector2.ZERO)
-	if is_moving:
+	if input != Vector2.ZERO:
 		if not GameManager.has_player_moved:
 			GameManager.has_player_moved = true
 			GameManager.player_first_move.emit()
 		
 		input = input.normalized()
-		
-		# Direction strictly determined by movement keys (W, S, A, D)
-		if absf(input.y) > absf(input.x) * 0.8:
-			if input.y < 0:
-				_current_dir = "up"
-			else:
-				_current_dir = "down"
-		else:
-			_current_dir = "side"
-			_facing_left = (input.x < 0)
 
 	facing_dir = (get_global_mouse_position() - global_position).normalized()
 
@@ -150,28 +130,8 @@ func _physics_process(delta: float) -> void:
 	
 	attack_area.rotation = facing_dir.angle()
 
-	# Process walking / idle animation
-	var spr := visual as Sprite2D
-	if is_moving:
-		_anim_timer += delta * (9.5 * GameManager.player_speed_mult)
-		_frame_index = int(_anim_timer) % 4
-		if spr:
-			# Subtle step bounce so movement feels alive
-			spr.offset.y = -absf(sin(_anim_timer * PI)) * 2.0
-	else:
-		_anim_timer = 0.0
-		_frame_index = 0
-		if spr:
-			spr.offset.y = 0.0
-
-	if spr and _anims.has(_current_dir):
-		var frames: Array = _anims[_current_dir]
-		if _frame_index < frames.size():
-			spr.texture = frames[_frame_index]
-		if _current_dir == "side":
-			spr.flip_h = _facing_left
-		else:
-			spr.flip_h = false
+	if visual and facing_dir.x != 0:
+		visual.scale.x = absf(visual.scale.x) * sign(facing_dir.x)
 
 func _input(event: InputEvent) -> void:
 	if GameManager.game_over or not GameManager.combat_mode:
@@ -238,44 +198,3 @@ func heal(amount: int) -> void:
 		visual.modulate = Color(0.2, 1.0, 0.2)
 		var t = get_tree().create_timer(0.2)
 		t.timeout.connect(func(): if is_instance_valid(visual): visual.modulate = Color(1,1,1))
-
-func _update_odysseus_sprite() -> void:
-	var spr: Sprite2D = get_node_or_null("Sprite2D") as Sprite2D
-	if not spr:
-		spr = Sprite2D.new()
-		spr.name = "Sprite2D"
-		add_child(spr)
-	
-	var base_folder := "res://Assets/odisseu/"
-	if GameManager.player_age >= 40:
-		base_folder = "res://Assets/odisseu_velho/"
-		
-	_anims.clear()
-	for dir_name in ["down", "up", "side"]:
-		var frame_list: Array = []
-		for f_idx in range(4):
-			var p = base_folder + dir_name + "_" + str(f_idx) + ".png"
-			if ResourceLoader.exists(p):
-				frame_list.append(load(p))
-			elif ResourceLoader.exists("res://Assets/odisseu/" + dir_name + "_" + str(f_idx) + ".png"):
-				frame_list.append(load("res://Assets/odisseu/" + dir_name + "_" + str(f_idx) + ".png"))
-		if frame_list.size() > 0:
-			_anims[dir_name] = frame_list
-	
-	if _anims.has("down") and _anims["down"].size() > 0:
-		var tex: Texture2D = _anims["down"][0]
-		spr.texture = tex
-		var target_h: float = 34.0
-		if tex.get_height() > 0:
-			spr.scale = Vector2.ONE * (target_h / float(tex.get_height()))
-	elif ResourceLoader.exists("res://Assets/player.png"):
-		var tex: Texture2D = load("res://Assets/player.png")
-		spr.texture = tex
-		var target_h: float = 34.0
-		if tex.get_height() > 0:
-			spr.scale = Vector2.ONE * (target_h / float(tex.get_height()))
-		
-	var poly := get_node_or_null("Polygon2D")
-	if poly:
-		poly.visible = false
-	visual = spr

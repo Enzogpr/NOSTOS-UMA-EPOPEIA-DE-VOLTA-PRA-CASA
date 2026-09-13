@@ -113,6 +113,21 @@ func _spawn_player() -> void:
 	shape.shape = circle
 	player.add_child(shape)
 	
+	var player_tex: Texture2D = _try_load("res://Assets/player.png")
+	if player_tex:
+		var spr := Sprite2D.new()
+		spr.texture = player_tex
+		var target_w := 22.0
+		spr.scale = Vector2.ONE * (target_w / player_tex.get_width())
+		player.add_child(spr)
+	else:
+		var visual := Polygon2D.new()
+		visual.polygon = PackedVector2Array([
+			Vector2(-8, -10), Vector2(8, -10), Vector2(8, 10), Vector2(-8, 10)
+		])
+		visual.color = Color(0.75, 0.7, 0.55)
+		player.add_child(visual)
+	
 	var cam = Camera2D.new()
 	cam.position_smoothing_enabled = true
 	cam.limit_left = 0

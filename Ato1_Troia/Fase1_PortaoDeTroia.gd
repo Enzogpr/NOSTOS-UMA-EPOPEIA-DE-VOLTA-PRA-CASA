@@ -49,12 +49,6 @@ func _ready() -> void:
 	GameManager.victory.connect(_on_victory)
 
 func _process(delta: float) -> void:
-	if is_instance_valid(player):
-		if is_in_shadow(player.position):
-			player.modulate = Color(0.65, 0.65, 0.8, 0.7)
-		else:
-			player.modulate = Color(1.0, 1.0, 1.0, 1.0)
-
 	if is_in_gate_zone and not GameManager.game_over:
 		gate_progress -= 20.0 * delta
 		
@@ -158,6 +152,21 @@ func _build_player() -> void:
 	shape.shape = circle
 	player.add_child(shape)
 
+	var player_tex: Texture2D = _try_load("res://Assets/player.png")
+	if player_tex:
+		var spr := Sprite2D.new()
+		spr.texture = player_tex
+		var target_w := 22.0
+		spr.scale = Vector2.ONE * (target_w / player_tex.get_width())
+		player.add_child(spr)
+	else:
+		var visual := Polygon2D.new()
+		visual.polygon = PackedVector2Array([
+			Vector2(-8, -10), Vector2(8, -10), Vector2(8, 10), Vector2(-8, 10)
+		])
+		visual.color = Color(0.75, 0.7, 0.55)
+		player.add_child(visual)
+
 	var cam := Camera2D.new()
 	cam.position_smoothing_enabled = true
 	cam.position_smoothing_speed   = 6.0
@@ -174,7 +183,7 @@ func _build_player() -> void:
 	tutorial.setup([
 		"Bem-vindo a Troia, Odisseu.",
 		"Use as Teclas WASD ou as Setas Direcionais para se mover.",
-		"Esconda-se dentro das Barracas Militares para ficar invisível aos guardas.",
+		"Fique em cima das áreas de Sombra para ficar invisível aos guardas.",
 		"Você saiu do Cavalo de Madeira. Mova-se furtivamente até os portões da fortaleza e esmague o botão Espaço para abri-los!"
 	])
 

@@ -33,11 +33,6 @@ var _random_dir: Vector2 = Vector2.ZERO
 var _random_timer: float = 0.0
 var _shoot_timer: float = 0.0
 
-var _anims: Dictionary = {}
-var _anim_timer: float = 0.0
-var _frame_index: int = 0
-var _current_dir: String = "down"
-
 func _ready() -> void:
 	add_to_group("guards")
 	collision_layer = 4
@@ -59,42 +54,24 @@ func _ready() -> void:
 	_level  = get_tree().get_first_node_in_group("level")
 
 func _build_visuals() -> void:
-	_anims.clear()
-	var base_folder := "res://Assets/guard_wall/" if is_wall_guard else "res://Assets/guard/"
-	var fallback_png := "res://Assets/guard_wall.png" if is_wall_guard else "res://Assets/guard.png"
-
-	for dir_name in ["down", "up", "left", "right"]:
-		var frame_list: Array = []
-		for f_idx in range(4):
-			var p = base_folder + dir_name + "_" + str(f_idx) + ".png"
-			if ResourceLoader.exists(p):
-				frame_list.append(load(p))
-		if frame_list.size() > 0:
-			_anims[dir_name] = frame_list
-
-	var spr := Sprite2D.new()
-	if _anims.has("down") and _anims["down"].size() > 0:
-		var tex: Texture2D = _anims["down"][0]
+	var tex: Texture2D = _try_load("res://Assets/guard.png")
+	if tex:
+		var spr := Sprite2D.new()
 		spr.texture = tex
-		var target_h: float = 34.0
-		if tex.get_height() > 0:
-			spr.scale = Vector2.ONE * (target_h / float(tex.get_height()))
+		var target_w := 26.0
+		spr.scale = Vector2.ONE * (target_w / tex.get_width())
 		_visual = spr
 	else:
-		var tex: Texture2D = _try_load(fallback_png)
-		if tex:
-			spr.texture = tex
-			var target_h: float = 34.0
-			spr.scale = Vector2.ONE * (target_h / float(tex.get_height()))
-			_visual = spr
-		else:
-			var poly := Polygon2D.new()
-			poly.polygon = PackedVector2Array([
-				Vector2(-8, -14), Vector2(8, -14), Vector2(10, 14), Vector2(-10, 14)
-			])
-			poly.color = Color(0.55, 0.15, 0.15)
-			_visual = poly
+		var poly := Polygon2D.new()
+		poly.polygon = PackedVector2Array([
+			Vector2(-8, -14), Vector2(8, -14), Vector2(10, 14), Vector2(-10, 14)
+		])
+		poly.color = Color(0.55, 0.15, 0.15)
+		_visual = poly
 	
+	if is_wall_guard:
+		_visual.modulate = Color(0.7, 0.3, 0.3) if tex else Color(1.0, 1.0, 1.0)
+
 	add_child(_visual)
 
 	# Visual de Ataque (Lança/Espada do guarda)
@@ -169,45 +146,6 @@ func _physics_process(delta: float) -> void:
 		_check_vision(delta)
 	elif current_state == State.CHASE:
 		_chase_player(delta)
-		
-	_update_animation(delta)
-
-func _update_animation(delta: float) -> void:
-	var spr := _visual as Sprite2D
-	if not spr:
-		return
-
-	var is_moving := (velocity.length_squared() > 1.0)
-	if is_moving:
-		_anim_timer += delta * 7.5
-		_frame_index = int(_anim_timer) % 4
-		spr.offset.y = -absf(sin(_anim_timer * PI)) * 1.5
-	else:
-		_anim_timer = 0.0
-		_frame_index = 0
-		spr.offset.y = 0.0
-
-	if absf(_facing_dir.y) > absf(_facing_dir.x) * 0.8:
-		if _facing_dir.y < 0:
-			_current_dir = "up"
-		else:
-			_current_dir = "down"
-	else:
-		if _facing_dir.x < 0:
-			_current_dir = "left"
-		else:
-			_current_dir = "right"
-
-	if _anims.has(_current_dir):
-		var frames: Array = _anims[_current_dir]
-		if _frame_index < frames.size():
-			spr.texture = frames[_frame_index]
-			spr.flip_h = false
-	elif _anims.has("side"):
-		var frames: Array = _anims["side"]
-		if _frame_index < frames.size():
-			spr.texture = frames[_frame_index]
-			spr.flip_h = (_facing_dir.x < 0)
 
 func _move_points() -> void:
 	var to_target: Vector2 = _target - global_position
@@ -219,6 +157,8 @@ func _move_points() -> void:
 		move_and_slide()
 		_facing_dir = dir
 		_update_cone()
+		if _visual and dir.x != 0.0:
+			_visual.scale.x = absf(_visual.scale.x) * sign(dir.x)
 
 func _move_random(delta: float) -> void:
 	_random_timer -= delta
@@ -229,6 +169,8 @@ func _move_random(delta: float) -> void:
 	move_and_slide()
 	_facing_dir = _random_dir
 	_update_cone()
+	if _visual and _random_dir.x != 0.0:
+		_visual.scale.x = absf(_visual.scale.x) * sign(_random_dir.x)
 
 func _pick_new_random_dir() -> void:
 	var dirs = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
