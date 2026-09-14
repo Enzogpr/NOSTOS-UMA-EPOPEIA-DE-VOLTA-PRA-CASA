@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://act1cutsceneinvasao001"]
+[gd_scene format=3 uid="uid://d4msg8vtivtg7"]
 
-[ext_resource type="Script" path="res://Ato1_Troia/Cutscenes/Act1_Cutscene_Invasao.gd" id="1_cinv"]
+[ext_resource type="Script" uid="uid://nlqwwd415ise" path="res://Ato1_Troia/Cutscenes/Act1_Cutscene_Invasao.gd" id="1_cinv"]
 
 [sub_resource type="Gradient" id="Gradient_cutscene_shade"]
 colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.9)
@@ -10,7 +10,7 @@ gradient = SubResource("Gradient_cutscene_shade")
 fill_from = Vector2(0.5, 0)
 fill_to = Vector2(0.5, 1)
 
-[node name="Act1_Cutscene_Invasao" type="Control"]
+[node name="Act1_Cutscene_Invasao" type="Control" unique_id=688202693]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_cinv")
 
-[node name="BG" type="ColorRect" parent="."]
+[node name="BG" type="ColorRect" parent="." unique_id=1561651215]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=932311113]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,7 +38,7 @@ grow_vertical = 2
 expand_mode = 1
 stretch_mode = 6
 
-[node name="BottomGradient" type="TextureRect" parent="."]
+[node name="BottomGradient" type="TextureRect" parent="." unique_id=275928149]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -50,7 +50,7 @@ grow_vertical = 0
 texture = SubResource("GradientTexture2D_cutscene_shade")
 expand_mode = 1
 
-[node name="TextPanel" type="ColorRect" parent="."]
+[node name="TextPanel" type="ColorRect" parent="." unique_id=1535435983]
 custom_minimum_size = Vector2(0, 140)
 layout_mode = 1
 anchors_preset = 12
@@ -62,7 +62,7 @@ grow_horizontal = 2
 grow_vertical = 0
 color = Color(0, 0, 0, 0.65)
 
-[node name="Label" type="Label" parent="TextPanel"]
+[node name="Label" type="Label" parent="TextPanel" unique_id=1607791520]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -75,16 +75,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.95)
+theme_override_constants/line_spacing = 6
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 22
-theme_override_constants/line_spacing = 6
 text = "Texto da Cutscene"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="ContinueLabel" type="Label" parent="TextPanel"]
+[node name="ContinueLabel" type="Label" parent="TextPanel" unique_id=1632160265]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0

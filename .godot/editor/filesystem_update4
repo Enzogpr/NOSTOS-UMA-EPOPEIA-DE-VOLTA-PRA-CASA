@@ -1,1 +1,9 @@
+res://Ato1_Troia/Fase1_PortaoDeTroia.gd
+res://Ato1_Troia/Fase2_Invasao.gd
+res://Ato1_Troia/Fase3_ReiDeTroia.gd
+res://Ato3_Ciclope/Act3_CyclopsBossFight.gd
+res://Code/Guard.gd
 res://Code/Player.gd
+res://Code/PlayerStatsMenu.gd
+res://Code/Boss.gd
+res://Ato1_Troia/Cutscenes/Act1_Cutscene_Invasao.tscn
