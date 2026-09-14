@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://beesuunbxsvaq"
-path="res://.godot/imported/up_2.png-804550d4af67b1a43ae6b218e65f31ff.ctex"
+uid="uid://bubpelyf6eke2"
+path="res://.godot/imported/up_4.png-2701c3b93f45e0a2677bab0bcab70553.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/rei_de_troia/up_2.png"
-dest_files=["res://.godot/imported/up_2.png-804550d4af67b1a43ae6b218e65f31ff.ctex"]
+source_file="res://Assets/rei_de_troia/up_4.png"
+dest_files=["res://.godot/imported/up_4.png-2701c3b93f45e0a2677bab0bcab70553.ctex"]
 
 [params]
 
