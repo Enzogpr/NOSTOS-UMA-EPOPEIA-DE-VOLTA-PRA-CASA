@@ -1,23 +1,15 @@
-[gd_scene format=3 uid="uid://fase1portaodetroia001"]
+[gd_scene format=3 uid="uid://dev5oorftahmm"]
 
-[ext_resource type="Script" path="res://Ato1_Troia/Fase1_PortaoDeTroia.gd" id="1_1ftuo"]
-[ext_resource type="Texture2D" path="res://Assets/muro_troia.png" id="2_muro"]
-[ext_resource type="Texture2D" path="res://Assets/chao_troia.png" id="8_chao"]
-[ext_resource type="Texture2D" path="res://Assets/cavalo_troia.png" id="3_horse"]
-[ext_resource type="Texture2D" path="res://Assets/barracas/barraca_1.png" id="4_barraca1"]
-[ext_resource type="Texture2D" path="res://Assets/barracas/barraca_2.png" id="5_barraca2"]
-[ext_resource type="Texture2D" path="res://Assets/barracas/barraca_3.png" id="6_barraca3"]
-[ext_resource type="Texture2D" path="res://Assets/barracas/barraca_4.png" id="7_barraca4"]
-
-[ext_resource type="Texture2D" path="res://Assets/decor/tocha.png" id="10_tocha"]
-[ext_resource type="Texture2D" path="res://Assets/decor/rack_armas.png" id="11_rack"]
-[ext_resource type="Texture2D" path="res://Assets/decor/estandarte_grande.png" id="12_estandarte"]
-[ext_resource type="Texture2D" path="res://Assets/decor/barris_caixas.png" id="13_barris"]
-[ext_resource type="Texture2D" path="res://Assets/decor/vasos_anforas.png" id="14_vasos"]
-[ext_resource type="Texture2D" path="res://Assets/decor/roda_carroca.png" id="15_roda"]
-[ext_resource type="Texture2D" path="res://Assets/decor/cerca_estandarte.png" id="16_cerca"]
-[ext_resource type="Texture2D" path="res://Assets/decor/trilha_carroca.png" id="17_trilha"]
-[ext_resource type="Texture2D" path="res://Assets/decor/arbusto_verde.png" id="18_arbusto"]
+[ext_resource type="Script" uid="uid://cm5u620d00oj4" path="res://Ato1_Troia/Fase1_PortaoDeTroia.gd" id="1_1ftuo"]
+[ext_resource type="Texture2D" uid="uid://db2eaopml4bfq" path="res://Assets/muro_troia.png" id="2_muro"]
+[ext_resource type="Texture2D" uid="uid://cyx8ugc2rinmq" path="res://IMAGEM JOGO/CHAO/8.png" id="2_tmbgy"]
+[ext_resource type="Texture2D" uid="uid://oq74jd1ssfxx" path="res://Assets/cavalo_troia.png" id="3_horse"]
+[ext_resource type="Texture2D" uid="uid://cf4bbqlc2smnd" path="res://Assets/barracas/barraca_1.png" id="4_barraca1"]
+[ext_resource type="Texture2D" uid="uid://dj4fumi3rs2hr" path="res://IMAGEM JOGO/CHAO/teste muro cima sem fundo.png" id="5_anyv0"]
+[ext_resource type="Texture2D" uid="uid://df6npot0y2iqi" path="res://Assets/barracas/barraca_2.png" id="5_barraca2"]
+[ext_resource type="Texture2D" uid="uid://bbsoiqnk10xdd" path="res://Assets/barracas/barraca_3.png" id="6_barraca3"]
+[ext_resource type="Texture2D" uid="uid://belwv3v8rjwqx" path="res://Assets/barracas/barraca_4.png" id="7_barraca4"]
+[ext_resource type="Texture2D" uid="uid://bt7jih47enwpm" path="res://Assets/decor/tocha.png" id="10_tocha"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6itv5"]
 size = Vector2(4000, 40)
@@ -26,7 +18,7 @@ size = Vector2(4000, 40)
 size = Vector2(4000, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aek51"]
-size = Vector2(40, 2400)
+size = Vector2(39, 2399)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kmvtg"]
 size = Vector2(40, 200)
@@ -41,7 +33,7 @@ size = Vector2(40, 560)
 size = Vector2(200, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j370j"]
-size = Vector2(600, 40)
+size = Vector2(559, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1t1nk"]
 size = Vector2(40, 860)
@@ -110,10 +102,10 @@ corner_radius_bottom_left = 4
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmvhl"]
 bg_color = Color(0.2, 0.7, 0.2, 1)
 
-[node name="Fase1_PortaoDeTroia" type="Node2D"]
+[node name="Fase1_PortaoDeTroia" type="Node2D" unique_id=2073753772]
 script = ExtResource("1_1ftuo")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1334184006]
 z_index = -10
 offset_left = -400.0
 offset_top = -400.0
@@ -121,537 +113,578 @@ offset_right = 4400.0
 offset_bottom = 2800.0
 color = Color(0.05, 0.07, 0.14, 1)
 
-[node name="Courtyard" type="Polygon2D" parent="."]
+[node name="Courtyard" type="Polygon2D" parent="." unique_id=80636203]
 z_index = -9
 texture_repeat = 2
-texture = ExtResource("8_chao")
-texture_scale = Vector2(1, 1)
-polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 2400, 0, 2400)
+texture = ExtResource("2_tmbgy")
+texture_scale = Vector2(6, 6)
+polygon = PackedVector2Array(0, 0, 7.3003845, 0, 4000, 0, 4000, 853.33466, 4000, 2400, 0, 2400, 9, 1395)
 
-[node name="WallTop" type="Polygon2D" parent="."]
+[node name="WallTop" type="Polygon2D" parent="." unique_id=460259900]
 z_index = -5
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
-polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 40, 0, 40)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 40, 2444.8484, 40, 0, 43)
 
-[node name="StaticBodyTop" type="StaticBody2D" parent="."]
+[node name="StaticBodyTop" type="StaticBody2D" parent="." unique_id=729393884]
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyTop"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyTop" unique_id=457693808]
+visible = false
 position = Vector2(2000, 20)
 shape = SubResource("RectangleShape2D_6itv5")
 
-[node name="WallBottom" type="Polygon2D" parent="."]
+[node name="WallBottom" type="Polygon2D" parent="." unique_id=685624548]
 z_index = -5
-position = Vector2(0, 2360)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
-polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 40, 0, 40)
+position = Vector2(0, 2360)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-2, -2)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 3.1415927
+polygon = PackedVector2Array(0, 0, 1008, 0, 1008, 3, 1033, 3, 1039, 3, 1039.5348, 0, 4000, 0, 4000, 34, 4000, 40, 0, 40)
 
-[node name="StaticBodyBottom" type="StaticBody2D" parent="."]
+[node name="StaticBodyBottom" type="StaticBody2D" parent="." unique_id=808486553]
 position = Vector2(0, 2360)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBottom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBottom" unique_id=839374508]
+visible = false
 position = Vector2(2000, 20)
 shape = SubResource("RectangleShape2D_rcsnb")
 
-[node name="WallLeft" type="Polygon2D" parent="."]
+[node name="WallLeft" type="Polygon2D" parent="." unique_id=1638299618]
 z_index = -5
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 2400, 0, 2400)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-16, 45)
+texture_scale = Vector2(15, 15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 2, 9, 6, 10, 26, 25, 33, 29, 32, 32, 36, 32, 43, 40.460938, 43, 41, 43, 41, 2368, 33, 2368, 33, 2370, 33, 2373, 29, 2374, 27, 2374, 29, 2376, 9, 2392, 9, 2395, 9, 2398, 7, 2399, 0, 2400)
 
-[node name="StaticBodyLeft" type="StaticBody2D" parent="."]
+[node name="StaticBodyLeft" type="StaticBody2D" parent="." unique_id=74236693]
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyLeft"]
-position = Vector2(20, 1200)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyLeft" unique_id=761848383]
+visible = false
+position = Vector2(20.5, 1200.5)
 shape = SubResource("RectangleShape2D_aek51")
 
-[node name="WallRightTop" type="Polygon2D" parent="."]
+[node name="WallRightTop" type="Polygon2D" parent="." unique_id=1430502735]
 z_index = -5
-position = Vector2(3960, 0)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 200, 0, 200)
+position = Vector2(3960, 0)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-119, -4)
+texture_scale = Vector2(-15, -15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(8, 8, 41, 8, 40.953857, 16.854586, 40, 200, 0, 200, 0, 40, 8, 40, 8, 34, 14, 24)
 
-[node name="StaticBodyRightTop" type="StaticBody2D" parent="."]
+[node name="StaticBodyRightTop" type="StaticBody2D" parent="." unique_id=1232021937]
 position = Vector2(3960, 0)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightTop"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightTop" unique_id=207347979]
+visible = false
 position = Vector2(20, 100)
 shape = SubResource("RectangleShape2D_kmvtg")
 
-[node name="WallRightBottom" type="Polygon2D" parent="."]
+[node name="WallRightBottom" type="Polygon2D" parent="." unique_id=1210450448]
 z_index = -5
-position = Vector2(3960, 360)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 2040, 0, 2040)
+position = Vector2(3960, 360)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(5, 8)
+texture_scale = Vector2(14, 14)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(-3, 0, 40, 0, 40, 2034, 35, 2034, 34, 2031, 31, 2031, 10, 2010, 5, 2009, 5, 2007, 5, 2006, 5, 2006, 4, 2002, -2, 2002, -3, 2001, -3, 2000)
 
-[node name="StaticBodyRightBottom" type="StaticBody2D" parent="."]
+[node name="StaticBodyRightBottom" type="StaticBody2D" parent="." unique_id=863416114]
 position = Vector2(3960, 360)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightBottom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightBottom" unique_id=919305477]
+visible = false
 position = Vector2(20, 1020)
 shape = SubResource("RectangleShape2D_0pe3d")
 
-[node name="WallMaze1" type="Polygon2D" parent="."]
+[node name="WallMaze1" type="Polygon2D" parent="." unique_id=1478861536]
 z_index = -5
-position = Vector2(400, 1589)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(400, 1589)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 560, 0, 560)
 
-[node name="StaticBodyMaze1" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze1" type="StaticBody2D" parent="." unique_id=2035473112]
 position = Vector2(400, 1800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze1" unique_id=136574116]
 position = Vector2(20, 66)
 shape = SubResource("RectangleShape2D_oaaf1")
 
-[node name="WallMaze2" type="Polygon2D" parent="."]
+[node name="WallMaze2" type="Polygon2D" parent="." unique_id=1255007088]
 z_index = -5
-position = Vector2(40, 1800)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(40, 1800)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 200, 0, 200, 40, 0, 40)
 
-[node name="StaticBodyMaze2" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze2" type="StaticBody2D" parent="." unique_id=927005471]
 position = Vector2(40, 1800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze2" unique_id=1261109830]
 position = Vector2(100, 20)
 shape = SubResource("RectangleShape2D_80m3e")
 
-[node name="WallMaze3" type="Polygon2D" parent="."]
+[node name="WallMaze4" type="Polygon2D" parent="." unique_id=1361459275]
 z_index = -5
-position = Vector2(440, 2100)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
-polygon = PackedVector2Array(0, 0, 600, 0, 600, 40, 0, 40)
+position = Vector2(996, 1500)
+scale = Vector2(1, 1.0081018)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(1, -2.9759521, 40, -2.9759521, 39.291424, 861.9645, 20, 863.00793, 0.29142475, 861.9645)
 
-[node name="StaticBodyMaze3" type="StaticBody2D" parent="."]
+[node name="WallMaze17" type="Polygon2D" parent="." unique_id=786018308]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1500, 596.99567)
+scale = Vector2(1, 0.93159795)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(0, -2.142212, 32, -2.142212, 32, 861.9644, 19.275223, 861.9645, 0.29142475, 861.9645, 0.29144287, 178.87729)
+
+[node name="WallMaze18" type="Polygon2D" parent="." unique_id=1594106870]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1503.6794, 633)
+rotation = -1.5707964
+scale = Vector2(1, 0.9235217)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 41, 5.7612305, 40.99994, 863.02783, 11.999939, 863.02783)
+
+[node name="WallMaze19" type="Polygon2D" parent="." unique_id=385114007]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1499, 1402)
+rotation = -1.5707964
+scale = Vector2(0.9235217, 0.9235217)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(-3.2485352, 10.828125, 3.248413, 4.331299, 7.57959, 9.745361, 8.662476, 11.911011, 31.40149, 11.910889, 31.40149, 865.1665, -3.2485352, 865.1664)
+
+[node name="WallMaze3" type="Polygon2D" parent="." unique_id=423027184]
+z_index = -5
+texture_repeat = 2
+position = Vector2(440, 2100)
+scale = Vector2(0.93833333, 1)
+texture = ExtResource("2_muro")
+polygon = PackedVector2Array(0, 0, 600, 0, 600, 19.493912, 600, 40, 0, 40)
+
+[node name="StaticBodyMaze3" type="StaticBody2D" parent="." unique_id=564970362]
 position = Vector2(440, 2100)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze3"]
-position = Vector2(300, 20)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze3" unique_id=164229115]
+visible = false
+position = Vector2(279.5, 20)
 shape = SubResource("RectangleShape2D_j370j")
 
-[node name="WallMaze4" type="Polygon2D" parent="."]
-z_index = -5
-position = Vector2(1000, 1500)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
-texture_repeat = 2
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 860, 0, 860)
-
-[node name="StaticBodyMaze4" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze4" type="StaticBody2D" parent="." unique_id=644664044]
 position = Vector2(1000, 1500)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze4" unique_id=1457529556]
+visible = false
 position = Vector2(20, 430)
 shape = SubResource("RectangleShape2D_1t1nk")
 
-[node name="WallMaze5" type="Polygon2D" parent="."]
+[node name="WallMaze5" type="Polygon2D" parent="." unique_id=116958672]
 z_index = -5
-position = Vector2(800, 800)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(800, 800)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 1000, 0, 1000)
 
-[node name="StaticBodyMaze5" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze5" type="StaticBody2D" parent="." unique_id=1353637600]
 position = Vector2(800, 800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze5"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze5" unique_id=1733617218]
+visible = false
 position = Vector2(20, 500)
 shape = SubResource("RectangleShape2D_e11xk")
 
-[node name="WallMaze6" type="Polygon2D" parent="."]
+[node name="WallMaze6" type="Polygon2D" parent="." unique_id=1817196632]
 z_index = -5
-position = Vector2(400, 800)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(400, 800)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
 
-[node name="StaticBodyMaze6" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze6" type="StaticBody2D" parent="." unique_id=296370273]
 position = Vector2(400, 800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze6"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze6" unique_id=157691680]
 position = Vector2(200, 20)
 shape = SubResource("RectangleShape2D_qq6yy")
 
-[node name="WallMaze7" type="Polygon2D" parent="."]
+[node name="WallMaze7" type="Polygon2D" parent="." unique_id=79974618]
 z_index = -5
-position = Vector2(400, 400)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(400, 400)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 400, 0, 400)
 
-[node name="StaticBodyMaze7" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze7" type="StaticBody2D" parent="." unique_id=1717444171]
 position = Vector2(400, 400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze7"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze7" unique_id=1794884192]
 position = Vector2(20, 200)
 shape = SubResource("RectangleShape2D_8lwpu")
 
-[node name="WallFortress" type="Polygon2D" parent="."]
+[node name="WallFortress" type="Polygon2D" parent="." unique_id=1383666750]
+visible = false
 z_index = -5
-position = Vector2(1500, 600)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(1500, 600)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 800, 0, 800, 800, 0, 800)
 
-[node name="StaticBodyFortress" type="StaticBody2D" parent="."]
+[node name="StaticBodyFortress" type="StaticBody2D" parent="." unique_id=994591859]
 position = Vector2(1500, 600)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyFortress"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyFortress" unique_id=1759254293]
+visible = false
 position = Vector2(400, 400)
 shape = SubResource("RectangleShape2D_pv4em")
 
-[node name="WallMaze8" type="Polygon2D" parent="."]
+[node name="WallMaze8" type="Polygon2D" parent="." unique_id=897030614]
 z_index = -5
-position = Vector2(1200, 400)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(1200, 400)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 1000, 0, 1000, 40, 0, 40)
 
-[node name="StaticBodyMaze8" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze8" type="StaticBody2D" parent="." unique_id=858925704]
 position = Vector2(1200, 400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze8"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze8" unique_id=262700996]
 position = Vector2(500, 20)
 shape = SubResource("RectangleShape2D_fm6hb")
 
-[node name="WallMaze9" type="Polygon2D" parent="."]
+[node name="WallMaze9" type="Polygon2D" parent="." unique_id=1567584852]
 z_index = -5
-position = Vector2(2300, 40)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(2300, 40)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 800, 0, 800)
 
-[node name="StaticBodyMaze9" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze9" type="StaticBody2D" parent="." unique_id=1195062454]
 position = Vector2(2300, 40)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze9"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze9" unique_id=679909361]
 position = Vector2(20, 400)
 shape = SubResource("RectangleShape2D_rm6c8")
 
-[node name="WallMaze10" type="Polygon2D" parent="."]
+[node name="WallMaze10" type="Polygon2D" parent="." unique_id=1832753086]
 z_index = -5
-position = Vector2(2600, 800)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(2600, 800)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 1560, 0, 1560)
 
-[node name="StaticBodyMaze10" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze10" type="StaticBody2D" parent="." unique_id=740105542]
 position = Vector2(2600, 800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze10"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze10" unique_id=305955692]
 position = Vector2(20, 780)
 shape = SubResource("RectangleShape2D_oog5g")
 
-[node name="WallMaze11" type="Polygon2D" parent="."]
+[node name="WallMaze11" type="Polygon2D" parent="." unique_id=412970166]
 z_index = -5
-position = Vector2(2600, 1600)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(2600, 1600)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 800, 0, 800, 40, 0, 40)
 
-[node name="StaticBodyMaze11" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze11" type="StaticBody2D" parent="." unique_id=1336074707]
 position = Vector2(2600, 1600)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze11"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze11" unique_id=115643051]
 position = Vector2(400, 20)
 shape = SubResource("RectangleShape2D_12253")
 
-[node name="WallMaze12" type="Polygon2D" parent="."]
+[node name="WallMaze12" type="Polygon2D" parent="." unique_id=987848518]
 z_index = -5
-position = Vector2(3400, 1200)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(3400, 1200)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 1160, 0, 1160)
 
-[node name="StaticBodyMaze12" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze12" type="StaticBody2D" parent="." unique_id=248717502]
 position = Vector2(3400, 1200)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze12"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze12" unique_id=852589433]
 position = Vector2(20, 580)
 shape = SubResource("RectangleShape2D_1ufmn")
 
-[node name="WallMaze13" type="Polygon2D" parent="."]
+[node name="WallMaze13" type="Polygon2D" parent="." unique_id=500900643]
 z_index = -5
-position = Vector2(2800, 400)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(2800, 400)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 800, 0, 800, 40, 0, 40)
 
-[node name="StaticBodyMaze13" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze13" type="StaticBody2D" parent="." unique_id=1015651311]
 position = Vector2(2800, 400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze13"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze13" unique_id=469935080]
 position = Vector2(400, 20)
 shape = SubResource("RectangleShape2D_sbojv")
 
-[node name="WallMaze14" type="Polygon2D" parent="."]
+[node name="WallMaze14" type="Polygon2D" parent="." unique_id=2143064663]
 z_index = -5
-position = Vector2(3200, 700)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(3200, 700)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
 
-[node name="StaticBodyMaze14" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze14" type="StaticBody2D" parent="." unique_id=1247661252]
 position = Vector2(3200, 700)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze14"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze14" unique_id=214825515]
 position = Vector2(200, 20)
 shape = SubResource("RectangleShape2D_kvnmv")
 
-[node name="WallMaze15" type="Polygon2D" parent="."]
+[node name="WallMaze15" type="Polygon2D" parent="." unique_id=1508049718]
 z_index = -5
-position = Vector2(3600, 400)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(3600, 400)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 340, 0, 340)
 
-[node name="StaticBodyMaze15" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze15" type="StaticBody2D" parent="." unique_id=1370354911]
 position = Vector2(3600, 400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze15"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze15" unique_id=1053830926]
 position = Vector2(20, 170)
 shape = SubResource("RectangleShape2D_yufs2")
 
-[node name="WallMaze16" type="Polygon2D" parent="."]
+[node name="WallMaze16" type="Polygon2D" parent="." unique_id=1879704717]
 z_index = -5
-position = Vector2(3200, 440)
-color = Color(1, 1, 1, 1)
-texture = ExtResource("2_muro")
 texture_repeat = 2
+position = Vector2(3200, 440)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 100, 0, 100)
 
-[node name="StaticBodyMaze16" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze16" type="StaticBody2D" parent="." unique_id=1544875544]
 position = Vector2(3200, 440)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze16"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze16" unique_id=581875620]
 position = Vector2(20, 50)
 shape = SubResource("RectangleShape2D_l04mo")
 
-[node name="Tent1" type="Sprite2D" parent="."]
+[node name="Tent1" type="Sprite2D" parent="." unique_id=1957159564]
 z_index = 2
 position = Vector2(250, 2040)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("4_barraca1")
 
-[node name="Tent2" type="Sprite2D" parent="."]
+[node name="Tent2" type="Sprite2D" parent="." unique_id=174548206]
 z_index = 2
 position = Vector2(645, 2238)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("5_barraca2")
 
-[node name="Tent3" type="Sprite2D" parent="."]
+[node name="Tent3" type="Sprite2D" parent="." unique_id=1584685354]
 z_index = 2
 position = Vector2(900, 1250)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("6_barraca3")
 
-[node name="Tent4" type="Sprite2D" parent="."]
+[node name="Tent4" type="Sprite2D" parent="." unique_id=1716143668]
 z_index = 2
 position = Vector2(490, 640)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("7_barraca4")
 
-[node name="Tent5" type="Sprite2D" parent="."]
+[node name="Tent5" type="Sprite2D" parent="." unique_id=1134299210]
 z_index = 2
 position = Vector2(1140, 1650)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("4_barraca1")
 
-[node name="Tent6" type="Sprite2D" parent="."]
+[node name="Tent6" type="Sprite2D" parent="." unique_id=546988650]
 z_index = 2
 position = Vector2(1350, 540)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("5_barraca2")
 
-[node name="Tent7" type="Sprite2D" parent="."]
+[node name="Tent7" type="Sprite2D" parent="." unique_id=1214784759]
 z_index = 2
 position = Vector2(2440, 940)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("6_barraca3")
 
-[node name="Tent8" type="Sprite2D" parent="."]
+[node name="Tent8" type="Sprite2D" parent="." unique_id=1750269769]
 z_index = 2
 position = Vector2(2750, 1840)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("7_barraca4")
 
-[node name="Tent9" type="Sprite2D" parent="."]
+[node name="Tent9" type="Sprite2D" parent="." unique_id=959075207]
 z_index = 2
 position = Vector2(3140, 1450)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("4_barraca1")
 
-[node name="Tent10" type="Sprite2D" parent="."]
+[node name="Tent10" type="Sprite2D" parent="." unique_id=541330571]
 z_index = 2
 position = Vector2(3540, 1040)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("5_barraca2")
 
-[node name="Tent11" type="Sprite2D" parent="."]
+[node name="Tent11" type="Sprite2D" parent="." unique_id=2019580718]
 z_index = 2
 position = Vector2(2950, 250)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("6_barraca3")
 
-[node name="Tent12" type="Sprite2D" parent="."]
+[node name="Tent12" type="Sprite2D" parent="." unique_id=438398309]
 z_index = 2
 position = Vector2(3740, 540)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("7_barraca4")
 
-[node name="Horse" type="Sprite2D" parent="."]
+[node name="Horse" type="Sprite2D" parent="." unique_id=381192841]
 z_index = -2
 position = Vector2(110, 2220)
 scale = Vector2(0.13, 0.13)
 texture = ExtResource("3_horse")
 
-[node name="StaticBodyHorse" type="StaticBody2D" parent="."]
+[node name="StaticBodyHorse" type="StaticBody2D" parent="." unique_id=226143224]
 position = Vector2(110, 2250)
 collision_mask = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBodyHorse"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBodyHorse" unique_id=839534831]
 polygon = PackedVector2Array(-70, 30, 70, 30, 70, 0, -70, 0)
 
-[node name="GateVisual" type="Polygon2D" parent="."]
+[node name="GateVisual" type="Polygon2D" parent="." unique_id=1041099165]
 position = Vector2(3940, 200)
 color = Color(0.2, 0.15, 0.1, 1)
 polygon = PackedVector2Array(0, 0, 60, 0, 60, 160, 0, 160)
 
-[node name="GateArea" type="Area2D" parent="."]
+[node name="GateArea" type="Area2D" parent="." unique_id=411894315]
 position = Vector2(3940, 200)
 collision_layer = 3
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GateArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GateArea" unique_id=892720678]
 position = Vector2(30, 80)
 shape = SubResource("RectangleShape2D_uvscy")
 
-
-[node name="Decorations" type="Node2D" parent="."]
+[node name="Decorations" type="Node2D" parent="." unique_id=1532604877]
 z_index = -3
 
-[node name="TochaCorredor1" type="Sprite2D" parent="Decorations"]
+[node name="TochaCorredor1" type="Sprite2D" parent="Decorations" unique_id=1320808998]
 position = Vector2(460, 1850)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("10_tocha")
 
-[node name="TochaCorredor2" type="Sprite2D" parent="Decorations"]
+[node name="TochaCorredor2" type="Sprite2D" parent="Decorations" unique_id=661396810]
 position = Vector2(1060, 1530)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("10_tocha")
 
-[node name="TochaCorredor3" type="Sprite2D" parent="Decorations"]
+[node name="TochaCorredor3" type="Sprite2D" parent="Decorations" unique_id=1787744314]
 position = Vector2(1260, 440)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("10_tocha")
 
-[node name="TochaCentro1" type="Sprite2D" parent="Decorations"]
+[node name="TochaCentro1" type="Sprite2D" parent="Decorations" unique_id=1022076197]
 position = Vector2(2360, 840)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("10_tocha")
 
-[node name="TochaLeste1" type="Sprite2D" parent="Decorations"]
+[node name="TochaLeste1" type="Sprite2D" parent="Decorations" unique_id=1228799087]
 position = Vector2(3460, 1240)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("10_tocha")
 
-[node name="TochaLeste2" type="Sprite2D" parent="Decorations"]
+[node name="TochaLeste2" type="Sprite2D" parent="Decorations" unique_id=1495458035]
 position = Vector2(3260, 740)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("10_tocha")
 
-[node name="TochaPortao1" type="Sprite2D" parent="Decorations"]
+[node name="TochaPortao1" type="Sprite2D" parent="Decorations" unique_id=1662288402]
 position = Vector2(3900, 190)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("10_tocha")
 
-[node name="TochaPortao2" type="Sprite2D" parent="Decorations"]
+[node name="TochaPortao2" type="Sprite2D" parent="Decorations" unique_id=1518911145]
 position = Vector2(3900, 370)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("10_tocha")
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=83109349]
 
-[node name="BarBG" type="ColorRect" parent="UILayer"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 310.0
-offset_bottom = 54.0
+[node name="BarBG" type="ColorRect" parent="UILayer" unique_id=372023613]
+offset_left = 13.0
+offset_top = 14.0
+offset_right = 313.0
+offset_bottom = 58.0
 color = Color(0, 0, 0, 0.55)
 
-[node name="SuspicionLabel" type="Label" parent="UILayer"]
-offset_left = 18.0
-offset_top = 12.0
-offset_right = 18.0
-offset_bottom = 12.0
+[node name="SuspicionLabel" type="Label" parent="UILayer" unique_id=1962413783]
+offset_left = 26.0
+offset_top = 13.0
+offset_right = 105.0
+offset_bottom = 31.0
 theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
 theme_override_font_sizes/font_size = 13
 text = "👁  Suspeita"
 
-[node name="SuspicionBar" type="ProgressBar" parent="UILayer"]
-offset_left = 18.0
-offset_top = 28.0
-offset_right = 290.0
-offset_bottom = 55.0
+[node name="SuspicionBar" type="ProgressBar" parent="UILayer" unique_id=1906599401]
+offset_left = 14.0
+offset_top = 29.0
+offset_right = 286.0
+offset_bottom = 56.0
 theme_override_styles/background = SubResource("StyleBoxFlat_63qfg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_lsn0v")
 show_percentage = false
 
-[node name="GateUIContainer" type="Control" parent="UILayer"]
+[node name="GateUIContainer" type="Control" parent="UILayer" unique_id=1273441079]
 visible = false
 layout_mode = 3
 anchors_preset = 0
 
-[node name="GatePrompt" type="Label" parent="UILayer/GateUIContainer"]
+[node name="GatePrompt" type="Label" parent="UILayer/GateUIContainer" unique_id=206170890]
 layout_mode = 0
 offset_left = 370.0
 offset_top = 480.0
@@ -661,7 +694,7 @@ theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
 theme_override_font_sizes/font_size = 20
 text = "ESMAGUE [ESPAÇO] PARA ABRIR O PORTÃO!"
 
-[node name="GateProgressBar" type="ProgressBar" parent="UILayer/GateUIContainer"]
+[node name="GateProgressBar" type="ProgressBar" parent="UILayer/GateUIContainer" unique_id=75032446]
 layout_mode = 0
 offset_left = 376.0
 offset_top = 510.0
@@ -669,7 +702,7 @@ offset_right = 776.0
 offset_bottom = 537.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_tmvhl")
 
-[node name="MessageBG" type="ColorRect" parent="UILayer"]
+[node name="MessageBG" type="ColorRect" parent="UILayer" unique_id=205344631]
 visible = false
 offset_left = 326.0
 offset_top = 264.0
@@ -677,7 +710,7 @@ offset_right = 826.0
 offset_bottom = 384.0
 color = Color(0, 0, 0, 0.72)
 
-[node name="MessageLabel" type="Label" parent="UILayer"]
+[node name="MessageLabel" type="Label" parent="UILayer" unique_id=2021431339]
 visible = false
 offset_left = 336.0
 offset_top = 274.0
@@ -689,13 +722,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="HintBG" type="ColorRect" parent="UILayer"]
+[node name="HintBG" type="ColorRect" parent="UILayer" unique_id=1964784673]
 offset_top = 620.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 0.45)
 
-[node name="HintLabel" type="Label" parent="UILayer"]
+[node name="HintLabel" type="Label" parent="UILayer" unique_id=1293921281]
 offset_left = 12.0
 offset_top = 624.0
 offset_right = 12.0
