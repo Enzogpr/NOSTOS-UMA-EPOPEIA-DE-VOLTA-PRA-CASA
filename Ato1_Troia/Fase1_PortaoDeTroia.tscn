@@ -40,7 +40,7 @@ size = Vector2(39, 2399)
 size = Vector2(40, 206)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0pe3d"]
-size = Vector2(44, 2087)
+size = Vector2(44, 2200)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oaaf1"]
 size = Vector2(40, 572)
@@ -245,7 +245,7 @@ position = Vector2(3960, 360)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightBottom" unique_id=919305477]
-position = Vector2(18, 996.5)
+position = Vector2(18, 940)
 shape = SubResource("RectangleShape2D_0pe3d")
 
 [node name="WallMaze1" type="Polygon2D" parent="." unique_id=1478861536]
