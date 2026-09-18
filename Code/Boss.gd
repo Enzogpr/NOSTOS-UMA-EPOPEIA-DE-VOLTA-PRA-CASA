@@ -37,18 +37,36 @@ var bow_reload_timer: float = 0.0
 # Summon states (Phase 3)
 var summon_timer: float = 0.0
 
+# ── Animation state ──────────────────────────────────────────────────────────
+# Frames de movimento (pasta: Assets/rei de troia/)
+#   down_0..3, up_0..3, side_0..3
+# Frames de combate (pasta: Assets/animations/)
+#   reiAtack_frame_1..N    → animação de ataque corpo-a-corpo
+#   reiDash_frame_1..N     → animação de dash
+#   reiSpear_frame_1..N    → animação de arremesso de lança
+var _walk_anims: Dictionary = {}   # { "down": [...], "up": [...], "side": [...] }
+var _combat_sprite: AnimatedSprite2D  # sprite dedicado às animações de combate
+var _anim_timer: float = 0.0
+var _frame_index: int = 0
+var _current_walk_dir: String = "down"
+var _facing_left: bool = false
+var _is_playing_combat_anim: bool = false  # true enquanto uma anim de combate está tocando
+
 func _ready() -> void:
 	collision_layer = 4
 	collision_mask = 1
-	
+
 	_player = get_tree().get_first_node_in_group("player")
 	_level = get_parent()
-	
+
 	_build_visuals()
+	call_deferred("_setup_animations")
 
 func _build_visuals() -> void:
-	# O Rei é um quadrado maior e dourado
+	# Placeholder visual: quadrado dourado
+	# Será substituído/escondido pelo Sprite2D de movimento quando os assets chegarem
 	var poly := Polygon2D.new()
+	poly.name = "PlaceholderPoly"
 	poly.polygon = PackedVector2Array([
 		Vector2(-20, -20), Vector2(20, -20), Vector2(20, 20), Vector2(-20, 20)
 	])
@@ -62,7 +80,7 @@ func _build_visuals() -> void:
 	shape.shape = rect
 	add_child(shape)
 
-	# A arma do Rei (muito maior)
+	# Placeholder de arma (será escondido durante animações de combate)
 	_attack_visual = Polygon2D.new()
 	_attack_visual.polygon = PackedVector2Array([
 		Vector2(20, -40), Vector2(70, -20), Vector2(80, 0), Vector2(70, 20), Vector2(20, 40)
@@ -70,6 +88,132 @@ func _build_visuals() -> void:
 	_attack_visual.color = Color(1.0, 0.1, 0.1, 0.8)
 	_attack_visual.visible = false
 	add_child(_attack_visual)
+
+func _setup_animations() -> void:
+	# ── 1. Sprite2D para animações de MOVIMENTO ───────────────────────────────
+	var walk_spr := Sprite2D.new()
+	walk_spr.name = "WalkSprite"
+	add_child(walk_spr)
+
+	# Carrega os frames de movimento da pasta "Assets/rei de troia/"
+	var walk_folder := "res://Assets/rei_de_troia/"
+	for dir_name in ["down", "up", "side"]:
+		var frame_list: Array = []
+		for f in range(4):
+			var p
+			p = walk_folder + dir_name + "_" + str(f) + ".png"
+			if ResourceLoader.exists(p):
+				frame_list.append(load(p))
+		if frame_list.size() > 0:
+			_walk_anims[dir_name] = frame_list
+
+	# Configura textura inicial e escala do sprite de caminhada
+	if _walk_anims.has("down") and _walk_anims["down"].size() > 0:
+		var tex: Texture2D = _walk_anims["down"][0]
+		walk_spr.texture = tex
+		var target_h := 44.0
+		if tex.get_height() > 0:
+			walk_spr.scale = Vector2.ONE * (target_h / float(tex.get_height()))
+		# Esconde o placeholder dourado se tiver arte real
+		var poly := get_node_or_null("PlaceholderPoly")
+		if poly:
+			poly.visible = false
+		_visual = walk_spr
+	else:
+		# Sem arte ainda: usa o placeholder dourado como visual
+		walk_spr.visible = false
+
+	# ── 2. AnimatedSprite2D para animações de COMBATE ─────────────────────────
+	_combat_sprite = AnimatedSprite2D.new()
+	_combat_sprite.name = "CombatAnimSprite"
+	_combat_sprite.visible = false
+
+	var frames := SpriteFrames.new()
+
+	# Helper para carregar N frames de um padrão de nome
+	var load_frames := func(anim_name: String, file_prefix: String, max_frames: int) -> void:
+		frames.add_animation(anim_name)
+		frames.set_animation_loop(anim_name, false)
+		frames.set_animation_speed(anim_name, 12.0)
+		for i in range(1, max_frames + 1):
+			var p := "res://Assets/animations/" + file_prefix + str(i) + ".png"
+			if ResourceLoader.exists(p):
+				frames.add_frame(anim_name, load(p))
+
+	# Animação de ataque corpo-a-corpo
+	# Arquivos esperados: Assets/animations/reiAtack_frame_1.png ... reiAtack_frame_N.png
+	load_frames.call("attack", "reiAtack_frame_", 8)
+
+	# Animação de dash
+	# Arquivos esperados: Assets/animations/reiDash_frame_1.png ... reiDash_frame_N.png
+	load_frames.call("dash", "reiDash_frame_", 8)
+
+	# Animação de arremesso de lança
+	# Arquivos esperados: Assets/animations/reiSpear_frame_1.png ... reiSpear_frame_N.png
+	load_frames.call("throw_spear", "reiSpear_frame_", 8)
+
+	_combat_sprite.sprite_frames = frames
+
+	# Copia escala do WalkSprite se existir arte
+	var ws := get_node_or_null("WalkSprite") as Sprite2D
+	if ws and ws.texture:
+		_combat_sprite.scale = ws.scale
+	else:
+		_combat_sprite.scale = Vector2(0.25, 0.25)
+
+	add_child(_combat_sprite)
+
+	# Volta o visual principal ao terminar cada animação de combate
+	_combat_sprite.animation_finished.connect(func():
+		_is_playing_combat_anim = false
+		_combat_sprite.visible = false
+		if is_instance_valid(_visual):
+			_visual.visible = true
+	)
+
+# Toca uma animação de combate (esconde o walk sprite durante ela)
+func _play_combat_anim(anim_name: String, flip: bool = false) -> void:
+	if not is_instance_valid(_combat_sprite):
+		return
+	if not _combat_sprite.sprite_frames.has_animation(anim_name):
+		return
+	if _combat_sprite.sprite_frames.get_frame_count(anim_name) == 0:
+		return  # Sem frames ainda, aguarda as artes
+
+	if is_instance_valid(_visual):
+		_visual.visible = false
+	_combat_sprite.flip_h = flip
+	_combat_sprite.visible = true
+	_combat_sprite.play(anim_name)
+	_is_playing_combat_anim = true
+
+# Atualiza o sprite de caminhada (direção + flip + frame)
+func _update_walk_anim(delta: float, is_moving: bool, dir_to_player: Vector2) -> void:
+	var ws := get_node_or_null("WalkSprite") as Sprite2D
+	if not ws or not ws.visible:
+		return
+
+	# Determina direção dominante
+	if absf(dir_to_player.y) > absf(dir_to_player.x) * 0.8:
+		_current_walk_dir = "up" if dir_to_player.y < 0 else "down"
+	else:
+		_current_walk_dir = "side"
+		_facing_left = dir_to_player.x < 0
+
+	if is_moving:
+		_anim_timer += delta * 8.0
+		_frame_index = int(_anim_timer) % 4
+		ws.offset.y = -absf(sin(_anim_timer * PI)) * 2.0
+	else:
+		_anim_timer = 0.0
+		_frame_index = 0
+		ws.offset.y = 0.0
+
+	if _walk_anims.has(_current_walk_dir):
+		var flist: Array = _walk_anims[_current_walk_dir]
+		if _frame_index < flist.size():
+			ws.texture = flist[_frame_index]
+		ws.flip_h = (_current_walk_dir == "side" and _facing_left)
 
 func _physics_process(delta: float) -> void:
 	if GameManager.game_over:
@@ -95,35 +239,44 @@ func _physics_process(delta: float) -> void:
 			_process_phase_3(delta)
 
 func _process_phase_1(delta: float) -> void:
+	var dir_to_player := (_player.global_position - global_position).normalized()
+
 	if bow_reload_timer > 0:
 		bow_reload_timer -= delta
-		# Recarregando: Corre do jogador (Kiting)
-		var dir = (global_position - _player.global_position).normalized()
-		velocity = dir * move_speed
+		# Recarregando: Kiting (foge do jogador)
+		var kite_dir := -dir_to_player
+		velocity = kite_dir * move_speed
 		move_and_slide()
-		_visual.modulate = Color(0.5, 0.5, 0.8) # Azulado = recarregando (vulnerável)
+		if is_instance_valid(_visual): _visual.modulate = Color(0.5, 0.5, 0.8)
+		if not _is_playing_combat_anim:
+			_update_walk_anim(delta, true, kite_dir)
 	else:
-		_visual.modulate = Color(0.8, 0.7, 0.2) # Dourado = atacando
-		# Atirando: Mantém distância ou fica quase parado
-		var to_player = _player.global_position - global_position
+		if is_instance_valid(_visual): _visual.modulate = Color(0.8, 0.7, 0.2)
+		# Atirando: Mantém distância
+		var to_player := _player.global_position - global_position
+		var is_moving := false
 		if to_player.length() < 300.0:
-			velocity = -to_player.normalized() * (move_speed * 0.5)
+			velocity = -dir_to_player * (move_speed * 0.5)
 			move_and_slide()
-		
+			is_moving = true
+		if not _is_playing_combat_anim:
+			_update_walk_anim(delta, is_moving, dir_to_player)
+
 		if bow_cooldown > 0:
 			bow_cooldown -= delta
 		else:
+			# Toca animação de arremesso de lança antes de disparar
+			_play_combat_anim("throw_spear", dir_to_player.x < 0)
 			_shoot_arrow()
 			bow_shots_left -= 1
 			bow_cooldown = 0.8
-			
+
 			if bow_shots_left <= 0:
 				if current_phase == Phase.PHASE_3:
-					bow_shots_left = randi_range(3, 7) # Aleatório apenas no desespero da Fase 3
-					_summon_guards() # Invoca mais guardas a cada recarga na Fase 3
+					bow_shots_left = randi_range(3, 7)
+					_summon_guards()
 				else:
-					bow_shots_left = 4 # Fixo na Fase 1
-					
+					bow_shots_left = 4
 				bow_reload_timer = 3.0
 
 func _shoot_arrow() -> void:
@@ -135,31 +288,37 @@ func _shoot_arrow() -> void:
 		_level.add_child(a)
 
 func _process_phase_2(delta: float) -> void:
+	var dir_to_player := (_player.global_position - global_position).normalized()
+
 	if is_dashing:
 		dash_timer -= delta
 		velocity = dash_dir * dash_speed
 		move_and_slide()
-		
+		# Mantém a animação de dash ativa durante o movimento
+		if not _is_playing_combat_anim:
+			_play_combat_anim("dash", dash_dir.x < 0)
+
 		# Causa dano se encostar no dash
-		var to_player = _player.global_position - global_position
+		var to_player := _player.global_position - global_position
 		if to_player.length() < 45.0 and attack_timer <= 0:
 			_attack_player(true)
-			
+
 		if dash_timer <= 0 or is_on_wall():
 			is_dashing = false
 			dash_cooldown = 2.0
-			_visual.modulate = Color(0.8, 0.7, 0.2) # Volta a cor normal
+			if is_instance_valid(_visual): _visual.modulate = Color(0.8, 0.7, 0.2)
+
 	elif is_charging_dash:
 		# Tremendo antes do dash
-		_visual.position = Vector2(randf_range(-2, 2), randf_range(-2, 2))
+		if is_instance_valid(_visual):
+			_visual.position = Vector2(randf_range(-2, 2), randf_range(-2, 2))
 	else:
 		if dash_cooldown <= 0:
 			# Prepara o Dash
 			is_charging_dash = true
-			_visual.modulate = Color(1.0, 0.3, 0.3)
-			var dir = (_player.global_position - global_position).normalized()
-			dash_dir = dir
-			
+			if is_instance_valid(_visual): _visual.modulate = Color(1.0, 0.3, 0.3)
+			dash_dir = dir_to_player
+
 			var telegraph := Polygon2D.new()
 			telegraph.polygon = PackedVector2Array([
 				Vector2(0, -15), Vector2(600, -15), Vector2(600, 15), Vector2(0, 15)
@@ -167,40 +326,44 @@ func _process_phase_2(delta: float) -> void:
 			telegraph.color = Color(1.0, 0.2, 0.2, 0.35)
 			telegraph.rotation = dash_dir.angle()
 			add_child(telegraph)
-			
-			var t = get_tree().create_timer(0.3) # Reduzido de 0.6 para 0.3s
-			t.timeout.connect(func(): 
+
+			var t = get_tree().create_timer(0.3)
+			t.timeout.connect(func():
 				if is_instance_valid(self):
-					if is_instance_valid(telegraph):
-						telegraph.queue_free()
+					if is_instance_valid(telegraph): telegraph.queue_free()
 					is_charging_dash = false
 					is_dashing = true
 					dash_timer = 0.5
-					_visual.position = Vector2.ZERO
+					if is_instance_valid(_visual): _visual.position = Vector2.ZERO
 			)
 		else:
 			# Anda lentamente enquanto o dash recarrega
-			var dir = (_player.global_position - global_position).normalized()
-			velocity = dir * (move_speed * 0.4)
+			velocity = dir_to_player * (move_speed * 0.4)
 			move_and_slide()
+			if not _is_playing_combat_anim:
+				_update_walk_anim(delta, true, dir_to_player)
 
 func _process_phase_3(delta: float) -> void:
 	# Na Fase 3, ele volta a agir como o Arqueiro da Fase 1, mas com os guardas protegendo ele
 	_process_phase_1(delta)
 
-func _chase_and_attack() -> void:
-	var to_player = _player.global_position - global_position
-	var dist = to_player.length()
-	
+func _chase_and_attack(delta: float = 0.0) -> void:
+	var to_player := _player.global_position - global_position
+	var dist := to_player.length()
+	var dir := to_player.normalized()
+
 	if dist <= attack_range:
 		velocity = Vector2.ZERO
 		if attack_timer <= 0:
 			_attack_player(false)
+		if not _is_playing_combat_anim:
+			_update_walk_anim(delta, false, dir)
 	else:
-		var dir = to_player.normalized()
 		velocity = dir * move_speed
 		move_and_slide()
-		
+		if not _is_playing_combat_anim:
+			_update_walk_anim(delta, true, dir)
+
 		if dir.x > 0.1: _attack_visual.rotation = 0
 		elif dir.x < -0.1: _attack_visual.rotation = PI
 		elif dir.y > 0.1: _attack_visual.rotation = PI/2
@@ -208,13 +371,20 @@ func _chase_and_attack() -> void:
 
 func _attack_player(is_dash_hit: bool) -> void:
 	attack_timer = 1.0
-	
+
 	if not is_dash_hit:
-		_attack_visual.visible = true
-		get_tree().create_timer(0.2).timeout.connect(func(): if is_instance_valid(_attack_visual): _attack_visual.visible = false)
-	
+		# Toca animação de ataque corpo-a-corpo
+		var to_player := _player.global_position - global_position
+		_play_combat_anim("attack", to_player.x < 0)
+		# Fallback: mostra placeholder de arma se não tiver arte
+		if _combat_sprite.sprite_frames.get_frame_count("attack") == 0:
+			_attack_visual.visible = true
+			get_tree().create_timer(0.2).timeout.connect(
+				func(): if is_instance_valid(_attack_visual): _attack_visual.visible = false
+			)
+
 	if _player.has_method("take_damage"):
-		var damage = 2 if is_dash_hit else 1
+		var damage := 2 if is_dash_hit else 1
 		_player.take_damage(damage)
 
 func _summon_guards() -> void:
