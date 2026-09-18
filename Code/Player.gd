@@ -201,24 +201,11 @@ func _physics_process(delta: float) -> void:
 		if absf(input.y) > absf(input.x) * 0.8:
 			if input.y < 0:
 				_current_dir = "up"
-				_facing_left = false
 			else:
 				_current_dir = "down"
-				_facing_left = false
 		else:
-			if input.x < 0:
-				# Usar frames de 'left' se existirem, senao 'side'
-				if _anims.has("left"):
-					_current_dir = "left"
-				else:
-					_current_dir = "side"
-				_facing_left = false  # sem flip: sprites de left/side ja estao virados para esquerda
-			else:
-				if _anims.has("right"):
-					_current_dir = "right"
-				else:
-					_current_dir = "side"
-				_facing_left = true  # side virado para esquerda precisa flip para direita
+			_current_dir = "side"
+			_facing_left = (input.x < 0)
 
 	facing_dir = (get_global_mouse_position() - global_position).normalized()
 
@@ -247,11 +234,10 @@ func _physics_process(delta: float) -> void:
 		var frames: Array = _anims[_current_dir]
 		if _frame_index < frames.size():
 			spr.texture = frames[_frame_index]
-		# side sem right frames: flip_h para ir para direita
 		if _current_dir == "side":
-			spr.flip_h = _facing_left  # _facing_left=true quando indo para direita (flip side para direita)
+			spr.flip_h = _facing_left
 		else:
-			spr.flip_h = false  # left, right, up, down: sem flip
+			spr.flip_h = false
 
 
 func _input(event: InputEvent) -> void:
@@ -376,38 +362,31 @@ func _update_odysseus_sprite() -> void:
 		base_folder = "res://Assets/odisseu_velho/"
 
 	_anims.clear()
-	for dir_name in ["down", "up", "side", "left", "right"]:
+	for dir_name in ["down", "up", "side"]:
 		var frame_list: Array = []
 		for f_idx in range(4):
 			var p = base_folder + dir_name + "_" + str(f_idx) + ".png"
-			var img = Image.new()
-			# Tenta carregar usando ProjectSettings.globalize_path para pegar o arquivo real
-			var global_path = ProjectSettings.globalize_path(p)
-			if FileAccess.file_exists(global_path):
-				var err = img.load(global_path)
-				if err == OK:
-					frame_list.append(ImageTexture.create_from_image(img))
+			if ResourceLoader.exists(p):
+				frame_list.append(load(p))
+			elif ResourceLoader.exists(
+				"res://Assets/odisseu/" + dir_name + "_" + str(f_idx) + ".png"
+			):
+				frame_list.append(
+					load("res://Assets/odisseu/" + dir_name + "_" + str(f_idx) + ".png")
+				)
 		if frame_list.size() > 0:
 			_anims[dir_name] = frame_list
-	
-	# Se nao ha frames 'left' explicitos, usa 'side' (ja virado para esquerda, sem flip)
-	if not _anims.has("left") and _anims.has("side"):
-		_anims["left"] = _anims["side"]
-	# Se nao ha frames 'right' explicitos, usa 'side' (vai ser flipado pelo codigo de movimento)
-	if not _anims.has("right") and _anims.has("side"):
-		_anims["right"] = _anims["side"]
-	
+
 	if _anims.has("down") and _anims["down"].size() > 0:
 		var tex: Texture2D = _anims["down"][0]
 		spr.texture = tex
-		# Target height: ~38px for the new larger sprint sprites (they're taller due to legs)
-		var target_h: float = 38.0
+		var target_h: float = 34.0
 		if tex.get_height() > 0:
 			spr.scale = Vector2.ONE * (target_h / float(tex.get_height()))
 	elif ResourceLoader.exists("res://Assets/player.png"):
 		var tex: Texture2D = load("res://Assets/player.png")
 		spr.texture = tex
-		var target_h: float = 38.0
+		var target_h: float = 34.0
 		if tex.get_height() > 0:
 			spr.scale = Vector2.ONE * (target_h / float(tex.get_height()))
 
