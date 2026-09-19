@@ -1,37 +1,61 @@
-[gd_scene format=3 uid="uid://fase1portaodetroia001"]
+[gd_scene format=3 uid="uid://dev5oorftahmm"]
 
-[ext_resource type="Script" path="res://Ato1_Troia/Fase1_PortaoDeTroia.gd" id="1_1ftuo"]
-[ext_resource type="Texture2D" uid="uid://b3w3066n2onrf" path="res://Assets/paredes.jpg" id="2_6itv5"]
+[ext_resource type="Script" uid="uid://cm5u620d00oj4" path="res://Ato1_Troia/Fase1_PortaoDeTroia.gd" id="1_1ftuo"]
+[ext_resource type="Texture2D" uid="uid://bd2y3tnaxw4pw" path="res://IMAGEM JOGO/CHAO/ChatGPT Image 15 de set. de 2026, 21_23_22.png" id="2_anyv0"]
+[ext_resource type="Texture2D" uid="uid://db2eaopml4bfq" path="res://Assets/muro_troia.png" id="2_muro"]
+[ext_resource type="Texture2D" uid="uid://cf4bbqlc2smnd" path="res://Assets/barracas/barraca_1.png" id="4_barraca1"]
+[ext_resource type="Texture2D" uid="uid://uyoky2poa0uh" path="res://IMAGEM JOGO/CHAO/teste muro cima sem fundo.png" id="5_anyv0"]
+[ext_resource type="Texture2D" uid="uid://df6npot0y2iqi" path="res://Assets/barracas/barraca_2.png" id="5_barraca2"]
+[ext_resource type="Texture2D" uid="uid://bbsoiqnk10xdd" path="res://Assets/barracas/barraca_3.png" id="6_barraca3"]
+[ext_resource type="Texture2D" uid="uid://belwv3v8rjwqx" path="res://Assets/barracas/barraca_4.png" id="7_barraca4"]
+[ext_resource type="Texture2D" uid="uid://08lqout5vtvp" path="res://Assets/barracas/barraca_5.png" id="8_barraca5"]
+[ext_resource type="Texture2D" uid="uid://bvk3udwaa5616" path="res://IMAGEM JOGO/cavalo.png" id="9_tmbgy"]
+[ext_resource type="Texture2D" uid="uid://bt7jih47enwpm" path="res://Assets/decor/tocha.png" id="10_tocha"]
+[ext_resource type="Texture2D" uid="uid://cb321ngvg5see" path="res://Assets/decor/fogueira.png" id="11_fogueira"]
+[ext_resource type="Texture2D" uid="uid://bpj1lmil4xb3x" path="res://IMAGEM JOGO/CHAO/ChatGPT Image 15 de set. de 2026, 22_53_43.png" id="11_q0k6i"]
+[ext_resource type="Texture2D" uid="uid://b7ognn3x10msp" path="res://Assets/decor/barris_caixas.png" id="12_barris"]
+[ext_resource type="Texture2D" uid="uid://bhqw4i55hjhy6" path="res://Assets/decor/estandarte_grande.png" id="14_estandarte_g"]
+[ext_resource type="Texture2D" uid="uid://iwvqy7jvkuur" path="res://Assets/decor/vasos_anforas.png" id="17_vasos"]
+[ext_resource type="Texture2D" uid="uid://b0v68w2apscy8" path="res://Assets/decor/bandeira_quebrada.png" id="d_bandeira"]
+[ext_resource type="Texture2D" uid="uid://bv6f88kkvcdk6" path="res://Assets/decor/capacete_furado.png" id="d_capacete"]
+[ext_resource type="Texture2D" uid="uid://cuglm0t2yobfi" path="res://Assets/decor/escudo_quebrado_1.png" id="d_escudo1"]
+[ext_resource type="Texture2D" uid="uid://b2fgk6ulpsn3g" path="res://Assets/decor/escudo_quebrado_2.png" id="d_escudo2"]
+[ext_resource type="Texture2D" uid="uid://3j173x02m77t" path="res://Assets/decor/espada_quebrada.png" id="d_espada"]
+[ext_resource type="Texture2D" uid="uid://cof1ls34wdw5q" path="res://Assets/decor/flecha_quebrada.png" id="d_flecha"]
+[ext_resource type="Texture2D" uid="uid://byr3y3wevp4en" path="res://Assets/decor/lanca_quebrada_1.png" id="d_lanca1"]
+[ext_resource type="Texture2D" uid="uid://cyw7h5jdlxdn1" path="res://Assets/decor/lanca_quebrada_2.png" id="d_lanca2"]
+[ext_resource type="Texture2D" uid="uid://bwta4iei4f786" path="res://Assets/decor/monte_pedras.png" id="d_pedras"]
+[ext_resource type="Texture2D" uid="uid://dk7hxy1mtynw7" path="res://Assets/decor/peitoral_quebrado.png" id="d_peitoral"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6itv5"]
-size = Vector2(4000, 40)
+size = Vector2(4000, 42)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rcsnb"]
 size = Vector2(4000, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aek51"]
-size = Vector2(40, 2400)
+size = Vector2(39, 2399)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kmvtg"]
-size = Vector2(40, 200)
+size = Vector2(40, 206)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0pe3d"]
-size = Vector2(40, 2040)
+size = Vector2(44, 2200)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oaaf1"]
-size = Vector2(40, 560)
+size = Vector2(40, 572)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_80m3e"]
-size = Vector2(200, 40)
+size = Vector2(207, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j370j"]
-size = Vector2(600, 40)
+size = Vector2(559, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1t1nk"]
 size = Vector2(40, 860)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e11xk"]
-size = Vector2(40, 1000)
+size = Vector2(40, 1002)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qq6yy"]
 size = Vector2(400, 40)
@@ -40,34 +64,34 @@ size = Vector2(400, 40)
 size = Vector2(40, 400)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pv4em"]
-size = Vector2(800, 800)
+size = Vector2(840, 807)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fm6hb"]
-size = Vector2(1000, 40)
+size = Vector2(1012, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rm6c8"]
-size = Vector2(40, 800)
+size = Vector2(40, 554)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oog5g"]
-size = Vector2(40, 1560)
+size = Vector2(40, 1566)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_12253"]
 size = Vector2(800, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ufmn"]
-size = Vector2(40, 1160)
+size = Vector2(40, 1169)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sbojv"]
-size = Vector2(800, 40)
+size = Vector2(807, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvnmv"]
-size = Vector2(400, 40)
+size = Vector2(412, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yufs2"]
 size = Vector2(40, 340)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l04mo"]
-size = Vector2(40, 100)
+size = Vector2(40, 106)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uvscy"]
 size = Vector2(60, 160)
@@ -94,10 +118,10 @@ corner_radius_bottom_left = 4
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmvhl"]
 bg_color = Color(0.2, 0.7, 0.2, 1)
 
-[node name="Fase1_PortaoDeTroia" type="Node2D"]
+[node name="Fase1_PortaoDeTroia" type="Node2D" unique_id=2073753772]
 script = ExtResource("1_1ftuo")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1334184006]
 z_index = -10
 offset_left = -400.0
 offset_top = -400.0
@@ -105,467 +129,1799 @@ offset_right = 4400.0
 offset_bottom = 2800.0
 color = Color(0.05, 0.07, 0.14, 1)
 
-[node name="Courtyard" type="Polygon2D" parent="."]
-z_index = -9
-color = Color(0.25, 0.22, 0.18, 1)
-polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 2400, 0, 2400)
+[node name="Courtyard" type="Polygon2D" parent="." unique_id=80636203]
+z_index = -8
+texture_repeat = 2
+position = Vector2(2, 0)
+texture = ExtResource("2_anyv0")
+texture_scale = Vector2(12, 12)
+polygon = PackedVector2Array(0, 0, 7.3003845, 0, 4000, 0, 4000, 853.33466, 4000, 2400, 0, 2400, 9, 1395)
 
-[node name="WallTop" type="Polygon2D" parent="."]
+[node name="WallMaze97" type="Polygon2D" parent="." unique_id=1461031875]
+z_index = -2
+texture_repeat = 2
+position = Vector2(2835, 436)
+rotation = 3.1415925
+scale = Vector2(1.0501701, 1.0501701)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(32.197266, -2.7819824, 35.29541, -2.6119995, 39.21704, -2.6119995, 39.683624, 14.895226, 39.55664, 33.38379, 32.197266, 33.38379, 32.197266, 25.965088, 34.03711, 25.965088, 34.03711, 19.473877, 32.197266, 19.473877, 32.197266, 11.12793, 34.03711, 11.12793, 34.03711, 4.6367188, 32.197266, 4.6704044)
+
+[node name="WallMaze89" type="Polygon2D" parent="." unique_id=76431249]
+z_index = -4
+texture_repeat = 2
+position = Vector2(837.00006, 1772)
+rotation = 1.5707964
+scale = Vector2(0.7658057, 0.73115027)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(32.645508, -1.3676758, 39.513916, -2.8223877, 40, 47.932007, 35.84619, 47.79492, 32, 47.932007)
+
+[node name="WallTop" type="Polygon2D" parent="." unique_id=460259900]
 z_index = -5
-color = Color(0.35, 0.3, 0.25, 1)
-texture = ExtResource("2_6itv5")
-polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 40, 0, 40)
+texture_repeat = 2
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 40, 2444.8484, 40, 0, 43)
 
-[node name="StaticBodyTop" type="StaticBody2D" parent="."]
+[node name="StaticBodyTop" type="StaticBody2D" parent="." unique_id=729393884]
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyTop"]
-position = Vector2(2000, 20)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyTop" unique_id=457693808]
+position = Vector2(2000, 21)
 shape = SubResource("RectangleShape2D_6itv5")
 
-[node name="WallBottom" type="Polygon2D" parent="."]
+[node name="WallBottom" type="Polygon2D" parent="." unique_id=685624548]
 z_index = -5
+texture_repeat = 2
 position = Vector2(0, 2360)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 4000, 0, 4000, 40, 0, 40)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-2, -2)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 3.1415927
+polygon = PackedVector2Array(0, 0, 1008, 0, 1008, 3, 1033, 3, 1039, 3, 1039.5348, 0, 2599, 0, 2599, 3, 2640, 0, 4000, 0, 4000, 34, 4000, 40, 0, 40)
 
-[node name="StaticBodyBottom" type="StaticBody2D" parent="."]
+[node name="StaticBodyBottom" type="StaticBody2D" parent="." unique_id=808486553]
 position = Vector2(0, 2360)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBottom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBottom" unique_id=839374508]
 position = Vector2(2000, 20)
 shape = SubResource("RectangleShape2D_rcsnb")
 
-[node name="WallLeft" type="Polygon2D" parent="."]
+[node name="WallLeft" type="Polygon2D" parent="." unique_id=1638299618]
 z_index = -5
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 2400, 0, 2400)
+texture_repeat = 2
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-16, 45)
+texture_scale = Vector2(15, 15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 2, 9, 6, 10, 26, 25, 33, 29, 32, 32, 36, 32, 43, 40.460938, 43, 41, 43, 41, 2368, 33, 2368, 33, 2370, 33, 2373, 29, 2374, 27, 2374, 29, 2376, 9, 2392, 9, 2395, 9, 2398, 7, 2399, 0, 2400)
 
-[node name="StaticBodyLeft" type="StaticBody2D" parent="."]
+[node name="StaticBodyLeft" type="StaticBody2D" parent="." unique_id=74236693]
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyLeft"]
-position = Vector2(20, 1200)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyLeft" unique_id=761848383]
+position = Vector2(20.5, 1200.5)
 shape = SubResource("RectangleShape2D_aek51")
 
-[node name="WallRightTop" type="Polygon2D" parent="."]
+[node name="WallRightTop" type="Polygon2D" parent="." unique_id=1430502735]
 z_index = -5
-position = Vector2(3960, 0)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 200, 0, 200)
+texture_repeat = 2
+position = Vector2(3960, -0.16666698)
+scale = Vector2(1.0208334, 1.0208334)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-119, -4)
+texture_scale = Vector2(-15, -15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(8, 8, 41, 8, 40.953857, 16.854586, 40, 200, 0, 200, 0, 40, 8, 40, 8, 34, 14, 24)
 
-[node name="StaticBodyRightTop" type="StaticBody2D" parent="."]
+[node name="StaticBodyRightTop" type="StaticBody2D" parent="." unique_id=1232021937]
 position = Vector2(3960, 0)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightTop"]
-position = Vector2(20, 100)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightTop" unique_id=207347979]
+position = Vector2(20, 103)
 shape = SubResource("RectangleShape2D_kmvtg")
 
-[node name="WallRightBottom" type="Polygon2D" parent="."]
+[node name="WallRightBottom" type="Polygon2D" parent="." unique_id=1210450448]
 z_index = -5
-position = Vector2(3960, 360)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 2040, 0, 2040)
+texture_repeat = 2
+position = Vector2(3960.0469, 309)
+scale = Vector2(1.015587, 1.0250738)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(5, 8)
+texture_scale = Vector2(14, 14)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(-3, 0, 40, 0, 40, 2034, 35, 2034, 34, 2031, 31, 2031, 10, 2010, 5, 2009, 5, 2007, 5, 2006, 5, 2006, 4, 2002, -2, 2002, -3, 2001, -3, 2000)
 
-[node name="StaticBodyRightBottom" type="StaticBody2D" parent="."]
+[node name="StaticBodyRightBottom" type="StaticBody2D" parent="." unique_id=863416114]
 position = Vector2(3960, 360)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightBottom"]
-position = Vector2(20, 1020)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRightBottom" unique_id=919305477]
+position = Vector2(18, 940)
 shape = SubResource("RectangleShape2D_0pe3d")
 
-[node name="WallMaze1" type="Polygon2D" parent="."]
+[node name="WallMaze1" type="Polygon2D" parent="." unique_id=1478861536]
 z_index = -5
+texture_repeat = 2
 position = Vector2(400, 1589)
-color = Color(0.35, 0.3, 0.25, 1)
-texture = ExtResource("2_6itv5")
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 560, 0, 560)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-100, -3)
+texture_scale = Vector2(-16, -16)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(0, 0, 36.71983, 0, 37, 3, 40, 3, 40, 564, 0, 564)
 
-[node name="StaticBodyMaze1" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze1" type="StaticBody2D" parent="." unique_id=2035473112]
 position = Vector2(400, 1800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze1"]
-position = Vector2(20, 66)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze1" unique_id=136574116]
+position = Vector2(20, 69)
 shape = SubResource("RectangleShape2D_oaaf1")
 
-[node name="WallMaze2" type="Polygon2D" parent="."]
+[node name="WallMaze2" type="Polygon2D" parent="." unique_id=1255007088]
 z_index = -5
-position = Vector2(40, 1800)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 200, 0, 200, 40, 0, 40)
+texture_repeat = 2
+position = Vector2(41, 1800)
+scale = Vector2(0.995, 1)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(100, -3)
+texture_scale = Vector2(-16, -16)
+texture_rotation = -3.1415927
+polygon = PackedVector2Array(-5.0251274, 0, 205.02512, 0, 205.02512, 40, 0, 39, 0, 38, 0, 37, -5.0251274, 36, -5.0251274, 31, -10.050253, 31, -12.060303, 26, -10.050253, 19, -8.040203, 6, -5.0251274, 6)
 
-[node name="StaticBodyMaze2" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze2" type="StaticBody2D" parent="." unique_id=927005471]
 position = Vector2(40, 1800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze2"]
-position = Vector2(100, 20)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze2" unique_id=1261109830]
+position = Vector2(103.5, 20)
 shape = SubResource("RectangleShape2D_80m3e")
 
-[node name="WallMaze3" type="Polygon2D" parent="."]
+[node name="WallMaze4" type="Polygon2D" parent="." unique_id=1361459275]
 z_index = -5
-position = Vector2(440, 2100)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 600, 0, 600, 40, 0, 40)
+texture_repeat = 2
+position = Vector2(996, 1500)
+scale = Vector2(1, 1.0081018)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(1, -8.927734, 40, -8.927734, 39.291424, 861.9645, 20, 863.00793, 0.29142475, 861.9645)
 
-[node name="StaticBodyMaze3" type="StaticBody2D" parent="."]
+[node name="WallMaze85" type="Polygon2D" parent="." unique_id=1655286609]
+z_index = -5
+texture_repeat = 2
+position = Vector2(1033, 1454)
+rotation = 1.5707964
+scale = Vector2(1, 0.75321835)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(32, -1.9816895, 40, -1.9816895, 40, 47.932007, 32, 47.932007)
+
+[node name="WallMaze86" type="Polygon2D" parent="." unique_id=135865368]
+z_index = -5
+texture_repeat = 2
+position = Vector2(402.8751, 2179)
+rotation = -1.5707964
+scale = Vector2(0.75321835, 0.74973744)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(32, -1.9816895, 40, -1.9816895, 40, 47.932007, 35.84619, 47.79492, 32, 47.932007, 32.00003, 33.246223)
+
+[node name="WallMaze88" type="Polygon2D" parent="." unique_id=143031613]
+z_index = -4
+texture_repeat = 2
+position = Vector2(403.47678, 441.53485)
+rotation = -1.5707964
+scale = Vector2(1.286604, 1.1163876)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(32.099823, -2.176178, 41.92816, -2.4160461, 41.540955, 33.72989, 32.099823, 33.72989, 32.099823, 26.113464, 33.988068, 26.113464, 33.988068, 19.585083, 32.099823, 19.585083, 32.099823, 11.968628, 33.988068, 11.968628, 33.988068, 5.440277, 32.099823, 4.7129393)
+
+[node name="WallMaze90" type="Polygon2D" parent="." unique_id=1847087115]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1226.4219, 438.23462)
+rotation = 3.1415927
+scale = Vector2(0.7740796, 0.7740797)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(31.674927, -2.805664, 39.513916, -2.8223877, 39.683624, 14.895226, 39.795364, 26.564728, 40, 47.932007, 35.84619, 47.79492, 31.674927, 48.101807, 31.674927, -2.805664, 31.674927, -2.805664, 31.674927, -2.805664)
+
+[node name="WallMaze91" type="Polygon2D" parent="." unique_id=172044711]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2178, 403.68875)
+scale = Vector2(0.764973, 0.7619117)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(31.373535, -2.6119995, 35.29541, -2.6119995, 39.21704, -2.6119995, 39.683624, 14.895226, 39.795364, 26.564728, 40, 47.932007, 35.84619, 47.79492, 31.674927, 48.101807)
+
+[node name="WallMaze93" type="Polygon2D" parent="." unique_id=996708862]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2604, 837)
+rotation = -1.5707964
+scale = Vector2(1.0870495, 1.0783666)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(32.197266, -2.7819824, 35.29541, -2.6119995, 39.21704, -2.6119995, 39.683624, 14.895226, 39.55664, 33.38379, 32.197266, 33.38379, 32.197266, 25.965088, 34.03711, 25.965088, 34.03711, 19.473877, 32.197266, 19.473877, 32.197266, 11.12793, 34.03711, 11.12793, 34.03711, 4.6367188, 32.197266, 4.6704044)
+
+[node name="WallMaze95" type="Polygon2D" parent="." unique_id=1921488117]
+z_index = -1
+texture_repeat = 2
+position = Vector2(3234, 506)
+rotation = 1.5707964
+scale = Vector2(1.0131228, 1.0131228)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(32.197266, -2.7819824, 35.29541, -2.6119995, 39.21704, -2.6119995, 39.683624, 14.895226, 39.55664, 33.38379, 32.197266, 33.38379, 32.197266, 25.965088, 34.03711, 25.965088, 34.03711, 19.473877, 32.197266, 19.473877, 32.197266, 11.12793, 34.03711, 11.12793, 34.03711, 4.6367188, 32.197266, 4.6704044)
+
+[node name="WallMaze96" type="Polygon2D" parent="." unique_id=1984530112]
+z_index = -2
+texture_repeat = 2
+position = Vector2(3157, 702.99994)
+scale = Vector2(1.1028571, 1.1028571)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(32.197266, -2.7819824, 35.29541, -2.6119995, 39.21704, -2.6119995, 39.683624, 14.895226, 39.55664, 33.38379, 32.197266, 33.38379, 32.197266, 25.965088, 34.03711, 25.965088, 34.03711, 19.473877, 32.197266, 19.473877, 32.197266, 11.12793, 34.03711, 11.12793, 34.03711, 4.6367188, 32.197266, 4.6704044)
+
+[node name="WallMaze94" type="Polygon2D" parent="." unique_id=2111890972]
+z_index = -4
+texture_repeat = 2
+position = Vector2(3404, 1233.0001)
+rotation = 4.712389
+scale = Vector2(1.0531232, 1.0531232)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(32.197266, -2.7819824, 35.29541, -2.6119995, 39.21704, -2.6119995, 39.683624, 14.895226, 39.55664, 33.38379, 32.197266, 33.38379, 32.197266, 25.965088, 34.03711, 25.965088, 34.03711, 19.473877, 32.197266, 19.473877, 32.197266, 11.12793, 34.03711, 11.12793, 34.03711, 4.6367188, 32.197266, 4.6704044)
+
+[node name="WallMaze87" type="Polygon2D" parent="." unique_id=1494223741]
+z_index = -5
+texture_repeat = 2
+position = Vector2(402.9257, 1613.0001)
+rotation = -1.5707964
+scale = Vector2(0.7479671, 0.7104565)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(31.874512, -1.770752, 40, -1.9816895, 40, 47.932007, 35.84619, 47.79492, 32, 47.932007, 32.00003, 33.246223)
+
+[node name="WallMaze92" type="Polygon2D" parent="." unique_id=724171738]
+z_index = -1
+texture_repeat = 2
+position = Vector2(273, 1837.0001)
+rotation = -3.1415927
+scale = Vector2(0.82306874, 0.7600161)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(31.874512, -1.770752, 40, -1.9816895, 40, 15.373337, 40, 47.932007, 35.84619, 47.79492, 32, 47.932007, 32.00003, 33.246223)
+
+[node name="WallMaze17" type="Polygon2D" parent="." unique_id=786018308]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1500, 596.99567)
+scale = Vector2(1, 0.93159795)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(0, -2.142212, 32, -2.142212, 31.115028, 762.56396, 31, 861.9644, 19.275223, 861.9645, 0.29142475, 861.9645, 0.29144287, 178.87729)
+
+[node name="WallMaze18" type="Polygon2D" parent="." unique_id=1594106870]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1503.6641, 633)
+rotation = -1.5707964
+scale = Vector2(1, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 41, 5.7612305, 40.99994, 863.02783, 33.99994, 869.5039, 31.999939, 869.5039, 10.999939, 869.5039)
+
+[node name="WallMaze21" type="Polygon2D" parent="." unique_id=1834901397]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2317.7927, 1349)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9110247)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze22" type="Polygon2D" parent="." unique_id=1248957250]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1521.3774, 1371)
+rotation = -1.5707963
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze24" type="Polygon2D" parent="." unique_id=1690422698]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2319.0002, 1310.0001)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze23" type="Polygon2D" parent="." unique_id=1076039034]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2317, 1324)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze25" type="Polygon2D" parent="." unique_id=868015990]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2332.9998, 1298.7054)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.46936, 5.397949, 29.46936, 870.22034, 10.999939, 869.5039)
+
+[node name="WallMaze26" type="Polygon2D" parent="." unique_id=371694047]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1522.3772, 1320.7056)
+rotation = -1.5707964
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(11.313843, 6.163574, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze27" type="Polygon2D" parent="." unique_id=390873032]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2326.0283, 1260.0001)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.9192656)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze28" type="Polygon2D" parent="." unique_id=99508199]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2317.9998, 1273.7056)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze29" type="Polygon2D" parent="." unique_id=466336049]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2331.9998, 1251.7054)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 28.389648, 11.876221, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze30" type="Polygon2D" parent="." unique_id=1078340334]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1521.3772, 1273.7056)
+rotation = -1.5707963
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze31" type="Polygon2D" parent="." unique_id=398856482]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2319, 1212.7057)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze32" type="Polygon2D" parent="." unique_id=1668582606]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2316.9998, 1226.7056)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze33" type="Polygon2D" parent="." unique_id=649166066]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2332.9995, 1201.411)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.46936, 5.397949, 29.46936, 870.22034, 10.999939, 869.5039)
+
+[node name="WallMaze34" type="Polygon2D" parent="." unique_id=2043140707]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1522.377, 1223.4111)
+rotation = -1.5707964
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze35" type="Polygon2D" parent="." unique_id=1948564718]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2320.237, 1162.7057)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.91261095)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze36" type="Polygon2D" parent="." unique_id=1158348949]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2317.9995, 1176.4111)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze37" type="Polygon2D" parent="." unique_id=940168794]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2333, 1151.9999)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 24.832764, 90.69287, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze38" type="Polygon2D" parent="." unique_id=547412284]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1522.3774, 1174)
+rotation = -1.5707963
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze39" type="Polygon2D" parent="." unique_id=133004828]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2320.0002, 1113.0001)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze40" type="Polygon2D" parent="." unique_id=685582238]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2318, 1127)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze41" type="Polygon2D" parent="." unique_id=531184977]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2333.9998, 1101.7054)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.46936, 5.397949, 29.46936, 870.22034, 10.999939, 869.5039)
+
+[node name="WallMaze42" type="Polygon2D" parent="." unique_id=1658432056]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1523.3772, 1123.7056)
+rotation = -1.5707964
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze43" type="Polygon2D" parent="." unique_id=1564460125]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2316.0002, 1063.0001)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze44" type="Polygon2D" parent="." unique_id=1413368890]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2318.9998, 1076.7056)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze45" type="Polygon2D" parent="." unique_id=1252030846]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2332.9998, 1054.7054)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 20.83191, 435.1101, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze46" type="Polygon2D" parent="." unique_id=542237382]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1522.3772, 1076.7056)
+rotation = -1.5707963
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze47" type="Polygon2D" parent="." unique_id=137735959]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2320, 1015.7057)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze48" type="Polygon2D" parent="." unique_id=688197584]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2317.9998, 1029.7056)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze49" type="Polygon2D" parent="." unique_id=533722262]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2333.9995, 1004.411)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.46936, 5.397949, 29.46936, 870.22034, 10.999939, 869.5039)
+
+[node name="WallMaze50" type="Polygon2D" parent="." unique_id=563189766]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1523.377, 1026.4111)
+rotation = -1.5707964
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze51" type="Polygon2D" parent="." unique_id=1141554431]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2316, 965.7057)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze52" type="Polygon2D" parent="." unique_id=879954188]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2318.9995, 979.41113)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze53" type="Polygon2D" parent="." unique_id=645122608]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2329, 993.9999)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 24.832764, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze54" type="Polygon2D" parent="." unique_id=239307734]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1518.3774, 1016)
+rotation = -1.5707963
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze55" type="Polygon2D" parent="." unique_id=623854033]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2316.0002, 955.0001)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze56" type="Polygon2D" parent="." unique_id=1847586826]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2314, 969)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze57" type="Polygon2D" parent="." unique_id=1482974285]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2329.9998, 943.70544)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.46936, 5.397949, 29.46936, 870.22034, 10.999939, 869.5039)
+
+[node name="WallMaze58" type="Polygon2D" parent="." unique_id=847740687]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1519.3772, 965.70557)
+rotation = -1.5707964
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze59" type="Polygon2D" parent="." unique_id=1609335608]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2319.9905, 905.0001)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.9157748)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze60" type="Polygon2D" parent="." unique_id=2053288272]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2314.9998, 918.70557)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze61" type="Polygon2D" parent="." unique_id=2122704224]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2328.9998, 896.70544)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 28.389648, 4.3186035, 26.230408, 436.18994, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze62" type="Polygon2D" parent="." unique_id=1877504853]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1518.3772, 918.70557)
+rotation = -1.5707963
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze63" type="Polygon2D" parent="." unique_id=391232670]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2316, 857.7057)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze64" type="Polygon2D" parent="." unique_id=2124011799]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2318.1826, 871.70557)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.9120575)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze65" type="Polygon2D" parent="." unique_id=1291385885]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2329.9995, 846.411)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.46936, 5.397949, 29.46936, 870.22034, 10.999939, 869.5039)
+
+[node name="WallMaze66" type="Polygon2D" parent="." unique_id=820218009]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1519.377, 868.41113)
+rotation = -1.5707964
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze67" type="Polygon2D" parent="." unique_id=1384217684]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2319.17, 807.7057)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.9148321)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze68" type="Polygon2D" parent="." unique_id=779784275]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2314.9995, 821.41113)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze69" type="Polygon2D" parent="." unique_id=129563336]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2330, 796.9999)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 28.071777, 8.637451, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze70" type="Polygon2D" parent="." unique_id=1404111439]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1519.3774, 819)
+rotation = -1.5707963
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze71" type="Polygon2D" parent="." unique_id=1604185870]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2317.0002, 758.0001)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze72" type="Polygon2D" parent="." unique_id=1573946929]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2315, 772)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze73" type="Polygon2D" parent="." unique_id=74353812]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2330.9998, 746.70544)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.46936, 5.397949, 29.46936, 870.22034, 10.999939, 869.5039)
+
+[node name="WallMaze74" type="Polygon2D" parent="." unique_id=1286822025]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1520.3772, 768.70557)
+rotation = -1.5707964
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze75" type="Polygon2D" parent="." unique_id=1368421282]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2313.0002, 708.0001)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze76" type="Polygon2D" parent="." unique_id=1530662713]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2315.9998, 721.70557)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze77" type="Polygon2D" parent="." unique_id=1778207717]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2329.9998, 699.70544)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 25.150635, 134.95947, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze78" type="Polygon2D" parent="." unique_id=1433740249]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1519.3772, 721.70557)
+rotation = -1.5707963
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze79" type="Polygon2D" parent="." unique_id=1361237182]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2317, 660.7057)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.90659297)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze80" type="Polygon2D" parent="." unique_id=1736094621]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2314.9998, 674.70557)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze81" type="Polygon2D" parent="." unique_id=1200671345]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2330.9995, 649.411)
+rotation = 1.5707964
+scale = Vector2(0.9262017, 0.9262017)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.46936, 5.397949, 29.46936, 870.22034, 10.999939, 869.5039)
+
+[node name="WallMaze82" type="Polygon2D" parent="." unique_id=728708870]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1520.377, 671.41113)
+rotation = -1.5707964
+scale = Vector2(0.8578496, 0.91226894)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.85846, 432.04962, 31.58368, 651.858, 31.310669, 870.2206, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze83" type="Polygon2D" parent="." unique_id=674612877]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2319.5178, 610.7057)
+rotation = 1.5707964
+scale = Vector2(0.844945, 0.91408294)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 32.39038, 6.4780273, 31.310669, 870.2206, 10.999939, 869.5039)
+
+[node name="WallMaze84" type="Polygon2D" parent="." unique_id=854848774]
+z_index = -4
+texture_repeat = 2
+position = Vector2(2315.9995, 624.41113)
+rotation = 1.5707964
+scale = Vector2(0.78258955, 0.90724915)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(12, 5.7612305, 29.389648, 6.3029785, 29.389648, 869.3512, 21.82901, 869.88605, 10.999939, 869.5039)
+
+[node name="WallMaze19" type="Polygon2D" parent="." unique_id=385114007]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1498.7468, 1402)
+rotation = -1.5707964
+scale = Vector2(0.9235217, 0.98195106)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-6, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(-3.2485352, 10.828125, 3.248413, 4.331299, 7.57959, 9.745361, 8.662476, 11.911011, 29.23584, 11.459961, 30.318726, 818.0176, 30.318726, 825.14624, 10.828125, 835.3301, 7.5138016, 848.6715, -1.0828857, 848.7068)
+
+[node name="WallMaze3" type="Polygon2D" parent="." unique_id=423027184]
+z_index = -5
+texture_repeat = 2
+position = Vector2(438, 2100)
+scale = Vector2(0.944965, 1)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-90, -43)
+texture_scale = Vector2(-16, -16)
+polygon = PackedVector2Array(0, 1, 600, 1, 598.9381, 1, 598.9381, 8, 606.3717, 19, 598.9381, 32, 598.9381, 37, 600, 40, -9.52417, 40, -7.4076843, 37, -7.4076843, 33, -10.582397, 19, -5.2911987, 8, 0, 8, 0, 5)
+
+[node name="StaticBodyMaze3" type="StaticBody2D" parent="." unique_id=564970362]
 position = Vector2(440, 2100)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze3"]
-position = Vector2(300, 20)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze3" unique_id=164229115]
+position = Vector2(279.5, 20)
 shape = SubResource("RectangleShape2D_j370j")
 
-[node name="WallMaze4" type="Polygon2D" parent="."]
-z_index = -5
-position = Vector2(1000, 1500)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 860, 0, 860)
-
-[node name="StaticBodyMaze4" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze4" type="StaticBody2D" parent="." unique_id=644664044]
 position = Vector2(1000, 1500)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze4" unique_id=1457529556]
 position = Vector2(20, 430)
 shape = SubResource("RectangleShape2D_1t1nk")
 
-[node name="WallMaze5" type="Polygon2D" parent="."]
+[node name="WallMaze5" type="Polygon2D" parent="." unique_id=116958672]
 z_index = -5
+texture_repeat = 2
 position = Vector2(800, 800)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 1000, 0, 1000)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(0, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(0, 3, 40, 4, 40, 999, 3, 999, 3, 996, 3, 992, 0, 992)
 
-[node name="StaticBodyMaze5" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze5" type="StaticBody2D" parent="." unique_id=1353637600]
 position = Vector2(800, 800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze5"]
-position = Vector2(20, 500)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze5" unique_id=1733617218]
+position = Vector2(20, 501)
 shape = SubResource("RectangleShape2D_e11xk")
 
-[node name="WallMaze6" type="Polygon2D" parent="."]
+[node name="WallMaze6" type="Polygon2D" parent="." unique_id=1817196632]
 z_index = -5
+texture_repeat = 2
 position = Vector2(400, 800)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
+scale = Vector2(1.0601288, 1)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-100, -43)
+texture_scale = Vector2(-16, -16)
+polygon = PackedVector2Array(3.7731323, 0, 414.10065, 0, 414.10065, 9, 407.49768, 9, 385.8022, 32, 385.8022, 38, 407.49765, 43, 2.8298645, 40)
 
-[node name="StaticBodyMaze6" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze6" type="StaticBody2D" parent="." unique_id=296370273]
 position = Vector2(400, 800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze6"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze6" unique_id=157691680]
 position = Vector2(200, 20)
 shape = SubResource("RectangleShape2D_qq6yy")
 
-[node name="WallMaze7" type="Polygon2D" parent="."]
+[node name="WallMaze7" type="Polygon2D" parent="." unique_id=79974618]
 z_index = -5
+texture_repeat = 2
 position = Vector2(400, 400)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 400, 0, 400)
+scale = Vector2(1.05, 1.1)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(0, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(0, -3.6363525, 40, -3.6363525, 40, 371.82156, 29.523804, 371.81818, 27.61905, 392.72723, 40, 392.72723, 40, 400, 0, 400)
 
-[node name="StaticBodyMaze7" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze7" type="StaticBody2D" parent="." unique_id=1717444171]
 position = Vector2(400, 400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze7"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze7" unique_id=1794884192]
 position = Vector2(20, 200)
 shape = SubResource("RectangleShape2D_8lwpu")
 
-[node name="WallFortress" type="Polygon2D" parent="."]
+[node name="WallFortress" type="Polygon2D" parent="." unique_id=1383666750]
 z_index = -5
+texture_repeat = 2
 position = Vector2(1500, 600)
-color = Color(0.35, 0.3, 0.25, 1)
+texture = ExtResource("2_muro")
 polygon = PackedVector2Array(0, 0, 800, 0, 800, 800, 0, 800)
 
-[node name="StaticBodyFortress" type="StaticBody2D" parent="."]
+[node name="StaticBodyFortress" type="StaticBody2D" parent="." unique_id=994591859]
 position = Vector2(1500, 600)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyFortress"]
-position = Vector2(400, 400)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyFortress" unique_id=1759254293]
+position = Vector2(420, 396.5)
 shape = SubResource("RectangleShape2D_pv4em")
 
-[node name="WallMaze8" type="Polygon2D" parent="."]
+[node name="WallMaze8" type="Polygon2D" parent="." unique_id=897030614]
 z_index = -5
+texture_repeat = 2
 position = Vector2(1200, 400)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 1000, 0, 1000, 40, 0, 40)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(0, -4)
+texture_scale = Vector2(-15, -15)
+texture_rotation = -3.1415927
+polygon = PackedVector2Array(0, 0, 1003, 0, 1003, 40, 0, 40)
 
-[node name="StaticBodyMaze8" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze8" type="StaticBody2D" parent="." unique_id=858925704]
 position = Vector2(1200, 400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze8"]
-position = Vector2(500, 20)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze8" unique_id=262700996]
+position = Vector2(502, 20)
 shape = SubResource("RectangleShape2D_fm6hb")
 
-[node name="WallMaze9" type="Polygon2D" parent="."]
+[node name="WallMaze9" type="Polygon2D" parent="." unique_id=1567584852]
 z_index = -5
+texture_repeat = 2
 position = Vector2(2300, 40)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 800, 0, 800)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(0, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(1, -4, 7.8972816, -4, 9, -4, 10, -7, 32, -7, 34, -6, 34, -4, 32, -4, 40, -4, 40, 797, 9, 797, 9, 559, 2, 559, 0.29837036, 557.305)
 
-[node name="StaticBodyMaze9" type="StaticBody2D" parent="."]
+[node name="WallMaze20" type="Polygon2D" parent="." unique_id=778428092]
+z_index = -5
+texture_repeat = 2
+position = Vector2(2300, 833.57904)
+scale = Vector2(1, 0.7181348)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(0, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(9, -4.9837646, 40, -4, 40, 790.1315, 1, 790.1315, 6, 753.92676)
+
+[node name="StaticBodyMaze9" type="StaticBody2D" parent="." unique_id=1195062454]
 position = Vector2(2300, 40)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze9"]
-position = Vector2(20, 400)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze9" unique_id=679909361]
+position = Vector2(20, 277)
 shape = SubResource("RectangleShape2D_rm6c8")
 
-[node name="WallMaze10" type="Polygon2D" parent="."]
+[node name="WallMaze10" type="Polygon2D" parent="." unique_id=1832753086]
 z_index = -5
+texture_repeat = 2
 position = Vector2(2600, 800)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 1560, 0, 1560)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(0, -43)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(0, -2, 40, -2, 41, 801, 41, 805, 40, 1561, 41, 1570, 34, 1570, 19, 1577, 9, 1570, 0, 1570)
 
-[node name="StaticBodyMaze10" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze10" type="StaticBody2D" parent="." unique_id=740105542]
 position = Vector2(2600, 800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze10"]
-position = Vector2(20, 780)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze10" unique_id=305955692]
+position = Vector2(20, 777)
 shape = SubResource("RectangleShape2D_oog5g")
 
-[node name="WallMaze11" type="Polygon2D" parent="."]
-z_index = -5
+[node name="WallMaze11" type="Polygon2D" parent="." unique_id=412970166]
+z_index = -3
+texture_repeat = 2
 position = Vector2(2600, 1600)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 800, 0, 800, 40, 0, 40)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(0, -3)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 3.1415927
+polygon = PackedVector2Array(42, 0, 805, 0, 808, 2, 808, 5, 808, 6, 808, 8, 815, 21, 808, 33, 808, 38, 805, 38, 808, 41, 32, 40, 32, 32, 23, 28, 32, 8, 32, 0, 40, 0, 39, 8, 39, 3)
 
-[node name="StaticBodyMaze11" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze11" type="StaticBody2D" parent="." unique_id=1336074707]
 position = Vector2(2600, 1600)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze11"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze11" unique_id=115643051]
 position = Vector2(400, 20)
 shape = SubResource("RectangleShape2D_12253")
 
-[node name="WallMaze12" type="Polygon2D" parent="."]
+[node name="WallMaze12" type="Polygon2D" parent="." unique_id=987848518]
 z_index = -5
+texture_repeat = 2
 position = Vector2(3400, 1200)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 1160, 0, 1160)
+scale = Vector2(0.99488056, 0.99488056)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-100, -3)
+texture_scale = Vector2(-16, -16)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(1.005127, -4.020508, 40.20581, -4.020508, 38.195557, 1172.0001, 31.159668, 1172.0001, 31.159668, 1177.0258, 27.138916, 1180.0411, 12.061768, 1179.036, 6.965523, 1172.284, 1, 1172, 0.99026585, 1160.5917)
 
-[node name="StaticBodyMaze12" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze12" type="StaticBody2D" parent="." unique_id=248717502]
 position = Vector2(3400, 1200)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze12"]
-position = Vector2(20, 580)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze12" unique_id=852589433]
+position = Vector2(20, 575.5)
 shape = SubResource("RectangleShape2D_1ufmn")
 
-[node name="WallMaze13" type="Polygon2D" parent="."]
-z_index = -5
+[node name="WallMaze13" type="Polygon2D" parent="." unique_id=500900643]
+z_index = -3
+texture_repeat = 2
 position = Vector2(2800, 400)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 800, 0, 800, 40, 0, 40)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(0, -3)
+texture_scale = Vector2(-16, -16)
+texture_rotation = -3.1415927
+polygon = PackedVector2Array(-4, 0, 841, 0, 839, 2, 839, 7, 833, 7, 811, 32, 807, 32, 807, 40, 804, 40, -4, 40)
 
-[node name="StaticBodyMaze13" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze13" type="StaticBody2D" parent="." unique_id=1015651311]
 position = Vector2(2800, 400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze13"]
-position = Vector2(400, 20)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze13" unique_id=469935080]
+position = Vector2(396.5, 20)
 shape = SubResource("RectangleShape2D_sbojv")
 
-[node name="WallMaze14" type="Polygon2D" parent="."]
-z_index = -5
+[node name="WallMaze14" type="Polygon2D" parent="." unique_id=2143064663]
+z_index = -3
+texture_repeat = 2
 position = Vector2(3200, 700)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(0, -3)
+texture_scale = Vector2(-16, -16)
+texture_rotation = -3.1415927
+polygon = PackedVector2Array(-4, 1, 400, 0, 433, 33, 439, 38, 439, 40, 400, 40, -5, 40)
 
-[node name="StaticBodyMaze14" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze14" type="StaticBody2D" parent="." unique_id=1247661252]
 position = Vector2(3200, 700)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze14"]
-position = Vector2(200, 20)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze14" unique_id=214825515]
+position = Vector2(194, 20)
 shape = SubResource("RectangleShape2D_kvnmv")
 
-[node name="WallMaze15" type="Polygon2D" parent="."]
+[node name="WallMaze15" type="Polygon2D" parent="." unique_id=1508049718]
 z_index = -5
-position = Vector2(3600, 400)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 340, 0, 340)
+texture_repeat = 2
+position = Vector2(3600, 395.89124)
+scale = Vector2(1.0120846, 1.0120846)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-100, -3)
+texture_scale = Vector2(-16, -16)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(0, 9, 41, 11, 38.534424, 338.02386, 38.534424, 338.02386, 0, 338.02386)
 
-[node name="StaticBodyMaze15" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze15" type="StaticBody2D" parent="." unique_id=1370354911]
 position = Vector2(3600, 400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze15"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze15" unique_id=1053830926]
 position = Vector2(20, 170)
 shape = SubResource("RectangleShape2D_yufs2")
 
-[node name="WallMaze16" type="Polygon2D" parent="."]
-z_index = -5
-position = Vector2(3200, 440)
-color = Color(0.35, 0.3, 0.25, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 100, 0, 100)
+[node name="WallMaze16" type="Polygon2D" parent="." unique_id=1879704717]
+z_index = -2
+texture_repeat = 2
+position = Vector2(3195, 437)
+texture = ExtResource("5_anyv0")
+texture_offset = Vector2(-100, 0)
+texture_scale = Vector2(-16, -16)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(2, -3, 9, -3, 9, -5, 15, -10, 34, -8, 34, -5, 35, -3, 41, -3, 43, 104, 1, 104)
 
-[node name="StaticBodyMaze16" type="StaticBody2D" parent="."]
+[node name="StaticBodyMaze16" type="StaticBody2D" parent="." unique_id=1544875544]
 position = Vector2(3200, 440)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze16"]
-position = Vector2(20, 50)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMaze16" unique_id=581875620]
+position = Vector2(17, 53)
 shape = SubResource("RectangleShape2D_l04mo")
 
-[node name="Shadow1" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 200.0
-offset_top = 2000.0
-offset_right = 300.0
-offset_bottom = 2080.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent1" type="Sprite2D" parent="." unique_id=1225023167]
+z_index = 2
+position = Vector2(224, 2006)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_barraca1")
 
-[node name="Shadow2" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 605.0
-offset_top = 2198.0
-offset_right = 685.0
-offset_bottom = 2278.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent2" type="Sprite2D" parent="." unique_id=1365544654]
+z_index = 2
+position = Vector2(645, 2238)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("5_barraca2")
 
-[node name="Shadow3" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 850.0
-offset_top = 1200.0
-offset_right = 950.0
-offset_bottom = 1300.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent3" type="Sprite2D" parent="." unique_id=1565560772]
+z_index = 2
+position = Vector2(900, 1250)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("6_barraca3")
 
-[node name="Shadow4" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 450.0
-offset_top = 600.0
-offset_right = 530.0
-offset_bottom = 680.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent4" type="Sprite2D" parent="." unique_id=1153435096]
+z_index = 2
+position = Vector2(490, 640)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("7_barraca4")
 
-[node name="Shadow5" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 1100.0
-offset_top = 1600.0
-offset_right = 1180.0
-offset_bottom = 1700.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent5" type="Sprite2D" parent="." unique_id=418977694]
+z_index = 2
+position = Vector2(1140, 1650)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("8_barraca5")
 
-[node name="Shadow6" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 1300.0
-offset_top = 500.0
-offset_right = 1400.0
-offset_bottom = 580.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent6" type="Sprite2D" parent="." unique_id=1996245636]
+z_index = 2
+position = Vector2(1350, 540)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_barraca1")
 
-[node name="Shadow7" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 2400.0
-offset_top = 900.0
-offset_right = 2480.0
-offset_bottom = 980.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent7" type="Sprite2D" parent="." unique_id=1894162585]
+z_index = 2
+position = Vector2(2440, 940)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("5_barraca2")
 
-[node name="Shadow8" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 2700.0
-offset_top = 1800.0
-offset_right = 2800.0
-offset_bottom = 1880.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent8" type="Sprite2D" parent="." unique_id=544765984]
+z_index = 2
+position = Vector2(2750, 1840)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("6_barraca3")
 
-[node name="Shadow9" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 3100.0
-offset_top = 1400.0
-offset_right = 3180.0
-offset_bottom = 1500.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent9" type="Sprite2D" parent="." unique_id=713894639]
+z_index = 2
+position = Vector2(3140, 1450)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("7_barraca4")
 
-[node name="Shadow10" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 3500.0
-offset_top = 1000.0
-offset_right = 3580.0
-offset_bottom = 1080.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent10" type="Sprite2D" parent="." unique_id=1076091958]
+z_index = 2
+position = Vector2(3540, 1040)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("8_barraca5")
 
-[node name="Shadow11" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 2900.0
-offset_top = 200.0
-offset_right = 3000.0
-offset_bottom = 300.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent11" type="Sprite2D" parent="." unique_id=337581780]
+z_index = 2
+position = Vector2(2950, 250)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_barraca1")
 
-[node name="Shadow12" type="ColorRect" parent="."]
-z_index = -1
-offset_left = 3700.0
-offset_top = 500.0
-offset_right = 3780.0
-offset_bottom = 580.0
-color = Color(0, 0, 0, 0.35)
+[node name="Tent12" type="Sprite2D" parent="." unique_id=390773350]
+z_index = 2
+position = Vector2(3740, 540)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("5_barraca2")
 
-[node name="Horse" type="Node2D" parent="."]
-position = Vector2(120, 2250)
+[node name="Horse" type="Sprite2D" parent="." unique_id=381192841]
+z_index = -2
+position = Vector2(110, 2220)
+scale = Vector2(0.13, 0.13)
+texture = ExtResource("9_tmbgy")
 
-[node name="HorseVisual" type="Polygon2D" parent="Horse"]
-color = Color(0.55, 0.4, 0.22, 1)
-polygon = PackedVector2Array(-40, 0, 40, 0, 50, -60, 20, -90, -10, -70, -40, -50)
+[node name="StaticBodyHorse" type="StaticBody2D" parent="." unique_id=226143224]
+position = Vector2(110, 2250)
+collision_mask = 0
 
-[node name="GateVisual" type="Polygon2D" parent="."]
-position = Vector2(3940, 200)
-color = Color(0.2, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 60, 0, 60, 160, 0, 160)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBodyHorse" unique_id=839534831]
+position = Vector2(0, -104.06247)
+scale = Vector2(1, 4.770833)
+polygon = PackedVector2Array(-70, 30, 0.8430023, 30, 70, 30, 70, 0, -70, 0)
 
-[node name="GateArea" type="Area2D" parent="."]
+[node name="GateVisual" type="Polygon2D" parent="." unique_id=1041099165]
+position = Vector2(3959, 192.99998)
+scale = Vector2(0.92630327, 0.92630345)
+texture = ExtResource("11_q0k6i")
+texture_offset = Vector2(70, 50)
+texture_scale = Vector2(6, 6)
+polygon = PackedVector2Array(-12.95459, 8.636505, 52.898438, 9.716064, 55.057617, 128.46765, -7.5566406, 129.54721)
+
+[node name="GateArea" type="Area2D" parent="." unique_id=411894315]
 position = Vector2(3940, 200)
 collision_layer = 3
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GateArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GateArea" unique_id=892720678]
+visible = false
 position = Vector2(30, 80)
 shape = SubResource("RectangleShape2D_uvscy")
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="Decorations" type="Node2D" parent="." unique_id=2037166297]
+z_index = -3
+scale = Vector2(0.028, 0.028)
 
-[node name="BarBG" type="ColorRect" parent="UILayer"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 310.0
-offset_bottom = 54.0
+[node name="Campfire2" type="Sprite2D" parent="Decorations" unique_id=820120461]
+position = Vector2(780, 2200)
+scale = Vector2(0.028, 0.028)
+texture = ExtResource("11_fogueira")
+
+[node name="Campfire3" type="Sprite2D" parent="Decorations" unique_id=1777301335]
+position = Vector2(750, 1350)
+scale = Vector2(0.028, 0.028)
+texture = ExtResource("11_fogueira")
+
+[node name="Campfire4" type="Sprite2D" parent="Decorations" unique_id=212109141]
+position = Vector2(600, 550)
+scale = Vector2(0.028, 0.028)
+texture = ExtResource("11_fogueira")
+
+[node name="Campfire5" type="Sprite2D" parent="Decorations" unique_id=920861403]
+position = Vector2(1260, 1550)
+scale = Vector2(0.028, 0.028)
+texture = ExtResource("11_fogueira")
+
+[node name="Campfire6" type="Sprite2D" parent="Decorations" unique_id=635462290]
+position = Vector2(1500, 480)
+scale = Vector2(0.028, 0.028)
+texture = ExtResource("11_fogueira")
+
+[node name="Campfire7" type="Sprite2D" parent="Decorations" unique_id=663566417]
+position = Vector2(2100, 1100)
+scale = Vector2(0.028, 0.028)
+texture = ExtResource("11_fogueira")
+
+[node name="Campfire8" type="Sprite2D" parent="Decorations" unique_id=1169188876]
+position = Vector2(2550, 1750)
+scale = Vector2(0.028, 0.028)
+texture = ExtResource("11_fogueira")
+
+[node name="Campfire9" type="Sprite2D" parent="Decorations" unique_id=1775375922]
+position = Vector2(3250, 1350)
+scale = Vector2(0.028, 0.028)
+texture = ExtResource("11_fogueira")
+
+[node name="Campfire10" type="Sprite2D" parent="Decorations" unique_id=543325702]
+position = Vector2(3400, 950)
+scale = Vector2(0.028, 0.028)
+texture = ExtResource("11_fogueira")
+
+[node name="Campfire11" type="Sprite2D" parent="Decorations" unique_id=1675383752]
+position = Vector2(3100, 300)
+scale = Vector2(0.028, 0.028)
+texture = ExtResource("11_fogueira")
+
+[node name="Campfire12" type="Sprite2D" parent="Decorations" unique_id=1270629576]
+position = Vector2(3650, 450)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_escudo1")
+
+[node name="Espada1" type="Sprite2D" parent="Decorations" unique_id=1191431270]
+position = Vector2(420, 2020)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_espada")
+
+[node name="Capacete1" type="Sprite2D" parent="Decorations" unique_id=1780992892]
+position = Vector2(550, 2280)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_capacete")
+
+[node name="Peitoral1" type="Sprite2D" parent="Decorations" unique_id=851415508]
+position = Vector2(850, 1400)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_peitoral")
+
+[node name="Lanca1" type="Sprite2D" parent="Decorations" unique_id=1241647410]
+position = Vector2(700, 1150)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_lanca1")
+
+[node name="Escudo2" type="Sprite2D" parent="Decorations" unique_id=2008463533]
+position = Vector2(380, 720)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_escudo2")
+
+[node name="Flecha1" type="Sprite2D" parent="Decorations" unique_id=1668412005]
+position = Vector2(580, 700)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_flecha")
+
+[node name="BandeiraQ1" type="Sprite2D" parent="Decorations" unique_id=2023807857]
+position = Vector2(1020, 1720)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("d_bandeira")
+
+[node name="Pedras1" type="Sprite2D" parent="Decorations" unique_id=1543315977]
+position = Vector2(1220, 1600)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("d_pedras")
+
+[node name="Lanca2" type="Sprite2D" parent="Decorations" unique_id=1433025195]
+position = Vector2(1420, 620)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_lanca2")
+
+[node name="Espada2" type="Sprite2D" parent="Decorations" unique_id=761547414]
+position = Vector2(1280, 460)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_espada")
+
+[node name="Capacete2" type="Sprite2D" parent="Decorations" unique_id=751089967]
+position = Vector2(1950, 1200)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_capacete")
+
+[node name="Peitoral2" type="Sprite2D" parent="Decorations" unique_id=1359213021]
+position = Vector2(2250, 1050)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_peitoral")
+
+[node name="Lanca3" type="Sprite2D" parent="Decorations" unique_id=1193277995]
+position = Vector2(2350, 980)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_lanca1")
+
+[node name="Escudo3" type="Sprite2D" parent="Decorations" unique_id=1848323449]
+position = Vector2(2650, 1900)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_escudo1")
+
+[node name="Flecha2" type="Sprite2D" parent="Decorations" unique_id=1598604081]
+position = Vector2(2850, 1780)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_flecha")
+
+[node name="Pedras2" type="Sprite2D" parent="Decorations" unique_id=1336887787]
+position = Vector2(3050, 1520)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("d_pedras")
+
+[node name="Capacete3" type="Sprite2D" parent="Decorations" unique_id=2105346743]
+position = Vector2(3250, 1480)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_capacete")
+
+[node name="Lanca4" type="Sprite2D" parent="Decorations" unique_id=1368485653]
+position = Vector2(3450, 1100)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_lanca2")
+
+[node name="Peitoral3" type="Sprite2D" parent="Decorations" unique_id=1540858725]
+position = Vector2(3650, 980)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_peitoral")
+
+[node name="BandeiraQ2" type="Sprite2D" parent="Decorations" unique_id=1232759963]
+position = Vector2(2850, 320)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("d_bandeira")
+
+[node name="Espada3" type="Sprite2D" parent="Decorations" unique_id=153061883]
+position = Vector2(3050, 200)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_espada")
+
+[node name="Escudo4" type="Sprite2D" parent="Decorations" unique_id=1465892358]
+position = Vector2(3800, 300)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("d_escudo2")
+
+[node name="Flecha3" type="Sprite2D" parent="Decorations" unique_id=2061060235]
+position = Vector2(3820, 500)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("12_barris")
+
+[node name="Barris2" type="Sprite2D" parent="Decorations" unique_id=59412317]
+position = Vector2(700, 2150)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("12_barris")
+
+[node name="Barris3" type="Sprite2D" parent="Decorations" unique_id=1611030168]
+position = Vector2(960, 1180)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("12_barris")
+
+[node name="Barris4" type="Sprite2D" parent="Decorations" unique_id=1027506033]
+position = Vector2(430, 580)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("12_barris")
+
+[node name="Barris5" type="Sprite2D" parent="Decorations" unique_id=225478642]
+position = Vector2(1200, 1700)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("12_barris")
+
+[node name="Barris6" type="Sprite2D" parent="Decorations" unique_id=1245224288]
+position = Vector2(2500, 880)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("12_barris")
+
+[node name="Barris7" type="Sprite2D" parent="Decorations" unique_id=378574905]
+position = Vector2(2800, 1750)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("12_barris")
+
+[node name="Barris8" type="Sprite2D" parent="Decorations" unique_id=1119027581]
+position = Vector2(3200, 1380)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("12_barris")
+
+[node name="Barris9" type="Sprite2D" parent="Decorations" unique_id=1072238470]
+position = Vector2(3600, 1100)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("12_barris")
+
+[node name="Barris10" type="Sprite2D" parent="Decorations" unique_id=67517913]
+position = Vector2(3800, 440)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("12_barris")
+
+[node name="Estandarte1" type="Sprite2D" parent="Decorations" unique_id=271105833]
+position = Vector2(1600, 100)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("14_estandarte_g")
+
+[node name="Estandarte2" type="Sprite2D" parent="Decorations" unique_id=1083606598]
+position = Vector2(2300, 100)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("14_estandarte_g")
+
+[node name="Estandarte3" type="Sprite2D" parent="Decorations" unique_id=1515804668]
+position = Vector2(2000, 1000)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("14_estandarte_g")
+
+[node name="Estandarte4" type="Sprite2D" parent="Decorations" unique_id=584007964]
+position = Vector2(3900, 100)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("14_estandarte_g")
+
+[node name="Vasos1" type="Sprite2D" parent="Decorations" unique_id=557403680]
+position = Vector2(300, 2100)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("17_vasos")
+
+[node name="Vasos2" type="Sprite2D" parent="Decorations" unique_id=413853000]
+position = Vector2(820, 1280)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("17_vasos")
+
+[node name="Vasos3" type="Sprite2D" parent="Decorations" unique_id=1001593573]
+position = Vector2(1400, 500)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("17_vasos")
+
+[node name="Vasos4" type="Sprite2D" parent="Decorations" unique_id=452297704]
+position = Vector2(2700, 1820)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("17_vasos")
+
+[node name="Vasos5" type="Sprite2D" parent="Decorations" unique_id=337056790]
+position = Vector2(3500, 1020)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaCentro1" type="Sprite2D" parent="Decorations" unique_id=1423772475]
+position = Vector2(2360, 840)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaLeste1" type="Sprite2D" parent="Decorations" unique_id=2022173832]
+position = Vector2(3460, 1240)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaPortao1" type="Sprite2D" parent="Decorations" unique_id=1502493707]
+position = Vector2(3900, 190)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="TochaPortao2" type="Sprite2D" parent="Decorations" unique_id=1953284746]
+position = Vector2(3900, 370)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_tocha")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=83109349]
+
+[node name="BarBG" type="ColorRect" parent="UILayer" unique_id=372023613]
+offset_left = 13.0
+offset_top = 14.0
+offset_right = 313.0
+offset_bottom = 58.0
 color = Color(0, 0, 0, 0.55)
 
-[node name="SuspicionLabel" type="Label" parent="UILayer"]
-offset_left = 18.0
-offset_top = 12.0
-offset_right = 18.0
-offset_bottom = 12.0
+[node name="SuspicionLabel" type="Label" parent="UILayer" unique_id=1962413783]
+offset_left = 26.0
+offset_top = 13.0
+offset_right = 105.0
+offset_bottom = 31.0
 theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
 theme_override_font_sizes/font_size = 13
 text = "👁  Suspeita"
 
-[node name="SuspicionBar" type="ProgressBar" parent="UILayer"]
-offset_left = 18.0
-offset_top = 28.0
-offset_right = 290.0
-offset_bottom = 55.0
+[node name="SuspicionBar" type="ProgressBar" parent="UILayer" unique_id=1906599401]
+offset_left = 14.0
+offset_top = 29.0
+offset_right = 286.0
+offset_bottom = 56.0
 theme_override_styles/background = SubResource("StyleBoxFlat_63qfg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_lsn0v")
 show_percentage = false
 
-[node name="GateUIContainer" type="Control" parent="UILayer"]
+[node name="GateUIContainer" type="Control" parent="UILayer" unique_id=1273441079]
 visible = false
 layout_mode = 3
 anchors_preset = 0
 
-[node name="GatePrompt" type="Label" parent="UILayer/GateUIContainer"]
+[node name="GatePrompt" type="Label" parent="UILayer/GateUIContainer" unique_id=206170890]
 layout_mode = 0
 offset_left = 370.0
 offset_top = 480.0
@@ -575,7 +1931,7 @@ theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
 theme_override_font_sizes/font_size = 20
 text = "ESMAGUE [ESPAÇO] PARA ABRIR O PORTÃO!"
 
-[node name="GateProgressBar" type="ProgressBar" parent="UILayer/GateUIContainer"]
+[node name="GateProgressBar" type="ProgressBar" parent="UILayer/GateUIContainer" unique_id=75032446]
 layout_mode = 0
 offset_left = 376.0
 offset_top = 510.0
@@ -583,7 +1939,7 @@ offset_right = 776.0
 offset_bottom = 537.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_tmvhl")
 
-[node name="MessageBG" type="ColorRect" parent="UILayer"]
+[node name="MessageBG" type="ColorRect" parent="UILayer" unique_id=205344631]
 visible = false
 offset_left = 326.0
 offset_top = 264.0
@@ -591,7 +1947,7 @@ offset_right = 826.0
 offset_bottom = 384.0
 color = Color(0, 0, 0, 0.72)
 
-[node name="MessageLabel" type="Label" parent="UILayer"]
+[node name="MessageLabel" type="Label" parent="UILayer" unique_id=2021431339]
 visible = false
 offset_left = 336.0
 offset_top = 274.0
@@ -603,13 +1959,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="HintBG" type="ColorRect" parent="UILayer"]
+[node name="HintBG" type="ColorRect" parent="UILayer" unique_id=1964784673]
 offset_top = 620.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 0.45)
 
-[node name="HintLabel" type="Label" parent="UILayer"]
+[node name="HintLabel" type="Label" parent="UILayer" unique_id=1293921281]
 offset_left = 12.0
 offset_top = 624.0
 offset_right = 12.0

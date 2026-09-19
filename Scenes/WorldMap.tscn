@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://c7k3v2p5s8b9n"]
+[gd_scene format=3 uid="uid://c7k3v2p5s8can"]
 
 [ext_resource type="Script" path="res://Code/WorldMap.gd" id="1_map"]
 [ext_resource type="Texture2D" uid="uid://mapbg" path="res://Assets/world_map_bg.jpg" id="2_bg"]
