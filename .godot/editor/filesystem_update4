@@ -1,4 +1,8 @@
-res://Ato3_Ciclope/Act3_CyclopsBossFight.gd
-res://Ato3_Ciclope/CyclopsBoss.gd
-res://Code/Ally.gd
-res://Ato3_Ciclope/Cutscenes/Act3_BlindingCutscene.gd
+res://Code/MapPlayer.gd
+res://Code/TitleScreen.gd
+res://Code/AudioManager.gd
+res://Code/PauseMenu.gd
+res://Code/Arrow.gd
+res://Code/Boss.gd
+res://Code/Guard.gd
+res://Code/Player.gd

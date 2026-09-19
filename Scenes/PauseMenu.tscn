@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" path="res://Code/PauseMenu.gd" id="1_pause"]
 
+[ext_resource type="PackedScene" uid="uid://s8x9m2p1v0n4k" path="res://Scenes/SettingsMenu.tscn" id="2_set"]
+
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
 layer = 120
@@ -69,8 +71,17 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Reiniciar Estação (R)"
 
+[node name="OptionsBtn" type="Button" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Opções de Áudio"
+
 [node name="MenuBtn" type="Button" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Menu Principal"
+
+[node name="SettingsMenu" parent="." instance=ExtResource("2_set")]
+visible = false

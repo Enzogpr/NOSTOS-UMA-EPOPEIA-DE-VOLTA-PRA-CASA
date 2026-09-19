@@ -290,6 +290,7 @@ func _attack_player() -> void:
 
 func take_damage(amount: int) -> void:
 	if not GameManager.combat_mode: return
+	AudioManager.play_damage_sfx()
 	health -= amount
 	if health <= 0:
 		queue_free()

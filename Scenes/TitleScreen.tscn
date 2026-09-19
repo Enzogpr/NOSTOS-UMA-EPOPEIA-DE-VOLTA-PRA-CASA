@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Code/TitleScreen.gd" id="1_uebgo"]
 [ext_resource type="Texture2D" uid="uid://titlethemebg001" path="res://Assets/title_bg.png" id="2_bg"]
 [ext_resource type="Texture2D" uid="uid://logonostos001" path="res://Assets/logo.png" id="3_logo"]
+[ext_resource type="PackedScene" uid="uid://s8x9m2p1v0n4k" path="res://Scenes/SettingsMenu.tscn" id="4_set"]
 
 [sub_resource type="Gradient" id="Gradient_bottom"]
 colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.75)
@@ -93,24 +94,42 @@ text = "NOSTOS: UMA EPOPEIA DE VOLTA PRA CASA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SubtitleLabel" type="Label" parent="."]
+[node name="MenuVBox" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -300.0
-offset_top = -90.0
-offset_right = 300.0
-offset_bottom = -45.0
+offset_left = -150.0
+offset_top = -180.0
+offset_right = 150.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.95)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 20
-text = "Pressione qualquer botão para jogar"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="BtnNovoJogo" type="Button" parent="MenuVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Novo Jogo"
+
+[node name="BtnContinuar" type="Button" parent="MenuVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Continuar"
+
+[node name="BtnOpcoes" type="Button" parent="MenuVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Opções"
+
+[node name="BtnSair" type="Button" parent="MenuVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Sair"
+
+[node name="SettingsMenu" parent="." instance=ExtResource("4_set")]
+visible = false
+layout_mode = 1

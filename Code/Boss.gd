@@ -231,6 +231,7 @@ func _summon_guards() -> void:
 
 func take_damage(amount: int) -> void:
 	if GameManager.game_over: return
+	AudioManager.play_damage_sfx()
 	
 	current_hp -= amount
 	if _level.has_method("update_boss_health"):

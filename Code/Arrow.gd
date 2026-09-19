@@ -5,6 +5,7 @@ var direction: Vector2 = Vector2.ZERO
 var lifetime: float = 3.0
 
 func _ready() -> void:
+	AudioManager.play_bow_sfx()
 	collision_layer = 0
 	collision_mask = 2 # Player
 	body_entered.connect(_on_body_entered)
