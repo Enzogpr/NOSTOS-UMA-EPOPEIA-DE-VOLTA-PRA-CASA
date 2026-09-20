@@ -1,0 +1,16 @@
+res://Ato1_Troia/Fase1_PortaoDeTroia.gd
+res://Ato1_Troia/Fase2_Invasao.gd
+res://Ato1_Troia/Fase3_ReiDeTroia.gd
+res://Ato1_Troia/Cutscenes/Act1_EndingCutscene.gd
+res://Ato2_Lotofagos/Cutscenes/Act2_EndingCutscene.gd
+res://Ato3_Ciclope/Act3_CyclopsBossFight.gd
+res://Ato3_Ciclope/Cutscenes/Act3_EndingCard.gd
+res://Code/Arrow.gd
+res://Code/Boss.gd
+res://Code/GameManager.gd
+res://Code/Guard.gd
+res://Code/MainHUD.gd
+res://Code/PauseMenu.gd
+res://Code/Player.gd
+res://Code/PlayerStatsMenu.gd
+res://Code/TitleScreen.gd

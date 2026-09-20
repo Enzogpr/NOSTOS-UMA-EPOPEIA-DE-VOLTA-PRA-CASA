@@ -262,6 +262,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _dash() -> void:
+	AudioManager.play_dash_sfx()
 	is_dashing = true
 	_dash_timer.start(0.2)
 	_dash_cooldown.start(GameManager.player_dash_cooldown)
@@ -286,6 +287,7 @@ func _dash() -> void:
 
 
 func _attack() -> void:
+	AudioManager.play_sword_sfx()
 	is_attacking = true
 	_attack_timer.start(0.4)
 
@@ -312,6 +314,8 @@ func _attack() -> void:
 func take_damage(amount: int) -> void:
 	if GameManager.game_over or not GameManager.combat_mode:
 		return
+		
+	AudioManager.play_damage_sfx()
 	GameManager.player_current_hp -= amount
 	current_hp = GameManager.player_current_hp
 	GameManager.player_health_changed.emit(current_hp)

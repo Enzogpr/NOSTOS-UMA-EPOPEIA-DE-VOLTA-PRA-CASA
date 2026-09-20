@@ -86,5 +86,6 @@ func _show_act_ending() -> void:
 	tween.tween_property(end_subtitle, "modulate:a", 0.0, 1.5)
 	tween.tween_interval(1.0)
 	tween.tween_callback(func():
-		get_tree().change_scene_to_file("res://Ato3_Ciclope/Cutscenes/Act3_TitleCard.tscn")
+		GameManager.unlock_level(3)
+		get_tree().change_scene_to_file("res://Scenes/WorldMap.tscn")
 	)

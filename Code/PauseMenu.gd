@@ -2,12 +2,15 @@ extends CanvasLayer
 
 @onready var resume_btn: Button = $Panel/VBoxContainer/ResumeBtn
 @onready var restart_btn: Button = $Panel/VBoxContainer/RestartBtn
+@onready var options_btn: Button = $Panel/VBoxContainer/OptionsBtn
 @onready var menu_btn: Button = $Panel/VBoxContainer/MenuBtn
+@onready var settings_menu: Control = $SettingsMenu
 
 func _ready() -> void:
 	visible = false
 	resume_btn.pressed.connect(_on_resume_pressed)
 	restart_btn.pressed.connect(_on_restart_pressed)
+	options_btn.pressed.connect(func(): settings_menu.open_settings())
 	menu_btn.pressed.connect(_on_menu_pressed)
 
 func _unhandled_input(event: InputEvent) -> void:

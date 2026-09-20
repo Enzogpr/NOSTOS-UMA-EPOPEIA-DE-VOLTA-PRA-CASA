@@ -99,5 +99,6 @@ func _on_drop_pressed() -> void:
 	tween.tween_interval(1.0)
 	
 	tween.tween_callback(func():
-		get_tree().change_scene_to_file("res://Ato2_Lotofagos/Cutscenes/Act2_TitleCard.tscn")
+		GameManager.unlock_level(2)
+		get_tree().change_scene_to_file("res://Scenes/WorldMap.tscn")
 	)

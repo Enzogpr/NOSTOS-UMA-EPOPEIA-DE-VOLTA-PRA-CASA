@@ -29,6 +29,9 @@ var guard_detection_mult: float = 1.0
 
 var inventory: Array = []
 
+var highest_unlocked_level: int = 1
+const SAVE_FILE_PATH: String = "user://odisseia_save.json"
+
 func add_item(id: String, item_name: String, icon_path: String, description: String, usage: String) -> void:
 	for item in inventory:
 		if item["id"] == id:
@@ -105,10 +108,65 @@ func reset() -> void:
 	player_dash_cooldown = 3.0
 	player_intellect = 5
 	guard_detection_mult = 1.0
+	highest_unlocked_level = 1
+	inventory = []
 	
 	suspicion_changed.emit(suspicion)
 	player_stats_changed.emit()
 	player_health_changed.emit(player_current_hp)
+
+func unlock_level(level: int) -> void:
+	if level > highest_unlocked_level:
+		highest_unlocked_level = level
+		save_game()
+
+func save_game() -> void:
+	var save_data = {
+		"highest_unlocked_level": highest_unlocked_level,
+		"player_age": player_age,
+		"player_max_hp": player_max_hp,
+		"player_current_hp": player_current_hp,
+		"player_speed_mult": player_speed_mult,
+		"player_damage": player_damage,
+		"player_dash_cooldown": player_dash_cooldown,
+		"player_intellect": player_intellect,
+		"guard_detection_mult": guard_detection_mult,
+		"inventory": inventory
+	}
+	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
+	if file:
+		file.store_string(JSON.stringify(save_data))
+		file.close()
+
+func load_game() -> bool:
+	if not FileAccess.file_exists(SAVE_FILE_PATH):
+		return false
+	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
+	if file:
+		var content = file.get_as_text()
+		file.close()
+		var json = JSON.new()
+		var err = json.parse(content)
+		if err == OK:
+			var data = json.get_data()
+			highest_unlocked_level = data.get("highest_unlocked_level", 1)
+			player_age = data.get("player_age", 20)
+			player_max_hp = data.get("player_max_hp", 10)
+			player_current_hp = data.get("player_current_hp", 10)
+			player_speed_mult = data.get("player_speed_mult", 1.0)
+			player_damage = data.get("player_damage", 3)
+			player_dash_cooldown = data.get("player_dash_cooldown", 3.0)
+			player_intellect = data.get("player_intellect", 5)
+			guard_detection_mult = data.get("guard_detection_mult", 1.0)
+			inventory = data.get("inventory", [])
+			
+			player_stats_changed.emit()
+			player_health_changed.emit(player_current_hp)
+			return true
+	return false
+
+func has_save_file() -> bool:
+	return FileAccess.file_exists(SAVE_FILE_PATH)
 
 func enable_combat_mode() -> void:
 	combat_mode = true
