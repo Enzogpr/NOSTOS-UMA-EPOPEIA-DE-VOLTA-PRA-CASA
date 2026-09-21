@@ -22,10 +22,6 @@ PauseMenu="*res://Scenes/PauseMenu.tscn"
 PlayerStatsMenu="*res://Scenes/PlayerStatsMenu.tscn"
 MainHUD="*res://Scenes/MainHUD.tscn"
 
-[audio]
-
-buses/default_bus_layout="res://default_bus_layout.tres"
-
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

@@ -81,8 +81,13 @@ func _ready() -> void:
 	_dash_timer.timeout.connect(
 		func():
 			is_dashing = false
-			if visual:
-				visual.modulate = Color(1, 1, 1),
+			var anim_spr = get_node_or_null("AttackAnimSprite")
+			if anim_spr and not is_attacking:
+				anim_spr.visible = false
+			if is_instance_valid(visual):
+				visual.modulate = Color(1, 1, 1)
+				if not is_attacking:
+					visual.visible = true,
 	)
 	add_child(_dash_timer)
 
@@ -115,35 +120,69 @@ func _setup_animations() -> void:
 
 	var frames = SpriteFrames.new()
 
-	# Cria a animação de ataque lateral
+	# Cria a animação de ataque lateral (side)
 	frames.add_animation("attack")
 	frames.set_animation_loop("attack", false)
 	frames.set_animation_speed("attack", 20.0)
 
-	for i in range(1, 9):
-		var path = "res://Assets/animations/odisseuAtack_frame_%d.png" % i
+	for i in range(6): # 0 a 5
+		var path = "res://Assets/odisseu/attacks_animations/odisseu_attack_side_frame_%d.png" % i
 		if ResourceLoader.exists(path):
 			frames.add_frame("attack", load(path))
 
-	# Cria a animação de ataque para cima
+	# Cria a animação de ataque para baixo (down)
+	frames.add_animation("attack_down")
+	frames.set_animation_loop("attack_down", false)
+	frames.set_animation_speed("attack_down", 20.0)
+
+	for i in range(6): # 0 a 5
+		var path = "res://Assets/odisseu/attacks_animations/odisseu_attack_down_frame_%d.png" % i
+		if ResourceLoader.exists(path):
+			frames.add_frame("attack_down", load(path))
+
+	# Cria a animação de ataque para cima (up)
 	frames.add_animation("attack_up")
 	frames.set_animation_loop("attack_up", false)
 	frames.set_animation_speed("attack_up", 20.0)
 
-	for i in range(1, 9):
-		var path = "res://Assets/animations/odisseuAtackup_frame_%d.png" % i
+	for i in range(6): # 0 a 5
+		var path = "res://Assets/odisseu/attacks_animations/odisseu_attack_up_frame_%d.png" % i
 		if ResourceLoader.exists(path):
 			frames.add_frame("attack_up", load(path))
+
+	# === ANIMAÇÕES DE DASH ===
+	frames.add_animation("dash_side")
+	frames.set_animation_loop("dash_side", false)
+	frames.set_animation_speed("dash_side", 20.0)
+	for i in range(4):
+		var path = "res://Assets/odisseu/attacks_animations/odisseu_dash_side_frame_%d.png" % i
+		if ResourceLoader.exists(path):
+			frames.add_frame("dash_side", load(path))
+
+	frames.add_animation("dash_down")
+	frames.set_animation_loop("dash_down", false)
+	frames.set_animation_speed("dash_down", 20.0)
+	for i in range(4):
+		var path = "res://Assets/odisseu/attacks_animations/odisseu_dash_down_frame_%d.png" % i
+		if ResourceLoader.exists(path):
+			frames.add_frame("dash_down", load(path))
+
+	frames.add_animation("dash_up")
+	frames.set_animation_loop("dash_up", false)
+	frames.set_animation_speed("dash_up", 20.0)
+	for i in range(4):
+		var path = "res://Assets/odisseu/attacks_animations/odisseu_dash_up_frame_%d.png" % i
+		if ResourceLoader.exists(path):
+			frames.add_frame("dash_up", load(path))
 
 	anim_spr.sprite_frames = frames
 
 	# Força a escala correta para o personagem não ficar gigante
-	if frames.has_animation("idle") and frames.get_animation_frames("idle").size() > 0:
-		var idle_tex: Texture2D = frames.get_animation_frames("idle")[0]
-		if idle_tex:
-			var target_w := 22.0
-			anim_spr.scale = Vector2.ONE * (target_w / idle_tex.get_width())
-
+	#if frames.has_animation("idle") and frames.get_animation_frames("idle").size() > 0:
+	#var idle_tex: Texture2D = frames.get_animation_frames("idle")[0]
+	#if idle_tex:
+	#var target_w := 22.0
+	#anim_spr.scale = Vector2.ONE * (target_w / idle_tex.get_width())
 	var old_visual = get_node_or_null("Sprite2D")
 	if old_visual:
 		anim_spr.scale = old_visual.scale
@@ -166,8 +205,9 @@ func _physics_process(delta: float) -> void:
 			visual = get_node_or_null("Polygon2D")
 
 	if not _dash_cooldown.is_stopped():
-		dash_bar.size.x = 30.0 * (1.0
-		- (_dash_cooldown.time_left / GameManager.player_dash_cooldown))
+		dash_bar.size.x = 30.0 * (
+			1.0 - (_dash_cooldown.time_left / GameManager.player_dash_cooldown)
+		)
 		dash_bar_bg.visible = true
 		dash_bar.visible = true
 	else:
@@ -246,18 +286,22 @@ func _input(event: InputEvent) -> void:
 
 	var is_attack_input = (
 		event.is_action_pressed("ui_accept")
-		or (event is InputEventMouseButton
-		and event.button_index == MOUSE_BUTTON_LEFT and event.pressed)
+		or (
+			event is InputEventMouseButton
+			and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
+		)
 	)
 	if is_attack_input and _attack_timer.is_stopped() and not is_dashing:
 		_attack()
 
 	var is_dash_input = (
-		(event is InputEventMouseButton
-		and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed)
+		(
+			event is InputEventMouseButton
+			and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed
+		)
 		or (event is InputEventKey and event.keycode == KEY_SHIFT and event.pressed)
 	)
-	if is_dash_input and not is_dashing and _dash_cooldown.is_stopped():
+	if is_dash_input and not is_dashing and not is_attacking and _dash_cooldown.is_stopped():
 		_dash()
 
 
@@ -282,8 +326,28 @@ func _dash() -> void:
 	else:
 		dash_dir = facing_dir
 
-	if visual:
-		visual.modulate = Color(0.5, 0.8, 1.0)
+	var anim_spr = get_node_or_null("AttackAnimSprite") as AnimatedSprite2D
+	if anim_spr:
+		if is_instance_valid(visual):
+			visual.visible = false
+		anim_spr.visible = true
+
+		if dash_dir.y < -0.5:
+			if anim_spr.sprite_frames.has_animation("dash_up") and anim_spr.sprite_frames.get_frame_count("dash_up") > 0:
+				anim_spr.play("dash_up")
+			else:
+				anim_spr.play("dash_side")
+			anim_spr.flip_h = false
+		elif dash_dir.y > 0.5:
+			if anim_spr.sprite_frames.has_animation("dash_down") and anim_spr.sprite_frames.get_frame_count("dash_down") > 0:
+				anim_spr.play("dash_down")
+			else:
+				anim_spr.play("dash_side")
+			anim_spr.flip_h = false
+		else:
+			anim_spr.play("dash_side")
+			if dash_dir.x != 0:
+				anim_spr.flip_h = (dash_dir.x < 0)
 
 
 func _attack() -> void:
@@ -298,7 +362,20 @@ func _attack() -> void:
 		anim_spr.visible = true
 
 		if facing_dir.y < -0.5:
-			anim_spr.play("attack_up")
+			if anim_spr.sprite_frames.has_animation("attack_up") and anim_spr \
+						.sprite_frames \
+						.get_frame_count("attack_up") > 0:
+				anim_spr.play("attack_up")
+			else:
+				anim_spr.play("attack") # fallback
+			anim_spr.flip_h = false
+		elif facing_dir.y > 0.5:
+			if anim_spr.sprite_frames.has_animation("attack_down") and anim_spr \
+						.sprite_frames \
+						.get_frame_count("attack_down") > 0:
+				anim_spr.play("attack_down")
+			else:
+				anim_spr.play("attack") # fallback
 			anim_spr.flip_h = false
 		else:
 			anim_spr.play("attack")
@@ -314,7 +391,7 @@ func _attack() -> void:
 func take_damage(amount: int) -> void:
 	if GameManager.game_over or not GameManager.combat_mode:
 		return
-		
+
 	AudioManager.play_damage_sfx()
 	GameManager.player_current_hp -= amount
 	current_hp = GameManager.player_current_hp

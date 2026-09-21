@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://fase3reidetroia001"]
+[gd_scene format=3 uid="uid://cu6173ovpjoq7"]
 
-[ext_resource type="Script" path="res://Ato1_Troia/Fase3_ReiDeTroia.gd" id="1_0gyft"]
+[ext_resource type="Script" uid="uid://yl3yxqkrumdf" path="res://Ato1_Troia/Fase3_ReiDeTroia.gd" id="1_0gyft"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2sg52"]
 size = Vector2(1000, 20)
@@ -14,156 +14,156 @@ size = Vector2(20, 800)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_44apn"]
 size = Vector2(20, 800)
 
-[node name="Fase3_ReiDeTroia" type="Node2D"]
+[node name="Fase3_ReiDeTroia" type="Node2D" unique_id=1492733808]
 script = ExtResource("1_0gyft")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1338379305]
 z_index = -10
 offset_right = 1000.0
 offset_bottom = 800.0
 color = Color(0.15, 0.05, 0.05, 1)
 
-[node name="WallTop" type="Polygon2D" parent="."]
+[node name="WallTop" type="Polygon2D" parent="." unique_id=574216572]
 z_index = -5
 color = Color(0.3, 0.25, 0.15, 1)
 polygon = PackedVector2Array(0, 0, 1000, 0, 1000, 20, 0, 20)
 
-[node name="StaticBodyTop" type="StaticBody2D" parent="."]
+[node name="StaticBodyTop" type="StaticBody2D" parent="." unique_id=693168628]
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyTop"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyTop" unique_id=1846479514]
 position = Vector2(500, 10)
 shape = SubResource("RectangleShape2D_2sg52")
 
-[node name="WallBottom" type="Polygon2D" parent="."]
+[node name="WallBottom" type="Polygon2D" parent="." unique_id=1692745152]
 z_index = -5
 position = Vector2(0, 780)
 color = Color(0.3, 0.25, 0.15, 1)
 polygon = PackedVector2Array(0, 0, 1000, 0, 1000, 20, 0, 20)
 
-[node name="StaticBodyBottom" type="StaticBody2D" parent="."]
+[node name="StaticBodyBottom" type="StaticBody2D" parent="." unique_id=720485181]
 position = Vector2(0, 780)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBottom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBottom" unique_id=1972490237]
 position = Vector2(500, 10)
 shape = SubResource("RectangleShape2D_y6vx4")
 
-[node name="WallLeft" type="Polygon2D" parent="."]
+[node name="WallLeft" type="Polygon2D" parent="." unique_id=823346436]
 z_index = -5
 color = Color(0.3, 0.25, 0.15, 1)
 polygon = PackedVector2Array(0, 0, 20, 0, 20, 800, 0, 800)
 
-[node name="StaticBodyLeft" type="StaticBody2D" parent="."]
+[node name="StaticBodyLeft" type="StaticBody2D" parent="." unique_id=627837427]
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyLeft" unique_id=2078441145]
 position = Vector2(10, 400)
 shape = SubResource("RectangleShape2D_7tk33")
 
-[node name="WallRight" type="Polygon2D" parent="."]
+[node name="WallRight" type="Polygon2D" parent="." unique_id=1219336487]
 z_index = -5
 position = Vector2(980, 0)
 color = Color(0.3, 0.25, 0.15, 1)
 polygon = PackedVector2Array(0, 0, 20, 0, 20, 800, 0, 800)
 
-[node name="StaticBodyRight" type="StaticBody2D" parent="."]
+[node name="StaticBodyRight" type="StaticBody2D" parent="." unique_id=1916448824]
 position = Vector2(980, 0)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRight" unique_id=904865236]
 position = Vector2(10, 400)
 shape = SubResource("RectangleShape2D_44apn")
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=480376976]
 
-[node name="HealthBarBG" type="ColorRect" parent="UILayer"]
+[node name="HealthBarBG" type="ColorRect" parent="UILayer" unique_id=855760445]
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 290.0
 offset_bottom = 70.0
 color = Color(0, 0, 0, 0.55)
 
-[node name="HealthTitle" type="Label" parent="UILayer"]
+[node name="HealthTitle" type="Label" parent="UILayer" unique_id=197176800]
 offset_left = 18.0
 offset_top = 12.0
 offset_right = 18.0
 offset_bottom = 12.0
-theme_override_font_sizes/font_size = 13
 theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 13
 text = "❤ VIDA DE ODISSEU"
 
-[node name="HPIcon_0" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_0" type="ColorRect" parent="UILayer" unique_id=586908270]
 offset_left = 18.0
 offset_top = 34.0
 offset_right = 38.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_1" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_1" type="ColorRect" parent="UILayer" unique_id=1629610886]
 offset_left = 43.0
 offset_top = 34.0
 offset_right = 63.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_2" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_2" type="ColorRect" parent="UILayer" unique_id=434378317]
 offset_left = 68.0
 offset_top = 34.0
 offset_right = 88.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_3" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_3" type="ColorRect" parent="UILayer" unique_id=190603126]
 offset_left = 93.0
 offset_top = 34.0
 offset_right = 113.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_4" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_4" type="ColorRect" parent="UILayer" unique_id=1247763665]
 offset_left = 118.0
 offset_top = 34.0
 offset_right = 138.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_5" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_5" type="ColorRect" parent="UILayer" unique_id=1464888116]
 offset_left = 143.0
 offset_top = 34.0
 offset_right = 163.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_6" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_6" type="ColorRect" parent="UILayer" unique_id=60345829]
 offset_left = 168.0
 offset_top = 34.0
 offset_right = 188.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_7" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_7" type="ColorRect" parent="UILayer" unique_id=665757229]
 offset_left = 193.0
 offset_top = 34.0
 offset_right = 213.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_8" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_8" type="ColorRect" parent="UILayer" unique_id=50338482]
 offset_left = 218.0
 offset_top = 34.0
 offset_right = 238.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_9" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_9" type="ColorRect" parent="UILayer" unique_id=1787119785]
 offset_left = 243.0
 offset_top = 34.0
 offset_right = 263.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="BossHealthBar" type="ProgressBar" parent="UILayer"]
+[node name="BossHealthBar" type="ProgressBar" parent="UILayer" unique_id=1264815724]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -177,7 +177,7 @@ grow_horizontal = 2
 grow_vertical = 0
 value = 100.0
 
-[node name="BossNameLabel" type="Label" parent="UILayer/BossHealthBar"]
+[node name="BossNameLabel" type="Label" parent="UILayer/BossHealthBar" unique_id=634040769]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -193,7 +193,7 @@ theme_override_font_sizes/font_size = 14
 text = "👑 O REI DE TROIA"
 horizontal_alignment = 1
 
-[node name="MessageBG" type="ColorRect" parent="UILayer"]
+[node name="MessageBG" type="ColorRect" parent="UILayer" unique_id=540171240]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -208,7 +208,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
 
-[node name="MessageLabel" type="Label" parent="UILayer"]
+[node name="MessageLabel" type="Label" parent="UILayer" unique_id=320209413]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -221,8 +221,8 @@ offset_right = 210.0
 offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 22
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
