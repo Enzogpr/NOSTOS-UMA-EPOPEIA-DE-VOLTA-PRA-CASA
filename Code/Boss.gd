@@ -136,21 +136,24 @@ func _setup_animations() -> void:
 		frames.set_animation_loop(anim_name, false)
 		frames.set_animation_speed(anim_name, 12.0)
 		for i in range(1, max_frames + 1):
-			var p := "res://Assets/animations/" + file_prefix + str(i) + ".png"
+			var p := "res://Assets/rei_de_troia/attacks_animations/" + file_prefix + str(i) + ".png"
 			if ResourceLoader.exists(p):
 				frames.add_frame(anim_name, load(p))
 
-	# Animação de ataque corpo-a-corpo
-	# Arquivos esperados: Assets/animations/reiAtack_frame_1.png ... reiAtack_frame_N.png
-	load_frames.call("attack", "reiAtack_frame_", 8)
+	# Animações de ataque corpo-a-corpo
+	load_frames.call("attack_side", "reiAtack_side_frame_", 8)
+	load_frames.call("attack_down", "reiAtack_down_frame_", 8)
+	load_frames.call("attack_up", "reiAtack_up_frame_", 8)
 
-	# Animação de dash
-	# Arquivos esperados: Assets/animations/reiDash_frame_1.png ... reiDash_frame_N.png
-	load_frames.call("dash", "reiDash_frame_", 8)
+	# Animações de dash
+	load_frames.call("dash_side", "reiDash_side_frame_", 8)
+	load_frames.call("dash_down", "reiDash_down_frame_", 8)
+	load_frames.call("dash_up", "reiDash_up_frame_", 8)
 
-	# Animação de arremesso de lança
-	# Arquivos esperados: Assets/animations/reiSpear_frame_1.png ... reiSpear_frame_N.png
-	load_frames.call("throw_spear", "reiSpear_frame_", 8)
+	# Animações de arremesso de lança
+	load_frames.call("throw_spear_side", "reiSpear_side_frame_", 8)
+	load_frames.call("throw_spear_down", "reiSpear_down_frame_", 8)
+	load_frames.call("throw_spear_up", "reiSpear_up_frame_", 8)
 
 	_combat_sprite.sprite_frames = frames
 
@@ -172,17 +175,32 @@ func _setup_animations() -> void:
 	)
 
 # Toca uma animação de combate (esconde o walk sprite durante ela)
-func _play_combat_anim(anim_name: String, flip: bool = false) -> void:
+func _play_combat_anim(base_anim_name: String, flip: bool = false) -> void:
 	if not is_instance_valid(_combat_sprite):
 		return
+		
+	# Anexa a direção atual ao nome da animação base (ex: "attack" -> "attack_down")
+	var anim_name = base_anim_name + "_" + _current_walk_dir
+	
 	if not _combat_sprite.sprite_frames.has_animation(anim_name):
-		return
+		# Tenta fallback se não tiver a animação direcional, mas tiver a base
+		if _combat_sprite.sprite_frames.has_animation(base_anim_name):
+			anim_name = base_anim_name
+		else:
+			return
+			
 	if _combat_sprite.sprite_frames.get_frame_count(anim_name) == 0:
 		return  # Sem frames ainda, aguarda as artes
 
 	if is_instance_valid(_visual):
 		_visual.visible = false
-	_combat_sprite.flip_h = flip
+	
+	# Só inverte a imagem se for para o lado, para cima e para baixo mantém normal
+	if _current_walk_dir == "side":
+		_combat_sprite.flip_h = flip
+	else:
+		_combat_sprite.flip_h = false
+		
 	_combat_sprite.visible = true
 	_combat_sprite.play(anim_name)
 	_is_playing_combat_anim = true
@@ -229,6 +247,13 @@ func _physics_process(delta: float) -> void:
 
 	if dash_cooldown > 0:
 		dash_cooldown -= delta
+
+	# Dano de contato (se o player passar por cima do boss)
+	if attack_timer <= 0:
+		var dist_to_player = (_player.global_position - global_position).length()
+		if dist_to_player < 45.0:
+			var is_dash_hit = (current_phase == Phase.PHASE_2 and is_dashing)
+			_attack_player(is_dash_hit)
 
 	match current_phase:
 		Phase.PHASE_1:
@@ -298,10 +323,7 @@ func _process_phase_2(delta: float) -> void:
 		if not _is_playing_combat_anim:
 			_play_combat_anim("dash", dash_dir.x < 0)
 
-		# Causa dano se encostar no dash
-		var to_player := _player.global_position - global_position
-		if to_player.length() < 45.0 and attack_timer <= 0:
-			_attack_player(true)
+		# Dano já é tratado pelo verificador global no _physics_process
 
 		if dash_timer <= 0 or is_on_wall():
 			is_dashing = false
@@ -354,8 +376,7 @@ func _chase_and_attack(delta: float = 0.0) -> void:
 
 	if dist <= attack_range:
 		velocity = Vector2.ZERO
-		if attack_timer <= 0:
-			_attack_player(false)
+		# Dano é tratado globalmente, mas paramos o movimento aqui
 		if not _is_playing_combat_anim:
 			_update_walk_anim(delta, false, dir)
 	else:
@@ -376,8 +397,9 @@ func _attack_player(is_dash_hit: bool) -> void:
 		# Toca animação de ataque corpo-a-corpo
 		var to_player := _player.global_position - global_position
 		_play_combat_anim("attack", to_player.x < 0)
-		# Fallback: mostra placeholder de arma se não tiver arte
-		if _combat_sprite.sprite_frames.get_frame_count("attack") == 0:
+		# Fallback: mostra placeholder de arma se não tiver arte direcional carregada
+		var anim_name = "attack_" + _current_walk_dir
+		if not _combat_sprite.sprite_frames.has_animation(anim_name) or _combat_sprite.sprite_frames.get_frame_count(anim_name) == 0:
 			_attack_visual.visible = true
 			get_tree().create_timer(0.2).timeout.connect(
 				func(): if is_instance_valid(_attack_visual): _attack_visual.visible = false
