@@ -30,6 +30,8 @@ var ally_spawns: Array[Vector2] = [
 var player: CharacterBody2D
 var tower_area: Area2D
 var hp_icons: Array[ColorRect] = []
+var _torch_lights: Array[PointLight2D] = []
+var _flicker_time: float = 0.0
 
 @onready var message_bg: ColorRect = $UILayer/MessageBG
 @onready var message_label: Label = $UILayer/MessageLabel
@@ -46,11 +48,11 @@ func _ready() -> void:
 	MainHUD.set_station("Ato 1 - Fase 2: Invasão de Troia")
 	randomize()
 
-	_build_background()
 	_build_tower()
 	_build_guards()
 	_build_player()
 	_build_allies()
+	_build_lighting()
 
 	for i in range(10):
 		var node = get_node_or_null("UILayer/HPIcon_" + str(i))
@@ -61,44 +63,53 @@ func _ready() -> void:
 	
 	_on_health_changed(GameManager.player_current_hp)
 
-func _build_background() -> void:
-	var bg := ColorRect.new()
-	bg.color = Color(0.1, 0.05, 0.05)
-	bg.size = Vector2(4000, 3000)
-	bg.position = Vector2(-400, -400)
-	bg.z_index = -10
-	add_child(bg)
-
-	var ground := Polygon2D.new()
-	ground.polygon = PackedVector2Array([
-		Vector2(0, 0), Vector2(3000, 0), Vector2(3000, 2000), Vector2(0, 2000)
-	])
-	ground.color = Color(0.2, 0.18, 0.15)
-	ground.z_index = -9
-	add_child(ground)
+func _process(delta: float) -> void:
+	_flicker_time += delta
+	for light in _torch_lights:
+		if is_instance_valid(light):
+			var pulse = 1.1 + 0.18 * sin(_flicker_time * 1.4 + light.position.x * 0.03)
+			light.energy = pulse
+			light.texture_scale = 2.5 + 0.2 * sin(_flicker_time * 1.0 + light.position.y * 0.02)
 
 func _build_tower() -> void:
-	var tower_pos := Vector2(2800, 100)
-	var tower_visual := Polygon2D.new()
-	tower_visual.polygon = PackedVector2Array([
-		Vector2(0, 0), Vector2(160, 0), Vector2(160, 160), Vector2(0, 160)
-	])
-	tower_visual.position = tower_pos
-	tower_visual.color = Color(0.4, 0.4, 0.5)
-	add_child(tower_visual)
+	var area = get_node_or_null("TowerEntrance/TowerArea")
+	if area:
+		tower_area = area
+		tower_area.body_entered.connect(_on_tower_entered)
+	else:
+		var tower_pos := Vector2(2800, 100)
+		var tower_texture = _try_load("res://IMAGEM JOGO/CHAO/entradatorre.png")
+		if tower_texture:
+			var sprite := Sprite2D.new()
+			sprite.texture = tower_texture
+			sprite.centered = false
+			sprite.position = tower_pos
+			sprite.z_index = -4
+			var tex_size = tower_texture.get_size()
+			var target_size = Vector2(160, 160)
+			sprite.scale = target_size / tex_size
+			add_child(sprite)
+		else:
+			var tower_visual := Polygon2D.new()
+			tower_visual.polygon = PackedVector2Array([
+				Vector2(0, 0), Vector2(160, 0), Vector2(160, 160), Vector2(0, 160)
+			])
+			tower_visual.position = tower_pos
+			tower_visual.color = Color(0.4, 0.4, 0.5)
+			add_child(tower_visual)
 
-	tower_area = Area2D.new()
-	tower_area.collision_layer = 3
-	tower_area.collision_mask  = 2   
-	var shape := CollisionShape2D.new()
-	var rect_shape := RectangleShape2D.new()
-	rect_shape.size = Vector2(160, 160)
-	shape.shape = rect_shape
-	shape.position = Vector2(80, 80)
-	tower_area.add_child(shape)
-	tower_area.position = tower_pos
-	tower_area.body_entered.connect(_on_tower_entered)
-	add_child(tower_area)
+		tower_area = Area2D.new()
+		tower_area.collision_layer = 3
+		tower_area.collision_mask  = 2   
+		var shape := CollisionShape2D.new()
+		var rect_shape := RectangleShape2D.new()
+		rect_shape.size = Vector2(160, 160)
+		shape.shape = rect_shape
+		shape.position = Vector2(80, 80)
+		tower_area.add_child(shape)
+		tower_area.position = tower_pos
+		tower_area.body_entered.connect(_on_tower_entered)
+		add_child(tower_area)
 
 func _build_guards() -> void:
 	var guard_script := load("res://Code/Guard.gd")
@@ -177,3 +188,88 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
 		GameManager.heal_fully()
 		get_tree().reload_current_scene()
+
+func _build_lighting() -> void:
+	# 1. CanvasModulate: escurece a cena inteira para um tom de noite de invasão
+	var canvas_mod = CanvasModulate.new()
+	canvas_mod.name = "AmbientLight"
+	canvas_mod.color = Color(0.12, 0.11, 0.17, 1.0)
+	add_child(canvas_mod)
+
+	# 2. Textura radial suave para os pontos de luz
+	var light_img = Image.create(256, 256, false, Image.FORMAT_RGBA8)
+	for y in range(256):
+		for x in range(256):
+			var dx = (x - 128.0) / 128.0
+			var dy = (y - 128.0) / 128.0
+			var dist = sqrt(dx * dx + dy * dy)
+			var alpha = clamp(1.0 - dist, 0.0, 1.0)
+			alpha = alpha * alpha
+			light_img.set_pixel(x, y, Color(1, 1, 1, alpha))
+	var light_tex := ImageTexture.create_from_image(light_img)
+
+	# 3. Posições dos pilares de tocha distribuídos nos espaços abertos (longe de muros)
+	var torch_positions: Array[Vector2] = [
+		Vector2(250, 1000),   # Saída do spawn inicial
+		Vector2(250, 250),    # Praça noroeste
+		Vector2(250, 1600),   # Praça sudoeste
+		Vector2(700, 1000),   # Pátio entre Prédio 1 e Prédio 2
+		Vector2(1100, 250),   # Praça norte central
+		Vector2(1100, 850),   # Corredor central
+		Vector2(1100, 1450),  # Corredor sul central
+		Vector2(1750, 300),   # Corredor norte-leste
+		Vector2(1750, 850),   # Praça leste
+		Vector2(1750, 1650),  # Praça sul-leste
+		Vector2(2200, 350),   # Acesso norte ao pátio final
+		Vector2(2550, 950),   # Pátio leste aberto
+		Vector2(2200, 1750),  # Canto sudeste aberto
+		Vector2(2460, 580)    # Iluminando a passarela da Torre
+	]
+
+	var torch_tex = _try_load("res://IMAGEM JOGO/pilartocha.png")
+
+	for pos in torch_positions:
+		# Nó do pilar
+		var pilar = StaticBody2D.new()
+		pilar.position = pos
+		pilar.collision_layer = 1
+		pilar.collision_mask = 0
+
+		# Sprite do pilar de tocha
+		if torch_tex:
+			var sprite = Sprite2D.new()
+			sprite.texture = torch_tex
+			sprite.scale = Vector2(0.08, 0.08)
+			sprite.centered = true
+			sprite.z_index = -3
+			pilar.add_child(sprite)
+
+		# Colisão sólida na base do pilar
+		var col = CollisionShape2D.new()
+		var circle = CircleShape2D.new()
+		circle.radius = 12.0
+		col.shape = circle
+		col.position = Vector2(0, 25)
+		pilar.add_child(col)
+
+		add_child(pilar)
+
+		# Luz da fogueira/tocha com tom alaranjado e grande alcance
+		var light = PointLight2D.new()
+		light.texture = light_tex
+		light.texture_scale = 2.5
+		light.color = Color(1.0, 0.60, 0.18, 1.0)
+		light.energy = 1.15
+		light.position = pos - Vector2(0, 30)
+		light.shadow_enabled = false
+		add_child(light)
+		_torch_lights.append(light)
+
+	# 4. Luz suave no jogador para garantir visibilidade
+	if is_instance_valid(player):
+		var p_light = PointLight2D.new()
+		p_light.texture = light_tex
+		p_light.texture_scale = 1.1
+		p_light.color = Color(0.85, 0.88, 1.0, 1.0)
+		p_light.energy = 0.4
+		player.add_child(p_light)
