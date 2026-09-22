@@ -10,22 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://belwv3v8rjwqx" path="res://Assets/barracas/barraca_4.png" id="7_barraca4"]
 [ext_resource type="Texture2D" uid="uid://08lqout5vtvp" path="res://Assets/barracas/barraca_5.png" id="8_barraca5"]
 [ext_resource type="Texture2D" uid="uid://bvk3udwaa5616" path="res://IMAGEM JOGO/cavalo.png" id="9_tmbgy"]
-[ext_resource type="Texture2D" uid="uid://bt7jih47enwpm" path="res://Assets/decor/tocha.png" id="10_tocha"]
 [ext_resource type="Texture2D" uid="uid://cb321ngvg5see" path="res://Assets/decor/fogueira.png" id="11_fogueira"]
 [ext_resource type="Texture2D" uid="uid://bpj1lmil4xb3x" path="res://IMAGEM JOGO/CHAO/ChatGPT Image 15 de set. de 2026, 22_53_43.png" id="11_q0k6i"]
-[ext_resource type="Texture2D" uid="uid://b7ognn3x10msp" path="res://Assets/decor/barris_caixas.png" id="12_barris"]
-[ext_resource type="Texture2D" uid="uid://bhqw4i55hjhy6" path="res://Assets/decor/estandarte_grande.png" id="14_estandarte_g"]
-[ext_resource type="Texture2D" uid="uid://iwvqy7jvkuur" path="res://Assets/decor/vasos_anforas.png" id="17_vasos"]
-[ext_resource type="Texture2D" uid="uid://b0v68w2apscy8" path="res://Assets/decor/bandeira_quebrada.png" id="d_bandeira"]
-[ext_resource type="Texture2D" uid="uid://bv6f88kkvcdk6" path="res://Assets/decor/capacete_furado.png" id="d_capacete"]
-[ext_resource type="Texture2D" uid="uid://cuglm0t2yobfi" path="res://Assets/decor/escudo_quebrado_1.png" id="d_escudo1"]
-[ext_resource type="Texture2D" uid="uid://b2fgk6ulpsn3g" path="res://Assets/decor/escudo_quebrado_2.png" id="d_escudo2"]
-[ext_resource type="Texture2D" uid="uid://3j173x02m77t" path="res://Assets/decor/espada_quebrada.png" id="d_espada"]
-[ext_resource type="Texture2D" uid="uid://cof1ls34wdw5q" path="res://Assets/decor/flecha_quebrada.png" id="d_flecha"]
-[ext_resource type="Texture2D" uid="uid://byr3y3wevp4en" path="res://Assets/decor/lanca_quebrada_1.png" id="d_lanca1"]
-[ext_resource type="Texture2D" uid="uid://cyw7h5jdlxdn1" path="res://Assets/decor/lanca_quebrada_2.png" id="d_lanca2"]
-[ext_resource type="Texture2D" uid="uid://bwta4iei4f786" path="res://Assets/decor/monte_pedras.png" id="d_pedras"]
-[ext_resource type="Texture2D" uid="uid://dk7hxy1mtynw7" path="res://Assets/decor/peitoral_quebrado.png" id="d_peitoral"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6itv5"]
 size = Vector2(4000, 42)
@@ -1607,287 +1593,66 @@ shape = SubResource("RectangleShape2D_uvscy")
 
 [node name="Decorations" type="Node2D" parent="." unique_id=2037166297]
 z_index = -3
-scale = Vector2(0.028, 0.028)
+
+[node name="Campfire1" type="Sprite2D" parent="Decorations" unique_id=820120460]
+position = Vector2(320, 2040)
+scale = Vector2(0.048, 0.048)
+texture = ExtResource("11_fogueira")
 
 [node name="Campfire2" type="Sprite2D" parent="Decorations" unique_id=820120461]
-position = Vector2(780, 2200)
-scale = Vector2(0.028, 0.028)
+position = Vector2(760, 2220)
+scale = Vector2(0.048, 0.048)
 texture = ExtResource("11_fogueira")
 
 [node name="Campfire3" type="Sprite2D" parent="Decorations" unique_id=1777301335]
-position = Vector2(750, 1350)
-scale = Vector2(0.028, 0.028)
+position = Vector2(780, 1260)
+scale = Vector2(0.048, 0.048)
 texture = ExtResource("11_fogueira")
 
 [node name="Campfire4" type="Sprite2D" parent="Decorations" unique_id=212109141]
-position = Vector2(600, 550)
-scale = Vector2(0.028, 0.028)
+position = Vector2(600, 620)
+scale = Vector2(0.048, 0.048)
 texture = ExtResource("11_fogueira")
 
 [node name="Campfire5" type="Sprite2D" parent="Decorations" unique_id=920861403]
-position = Vector2(1260, 1550)
-scale = Vector2(0.028, 0.028)
+position = Vector2(1250, 1630)
+scale = Vector2(0.048, 0.048)
 texture = ExtResource("11_fogueira")
 
 [node name="Campfire6" type="Sprite2D" parent="Decorations" unique_id=635462290]
-position = Vector2(1500, 480)
-scale = Vector2(0.028, 0.028)
+position = Vector2(1460, 520)
+scale = Vector2(0.048, 0.048)
 texture = ExtResource("11_fogueira")
 
 [node name="Campfire7" type="Sprite2D" parent="Decorations" unique_id=663566417]
-position = Vector2(2100, 1100)
-scale = Vector2(0.028, 0.028)
+position = Vector2(2330, 930)
+scale = Vector2(0.048, 0.048)
 texture = ExtResource("11_fogueira")
 
 [node name="Campfire8" type="Sprite2D" parent="Decorations" unique_id=1169188876]
-position = Vector2(2550, 1750)
-scale = Vector2(0.028, 0.028)
+position = Vector2(2640, 1820)
+scale = Vector2(0.048, 0.048)
 texture = ExtResource("11_fogueira")
 
 [node name="Campfire9" type="Sprite2D" parent="Decorations" unique_id=1775375922]
-position = Vector2(3250, 1350)
-scale = Vector2(0.028, 0.028)
+position = Vector2(3250, 1430)
+scale = Vector2(0.048, 0.048)
 texture = ExtResource("11_fogueira")
 
 [node name="Campfire10" type="Sprite2D" parent="Decorations" unique_id=543325702]
-position = Vector2(3400, 950)
-scale = Vector2(0.028, 0.028)
+position = Vector2(3430, 1030)
+scale = Vector2(0.048, 0.048)
 texture = ExtResource("11_fogueira")
 
 [node name="Campfire11" type="Sprite2D" parent="Decorations" unique_id=1675383752]
-position = Vector2(3100, 300)
-scale = Vector2(0.028, 0.028)
+position = Vector2(3060, 240)
+scale = Vector2(0.048, 0.048)
 texture = ExtResource("11_fogueira")
 
 [node name="Campfire12" type="Sprite2D" parent="Decorations" unique_id=1270629576]
-position = Vector2(3650, 450)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_escudo1")
-
-[node name="Espada1" type="Sprite2D" parent="Decorations" unique_id=1191431270]
-position = Vector2(420, 2020)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_espada")
-
-[node name="Capacete1" type="Sprite2D" parent="Decorations" unique_id=1780992892]
-position = Vector2(550, 2280)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_capacete")
-
-[node name="Peitoral1" type="Sprite2D" parent="Decorations" unique_id=851415508]
-position = Vector2(850, 1400)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_peitoral")
-
-[node name="Lanca1" type="Sprite2D" parent="Decorations" unique_id=1241647410]
-position = Vector2(700, 1150)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_lanca1")
-
-[node name="Escudo2" type="Sprite2D" parent="Decorations" unique_id=2008463533]
-position = Vector2(380, 720)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_escudo2")
-
-[node name="Flecha1" type="Sprite2D" parent="Decorations" unique_id=1668412005]
-position = Vector2(580, 700)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_flecha")
-
-[node name="BandeiraQ1" type="Sprite2D" parent="Decorations" unique_id=2023807857]
-position = Vector2(1020, 1720)
-scale = Vector2(0.07, 0.07)
-texture = ExtResource("d_bandeira")
-
-[node name="Pedras1" type="Sprite2D" parent="Decorations" unique_id=1543315977]
-position = Vector2(1220, 1600)
-scale = Vector2(0.07, 0.07)
-texture = ExtResource("d_pedras")
-
-[node name="Lanca2" type="Sprite2D" parent="Decorations" unique_id=1433025195]
-position = Vector2(1420, 620)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_lanca2")
-
-[node name="Espada2" type="Sprite2D" parent="Decorations" unique_id=761547414]
-position = Vector2(1280, 460)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_espada")
-
-[node name="Capacete2" type="Sprite2D" parent="Decorations" unique_id=751089967]
-position = Vector2(1950, 1200)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_capacete")
-
-[node name="Peitoral2" type="Sprite2D" parent="Decorations" unique_id=1359213021]
-position = Vector2(2250, 1050)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_peitoral")
-
-[node name="Lanca3" type="Sprite2D" parent="Decorations" unique_id=1193277995]
-position = Vector2(2350, 980)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_lanca1")
-
-[node name="Escudo3" type="Sprite2D" parent="Decorations" unique_id=1848323449]
-position = Vector2(2650, 1900)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_escudo1")
-
-[node name="Flecha2" type="Sprite2D" parent="Decorations" unique_id=1598604081]
-position = Vector2(2850, 1780)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_flecha")
-
-[node name="Pedras2" type="Sprite2D" parent="Decorations" unique_id=1336887787]
-position = Vector2(3050, 1520)
-scale = Vector2(0.07, 0.07)
-texture = ExtResource("d_pedras")
-
-[node name="Capacete3" type="Sprite2D" parent="Decorations" unique_id=2105346743]
-position = Vector2(3250, 1480)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_capacete")
-
-[node name="Lanca4" type="Sprite2D" parent="Decorations" unique_id=1368485653]
-position = Vector2(3450, 1100)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_lanca2")
-
-[node name="Peitoral3" type="Sprite2D" parent="Decorations" unique_id=1540858725]
-position = Vector2(3650, 980)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_peitoral")
-
-[node name="BandeiraQ2" type="Sprite2D" parent="Decorations" unique_id=1232759963]
-position = Vector2(2850, 320)
-scale = Vector2(0.07, 0.07)
-texture = ExtResource("d_bandeira")
-
-[node name="Espada3" type="Sprite2D" parent="Decorations" unique_id=153061883]
-position = Vector2(3050, 200)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_espada")
-
-[node name="Escudo4" type="Sprite2D" parent="Decorations" unique_id=1465892358]
-position = Vector2(3800, 300)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("d_escudo2")
-
-[node name="Flecha3" type="Sprite2D" parent="Decorations" unique_id=2061060235]
-position = Vector2(3820, 500)
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("12_barris")
-
-[node name="Barris2" type="Sprite2D" parent="Decorations" unique_id=59412317]
-position = Vector2(700, 2150)
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("12_barris")
-
-[node name="Barris3" type="Sprite2D" parent="Decorations" unique_id=1611030168]
-position = Vector2(960, 1180)
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("12_barris")
-
-[node name="Barris4" type="Sprite2D" parent="Decorations" unique_id=1027506033]
-position = Vector2(430, 580)
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("12_barris")
-
-[node name="Barris5" type="Sprite2D" parent="Decorations" unique_id=225478642]
-position = Vector2(1200, 1700)
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("12_barris")
-
-[node name="Barris6" type="Sprite2D" parent="Decorations" unique_id=1245224288]
-position = Vector2(2500, 880)
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("12_barris")
-
-[node name="Barris7" type="Sprite2D" parent="Decorations" unique_id=378574905]
-position = Vector2(2800, 1750)
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("12_barris")
-
-[node name="Barris8" type="Sprite2D" parent="Decorations" unique_id=1119027581]
-position = Vector2(3200, 1380)
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("12_barris")
-
-[node name="Barris9" type="Sprite2D" parent="Decorations" unique_id=1072238470]
-position = Vector2(3600, 1100)
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("12_barris")
-
-[node name="Barris10" type="Sprite2D" parent="Decorations" unique_id=67517913]
-position = Vector2(3800, 440)
-scale = Vector2(0.14, 0.14)
-texture = ExtResource("12_barris")
-
-[node name="Estandarte1" type="Sprite2D" parent="Decorations" unique_id=271105833]
-position = Vector2(1600, 100)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("14_estandarte_g")
-
-[node name="Estandarte2" type="Sprite2D" parent="Decorations" unique_id=1083606598]
-position = Vector2(2300, 100)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("14_estandarte_g")
-
-[node name="Estandarte3" type="Sprite2D" parent="Decorations" unique_id=1515804668]
-position = Vector2(2000, 1000)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("14_estandarte_g")
-
-[node name="Estandarte4" type="Sprite2D" parent="Decorations" unique_id=584007964]
-position = Vector2(3900, 100)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("14_estandarte_g")
-
-[node name="Vasos1" type="Sprite2D" parent="Decorations" unique_id=557403680]
-position = Vector2(300, 2100)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("17_vasos")
-
-[node name="Vasos2" type="Sprite2D" parent="Decorations" unique_id=413853000]
-position = Vector2(820, 1280)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("17_vasos")
-
-[node name="Vasos3" type="Sprite2D" parent="Decorations" unique_id=1001593573]
-position = Vector2(1400, 500)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("17_vasos")
-
-[node name="Vasos4" type="Sprite2D" parent="Decorations" unique_id=452297704]
-position = Vector2(2700, 1820)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("17_vasos")
-
-[node name="Vasos5" type="Sprite2D" parent="Decorations" unique_id=337056790]
-position = Vector2(3500, 1020)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("10_tocha")
-
-[node name="TochaCentro1" type="Sprite2D" parent="Decorations" unique_id=1423772475]
-position = Vector2(2360, 840)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("10_tocha")
-
-[node name="TochaLeste1" type="Sprite2D" parent="Decorations" unique_id=2022173832]
-position = Vector2(3460, 1240)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("10_tocha")
-
-[node name="TochaPortao1" type="Sprite2D" parent="Decorations" unique_id=1502493707]
-position = Vector2(3900, 190)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("10_tocha")
-
-[node name="TochaPortao2" type="Sprite2D" parent="Decorations" unique_id=1953284746]
-position = Vector2(3900, 370)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("10_tocha")
+position = Vector2(3630, 530)
+scale = Vector2(0.048, 0.048)
+texture = ExtResource("11_fogueira")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=83109349]
 

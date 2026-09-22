@@ -5,13 +5,15 @@ extends Node2D
 ## Batalha final contra o Rei de Troia.
 
 @export var arena_size: Vector2 = Vector2(1000, 800)
-@export var player_spawn_pos: Vector2 = Vector2(200, 400)
-@export var boss_spawn_pos: Vector2 = Vector2(800, 400)
+@export var player_spawn_pos: Vector2 = Vector2(180, 349)
+@export var boss_spawn_pos: Vector2 = Vector2(680, 350)
 
 var player: CharacterBody2D
 var boss: CharacterBody2D
 var hp_icons: Array[ColorRect] = []
 var boss_health_bg: ColorRect
+var _torch_lights: Array[PointLight2D] = []
+var _flicker_time: float = 0.0
 @onready var boss_health_bar: ProgressBar = $UILayer/BossHealthBar
 @onready var message_bg: ColorRect = $UILayer/MessageBG
 @onready var message_label: Label = $UILayer/MessageLabel
@@ -34,6 +36,7 @@ func _ready() -> void:
 
 	_build_boss()
 	_build_player()
+	_build_lighting()
 
 	for i in range(10):
 		var node = get_node_or_null("UILayer/HPIcon_" + str(i))
@@ -43,6 +46,14 @@ func _ready() -> void:
 	GameManager.game_over_combat.connect(_on_game_over)
 	
 	_on_health_changed(GameManager.player_current_hp)
+
+func _process(delta: float) -> void:
+	_flicker_time += delta
+	for light in _torch_lights:
+		if is_instance_valid(light):
+			var pulse = 1.1 + 0.18 * sin(_flicker_time * 1.5 + light.global_position.y * 0.03)
+			light.energy = pulse
+			light.texture_scale = 2.2 + 0.15 * sin(_flicker_time * 1.1 + light.global_position.x * 0.02)
 
 func _build_boss() -> void:
 	boss = CharacterBody2D.new()
@@ -140,3 +151,69 @@ func spawn_heart() -> void:
 			body.heal(1)
 			h.queue_free()
 	)
+
+func _build_lighting() -> void:
+	# 1. CanvasModulate: iluminação nobre de interior de castelo (visível e não tão escura)
+	var canvas_mod = CanvasModulate.new()
+	canvas_mod.name = "AmbientLight"
+	canvas_mod.color = Color(0.48, 0.44, 0.52, 1.0)
+	add_child(canvas_mod)
+
+	# 2. Textura radial suave para os pontos de luz
+	var light_img = Image.create(256, 256, false, Image.FORMAT_RGBA8)
+	for y in range(256):
+		for x in range(256):
+			var dx = (x - 128.0) / 128.0
+			var dy = (y - 128.0) / 128.0
+			var dist = sqrt(dx * dx + dy * dy)
+			var alpha = clamp(1.0 - dist, 0.0, 1.0)
+			alpha = alpha * alpha
+			light_img.set_pixel(x, y, Color(1, 1, 1, alpha))
+	var light_tex := ImageTexture.create_from_image(light_img)
+
+	# 3. Luzes nas tochas de parede
+	var torch_container = get_node_or_null("Torches")
+	if torch_container:
+		for torch_node in torch_container.get_children():
+			if torch_node is Sprite2D:
+				var light = PointLight2D.new()
+				light.texture = light_tex
+				light.texture_scale = 2.2
+				light.color = Color(1.0, 0.62, 0.20, 1.0)
+				light.energy = 1.15
+				light.position = Vector2(-15, -20)
+				light.shadow_enabled = false
+				torch_node.add_child(light)
+				_torch_lights.append(light)
+
+	# 4. Luzes nas tochas de chão na frente das estátuas
+	var floor_torch_container = get_node_or_null("FloorTorches")
+	if floor_torch_container:
+		for f_torch in floor_torch_container.get_children():
+			var light = PointLight2D.new()
+			light.texture = light_tex
+			light.texture_scale = 2.5
+			light.color = Color(1.0, 0.65, 0.22, 1.0)
+			light.energy = 1.25
+			light.position = Vector2(0, -22)
+			light.shadow_enabled = false
+			f_torch.add_child(light)
+			_torch_lights.append(light)
+
+	# 5. Luz suave no jogador
+	if is_instance_valid(player):
+		var p_light = PointLight2D.new()
+		p_light.texture = light_tex
+		p_light.texture_scale = 1.2
+		p_light.color = Color(0.85, 0.88, 1.0, 1.0)
+		p_light.energy = 0.4
+		player.add_child(p_light)
+
+	# 6. Luz suave avermelhada de presença no Rei de Troia (Boss)
+	if is_instance_valid(boss):
+		var b_light = PointLight2D.new()
+		b_light.texture = light_tex
+		b_light.texture_scale = 1.6
+		b_light.color = Color(1.0, 0.4, 0.3, 1.0)
+		b_light.energy = 0.6
+		boss.add_child(b_light)

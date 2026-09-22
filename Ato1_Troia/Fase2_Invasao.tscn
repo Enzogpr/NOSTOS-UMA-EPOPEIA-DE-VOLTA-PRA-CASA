@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://fase2invasaodetroia001"]
+[gd_scene format=3 uid="uid://82qypxqugnoq"]
 
-[ext_resource type="Script" path="res://Ato1_Troia/Fase2_Invasao.gd" id="1_llwst"]
+[ext_resource type="Script" uid="uid://df2a6lkuj6w3i" path="res://Ato1_Troia/Fase2_Invasao.gd" id="1_llwst"]
+[ext_resource type="Texture2D" uid="uid://uulsr5tgts5q" path="res://IMAGEM JOGO/chãofase02.png" id="2_chao2"]
+[ext_resource type="Texture2D" uid="uid://uyoky2poa0uh" path="res://IMAGEM JOGO/CHAO/teste muro cima sem fundo.png" id="3_muro"]
+[ext_resource type="Texture2D" uid="uid://cx3fuajwl62hj" path="res://IMAGEM JOGO/CHAO/entradatorre.png" id="4_torre"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0plju"]
 size = Vector2(3000, 40)
@@ -12,7 +15,7 @@ size = Vector2(3000, 40)
 size = Vector2(40, 2000)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3cqh"]
-size = Vector2(40, 2000)
+size = Vector2(45, 2001)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jriq2"]
 size = Vector2(600, 400)
@@ -44,290 +47,635 @@ size = Vector2(400, 40)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2jwna"]
 size = Vector2(40, 200)
 
-[node name="Fase2_Invasao" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tower"]
+size = Vector2(741.9033, 866.88477)
+
+[node name="Fase2_Invasao" type="Node2D" unique_id=229317340]
 script = ExtResource("1_llwst")
 
-[node name="WallTop" type="Polygon2D" parent="."]
-z_index = -5
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 3000, 0, 3000, 40, 0, 40)
+[node name="ColorRect" type="ColorRect" parent="." unique_id=50497268]
+z_index = -10
+offset_left = -400.0
+offset_top = -400.0
+offset_right = 3400.0
+offset_bottom = 2400.0
+color = Color(0.05, 0.07, 0.14, 1)
 
-[node name="StaticBodyTop" type="StaticBody2D" parent="."]
+[node name="Courtyard" type="Polygon2D" parent="." unique_id=212777949]
+z_index = -8
+texture_repeat = 2
+texture = ExtResource("2_chao2")
+texture_scale = Vector2(12, 12)
+polygon = PackedVector2Array(0, 0, 3000, 0, 3000, 2000, 0, 2000)
+
+[node name="WallMazeA7" type="Polygon2D" parent="Courtyard" unique_id=72990340]
+z_index = -5
+texture_repeat = 2
+position = Vector2(2440, 608)
+rotation = -3.1415925
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 40, -3, 40, 8, 20.415886, 8, -1, 8)
+
+[node name="WallMazeA6" type="Polygon2D" parent="." unique_id=1998176057]
+z_index = -4
+texture_repeat = 2
+position = Vector2(1606, 601)
+rotation = 1.5707964
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 40, -3, 40, 8, 18.115318, 7.9999847, -1, 8)
+
+[node name="WallTop" type="Polygon2D" parent="." unique_id=333223932]
+z_index = -5
+texture_repeat = 2
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(1, -3, 3000, -2, 3000, 44, 0, 40)
+
+[node name="StaticBodyTop" type="StaticBody2D" parent="." unique_id=1244882943]
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyTop"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyTop" unique_id=1400129830]
+visible = false
 position = Vector2(1500, 20)
 shape = SubResource("RectangleShape2D_0plju")
 
-[node name="WallBottom" type="Polygon2D" parent="."]
+[node name="WallBottom" type="Polygon2D" parent="." unique_id=2020243335]
 z_index = -5
+texture_repeat = 2
 position = Vector2(0, 1960)
-color = Color(0.25, 0.15, 0.1, 1)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-2, -2)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 3.1415927
 polygon = PackedVector2Array(0, 0, 3000, 0, 3000, 40, 0, 40)
 
-[node name="StaticBodyBottom" type="StaticBody2D" parent="."]
+[node name="StaticBodyBottom" type="StaticBody2D" parent="." unique_id=298856687]
 position = Vector2(0, 1960)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBottom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBottom" unique_id=2011387226]
+visible = false
 position = Vector2(1500, 20)
 shape = SubResource("RectangleShape2D_ms0wi")
 
-[node name="WallLeft" type="Polygon2D" parent="."]
+[node name="WallLeft" type="Polygon2D" parent="." unique_id=644700479]
 z_index = -5
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 2000, 0, 2000)
+texture_repeat = 2
+position = Vector2(0, 8)
+scale = Vector2(0.996, 0.996)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-16, 45)
+texture_scale = Vector2(15, 15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(0, -1.0040159, 8.032128, -1.0040159, 36.144577, 27.108433, 41.164658, 30.120483, 45.18072, 1968.8755, 32.128513, 1968.8755, 0, 1991.9679)
 
-[node name="StaticBodyLeft" type="StaticBody2D" parent="."]
+[node name="StaticBodyLeft" type="StaticBody2D" parent="." unique_id=1063472264]
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyLeft" unique_id=1343197095]
+visible = false
 position = Vector2(20, 1000)
 shape = SubResource("RectangleShape2D_5awjf")
 
-[node name="WallRight" type="Polygon2D" parent="."]
+[node name="WallRight" type="Polygon2D" parent="." unique_id=324074358]
 z_index = -5
+texture_repeat = 2
 position = Vector2(2960, 0)
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 2000, 0, 2000)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 8)
+texture_scale = Vector2(14, 14)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(-8, 40, 4, 43, 4, 35, 40, 0, 40, 2000, 39, 1993, 35, 1992, 5, 1966, -4, 1965)
 
-[node name="StaticBodyRight" type="StaticBody2D" parent="."]
+[node name="StaticBodyRight" type="StaticBody2D" parent="." unique_id=1900287657]
 position = Vector2(2960, 0)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRight"]
-position = Vector2(20, 1000)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyRight" unique_id=135565932]
+visible = false
+position = Vector2(17.5, 1000.5)
 shape = SubResource("RectangleShape2D_n3cqh")
 
-[node name="Building1" type="Polygon2D" parent="."]
-z_index = -5
+[node name="Building1" type="Node2D" parent="." unique_id=2016371328]
 position = Vector2(400, 400)
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 600, 0, 600, 400, 0, 400)
 
-[node name="StaticBodyBuilding1" type="StaticBody2D" parent="."]
+[node name="Roof" type="ColorRect" parent="Building1" unique_id=2016371329]
+z_index = -6
+offset_left = 12.0
+offset_top = 20.0
+offset_right = 585.0
+offset_bottom = 375.0
+color = Color(0.1, 0.08, 0.06, 1)
+
+[node name="WallTop" type="Polygon2D" parent="Building1" unique_id=2016371330]
+z_index = -5
+texture_repeat = 2
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(0, 0, 601, -2, 600, 40, 0, 40)
+
+[node name="WallBottom" type="Polygon2D" parent="Building1" unique_id=2016371331]
+z_index = -5
+texture_repeat = 2
+position = Vector2(0, 360)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-2, -2)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 3.1415927
+polygon = PackedVector2Array(0, 0, 600, 0, 600, 40, 0, 40)
+
+[node name="WallLeft" type="Polygon2D" parent="Building1" unique_id=2016371332]
+z_index = -5
+texture_repeat = 2
+position = Vector2(0, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-16, 45)
+texture_scale = Vector2(15, 15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(-1, -42, 9, -42, 9, -34, 7, -34, 7, -33, 32, -5, 32, 0, 40, 0, 39, 325, 37, 327, 0, 358)
+
+[node name="WallRight" type="Polygon2D" parent="Building1" unique_id=2016371333]
+z_index = -5
+texture_repeat = 2
+position = Vector2(560, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 8)
+texture_scale = Vector2(14, 14)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(-9, 0, -3, -7, 5, -7, 31, -32, 31, -40, 41, -40, 40, 359, 5, 329, 3, 324, -8, 324)
+
+[node name="StaticBodyBuilding1" type="StaticBody2D" parent="." unique_id=668335229]
 position = Vector2(400, 400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding1" unique_id=1356885565]
+visible = false
 position = Vector2(300, 200)
 shape = SubResource("RectangleShape2D_jriq2")
 
-[node name="Building2" type="Polygon2D" parent="."]
-z_index = -5
+[node name="Building2" type="Node2D" parent="." unique_id=973680549]
 position = Vector2(400, 1200)
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 400, 0, 400, 600, 0, 600)
 
-[node name="StaticBodyBuilding2" type="StaticBody2D" parent="."]
+[node name="Roof" type="ColorRect" parent="Building2" unique_id=973680550]
+z_index = -6
+offset_left = 5.0
+offset_top = 7.5
+offset_right = 393.0
+offset_bottom = 593.0
+color = Color(0.1, 0.08, 0.06, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="WallTop" type="Polygon2D" parent="Building2" unique_id=973680551]
+z_index = -5
+texture_repeat = 2
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -1, 400, 0, 400, 40, 0, 40, 0, 8, -1, 8)
+
+[node name="WallBottom" type="Polygon2D" parent="Building2" unique_id=973680552]
+z_index = -5
+texture_repeat = 2
+position = Vector2(0, 560)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-2, -2)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 3.1415927
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
+
+[node name="WallLeft" type="Polygon2D" parent="Building2" unique_id=973680553]
+z_index = -5
+texture_repeat = 2
+position = Vector2(0, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-16, 45)
+texture_scale = Vector2(15, 15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(0, -33, 7, -33, 32, -5, 32, 0, 40, 0, 40, 526, 36, 527, 8, 552, 3, 552, 0, 554)
+
+[node name="WallRight" type="Polygon2D" parent="Building2" unique_id=973680554]
+z_index = -5
+texture_repeat = 2
+position = Vector2(360, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 8)
+texture_scale = Vector2(14, 14)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(-5, -8, 5, -8, 31, -32, 31, -40, 40, -40, 40, 560, 38, 560, 38, 552, 31, 552, 4, 529, -3.4500675, 528.9833, -6, 527)
+
+[node name="StaticBodyBuilding2" type="StaticBody2D" parent="." unique_id=2091925053]
 position = Vector2(400, 1200)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding2" unique_id=547025344]
+visible = false
 position = Vector2(200, 300)
 shape = SubResource("RectangleShape2D_ehjmi")
 
-[node name="Building3" type="Polygon2D" parent="."]
-z_index = -5
+[node name="Building3" type="Node2D" parent="." unique_id=653561893]
 position = Vector2(1200, 0)
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 400, 0, 400, 600, 0, 600)
 
-[node name="StaticBodyBuilding3" type="StaticBody2D" parent="."]
+[node name="Roof" type="ColorRect" parent="Building3" unique_id=653561894]
+z_index = -6
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 382.0
+offset_bottom = 581.0
+color = Color(0.1, 0.08, 0.06, 1)
+
+[node name="WallTop" type="Polygon2D" parent="Building3" unique_id=653561895]
+z_index = -5
+texture_repeat = 2
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
+
+[node name="WallBottom" type="Polygon2D" parent="Building3" unique_id=653561896]
+z_index = -5
+texture_repeat = 2
+position = Vector2(0, 560)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-2, -2)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 3.1415927
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
+
+[node name="WallLeft" type="Polygon2D" parent="Building3" unique_id=653561897]
+z_index = -5
+texture_repeat = 2
+position = Vector2(0, 42)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-16, 45)
+texture_scale = Vector2(15, 15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(0, -12, 41, -11, 42, 528, 38, 528, 34, 528, 9, 552, 0, 552)
+
+[node name="WallRight" type="Polygon2D" parent="Building3" unique_id=653561898]
+z_index = -5
+texture_repeat = 2
+position = Vector2(360, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 8)
+texture_scale = Vector2(14, 14)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(-7, -7, 42, -7, 41, 556, 39, 552, 34, 552, 5, 529, -3, 529, -8, 521)
+
+[node name="StaticBodyBuilding3" type="StaticBody2D" parent="." unique_id=85495695]
 position = Vector2(1200, 0)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding3" unique_id=1606551764]
+visible = false
 position = Vector2(200, 300)
 shape = SubResource("RectangleShape2D_p4u3k")
 
-[node name="Building4" type="Polygon2D" parent="."]
-z_index = -5
+[node name="Building4" type="Node2D" parent="." unique_id=860939504]
 position = Vector2(1200, 1000)
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 600, 0, 600, 400, 0, 400)
 
-[node name="StaticBodyBuilding4" type="StaticBody2D" parent="."]
+[node name="Roof" type="ColorRect" parent="Building4" unique_id=860939505]
+z_index = -6
+offset_left = 4.0
+offset_top = 10.0
+offset_right = 590.0
+offset_bottom = 381.0
+color = Color(0.1, 0.08, 0.06, 1)
+
+[node name="WallTop" type="Polygon2D" parent="Building4" unique_id=860939506]
+z_index = -5
+texture_repeat = 2
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -1, 600, 0, 600, 44, 0, 43, 0, 8, -1, 8)
+
+[node name="WallBottom" type="Polygon2D" parent="Building4" unique_id=860939507]
+z_index = -5
+texture_repeat = 2
+position = Vector2(0, 360)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-2, -2)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 3.1415927
+polygon = PackedVector2Array(0, 0, 600, 0, 600, 40, 0, 40)
+
+[node name="WallLeft" type="Polygon2D" parent="Building4" unique_id=860939508]
+z_index = -5
+texture_repeat = 2
+position = Vector2(0, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-16, 45)
+texture_scale = Vector2(15, 15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(0, -33, 7, -33, 32, -5, 32, 0, 40, 0, 40, 326, 38, 327, 34, 327, 9, 352, 2, 352, 0, 354)
+
+[node name="WallRight" type="Polygon2D" parent="Building4" unique_id=860939509]
+z_index = -5
+texture_repeat = 2
+position = Vector2(560, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 8)
+texture_scale = Vector2(14, 14)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(0, 3, 8, 3, 8, -5, 34, -32, 40, -32, 40, 352, 34, 352, 4, 328, 4, 323, -8, 323)
+
+[node name="StaticBodyBuilding4" type="StaticBody2D" parent="." unique_id=146063249]
 position = Vector2(1200, 1000)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding4" unique_id=689894064]
+visible = false
 position = Vector2(300, 200)
 shape = SubResource("RectangleShape2D_70df5")
 
-[node name="Building5" type="Polygon2D" parent="."]
-z_index = -5
+[node name="Building5" type="Node2D" parent="." unique_id=746409083]
 position = Vector2(2000, 600)
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 400, 0, 400, 800, 0, 800)
 
-[node name="StaticBodyBuilding5" type="StaticBody2D" parent="."]
+[node name="Roof" type="ColorRect" parent="Building5" unique_id=746409084]
+z_index = -6
+offset_left = 15.0
+offset_top = 21.0
+offset_right = 386.0
+offset_bottom = 783.0
+color = Color(0.1, 0.08, 0.06, 1)
+
+[node name="WallTop" type="Polygon2D" parent="Building5" unique_id=746409085]
+z_index = -5
+texture_repeat = 2
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(1, -2, 400, -2, 400, 40, 1, 41)
+
+[node name="WallBottom" type="Polygon2D" parent="Building5" unique_id=746409086]
+z_index = -5
+texture_repeat = 2
+position = Vector2(0, 760)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-2, -2)
+texture_scale = Vector2(-16, -16)
+texture_rotation = 3.1415927
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
+
+[node name="WallLeft" type="Polygon2D" parent="Building5" unique_id=746409087]
+z_index = -5
+texture_repeat = 2
+position = Vector2(0, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-16, 45)
+texture_scale = Vector2(15, 15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(1, -33, 7, -33, 32, -5, 32, 1, 40, 1, 42, 728, 35, 728, 7, 754, 7, 759, 0, 759)
+
+[node name="WallRight" type="Polygon2D" parent="Building5" unique_id=746409088]
+z_index = -5
+texture_repeat = 2
+position = Vector2(360, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 8)
+texture_scale = Vector2(14, 14)
+texture_rotation = 1.5707964
+polygon = PackedVector2Array(-5, 0, -5, -7, 4, -7, 31, -32, 31, -40, 40, -40, 40, 759, 5, 728, -4, 728, -9, 722)
+
+[node name="StaticBodyBuilding5" type="StaticBody2D" parent="." unique_id=1963128216]
 position = Vector2(2000, 600)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding5"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyBuilding5" unique_id=674637739]
+visible = false
 position = Vector2(200, 400)
 shape = SubResource("RectangleShape2D_ejprb")
 
-[node name="WallMazeA" type="Polygon2D" parent="."]
+[node name="WallMazeA" type="Polygon2D" parent="." unique_id=1384924456]
 z_index = -5
+texture_repeat = 2
 position = Vector2(200, 800)
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 200, 0, 200, 40, 0, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 200, -3, 200, 45, -1, 46)
 
-[node name="StaticBodyMazeA" type="StaticBody2D" parent="."]
+[node name="WallMazeA2" type="Polygon2D" parent="." unique_id=915342286]
+z_index = -5
+texture_repeat = 2
+position = Vector2(403, 801)
+rotation = 1.5707964
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 41, -2.9999695, 41, 8, -1, 8)
+
+[node name="WallMazeA3" type="Polygon2D" parent="." unique_id=98640572]
+z_index = -5
+texture_repeat = 2
+position = Vector2(199, 841)
+rotation = -1.5707964
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 41, -2.9999695, 41, 8, 20.20456, 8, -1, 8)
+
+[node name="StaticBodyMazeA" type="StaticBody2D" parent="." unique_id=799096238]
 position = Vector2(200, 800)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeA"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeA" unique_id=494618947]
+visible = false
 position = Vector2(100, 20)
 shape = SubResource("RectangleShape2D_au75x")
 
-[node name="WallMazeB" type="Polygon2D" parent="."]
+[node name="WallMazeB" type="Polygon2D" parent="." unique_id=97187738]
 z_index = -5
+texture_repeat = 2
 position = Vector2(1000, 1600)
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 200, 0, 200)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-16, 45)
+texture_scale = Vector2(15, 15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(1, -4, 42, -4, 40, 204, 1, 204)
 
-[node name="StaticBodyMazeB" type="StaticBody2D" parent="."]
+[node name="StaticBodyMazeB" type="StaticBody2D" parent="." unique_id=2026365269]
 position = Vector2(1000, 1600)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeB"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeB" unique_id=1119420249]
+visible = false
 position = Vector2(20, 100)
 shape = SubResource("RectangleShape2D_62f1r")
 
-[node name="WallMazeC" type="Polygon2D" parent="."]
+[node name="WallMazeC" type="Polygon2D" parent="." unique_id=460147011]
 z_index = -5
+texture_repeat = 2
 position = Vector2(1600, 600)
-color = Color(0.25, 0.15, 0.1, 1)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
 polygon = PackedVector2Array(0, 0, 200, 0, 200, 40, 0, 40)
 
-[node name="StaticBodyMazeC" type="StaticBody2D" parent="."]
+[node name="StaticBodyMazeC" type="StaticBody2D" parent="." unique_id=152129863]
 position = Vector2(1600, 600)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeC"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeC" unique_id=1676479475]
+visible = false
 position = Vector2(100, 20)
 shape = SubResource("RectangleShape2D_1je60")
 
-[node name="WallMazeD" type="Polygon2D" parent="."]
+[node name="WallMazeD" type="Polygon2D" parent="." unique_id=1934863191]
 z_index = -5
+texture_repeat = 2
 position = Vector2(2400, 1400)
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 400, 0, 400, 40, 0, 40)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-9, -1, 400, 0, 400, 40, -11, 45)
 
-[node name="StaticBodyMazeD" type="StaticBody2D" parent="."]
+[node name="StaticBodyMazeD" type="StaticBody2D" parent="." unique_id=1669439653]
 position = Vector2(2400, 1400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeD"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeD" unique_id=1692550546]
+visible = false
 position = Vector2(200, 20)
 shape = SubResource("RectangleShape2D_ycmr1")
 
-[node name="WallMazeE" type="Polygon2D" parent="."]
+[node name="WallMazeE" type="Polygon2D" parent="." unique_id=1254350928]
 z_index = -5
+texture_repeat = 2
 position = Vector2(2400, 400)
-color = Color(0.25, 0.15, 0.1, 1)
-polygon = PackedVector2Array(0, 0, 40, 0, 40, 200, 0, 200)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(-16, 45)
+texture_scale = Vector2(15, 15)
+texture_rotation = -1.5707964
+polygon = PackedVector2Array(0, -5, 41, -5, 40, 205, 1, 205)
 
-[node name="StaticBodyMazeE" type="StaticBody2D" parent="."]
+[node name="StaticBodyMazeE" type="StaticBody2D" parent="." unique_id=468082157]
 position = Vector2(2400, 400)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeE"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodyMazeE" unique_id=1283752199]
+visible = false
 position = Vector2(20, 100)
 shape = SubResource("RectangleShape2D_2jwna")
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="TowerEntrance" type="Node2D" parent="." unique_id=999888111]
+position = Vector2(2885, 228.99997)
+rotation = -2.3631759
+scale = Vector2(0.4, 0.4)
 
-[node name="HealthBarBG" type="ColorRect" parent="UILayer"]
+[node name="Sprite2D" type="Sprite2D" parent="TowerEntrance" unique_id=999888112]
+z_index = -4
+rotation = -2.3631759
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("4_torre")
+
+[node name="TowerArea" type="Area2D" parent="TowerEntrance" unique_id=999888113]
+position = Vector2(-25, 0)
+rotation = -2.3631759
+scale = Vector2(0.4, 0.4)
+collision_layer = 3
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TowerEntrance/TowerArea" unique_id=999888114]
+position = Vector2(-45.91736, -11.957031)
+scale = Vector2(0.40000013, 0.40000013)
+shape = SubResource("RectangleShape2D_tower")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1213491448]
+
+[node name="HealthBarBG" type="ColorRect" parent="UILayer" unique_id=1562941827]
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 290.0
 offset_bottom = 70.0
 color = Color(0, 0, 0, 0.55)
 
-[node name="HealthTitle" type="Label" parent="UILayer"]
+[node name="HealthTitle" type="Label" parent="UILayer" unique_id=434189731]
 offset_left = 18.0
 offset_top = 12.0
 offset_right = 18.0
 offset_bottom = 12.0
-theme_override_font_sizes/font_size = 13
 theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 13
 text = "❤ VIDA DE ODISSEU"
 
-[node name="HPIcon_0" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_0" type="ColorRect" parent="UILayer" unique_id=229869847]
 offset_left = 18.0
 offset_top = 34.0
 offset_right = 38.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_1" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_1" type="ColorRect" parent="UILayer" unique_id=2073384219]
 offset_left = 43.0
 offset_top = 34.0
 offset_right = 63.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_2" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_2" type="ColorRect" parent="UILayer" unique_id=1096999256]
 offset_left = 68.0
 offset_top = 34.0
 offset_right = 88.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_3" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_3" type="ColorRect" parent="UILayer" unique_id=230618658]
 offset_left = 93.0
 offset_top = 34.0
 offset_right = 113.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_4" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_4" type="ColorRect" parent="UILayer" unique_id=1099946328]
 offset_left = 118.0
 offset_top = 34.0
 offset_right = 138.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_5" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_5" type="ColorRect" parent="UILayer" unique_id=529887799]
 offset_left = 143.0
 offset_top = 34.0
 offset_right = 163.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_6" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_6" type="ColorRect" parent="UILayer" unique_id=1428896569]
 offset_left = 168.0
 offset_top = 34.0
 offset_right = 188.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_7" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_7" type="ColorRect" parent="UILayer" unique_id=1914198854]
 offset_left = 193.0
 offset_top = 34.0
 offset_right = 213.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_8" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_8" type="ColorRect" parent="UILayer" unique_id=1849323385]
 offset_left = 218.0
 offset_top = 34.0
 offset_right = 238.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="HPIcon_9" type="ColorRect" parent="UILayer"]
+[node name="HPIcon_9" type="ColorRect" parent="UILayer" unique_id=1816654232]
 offset_left = 243.0
 offset_top = 34.0
 offset_right = 263.0
 offset_bottom = 54.0
 color = Color(1, 0.2, 0.2, 1)
 
-[node name="MessageBG" type="ColorRect" parent="UILayer"]
+[node name="MessageBG" type="ColorRect" parent="UILayer" unique_id=1085284078]
 visible = false
 offset_left = 300.0
 offset_top = 350.0
@@ -335,29 +683,98 @@ offset_right = 700.0
 offset_bottom = 450.0
 color = Color(0, 0, 0, 0.72)
 
-[node name="MessageLabel" type="Label" parent="UILayer"]
+[node name="MessageLabel" type="Label" parent="UILayer" unique_id=840971204]
 visible = false
 offset_left = 300.0
 offset_top = 350.0
 offset_right = 700.0
 offset_bottom = 450.0
-theme_override_font_sizes/font_size = 24
 theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="HintBG" type="ColorRect" parent="UILayer"]
+[node name="HintBG" type="ColorRect" parent="UILayer" unique_id=730984739]
 offset_top = 620.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 0.45)
 
-[node name="HintLabel" type="Label" parent="UILayer"]
+[node name="HintLabel" type="Label" parent="UILayer" unique_id=1599740]
 offset_left = 12.0
 offset_top = 624.0
 offset_right = 12.0
 offset_bottom = 624.0
-theme_override_font_sizes/font_size = 13
 theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 13
 text = "WASD / Setas: Mover  |  Clique Esq: Atacar  |  Shift: Esquiva  |  Tab: Atributos"
+
+[node name="WallMazeA4" type="Polygon2D" parent="." unique_id=992781253]
+z_index = -5
+texture_repeat = 2
+position = Vector2(1801, 601)
+rotation = 1.5707964
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 40, -3, 40, 8, 20.415886, 8, -1, 8)
+
+[node name="WallMazeA10" type="Polygon2D" parent="." unique_id=1321358937]
+z_index = -5
+texture_repeat = 2
+position = Vector2(2802, 1401)
+rotation = -4.712389
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 40, -3, 40, 8, -1, 8)
+
+[node name="WallMazeA11" type="Polygon2D" parent="." unique_id=333072204]
+z_index = -5
+texture_repeat = 2
+position = Vector2(2386, 1441)
+rotation = 4.712389
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 40, -3, 40, 8, -1, 8)
+
+[node name="WallMazeA7" type="Polygon2D" parent="." unique_id=982545336]
+z_index = -5
+texture_repeat = 2
+position = Vector2(2440, 608)
+rotation = -3.1415925
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 40, -3, 40, 8, 20.415886, 8, -1, 8)
+
+[node name="WallMazeA9" type="Polygon2D" parent="." unique_id=2090135346]
+z_index = -5
+texture_repeat = 2
+position = Vector2(1001, 1591)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 40, -3, 40, 6.999878, -1, 7)
+
+[node name="WallMazeA8" type="Polygon2D" parent="." unique_id=276229700]
+z_index = -5
+texture_repeat = 2
+position = Vector2(2401, 390)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 40, -3, 40, 8, 20.415886, 8, -1, 8)
+
+[node name="WallMazeA5" type="Polygon2D" parent="." unique_id=1142277667]
+z_index = -5
+texture_repeat = 2
+position = Vector2(1039, 1807)
+rotation = -3.1415925
+scale = Vector2(0.9173686, 0.9173686)
+texture = ExtResource("3_muro")
+texture_offset = Vector2(5, 5)
+texture_scale = Vector2(14, 14)
+polygon = PackedVector2Array(-1, -4, 41, -2.9999695, 41, 8, -1, 8)

@@ -59,23 +59,21 @@ func _process(delta: float) -> void:
 		else:
 			player.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
-	# Iluminação dinâmica suave das fogueiras e tochas
+	# Iluminação dinâmica suave das fogueiras
 	_flicker_time += delta * 6.0
 	var decor_node = get_node_or_null("Decorations")
 	if decor_node:
 		for item in decor_node.get_children():
-			if item.name.begins_with("Campfire") or item.name.begins_with("Tocha"):
+			if item.name.begins_with("Campfire"):
 				var pulse = 0.92 + 0.12 * sin(_flicker_time + item.position.x * 0.04)
-				# self_modulate nao e afetado pelo CanvasModulate global
-				# garante que a fogueira sempre apareça brilhante
-				item.self_modulate = Color(2.5 * pulse, 1.8 * pulse, 0.8 * pulse, 1.0)
+				item.self_modulate = Color(2.2 * pulse, 1.6 * pulse, 0.8 * pulse, 1.0)
 
 	# Flicker das luzes das fogueiras
 	for light in _campfire_lights:
 		if is_instance_valid(light):
-			var pulse = 0.85 + 0.18 * sin(_flicker_time * 1.3 + light.position.x * 0.03)
+			var pulse = 1.05 + 0.18 * sin(_flicker_time * 1.3 + light.position.x * 0.03)
 			light.energy = pulse
-			light.texture_scale = 1.8 + 0.15 * sin(_flicker_time * 0.9 + light.position.y * 0.02)
+			light.texture_scale = 2.4 + 0.15 * sin(_flicker_time * 0.9 + light.position.y * 0.02)
 
 	if is_in_gate_zone and not GameManager.game_over:
 		gate_progress -= 20.0 * delta
@@ -239,30 +237,29 @@ func _on_victory() -> void:
 	t.timeout.connect(func(): get_tree().change_scene_to_file("res://Ato1_Troia/Cutscenes/Act1_Cutscene_Invasao.tscn"))
 
 func _build_lighting() -> void:
-	# Canvas modulate: escurecer o ambiente para criar noite
-	# Valor ligeiramente maior para que enfeites ainda sejam visiveis
+	# Canvas modulate: escurecer o ambiente para criar noite envolvente
 	var canvas_mod = CanvasModulate.new()
 	canvas_mod.name = "AmbientLight"
-	canvas_mod.color = Color(0.18, 0.15, 0.22, 1.0)  # noite escura com leve tom roxo
+	canvas_mod.color = Color(0.14, 0.12, 0.18, 1.0)
 	add_child(canvas_mod)
 
-	# Posições das fogueiras (igual às do .tscn) para criar PointLight2D
+	# Posições das 12 fogueiras junto às barracas
 	var campfire_positions := [
-		Vector2(320, 2050),
-		Vector2(780, 2200),
-		Vector2(750, 1350),
-		Vector2(600, 550),
-		Vector2(1260, 1550),
-		Vector2(1500, 480),
-		Vector2(2100, 1100),
-		Vector2(2550, 1750),
-		Vector2(3250, 1350),
-		Vector2(3400, 950),
-		Vector2(3100, 300),
-		Vector2(3650, 450),
+		Vector2(320, 2040),
+		Vector2(760, 2220),
+		Vector2(780, 1260),
+		Vector2(600, 620),
+		Vector2(1250, 1630),
+		Vector2(1460, 520),
+		Vector2(2330, 930),
+		Vector2(2640, 1820),
+		Vector2(3250, 1430),
+		Vector2(3430, 1030),
+		Vector2(3060, 240),
+		Vector2(3630, 530),
 	]
 
-	# Posições das barracas (Tent1..12) para criar luz mais fraca
+	# Posições das barracas (Tent1..12) para iluminação interna suave
 	var tent_positions := [
 		Vector2(224, 2006),
 		Vector2(645, 2238),
@@ -278,15 +275,6 @@ func _build_lighting() -> void:
 		Vector2(3740, 540),
 	]
 
-	# Posições das tochas no cenário
-	var tocha_positions := [
-		Vector2(1060, 1530),
-		Vector2(2360, 840),
-		Vector2(3460, 1240),
-		Vector2(3900, 190),
-		Vector2(3900, 370),
-	]
-
 	# Criar textura de luz suave (radial)
 	var light_img = Image.create(256, 256, false, Image.FORMAT_RGBA8)
 	for y in range(256):
@@ -299,40 +287,37 @@ func _build_lighting() -> void:
 			light_img.set_pixel(x, y, Color(1, 1, 1, alpha))
 	var light_tex := ImageTexture.create_from_image(light_img)
 
-	# Fogueiras: luz quente laranja, maior raio, flickering
+	# Fogueiras: luz quente alaranjada com grande raio e flickering
 	for pos in campfire_positions:
 		var light = PointLight2D.new()
 		light.texture = light_tex
-		light.texture_scale = 1.8
-		light.color = Color(1.0, 0.62, 0.18, 1.0)  # laranja quente
-		light.energy = 1.0
+		light.texture_scale = 2.4
+		light.color = Color(1.0, 0.62, 0.20, 1.0)
+		light.energy = 1.15
 		light.position = pos - Vector2(0, 10)
 		light.shadow_enabled = false
 		add_child(light)
 		_campfire_lights.append(light)
 
-	# Barracas: luz fraca amarelada (lanterna interna)
+	# Barracas: luz amarelada suave
 	for pos in tent_positions:
 		var light = PointLight2D.new()
 		light.texture = light_tex
-		light.texture_scale = 1.1
-		light.color = Color(0.95, 0.85, 0.55, 1.0)  # amarelo suave
-		light.energy = 0.55
+		light.texture_scale = 1.2
+		light.color = Color(0.95, 0.75, 0.40, 1.0)
+		light.energy = 0.45
 		light.position = pos
 		light.shadow_enabled = false
 		add_child(light)
 
-	# Tochas: luz âmbar pequena com flicker leve
-	for pos in tocha_positions:
-		var light = PointLight2D.new()
-		light.texture = light_tex
-		light.texture_scale = 0.9
-		light.color = Color(1.0, 0.70, 0.25, 1.0)  # âmbar
-		light.energy = 0.8
-		light.position = pos
-		light.shadow_enabled = false
-		add_child(light)
-		_campfire_lights.append(light)
+	# Luz suave no jogador para garantir legibilidade no escuro
+	if is_instance_valid(player):
+		var p_light = PointLight2D.new()
+		p_light.texture = light_tex
+		p_light.texture_scale = 1.0
+		p_light.color = Color(0.8, 0.85, 1.0, 1.0)
+		p_light.energy = 0.35
+		player.add_child(p_light)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
