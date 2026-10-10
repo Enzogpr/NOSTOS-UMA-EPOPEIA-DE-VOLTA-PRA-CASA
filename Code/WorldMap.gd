@@ -8,6 +8,7 @@ extends Control
 @onready var node1: MapNode = $Nodes/Node1
 @onready var node2: MapNode = $Nodes/Node2
 @onready var node3: MapNode = $Nodes/Node3
+@onready var node4: MapNode = $Nodes/Node4
 
 func _ready() -> void:
 	player.arrived_at_node.connect(_on_player_arrived)
@@ -21,14 +22,17 @@ func _ready() -> void:
 		line_1_2.default_color = Color(1.0, 0.8, 0.2, 1.0)
 	if highest >= 3:
 		line_2_3.default_color = Color(1.0, 0.8, 0.2, 1.0)
+	$Paths/Line3_4.default_color = Color(1.0, 0.8, 0.2, 1.0) if highest >= 4 else Color(0.3, 0.3, 0.3, 0.5)
 		
 	# Coloca o jogador no nível mais alto desbloqueado por padrão
 	if highest == 1:
 		player.current_node = node1
 	elif highest == 2:
 		player.current_node = node2
-	else:
+	elif highest == 3:
 		player.current_node = node3
+	else:
+		player.current_node = node4
 		
 	player.global_position = player.current_node.global_position
 	_on_player_arrived(player.current_node)

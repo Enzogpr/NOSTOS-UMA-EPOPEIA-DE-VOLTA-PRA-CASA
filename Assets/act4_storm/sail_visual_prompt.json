@@ -1,0 +1,6 @@
+{
+  "tool": "image_gen (built-in)",
+  "source": "ship_hull_rowing.png",
+  "output": "ship_sails_furled.png",
+  "prompt": "Use case: precise-object-edit. Asset type: transparent Godot game player ship sprite, reefed/furled sail state. Edit target: the provided exact Greek ship sprite. Change ONLY the cream and crimson sail CLOTH: fully gather/furl the cloth into a narrow folded cream/red bundle tied along the long central vertical mast/spar at x around 850. Expose the wooden deck that the wide sail used to cover, matching existing deck planks. The outer brown spars, standing rigging, central crossbar, main mast, entire hull, bronze ram pointing RIGHT, left stern flag, oarlocks, deck barrels and coils must all stay exactly in place and unchanged. No oars. Preserve exact original 1664x936 canvas, original hull size and original pixel positions, identical silhouette of the hull, original overhead perspective, original fine pixel art texture and amber/gold palette. Do not rotate, mirror, recenter or resize the ship. Fully transparent true alpha background, no ocean, no shadow, no text. Sail must be visibly stowed as a very narrow bundle, not wide unfurled cloth, deck readable on both sides. Keep generous transparent margins exactly as original. This will be switched with original for Space-held reefing animation."
+}

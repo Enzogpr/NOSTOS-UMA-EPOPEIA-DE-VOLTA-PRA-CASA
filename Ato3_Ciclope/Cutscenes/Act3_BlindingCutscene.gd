@@ -1,5 +1,7 @@
 extends Control
 
+var cinematic: Control
+
 var current_slide := 0
 var is_game_over: bool = false
 var in_minigame: bool = false
@@ -60,7 +62,7 @@ var slides_part3_win = [
 	{
 		"image": "res://Assets/act3_fenda_olhos_sumindo.jpg",
 		"speaker": "Vozes Trovão (Outros Ciclopes)",
-		"text": "\"Se não foi Ninguém, então pare de chorar! Devem ser os deuses que o amaldiçoaram. Lide com isso em silêncio!\""
+		"text": "\"Se foi Ninguém, então pare de chorar! Devem ser os deuses que o amaldiçoaram. Lide com isso em silêncio!\""
 	},
 	{
 		"image": "res://Assets/act3_odisseu_sussurrando_ovelhas.jpg",
@@ -139,6 +141,7 @@ var active_slides = []
 @onready var hit_area: ColorRect = $MinigamePanel/HitArea
 
 func _ready() -> void:
+	cinematic = preload("res://Code/CinematicStaging.gd").attach(self, _on_cinematic_advance)
 	if GameManager.player_fake_name == "":
 		GameManager.player_fake_name = "Ninguem" # Padrão para testes diretos na cena
 		
@@ -153,18 +156,7 @@ func _ready() -> void:
 	hit_area.gui_input.connect(_on_hit_area_gui_input)
 
 func _load_texture(path: String) -> Texture2D:
-	var variations = [
-		path,
-		path.replace(".jpg", ".png"),
-		path.replace(".png", ".jpg")
-	]
-	for p in variations:
-		if ResourceLoader.exists(p): return load(p)
-		if FileAccess.file_exists(p):
-			var img = Image.new()
-			if img.load(p) == OK:
-				return ImageTexture.create_from_image(img)
-	return null
+	return cinematic.resolve_texture(path)
 
 func _update_slide() -> void:
 	var slide = active_slides[current_slide]
@@ -181,8 +173,17 @@ func _update_slide() -> void:
 	var tex = _load_texture(slide["image"])
 	if tex:
 		texture_rect.texture = tex
+	text_panel.hide()
+	var sequence := "blinding_1"
+	if active_slides == slides_part2:
+		sequence = "blinding_2"
+	elif active_slides == slides_part3_win:
+		sequence = "blinding_win"
+	elif active_slides == slides_part3_lose:
+		sequence = "blinding_lose"
+	cinematic.present(slide, sequence, current_slide)
 
-func _unhandled_input(event: InputEvent) -> void:
+func _advance_story(event: InputEvent) -> void:
 	if is_game_over:
 		if event.is_pressed() and event is InputEventKey and event.keycode == KEY_R:
 			GameManager.heal_fully()
@@ -205,12 +206,13 @@ func _handle_slide_end() -> void:
 	elif active_slides == slides_part2:
 		_check_branch()
 	elif active_slides == slides_part3_win:
-		# Acaba o Ato 3, vai pro Cartão de Encerramento
-		get_tree().change_scene_to_file("res://Ato3_Ciclope/Cutscenes/Act3_EndingCard.tscn")
+		# Após poupar Polifemo e revelar seu nome, Odisseu confronta Atena.
+		get_tree().change_scene_to_file("res://Ato3_Ciclope/Cutscenes/Act3_AthenaFarewellCutscene.tscn")
 	elif active_slides == slides_part3_lose:
 		_trigger_game_over()
 
 func _start_minigame() -> void:
+	cinematic.suspend()
 	in_minigame = true
 	minigame_panel.visible = true
 	text_panel.visible = false
@@ -258,6 +260,20 @@ func _check_branch() -> void:
 	_update_slide()
 
 func _trigger_game_over() -> void:
+	cinematic.suspend()
 	is_game_over = true
 	text_panel.visible = false
 	game_over_overlay.visible = true
+
+func _unhandled_input(event: InputEvent) -> void:
+	if cinematic.active or cinematic.is_ending:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		return
+	_advance_story(event)
+
+func _on_cinematic_advance() -> void:
+	var event := InputEventAction.new()
+	event.action = "ui_accept"
+	event.pressed = true
+	_advance_story(event)

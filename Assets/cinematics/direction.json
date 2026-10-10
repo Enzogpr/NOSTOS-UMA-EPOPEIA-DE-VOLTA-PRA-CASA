@@ -1,0 +1,633 @@
+{
+  "actors": {
+    "odysseus_clean": {
+      "texture": "res://Assets/cinematics/odysseus_clean.png"
+    },
+    "odysseus_wounded": {
+      "texture": "res://Assets/act3_athena_farewell/odysseus_expressions.png"
+    },
+    "companions": {
+      "texture": "res://Assets/cinematics/companions.png",
+      "flip": true
+    },
+    "elder": {
+      "texture": "res://Assets/cinematics/lotus_elder.png",
+      "flip": true
+    },
+    "polyphemus": {
+      "texture": "res://Assets/cinematics/polyphemus_uninjured.png",
+      "flip": false,
+      "injured": false,
+      "width": 590
+    },
+    "polyphemus_blinded": {
+      "texture": "res://Assets/cinematics/polyphemus_blinded.png",
+      "columns": 1,
+      "rows": 1,
+      "flip": false,
+      "injured": true,
+      "width": 590
+    },
+    "athena": {
+      "texture": "res://Assets/act3_athena_farewell/athena_expressions.png",
+      "spectral": 1
+    },
+    "deities": {
+      "texture": "res://Assets/cinematics/deities.png",
+      "columns": 1,
+      "rows": 1,
+      "spectral": 1,
+      "width": 490
+    }
+  },
+  "sequences": {
+    "act1_intro": {
+      "title": "ATO I · A QUEDA DE TROIA",
+      "beats": [
+        {
+          "pan": [
+            15,
+            0
+          ],
+          "fire": 0.2
+        },
+        {
+          "pan": [
+            -18,
+            0
+          ],
+          "fire": 0.3
+        },
+        {
+          "pan": [
+            15,
+            0
+          ],
+          "quiet": true
+        },
+        {
+          "background": "res://Assets/cinematics/horse_interior.png",
+          "left": "odysseus_clean",
+          "left_pose": 0,
+          "right": "companions",
+          "right_pose": 3,
+          "fire": 0.2,
+          "quiet": true,
+          "hold": 2
+        }
+      ]
+    },
+    "act1_invasion": {
+      "title": "TROIA · OS PORTÕES",
+      "beats": [
+        {
+          "fire": 0.5,
+          "pan": [
+            20,
+            0
+          ]
+        },
+        {
+          "fire": 0.6,
+          "impact": 1.5,
+          "pan": [
+            -15,
+            0
+          ]
+        }
+      ]
+    },
+    "act1_palace": {
+      "title": "TROIA · O PALÁCIO",
+      "beats": [
+        {
+          "fire": 0.3,
+          "pan": [
+            15,
+            0
+          ]
+        },
+        {
+          "fire": 0.4,
+          "hold": 2,
+          "pan": [
+            -15,
+            0
+          ]
+        }
+      ]
+    },
+    "act1_ending": {
+      "title": "TROIA · O PESO DO DESTINO",
+      "beats": [
+        {
+          "background": "res://Assets/cinematics/odysseus_stabbed_vision.png",
+          "dream": 0.6,
+          "impact": 2.5,
+          "fire": 0.4,
+          "context": "UMA VISÃO",
+          "quiet": true,
+          "hold": 3.0
+        },
+        {
+          "background": "res://Assets/cinematics/nursery.png",
+          "fire": 0.4,
+          "quiet": true,
+          "pan": [
+            -6,
+            0
+          ],
+          "hold": 2.2
+        },
+        {
+          "background": "res://Assets/cinematics/nursery.png",
+          "left": "odysseus_clean",
+          "left_pose": 2,
+          "right": "deities",
+          "right_pose": 0,
+          "speaker": "Voz dos deuses",
+          "focus": "right",
+          "quiet": true,
+          "hold": 2.4,
+          "context": "UMA VISÃO"
+        },
+        {
+          "background": "res://Assets/cinematics/nursery.png",
+          "left": "odysseus_clean",
+          "left_pose": 2,
+          "right": "",
+          "right_pose": 0,
+          "quiet": true,
+          "focus": "left",
+          "hold": 3,
+          "intensity": 0.05
+        },
+        {
+          "background": "res://Assets/cinematics/balcony.png",
+          "quiet": true,
+          "hold": 3,
+          "fire": 0.15,
+          "pan": [
+            -8,
+            0
+          ]
+        }
+      ]
+    },
+    "act1_release": {
+      "title": "TROIA · O PESO DO DESTINO",
+      "beats": [
+        {
+          "background": "res://Assets/cinematics/balcony_release.png",
+          "quiet": true,
+          "fire": 0.15,
+          "intensity": 0.0,
+          "pan": [-8, 0]
+        }
+      ]
+    },
+    "act2_voyage": {
+      "title": "ATO II · À PROCURA DE TERRA",
+      "beats": [
+        {
+          "background": "res://Assets/cinematics/ship_deck.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "companions",
+          "right_pose": 0,
+          "water": 0.7,
+          "focus": "right",
+          "intensity": 0.1
+        },
+        {
+          "background": "res://Assets/cinematics/ship_deck.png",
+          "left": "odysseus_clean",
+          "left_pose": 3,
+          "right": "companions",
+          "right_pose": 0,
+          "water": 0.7,
+          "focus": "left"
+        },
+        {
+          "background": "res://Assets/cinematics/lotus_shore.png",
+          "left": "odysseus_clean",
+          "left_pose": 3,
+          "right": "companions",
+          "right_pose": 0,
+          "water": 0.4,
+          "focus": "left"
+        },
+        {
+          "background": "res://Assets/cinematics/lotus_shore.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "",
+          "right_pose": 0,
+          "water": 0.4,
+          "quiet": true,
+          "hold": 2.5
+        }
+      ]
+    },
+    "act2_landing": {
+      "title": "ATO II · A ILHA A LESTE",
+      "beats": [
+        {
+          "water": 0.5,
+          "quiet": true
+        },
+        {
+          "water": 0.3,
+          "focus": "left",
+          "hold": 2
+        },
+        {
+          "water": 0.3,
+          "quiet": true,
+          "pan": [
+            15,
+            0
+          ]
+        }
+      ]
+    },
+    "lotus_encounter": {
+      "title": "LOTÓFAGOS · A PAZ E O ESQUECIMENTO",
+      "beats": [
+        {
+          "dream": 0.2,
+          "quiet": true
+        },
+        {
+          "background": "res://Assets/cinematics/lotus_clearing.png",
+          "left": "odysseus_clean",
+          "left_pose": 3,
+          "right": "elder",
+          "right_pose": 0,
+          "focus": "left",
+          "dream": 0.3
+        },
+        {
+          "background": "res://Assets/cinematics/lotus_clearing.png",
+          "left": "odysseus_clean",
+          "left_pose": 0,
+          "right": "elder",
+          "right_pose": 1,
+          "focus": "right",
+          "dream": 0.4,
+          "intensity": 0.05
+        },
+        {
+          "dream": 0.35,
+          "quiet": true,
+          "hold": 2.4
+        },
+        {
+          "background": "res://Assets/cinematics/lotus_clearing.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "elder",
+          "right_pose": 2,
+          "dream": 0.3,
+          "intensity": 0.05
+        }
+      ]
+    },
+    "crew_1": {
+      "title": "LOTÓFAGOS · O PRIMEIRO MARINHEIRO",
+      "beats": [
+        {
+          "background": "res://Assets/cinematics/lotus_clearing.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "companions",
+          "right_pose": 2,
+          "dream": 0.6,
+          "focus": "right",
+          "context": "TORPOR",
+          "quiet": true
+        }
+      ]
+    },
+    "crew_2": {
+      "title": "LOTÓFAGOS · O SEGUNDO MARINHEIRO",
+      "beats": [
+        {
+          "background": "res://Assets/cinematics/lotus_clearing.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "companions",
+          "right_pose": 2,
+          "dream": 0.5,
+          "focus": "right",
+          "context": "ESQUECIMENTO",
+          "quiet": true
+        }
+      ]
+    },
+    "cave_encounter": {
+      "title": "ATO III · O DONO DA CAVERNA",
+      "beats": [
+        {
+          "quiet": true,
+          "fire": 0.2
+        },
+        {
+          "fire": 0.4,
+          "quiet": true
+        },
+        {
+          "impact": 3,
+          "fire": 0.3,
+          "hold": 1.8
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "polyphemus",
+          "right_pose": 1,
+          "focus": "left",
+          "fire": 0.3
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "polyphemus",
+          "right_pose": 0,
+          "focus": "right",
+          "hold": 2.8,
+          "quiet": true,
+          "intensity": 0.1
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "polyphemus",
+          "right_pose": 1,
+          "focus": "right",
+          "impact": 2,
+          "intensity": 0.7,
+          "fire": 0.4
+        },
+        {
+          "impact": 3,
+          "focus": "right"
+        },
+        {
+          "focus": "right",
+          "hold": 2
+        },
+        {
+          "focus": "right",
+          "intensity": 0.5
+        },
+        {
+          "focus": "right",
+          "hold": 2.3
+        }
+      ]
+    },
+    "cave_resolution": {
+      "title": "POLIFEMO · UMA TROCA",
+      "beats": [
+        {
+          "fire": 0.3,
+          "focus": "left"
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "polyphemus",
+          "right_pose": 2,
+          "focus": "right"
+        },
+        {
+          "fire": 0.3,
+          "focus": "left"
+        },
+        {
+          "fire": 0.3,
+          "pan": [
+            -10,
+            0
+          ]
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "polyphemus",
+          "right_pose": 2,
+          "focus": "right",
+          "hold": 2
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_clean",
+          "left_pose": 0,
+          "right": "polyphemus",
+          "right_pose": 2,
+          "focus": "left"
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_clean",
+          "left_pose": 0,
+          "right": "polyphemus",
+          "right_pose": 2,
+          "focus": "right"
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_clean",
+          "left_pose": 0,
+          "right": "polyphemus",
+          "right_pose": 2,
+          "focus": "left"
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_clean",
+          "left_pose": 1,
+          "right": "polyphemus",
+          "right_pose": 2,
+          "focus": "right",
+          "quiet": true,
+          "hold": 3,
+          "impact": 1.5
+        }
+      ]
+    },
+    "blinding_1": {
+      "title": "ATO III · SOBREVIVER",
+      "beats": [
+        {
+          "quiet": true,
+          "hold": 2,
+          "fire": 0.2
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_wounded",
+          "left_pose": 2,
+          "right": "companions",
+          "right_pose": 3,
+          "focus": "right",
+          "quiet": true
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_wounded",
+          "left_pose": 2,
+          "right": "companions",
+          "right_pose": 3,
+          "focus": "left",
+          "quiet": true,
+          "hold": 2.5
+        },
+        {
+          "fire": 0.7,
+          "focus": "left"
+        }
+      ]
+    },
+    "blinding_2": {
+      "title": "POLIFEMO · O PLANO",
+      "beats": [
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_wounded",
+          "left_pose": 1,
+          "right": "",
+          "right_pose": 0,
+          "focus": "left",
+          "impact": 2,
+          "fire": 0.7
+        },
+        {
+          "impact": 4,
+          "fire": 0.8,
+          "burst": true
+        },
+        {
+          "impact": 2,
+          "quiet": true
+        },
+        {
+          "impact": 2.5,
+          "focus": "right"
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_wounded",
+          "left_pose": 0,
+          "right": "polyphemus_blinded",
+          "right_pose": 0,
+          "focus": "right",
+          "impact": 2,
+          "intensity": 0.7
+        }
+      ]
+    },
+    "blinding_win": {
+      "title": "ATO III · A ESCOLHA DE ODISSEU",
+      "beats": [
+        {
+          "quiet": true
+        },
+        {
+          "quiet": true,
+          "focus": "left"
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_wounded",
+          "left_pose": 0,
+          "right": "athena",
+          "right_pose": 0,
+          "focus": "right",
+          "manifest": true,
+          "dream": 0.3,
+          "context": "NA MENTE DE ODISSEU"
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_wounded",
+          "left_pose": 3,
+          "right": "athena",
+          "right_pose": 0,
+          "focus": "left",
+          "quiet": true,
+          "hold": 2.2
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_wounded",
+          "left_pose": 3,
+          "right": "athena",
+          "right_pose": 1,
+          "focus": "right",
+          "impact": 1.5
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_wounded",
+          "left_pose": 2,
+          "right": "athena",
+          "right_pose": 1,
+          "focus": "left",
+          "quiet": true,
+          "hold": 2.8,
+          "intensity": 0.05
+        },
+        {
+          "background": "res://Assets/act3_athena_farewell/mind_cave.png",
+          "left": "odysseus_wounded",
+          "left_pose": 2,
+          "right": "athena",
+          "right_pose": 1,
+          "focus": "right",
+          "impact": 3,
+          "burst": true
+        },
+        {
+          "focus": "left",
+          "impact": 1.5
+        },
+        {
+          "focus": "left",
+          "quiet": true,
+          "hold": 2.5
+        },
+        {
+          "focus": "left",
+          "intensity": 0.7
+        },
+        {
+          "focus": "left",
+          "impact": 2,
+          "hold": 2.5,
+          "quiet": true
+        }
+      ]
+    },
+    "blinding_lose": {
+      "title": "ATO III · O NOME E A RUÍNA",
+      "beats": [
+        {
+          "impact": 3,
+          "focus": "right"
+        },
+        {
+          "impact": 4,
+          "quiet": true,
+          "hold": 3
+        }
+      ]
+    }
+  }
+}

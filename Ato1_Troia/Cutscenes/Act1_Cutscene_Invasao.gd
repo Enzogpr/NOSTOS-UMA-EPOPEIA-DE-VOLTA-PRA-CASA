@@ -1,5 +1,7 @@
 extends Control
 
+var cinematic: Control
+
 var current_slide := 0
 
 var texts = [
@@ -17,6 +19,7 @@ var images = [
 @onready var continue_label: Label = $TextPanel/ContinueLabel
 
 func _ready() -> void:
+	cinematic = preload("res://Code/CinematicStaging.gd").attach(self, _on_cinematic_advance)
 	_update_slide()
 
 func _update_slide() -> void:
@@ -31,11 +34,25 @@ func _update_slide() -> void:
 		continue_label.text = "Pressione para lutar..."
 	else:
 		continue_label.text = "Pressione qualquer botão para continuar..."
+	cinematic.present({"text": texts[current_slide], "image": images[current_slide]}, "act1_invasion", current_slide)
 
-func _unhandled_input(event: InputEvent) -> void:
+func _advance_story(event: InputEvent) -> void:
 	if event.is_pressed() and not event.is_echo():
 		current_slide += 1
 		if current_slide >= texts.size():
-			get_tree().change_scene_to_file("res://Ato1_Troia/Fase2_Invasao.tscn")
+			cinematic.transition_to("res://Ato1_Troia/Fase2_Invasao.tscn")
 		else:
 			_update_slide()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if cinematic.active or cinematic.is_ending:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		return
+	_advance_story(event)
+
+func _on_cinematic_advance() -> void:
+	var event := InputEventAction.new()
+	event.action = "ui_accept"
+	event.pressed = true
+	_advance_story(event)

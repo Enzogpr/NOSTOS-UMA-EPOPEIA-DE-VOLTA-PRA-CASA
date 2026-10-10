@@ -37,6 +37,11 @@ points = PackedVector2Array(520, 480, 890, 250)
 width = 6.0
 default_color = Color(1, 0.8, 0.2, 0.5)
 
+[node name="Line3_4" type="Line2D" parent="Paths"]
+points = PackedVector2Array(890, 250, 1020, 490)
+width = 6.0
+default_color = Color(0.3, 0.3, 0.3, 0.5)
+
 [node name="Nodes" type="Node2D" parent="."]
 
 [node name="Node1" type="Node2D" parent="Nodes"]
@@ -77,8 +82,24 @@ level_id = 3
 level_scene = "res://Ato3_Ciclope/Cutscenes/Act3_TitleCard.tscn"
 real_name = "Ato III: A Caverna do Ciclope"
 left_node = NodePath("../Node2")
+right_node = NodePath("../Node4")
 
 [node name="ColorRect" type="ColorRect" parent="Nodes/Node3"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(1, 0.8, 0.2, 1)
+
+[node name="Node4" type="Node2D" parent="Nodes"]
+position = Vector2(1020, 490)
+script = ExtResource("3_node")
+level_id = 4
+level_scene = "res://Ato4_Tempestade/Cutscenes/Act4_StormCutscene.tscn"
+real_name = "Ato IV: A Tempestade"
+left_node = NodePath("../Node3")
+
+[node name="ColorRect" type="ColorRect" parent="Nodes/Node4"]
 offset_left = -10.0
 offset_top = -10.0
 offset_right = 10.0

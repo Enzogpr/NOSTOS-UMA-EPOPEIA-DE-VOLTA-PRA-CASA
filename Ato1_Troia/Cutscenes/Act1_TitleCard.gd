@@ -10,6 +10,7 @@ extends CanvasLayer
 var can_continue: bool = false
 
 func _ready() -> void:
+	preload("res://Code/CinematicCardBackdrop.gd").attach(self, "res://Assets/cutscene_1.png")
 	title_lbl.modulate.a = 0.0
 	subtitle_lbl.modulate.a = 0.0
 	desc_lbl.modulate.a = 0.0
@@ -26,7 +27,7 @@ func _ready() -> void:
 	tween.tween_callback(func(): can_continue = true)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_pressed() and not event.is_echo():
+	if event.is_pressed() and not event.is_echo() and not event.is_action_pressed("ui_cancel"):
 		if can_continue:
 			can_continue = false
 			var tween = create_tween()

@@ -1,0 +1,5 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Asset type: Godot game player ship sprite. Reference image: use ONLY as style and boat construction reference. Create one isolated ancient Greek rowing ship viewed from directly overhead, orthographic top-down camera with a small readable deck perspective. Long axis horizontal, stern on LEFT, pointed bronze ram/prow on RIGHT. Dark warm brown wooden hull, wooden deck, symmetric oars extending to both sides, one mast with cream square sail edged in crimson Greek meander like reference, bronze fittings, small crimson stern banner. Rich crisp hand-clustered PIXEL ART, dark outlines, readable 16-bit game sprite, restrained dithering, actual stepped pixels, no photorealism. Ship occupies 85 percent of horizontal canvas, centered, all oars inside canvas with margin. Hull itself is slender, oars add width. Transparent alpha background: no ocean, no waves, no shadow plane, no text, no border, no additional ships. This sprite must be suitable for rotation and scaling to around 160px wide in a storm navigation game.",
+  "asset": "ship_player.png"
+}

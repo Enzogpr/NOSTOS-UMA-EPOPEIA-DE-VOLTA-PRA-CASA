@@ -1,0 +1,9 @@
+{
+  "tool": "image_gen (built-in)",
+  "asset": "aeolus_fullbody.png",
+  "references": [
+    "odysseus_fullbody.png",
+    "aeolia_floating.png"
+  ],
+  "prompt": "Use case: stylized-concept. Asset type: transparent full-body Godot dialogue character sprite, Aeolus/Éolo ruler of winds, for a fan game inspired by EPIC the Musical. Input image 1 is ONLY the existing game's character pixel-art, linework, detail and lighting style reference: do not copy Odysseus armor or face. Input image 2 is ONLY Aeolia island world/material palette reference. Create ONE youthful androgynous wind deity with playful knowing smile, light wavy shoulder-length hair swept upward by the breeze, delicate bronze circlet with a tiny spiral wind ornament, flowing ivory Greek chiton with subtle sea-green and pale gold trim, long airy translucent drapery swirling around arms, bronze sandals, one hand open as if guiding a small curling breeze. Three-quarter full-body portrait facing LEFT, friendly mischievous composure, no beard, no heavy armor, no weapons. Match reference's detailed fine pixel-art/dithered game sprite treatment, square pixel clusters, amber rimlight and cool teal shadows. Entire head, hands, drapery, feet within canvas with generous true alpha transparent margin. ONE character only, centered, no environment, no letters, no labels, no logo, no frame. This is a tasteful original visual interpretation of Éolo, not a real performer's likeness."
+}

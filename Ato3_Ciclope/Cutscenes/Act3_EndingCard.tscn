@@ -40,7 +40,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
 theme_override_font_sizes/font_size = 24
-text = "A maldição de Poseidon acaba de ser selada..."
+text = "Sem Atena, Odisseu segue rumo ao próprio destino..."
 horizontal_alignment = 1
 
 [node name="PromptLabel" type="Label" parent="ColorRect"]
@@ -58,5 +58,5 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
 theme_override_font_sizes/font_size = 18
-text = "Pressione para retornar ao Menu Principal..."
+text = "Pressione para continuar..."
 horizontal_alignment = 1

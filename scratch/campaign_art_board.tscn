@@ -1,0 +1,4 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://scratch/campaign_art_board.gd" id="1"]
+[node name="ArtBoard" type="Node"]
+script = ExtResource("1")

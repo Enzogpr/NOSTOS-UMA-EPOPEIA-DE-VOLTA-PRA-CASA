@@ -1,5 +1,7 @@
 extends Control
 
+var cinematic: Control
+
 ## Cutscene de Encerramento do Ato II - Chegada à Ilha a Leste
 
 var current_slide := 0
@@ -29,6 +31,7 @@ var slides = [
 @onready var end_subtitle: Label = $FinalContainer/EndSubtitle
 
 func _ready() -> void:
+	cinematic = preload("res://Code/CinematicStaging.gd").attach(self, _on_cinematic_advance)
 	final_container.visible = false
 	_update_slide()
 
@@ -58,8 +61,9 @@ func _update_slide() -> void:
 	
 	texture_rect.texture = _load_texture(img_path)
 	continue_label.text = "Pressione qualquer botão para continuar..."
+	cinematic.present(slides[current_slide], "act2_landing", current_slide)
 
-func _unhandled_input(event: InputEvent) -> void:
+func _advance_story(event: InputEvent) -> void:
 	if final_container.visible:
 		return
 		
@@ -71,6 +75,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			_show_act_ending()
 
 func _show_act_ending() -> void:
+	cinematic.fade_out(1.2)
 	text_panel.visible = false
 	texture_rect.visible = false
 	final_container.visible = true
@@ -89,3 +94,16 @@ func _show_act_ending() -> void:
 		GameManager.unlock_level(3)
 		get_tree().change_scene_to_file("res://Scenes/WorldMap.tscn")
 	)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if cinematic.active or cinematic.is_ending:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		return
+	_advance_story(event)
+
+func _on_cinematic_advance() -> void:
+	var event := InputEventAction.new()
+	event.action = "ui_accept"
+	event.pressed = true
+	_advance_story(event)

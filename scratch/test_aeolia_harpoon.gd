@@ -1,0 +1,217 @@
+extends Node
+
+var checks: int = 0
+var failures: int = 0
+var capture: bool = false
+var attached_count: int = 0
+var completed_count: int = 0
+var completed_in_correct_state: bool = false
+var completed_hull: float = 0.0
+
+func check(ok: bool, message: String) -> void:
+	checks += 1
+	if not ok:
+		failures += 1
+		push_error(message)
+
+func frames(count: int) -> void:
+	for _index in count:
+		await get_tree().physics_frame
+
+func key(code: Key, pressed: bool) -> void:
+	var event := InputEventKey.new()
+	event.keycode = code
+	event.physical_keycode = code
+	event.pressed = pressed
+	Input.parse_input_event(event)
+
+func wait_scene(scene_name: String) -> Node:
+	for _frame in 1200:
+		await get_tree().physics_frame
+		await get_tree().process_frame
+		var scene := get_tree().current_scene
+		if scene != null and scene.name == scene_name:
+			await get_tree().process_frame
+			return scene
+	check(false, "Scene handoff timed out: " + scene_name)
+	get_tree().quit(1)
+	return null
+
+func screenshot(name: String) -> void:
+	if not capture:
+		return
+	get_tree().paused = true
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_png("res://scratch/campaign_review/previews/" + name + ".png")
+	get_tree().paused = false
+
+func solve_shot(game: Control) -> Vector2:
+	# Search a ballistic shot, then use real firing input and wait for contact.
+	var best: float = INF
+	var solution := Vector2(50, 0.3)
+	for degrees in range(30, 71, 5):
+		var direction := Vector2.RIGHT.rotated(-deg_to_rad(float(degrees)))
+		var origin: Vector2 = game.LAUNCHER + direction * 32
+		for strength_step in range(5, 81, 2):
+			var strength: float = strength_step / 100.0
+			var speed: float = 370 + strength * 410
+			if origin.y - pow(direction.y * speed, 2) / (2.0 * game.GRAVITY) < -100:
+				continue
+			for time_step in range(1, 181):
+				var time: float = time_step / 60.0
+				var point: Vector2 = origin + direction * speed * time + Vector2(game.wind, 360) * (0.5 * time * time)
+				var future_target: Vector2 = game.island_position_at(game.clock + time) + game.ANCHOR_OFFSET
+				var distance: float = point.distance_to(future_target)
+				if distance < best:
+					best = distance
+					solution = Vector2(degrees, strength)
+	check(best < 8, "The visible moving target must be reachable with an ordinary angle and charge.")
+	return solution
+
+func _ready() -> void:
+	set_meta("hide_main_hud", true)
+	capture = "--capture" in OS.get_cmdline_user_args()
+	await get_tree().process_frame
+	get_viewport().size = Vector2i(1152, 648)
+	var original_progress: int = GameManager.highest_unlocked_level
+	var original_inventory: Array = GameManager.inventory.duplicate(true)
+	var save_bytes := FileAccess.get_file_as_bytes(GameManager.SAVE_FILE_PATH) if FileAccess.file_exists(GameManager.SAVE_FILE_PATH) else PackedByteArray()
+	var had_hull_meta: bool = GameManager.has_meta("aeolia_arrival_hull")
+	var old_hull_meta: Variant = GameManager.get_meta("aeolia_arrival_hull", 100.0)
+	var storm := preload("res://Ato4_Tempestade/Gameplay/StormLevel.tscn").instantiate()
+	storm.persist_progress = false
+	get_tree().root.add_child(storm)
+	get_tree().current_scene = storm
+	storm.ship.hull = 72.5
+	storm.state = storm.State.ARRIVAL
+	storm.finish(true)
+	await frames(3)
+	check(storm.hud.continue_button.visible, "Winning the crossing must offer a visible route to Aeolia.")
+	check(storm.hud.continue_button.has_focus(), "The continue action must receive keyboard focus after victory.")
+	storm.hud.continue_button.pressed.emit()
+	var game: Control = await wait_scene("AeoliaHarpoon")
+	check(game.name == "AeoliaHarpoon" and game.state == game.State.READY, "The actual storm button must load the safe harpoon instructions.")
+	game.transition_enabled = false
+	game.rope_attached.connect(func(): attached_count += 1)
+	game.ascent_completed.connect(func():
+		completed_count += 1
+		completed_in_correct_state = game.state == game.State.COMPLETE
+		completed_hull = game.arrival_hull
+	)
+	check(game.arrival_hull == 72.5 and not MainHUD.visible, "The minigame must preserve the arrival hull and use its own HUD.")
+	check(game.get_node("ShotSound").bus == &"SFX" and game.get_node("ShotSound").stream != null, "The harpoon must use a valid effect on the SFX bus.")
+	await screenshot("aeolia_instructions")
+	key(KEY_ENTER, true)
+	key(KEY_ENTER, false)
+	await frames(3)
+	check(game.state == game.State.AIMING, "Real Enter must begin aiming.")
+	var original_angle: float = game.angle_degrees
+	for _frame in 15:
+		key(KEY_D, true)
+		await get_tree().physics_frame
+	key(KEY_D, false)
+	check(game.angle_degrees > original_angle + 5, "Real D input must adjust the launcher angle.")
+	game.angle_degrees = 50
+	key(KEY_SPACE, true)
+	await frames(6)
+	check(game.state == game.State.CHARGING and game.charge > 0.04, "Holding Space must charge the strength meter.")
+	var paused_clock: float = game.clock
+	var paused_charge: float = game.charge
+	get_tree().paused = true
+	await get_tree().create_timer(0.15, true).timeout
+	check(game.clock == paused_clock and game.charge == paused_charge, "Pause must freeze the target, breeze and charge.")
+	get_tree().paused = false
+	game.charge = 0
+	key(KEY_SPACE, false)
+	await frames(1)
+	check(game.state == game.State.FLYING and game.attempts == 1, "Releasing Space must fire exactly once.")
+	key(KEY_SPACE, true)
+	key(KEY_SPACE, false)
+	await frames(1)
+	check(game.attempts == 1, "Repeated presses must not create multiple projectiles in flight.")
+	for _frame in 240:
+		if game.state == game.State.AIMING:
+			break
+		await get_tree().physics_frame
+	check(game.state == game.State.AIMING and attached_count == 0 and game.arrival_hull == 72.5, "A weak missed shot must retract and allow another try without hull loss.")
+	await screenshot("aeolia_aiming")
+	get_viewport().size = Vector2i(800, 1000)
+	await frames(2)
+	check(game.stage.scale.x < 0.7 and game.stage.position.y > 200, "A portrait window must letterbox the entire stage without changing aim coordinates.")
+	await screenshot("aeolia_portrait")
+	get_viewport().size = Vector2i(1152, 648)
+	await frames(2)
+	var target_before: Vector2 = game.anchor.position
+	await frames(30)
+	check(game.anchor.position.distance_to(target_before) > 1 and absf(game.wind) <= 22.01, "The island must move with a mild breeze.")
+	var min_target := Vector2(INF, INF)
+	var max_target := Vector2(-INF, -INF)
+	for step in 1200:
+		var position: Vector2 = game.island_position_at(step / 60.0) + game.ANCHOR_OFFSET
+		min_target = min_target.min(position)
+		max_target = max_target.max(position)
+	check(max_target.x - min_target.x > 190 and max_target.y - min_target.y > 63, "The island must travel broadly in both axes.")
+	check(min_target.x - game.LAUNCHER.x > 415 and max_target.x - game.LAUNCHER.x > 600, "Even the closest target must remain farther from the ship than before.")
+	key(KEY_SPACE, true)
+	await frames(1)
+	# Hold simulation only while dispatching the known release input. Otherwise
+	# headless/GL event ordering can add a physics tick of extra charge and drift.
+	game.set_physics_process(false)
+	var solution: Vector2 = solve_shot(game)
+	game.angle_degrees = solution.x
+	game.charge = solution.y
+	key(KEY_SPACE, false)
+	for _frame in 3:
+		await get_tree().process_frame
+		if game.state == game.State.FLYING:
+			break
+	game.set_physics_process(true)
+	await frames(15)
+	await screenshot("aeolia_harpoon_flight")
+	for _frame in 240:
+		if game.state >= game.State.LATCHED:
+			break
+		await get_tree().physics_frame
+	check(game.state == game.State.LATCHED and attached_count == 1 and game.attempts == 2, "A real ballistic contact with the aro must attach the rope with one successful shot.")
+	if game.state < game.State.LATCHED:
+		get_tree().quit(1)
+		return
+	check(game.projectile.distance_to(game.anchor.position) < 1 and not game.map_button.visible, "A successful rope must stay fixed to the target and secure the ascent.")
+	await screenshot("aeolia_rope_attached")
+	await frames(100)
+	check(game.state == game.State.CLIMBING and game.climber.visible and game.climber.position.distance_to(game.LAUNCHER) > 15, "Odysseus must visibly climb the anchored rope.")
+	await screenshot("aeolia_ascent")
+	game.transition_enabled = true
+	var meeting: Control = await wait_scene("AeoliaMeetingCutscene")
+	check(completed_in_correct_state and completed_count == 1, "The ascent must complete once and automatically open the encounter.")
+	await frames(5)
+	check(completed_count == 1 and completed_hull == 72.5, "Completion must not repeat or alter the arrival hull.")
+	check(meeting.name == "AeoliaMeetingCutscene" and meeting.beats.size() == 4, "Completing the ascent must load the real encounter with Aeolus.")
+	check(meeting.cinematic.library.actors.has("aeolus"), "Aeolus must have an integrated portrait in the encounter.")
+	await get_tree().create_timer(0.7).timeout
+	await screenshot("aeolia_meeting_odysseus")
+	while not meeting.ended:
+		meeting.cinematic.input_cooldown = 0
+		meeting.cinematic.dialogue.visible_characters = meeting.cinematic.dialogue.get_total_character_count()
+		meeting.cinematic._advance_requested()
+		if meeting.beat_index == 1:
+			await get_tree().create_timer(0.3).timeout
+			await screenshot("aeolia_meeting_aeolus")
+	check(meeting.end_panel.visible, "The encounter must finish with usable replay/map controls.")
+	await screenshot("aeolia_meeting_complete")
+	meeting.end_panel.get_node("Retry").pressed.emit()
+	game = await wait_scene("AeoliaHarpoon")
+	check(game.name == "AeoliaHarpoon" and game.state == game.State.READY and game.attempts == 0, "Replay must reset just the minigame.")
+	game.return_to_map()
+	await wait_scene("WorldMap")
+	check(get_tree().current_scene.name == "WorldMap", "The minigame must provide an actual route back to the map.")
+	check(GameManager.highest_unlocked_level == original_progress and GameManager.inventory == original_inventory, "The introductory encounter must neither unlock another act nor award story items.")
+	var final_save := FileAccess.get_file_as_bytes(GameManager.SAVE_FILE_PATH) if FileAccess.file_exists(GameManager.SAVE_FILE_PATH) else PackedByteArray()
+	check(final_save == save_bytes, "Testing the new minigame must leave saved progress unchanged.")
+	if had_hull_meta:
+		GameManager.set_meta("aeolia_arrival_hull", old_hull_meta)
+	else:
+		GameManager.remove_meta("aeolia_arrival_hull")
+	print("AEOLIA HARPOON: ", checks, " checks; ", failures, " failures")
+	get_tree().quit(0 if failures == 0 else 1)

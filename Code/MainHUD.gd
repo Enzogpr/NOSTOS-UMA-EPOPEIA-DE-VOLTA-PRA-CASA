@@ -14,7 +14,7 @@ func _on_stats_changed() -> void:
 
 func _process(_delta: float) -> void:
 	var current = get_tree().current_scene
-	if current and (current.name.contains("Title") or current.name.contains("Cutscene") or current.name.contains("Splash") or current.name.contains("WorldMap")):
+	if current and (current.get_meta("hide_main_hud", false) or current.get_meta("cinematic_active", false) or current.name.contains("Title") or current.name.contains("Cutscene") or current.name.contains("EndingCard") or current.name.contains("Splash") or current.name.contains("WorldMap")):
 		visible = false
 	else:
 		visible = true

@@ -1,0 +1,5 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Godot top-down Greek Odyssey game obstacle sprite. Reference image is style and palette reference only. One isolated cluster of rugged dark slate Mediterranean rocks, small reef emerging above the water, viewed orthographically from above with slight readable rock-face perspective matching reference. Irregular roughly round footprint, a larger central boulder and 3 smaller attached outcrops. Rich detailed crisp PIXEL ART with stepped stone shapes and gray-blue angular facets, weathered cracks, sparse olive moss, wet highlights, restrained dithering. Natural silhouette, not a geometric regular polygon. Small wisps of white sea foam around the bottom edge only. True transparent alpha outside the rocks, no sea rectangular background, no landmass, no trees, no UI/text, no people. One centered sprite with clear transparent margin all around, occupies 80 percent of square canvas. Suitable for scaling to 110px wide while preserving readable pixel clusters.",
+  "asset": "rock_reef.png"
+}

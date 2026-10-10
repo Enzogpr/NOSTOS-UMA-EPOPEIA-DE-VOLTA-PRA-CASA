@@ -6,6 +6,7 @@ extends Control
 @onready var text2: Label = $Text2
 
 func _ready() -> void:
+	preload("res://Code/CinematicCardBackdrop.gd").attach(self, "res://Assets/act3_cave_sheep.png")
 	text1.modulate.a = 0
 	text2.modulate.a = 0
 	_play_sequence()
@@ -26,5 +27,5 @@ func _play_sequence() -> void:
 	)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_pressed() and not event.is_echo():
+	if event.is_pressed() and not event.is_echo() and not event.is_action_pressed("ui_cancel"):
 		get_tree().change_scene_to_file("res://Ato3_Ciclope/Cutscenes/Act3_CaveEncounterCutscene.tscn")
