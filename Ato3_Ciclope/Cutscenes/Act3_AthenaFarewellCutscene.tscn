@@ -1,0 +1,311 @@
+[gd_scene format=3 uid="uid://cfuubacig4ix1"]
+
+[ext_resource type="Script" uid="uid://c0sl7jbl6w07d" path="res://Ato3_Ciclope/Cutscenes/Act3_AthenaFarewellCutscene.gd" id="1_scene"]
+[ext_resource type="Texture2D" uid="uid://4x3760tuhfve" path="res://Assets/act3_athena_farewell/mind_cave.png" id="2_cave"]
+[ext_resource type="Texture2D" uid="uid://bau8ajajnks40" path="res://Assets/act3_athena_farewell/odysseus_expressions.png" id="3_odysseus"]
+[ext_resource type="Texture2D" uid="uid://drvg2grhnnstg" path="res://Assets/act3_athena_farewell/athena_expressions.png" id="4_athena"]
+[ext_resource type="Shader" uid="uid://tr22rjkvx5h5" path="res://Assets/act3_athena_farewell/presence.gdshader" id="5_presence"]
+[ext_resource type="Script" uid="uid://dqgcid2edchsg" path="res://Ato3_Ciclope/Cutscenes/Act3_MindAtmosphere.gd" id="6_particles"]
+
+[sub_resource type="Gradient" id="Gradient_light"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(0.34, 0.52, 0.84, 0.2, 0.29, 0.45, 0.75, 0.08, 0.18, 0.3, 0.5, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture_light"]
+gradient = SubResource("Gradient_light")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_odysseus"]
+resource_local_to_scene = true
+shader = ExtResource("5_presence")
+shader_parameter/presence = 1.0
+shader_parameter/spectral = 0.0
+shader_parameter/agitation = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_athena"]
+resource_local_to_scene = true
+shader = ExtResource("5_presence")
+shader_parameter/presence = 0.0
+shader_parameter/spectral = 1.0
+shader_parameter/agitation = 0.0
+
+[sub_resource type="Gradient" id="Gradient_shade"]
+offsets = PackedFloat32Array(0, 0.3, 0.7, 1)
+colors = PackedColorArray(0.015, 0.02, 0.035, 0, 0.015, 0.02, 0.035, 0.3, 0.015, 0.02, 0.035, 0.95, 0.015, 0.02, 0.035, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture_shade"]
+gradient = SubResource("Gradient_shade")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+bg_color = Color(0.04, 0.06, 0.1, 0.85)
+border_width_bottom = 1
+border_color = Color(0.39, 0.44, 0.55, 0.6)
+
+[sub_resource type="StyleBoxFlat" id="Style_hover"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+bg_color = Color(0.12, 0.17, 0.25, 0.95)
+border_width_bottom = 2
+border_color = Color(0.7, 0.8, 1, 1)
+
+[node name="Act3_AthenaFarewellCutscene" type="Control" unique_id=705591221]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_scene")
+
+[node name="Letterbox" type="ColorRect" parent="." unique_id=289002140]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Stage" type="Control" parent="." unique_id=265308727]
+texture_filter = 1
+clip_contents = true
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+
+[node name="World" type="Node2D" parent="Stage" unique_id=1900570769]
+position = Vector2(576, 324)
+
+[node name="Cave" type="Sprite2D" parent="Stage/World" unique_id=1014868048]
+modulate = Color(0.72, 0.76, 0.85, 1)
+scale = Vector2(0.689, 0.689)
+texture = ExtResource("2_cave")
+
+[node name="MindLight" type="Sprite2D" parent="Stage/World" unique_id=677004104]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(270, -40)
+scale = Vector2(3.7, 3)
+texture = SubResource("GradientTexture_light")
+
+[node name="Atmosphere" type="Node2D" parent="Stage/World" unique_id=1559487908]
+script = ExtResource("6_particles")
+
+[node name="Odysseus" type="Node2D" parent="Stage/World" unique_id=628303060]
+position = Vector2(-292, -4)
+
+[node name="Motion" type="Node2D" parent="Stage/World/Odysseus" unique_id=1234657230]
+
+[node name="PreviousPose" type="Sprite2D" parent="Stage/World/Odysseus/Motion" unique_id=1938980729]
+modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_odysseus")
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("3_odysseus")
+hframes = 2
+vframes = 2
+
+[node name="Portrait" type="Sprite2D" parent="Stage/World/Odysseus/Motion" unique_id=817434325]
+material = SubResource("ShaderMaterial_odysseus")
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("3_odysseus")
+hframes = 2
+vframes = 2
+
+[node name="Athena" type="Node2D" parent="Stage/World" unique_id=1092007666]
+position = Vector2(292, -22)
+
+[node name="Motion" type="Node2D" parent="Stage/World/Athena" unique_id=1460185960]
+
+[node name="PreviousPose" type="Sprite2D" parent="Stage/World/Athena/Motion" unique_id=1109202890]
+modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_athena")
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("4_athena")
+hframes = 2
+vframes = 2
+
+[node name="Portrait" type="Sprite2D" parent="Stage/World/Athena/Motion" unique_id=1711832379]
+material = SubResource("ShaderMaterial_athena")
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("4_athena")
+hframes = 2
+vframes = 2
+
+[node name="BottomShade" type="TextureRect" parent="Stage" unique_id=932707846]
+layout_mode = 0
+offset_top = 403.0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+texture = SubResource("GradientTexture_shade")
+expand_mode = 1
+
+[node name="TopBar" type="ColorRect" parent="Stage" unique_id=1223233944]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 30.0
+mouse_filter = 2
+color = Color(0.015, 0.02, 0.035, 1)
+
+[node name="TopTitle" type="Label" parent="Stage" unique_id=1770900229]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 4.0
+offset_right = 1000.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.62, 0.67, 0.76, 1)
+theme_override_font_sizes/font_size = 13
+text = "ATO III   /   O ADEUS DE ATENA"
+
+[node name="Opening" type="VBoxContainer" parent="Stage" unique_id=528870409]
+layout_mode = 0
+offset_left = 176.0
+offset_top = 265.0
+offset_right = 976.0
+offset_bottom = 370.0
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Stage/Opening" unique_id=700736723]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.84, 0.73, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 35
+text = "O ADEUS DE ATENA"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Stage/Opening" unique_id=2120912485]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.64, 0.73, 0.85, 1)
+theme_override_font_sizes/font_size = 16
+text = "Na mente de Odisseu"
+horizontal_alignment = 1
+
+[node name="Captions" type="Control" parent="Stage" unique_id=658039742]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 475.0
+offset_right = 1080.0
+offset_bottom = 596.0
+mouse_filter = 2
+
+[node name="Accent" type="ColorRect" parent="Stage/Captions" unique_id=1899088855]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 3.0
+offset_bottom = 30.0
+mouse_filter = 2
+color = Color(0.52, 0.71, 1, 1)
+
+[node name="Speaker" type="Label" parent="Stage/Captions" unique_id=948849663]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 210.0
+offset_bottom = 33.0
+theme_override_font_sizes/font_size = 23
+text = "ATENA"
+
+[node name="Context" type="Label" parent="Stage/Captions" unique_id=205090903]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 6.0
+offset_right = 960.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0.49, 0.56, 0.68, 1)
+theme_override_font_sizes/font_size = 13
+text = "NA MENTE DE ODISSEU"
+
+[node name="Dialogue" type="RichTextLabel" parent="Stage/Captions" unique_id=1273351303]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 39.0
+offset_right = 996.0
+offset_bottom = 121.0
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.93, 0.92, 0.89, 1)
+theme_override_font_sizes/normal_font_size = 25
+scroll_active = false
+
+[node name="Controls" type="Control" parent="Stage" unique_id=1498951032]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 605.0
+offset_right = 1080.0
+offset_bottom = 642.0
+mouse_filter = 2
+
+[node name="AutoButton" type="Button" parent="Stage/Controls" unique_id=260928093]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 31.0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.65, 0.73, 0.85, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/pressed = SubResource("Style_hover")
+theme_override_styles/hover = SubResource("Style_hover")
+text = "AUTO: SIM  [A]"
+
+[node name="InputHint" type="Label" parent="Stage/Controls" unique_id=689918011]
+layout_mode = 0
+offset_left = 182.0
+offset_top = 4.0
+offset_right = 604.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.43, 0.48, 0.59, 1)
+theme_override_font_sizes/font_size = 13
+text = "ESPAÇO / ENTER / CLIQUE   ·   ESC: PAUSA"
+
+[node name="SkipButton" type="Button" parent="Stage/Controls" unique_id=1802213223]
+layout_mode = 0
+offset_left = 618.0
+offset_right = 778.0
+offset_bottom = 31.0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.65, 0.67, 0.72, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/pressed = SubResource("Style_hover")
+theme_override_styles/hover = SubResource("Style_hover")
+text = "PULAR CENA"
+
+[node name="NextButton" type="Button" parent="Stage/Controls" unique_id=428177612]
+layout_mode = 0
+offset_left = 800.0
+offset_right = 1008.0
+offset_bottom = 31.0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.88, 0.81, 0.65, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/pressed = SubResource("Style_hover")
+theme_override_styles/hover = SubResource("Style_hover")
+text = "CONTINUAR  ›"
+
+[node name="Flash" type="ColorRect" parent="Stage" unique_id=1560579258]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+color = Color(0.6, 0.75, 1, 0)
+
+[node name="Black" type="ColorRect" parent="Stage" unique_id=2066785685]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="MindAmbience" type="AudioStreamPlayer" parent="." unique_id=301995602]
+volume_db = -14.0
+bus = &"Music"

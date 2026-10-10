@@ -1,0 +1,8 @@
+{
+  "tool": "image_gen (built-in)",
+  "use_case": "stylized-concept",
+  "reference": "ship_hull_rowing.png",
+  "output": "ship_harpoon_side.png",
+  "transparent_background": true,
+  "prompt": "Use case: stylized-concept. Asset type: transparent 2D Greek galley game sprite for a SIDE-VIEW harpoon minigame. Input image 1 is only a design and palette reference of the same vessel seen from ABOVE. Primary request: redraw this vessel from a completely different camera, strict orthographic SIDE ELEVATION at waterline height, bow pointing RIGHT, stern LEFT. Hull horizontal along bottom of sprite, mast stands VERTICALLY upward, cream square sail with red Greek key border hangs upright from a horizontal yard high above deck. See the outside broad side of the brown wooden hull with bronze trim, NOT the deck interior. Bronze ram at right bow, curled raised stern with little red flag at left, a single row of wooden oars slopes down toward the invisible water. Detailed painted pixel-art style matching reference, clean sharp readable silhouette, warm wood gold red cream. Entire ship within image including mast and oars, generous small transparent margin, landscape canvas. Unobstructed forward deck for a code-drawn harpoon mount. No people, ocean, waves, sky, text, shadows outside object, modern guns, perspective/top-down/isometric deck view. Background must be truly transparent."
+}

@@ -1,0 +1,5 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Godot game hazard sprite, one vertical strip of a breaking storm wave viewed orthographically from directly ABOVE. Reference is style/palette reference only. Crisp richly detailed 16-bit PIXEL ART consistent with the reference ocean: white and ice-blue turbulent foam along the LEFT edge, thick turquoise curling crest behind it, deep navy churning water fading to real alpha transparency along the RIGHT. Wave travels LEFT, long crest runs vertically from top to bottom. Use a tall rectangular composition, a continuous wavy front spanning the ENTIRE height with no caps at top/bottom so it can repeat vertically. Foam detail and dithered pixel clusters, crisp stepped edges, no smooth gradients, no horizon, no perspective vista, no ship, no land, no words/UI. Transparent alpha around LEFT and RIGHT of the strip. Only one wave strip, not a scene. Keep white foam crest around horizontal 20 percent of width so runtime physical front can line up with it. Top and bottom edges should match for seamless vertical repetition.",
+  "asset": "wave_front.png"
+}

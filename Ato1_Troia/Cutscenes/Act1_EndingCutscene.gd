@@ -1,6 +1,10 @@
 extends Control
 
+var cinematic: Control
+
 var current_slide := 0
+var release_started: bool = false
+var ending_tween: Tween
 
 var slides = [
 	{
@@ -39,6 +43,7 @@ var slides = [
 @onready var end_subtitle: Label = $FinalContainer/EndSubtitle
 
 func _ready() -> void:
+	cinematic = preload("res://Code/CinematicStaging.gd").attach(self, _on_cinematic_advance)
 	choice_container.visible = false
 	final_container.visible = false
 	drop_button.pressed.connect(_on_drop_pressed)
@@ -53,44 +58,42 @@ func _update_slide() -> void:
 	else:
 		texture_rect.texture = null
 		
-	if current_slide == slides.size() - 1:
-		continue_label.visible = false
-		choice_container.visible = true
-		drop_button.grab_focus()
-	else:
-		continue_label.visible = true
-		continue_label.text = "Pressione qualquer botão para continuar..."
+	cinematic.present(slides[current_slide], "act1_ending", current_slide)
 
-func _unhandled_input(event: InputEvent) -> void:
-	if choice_container.visible or final_container.visible:
-		return
-		
-	if event.is_pressed() and not event.is_echo():
-		if current_slide < slides.size() - 1:
-			current_slide += 1
-			_update_slide()
+func _on_cinematic_advance() -> void:
+	if current_slide < slides.size() - 1:
+		current_slide += 1
+		_update_slide()
+	else:
+		cinematic.suspend(true)
+		choice_container.visible = true
+		choice_container.offset_top = -52.0
+		choice_container.offset_bottom = -4.0
+		drop_button.custom_minimum_size.y = 44.0
+		drop_button.offset_top = -22.0
+		drop_button.offset_bottom = 22.0
+		drop_button.grab_focus()
 
 func _on_drop_pressed() -> void:
+	if release_started:
+		return
+	release_started = true
+	cinematic.present_silent("act1_release")
+	hand_rect.visible = false
 	choice_container.visible = false
 	text_panel.visible = false
 	texture_rect.visible = false
 	
-	if ResourceLoader.exists("res://Assets/ending_hand.png"):
-		hand_rect.texture = load("res://Assets/ending_hand.png")
-	else:
-		hand_rect.texture = null
-		
 	final_container.visible = true
-	hand_rect.modulate.a = 0.0
 	end_title.modulate.a = 0.0
 	end_subtitle.modulate.a = 0.0
 	
-	var tween = create_tween()
-	tween.tween_interval(0.8)
-	tween.tween_property(hand_rect, "modulate:a", 1.0, 1.2)
-	tween.tween_interval(2.2)
-	tween.tween_property(hand_rect, "modulate:a", 0.0, 1.5)
-	tween.tween_interval(0.8)
+	ending_tween = create_tween()
+	var tween := ending_tween
+	# Give the empty hands and Odysseus's reaction a silent beat before the card.
+	tween.tween_interval(3.5)
+	tween.tween_callback(func(): cinematic.fade_out(1.7))
+	tween.tween_interval(2.4)
 	tween.tween_property(end_title, "modulate:a", 1.0, 1.5)
 	tween.tween_property(end_subtitle, "modulate:a", 1.0, 1.5)
 	tween.tween_interval(3.5)

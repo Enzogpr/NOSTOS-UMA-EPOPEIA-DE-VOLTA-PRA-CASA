@@ -1,0 +1,13 @@
+{
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "file": "odysseus_stabbed_vision.png",
+      "prompt": "Use case: illustration-story. Asset type: 16:9 wide Godot game cutscene, prophetic nightmare. Reference1 ONLY established adult Odysseus identity and dense crisp pixel art: rugged olive-skinned adult, wavy shoulder-length dark hair, dark beard, bronze cuirass and burgundy cloak. Reference2 ONLY setting palette of burning ancient Troy at night. New scene: Odysseus is being stabbed in his armored torso by a threatening UNKNOWN ADULT MALE in shadow at his right. The assailant's hand grips a short ancient Greek dagger; clearly show the hilt and short blade meeting a gap at the lower edge of Odysseus's bronze breastplate. Odysseus recoils, eyes wide in shock, one hand gripping the assailant's wrist, conveying terror of his foretold death. Clear readable knife action, restrained non-graphic violence: no exposed organs, no gaping wound, no blood spray, only a small dark red mark on cloth if needed. This is a supernatural VISION: burning ruined columns dissolved in violet smoke, dark-red stormlight, ghostly edges, no literal nursery. Keep face, knife and hands within middle upper two thirds so dialogue can occupy bottom. Match mature tragic dark Greek cinematic fine square-pixel clusters and dithering, not smooth painting or cartoon. No child or infant, no text, logo, watermark, frame."
+    },
+    {
+      "file": "balcony_release.png",
+      "prompt": "Use case: precise-object-edit / illustration-story. Edit reference1, the established wide 16:9 Troy balcony cutscene, into the exact NEXT moment after Odysseus has released the infant. KEEP the identical camera angle, balcony architecture, burning city, moon position, dense crisp pixel-art style, bronze armor, burgundy cloak and the SAME adult Odysseus face/hair. Change his arms and hands: his two arms remain extended out beyond the railing, both EMPTY HANDS open, fingers visibly spread and palms sloping down, expressing the completed release. He leans slightly over the balcony, looking down into the unseen abyss with shocked grief and guilt, jaw tense, eyes wet. REMOVE the infant and all swaddling cloth from the frame completely. The release is implied ONLY by empty open hands and his reaction. Nothing and nobody visibly falling, no infant anywhere, no body below, no impact, no gore. Hands, fingers and face fully within the upper/middle two-thirds, clear empty space under his hands. No text, logo, border or watermark. Reference2 ONLY for established Odysseus face and fine square-pixel dithering; use reference1's exact scene composition."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "tool": "built-in image_gen",
+  "reference": "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0136%3Abook%3D10",
+  "adaptation": "User-directed island suspended in the sky",
+  "assets": [
+    {
+      "file": "res://Assets/act4_storm/aeolia_floating.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent Godot game cinematic foreground sprite. Reference images 1 and 2 are ONLY pixel-art style, rocky materials, Greek world and palette references. Draw AEOLIA, Aeolus's floating island suspended high IN THE SKY, inspired by Odyssey book 10 but following the user's fantasy sky-island version. One complete isolated island: Mediterranean green olive and cypress vegetation on the top plateau, a graceful ancient Greek marble palace with columns in the center, an unbroken bronze rampart around the plateau; massive jagged dark slate tapered rocky underside clearly hanging in the air with dangling roots and small waterfalls dissolving into mist, swirling pale cloud wisps around the underside. No ocean or sea contact, no dock, no flat coastal island. The rocky underside must be FULLY visible to make flight unmistakable. Detailed crisp PIXEL ART, stepped clustered pixels, restrained dithering, consistent with the references, warm bronze and ivory catching subtle divine sun through cool storm clouds. Three-quarter elevated side view, broad oval island horizontal composition, entire silhouette centered with alpha margins all around. Transparent real alpha outside island and clouds, no rectangular sky background, no words, no UI, no characters, no boat. Keep lower silhouette pointed and airborne, strong readable silhouette when scaled to 850px wide."
+    },
+    {
+      "file": "res://Assets/act4_storm/ship_hull_rowing.png",
+      "prompt": "Use case: precise-object-edit. Edit this exact Godot Greek ship player sprite for skeletal oar animation. Remove ONLY all the oars/paddles projecting above and below the hull, including their shafts outside the hull. Keep the hull shape, cream-and-crimson square sail, mast, bronze ram pointing RIGHT, stern banner on LEFT, wooden deck, fittings, colors, perspective and pixel-art treatment exactly as they are. Do not redesign, rotate, mirror, scale or reframe the boat. Keep its original centered placement and transparent alpha canvas/margins. Replace removed oars with true alpha transparency; keep the hull's small bronze oarlocks/attachment points if present. Boat still faces RIGHT. No water, no shadows, no text, no additional elements. Intended result is the same ship body without oars, so Godot can animate separate wooden oars around their pivots."
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 extends Control
 
+var cinematic: Control
+
 ## Cena do Encontro na Caverna de Polifemo (Ato 3)
 ## Sequência dramática com revelação gradual do Ciclope e mini-game interativo de sobrevivência.
 
@@ -135,6 +137,7 @@ var resolution_index := 0
 @onready var btn_confirm_name: Button = $NameInputPanel/Margin/VBox/BtnConfirmName
 
 func _ready() -> void:
+	cinematic = preload("res://Code/CinematicStaging.gd").attach(self, _on_cinematic_advance)
 	MainHUD.set_station("Ato 3: A Caverna do Ciclope")
 	panic_hud.visible = false
 	game_over_overlay.visible = false
@@ -195,24 +198,7 @@ func _update_panic_hud() -> void:
 		btn_offer_wine.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
 
 func _load_texture(path: String) -> Texture2D:
-	var variations = [
-		path,
-		path.replace(".jpg", ".png"),
-		path.replace(".png", ".jpg"),
-		path.replace(".jpg", ".jpeg"),
-		path.replace(".png", ".jpeg"),
-		path.replace(".jpg", ".webp"),
-		path.replace(".png", ".webp")
-	]
-	for p in variations:
-		if ResourceLoader.exists(p):
-			return load(p)
-		if FileAccess.file_exists(p):
-			var img = Image.new()
-			var err = img.load(p)
-			if err == OK:
-				return ImageTexture.create_from_image(img)
-	return null
+	return cinematic.resolve_texture(path)
 
 func _update_slide() -> void:
 	var slide = slides[current_slide]
@@ -229,8 +215,9 @@ func _update_slide() -> void:
 	var tex = _load_texture(slide["image"])
 	if tex:
 		texture_rect.texture = tex
+	cinematic.present(slide, "cave_encounter", current_slide)
 
-func _unhandled_input(event: InputEvent) -> void:
+func _advance_story(event: InputEvent) -> void:
 	if is_game_over:
 		if event.is_pressed() and (event.is_action_pressed("ui_accept") or (event is InputEventKey and event.keycode == KEY_R)):
 			get_tree().reload_current_scene()
@@ -259,7 +246,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				_show_resolution_slide()
 			else:
 				# Transição para o combate
-				get_tree().change_scene_to_file("res://Ato3_Ciclope/Act3_CyclopsBossFight.tscn")
+				cinematic.transition_to("res://Ato3_Ciclope/Act3_CyclopsBossFight.tscn")
 			return
 			
 		current_slide += 1
@@ -269,6 +256,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			_start_interactive_survival()
 
 func _start_interactive_survival() -> void:
+	cinematic.suspend()
 	is_interactive_mode = true
 	text_panel.visible = false
 	panic_hud.visible = true
@@ -349,8 +337,11 @@ func _show_resolution_slide() -> void:
 	var tex = _load_texture(slide["image"])
 	if tex:
 		texture_rect.texture = tex
+	text_panel.hide()
+	cinematic.present(slide, "cave_resolution", resolution_index)
 
 func _trigger_game_over() -> void:
+	cinematic.suspend()
 	is_game_over = true
 	is_interactive_mode = false
 	panic_hud.visible = false
@@ -361,6 +352,7 @@ func _trigger_game_over() -> void:
 	game_over_overlay.visible = true
 
 func _start_name_input() -> void:
+	cinematic.suspend()
 	is_waiting_for_name = true
 	name_input_panel.visible = true
 	name_line_edit.grab_focus()
@@ -378,3 +370,16 @@ func _on_confirm_name_pressed() -> void:
 		resolution_slides[i]["text"] = resolution_slides[i]["text"].replace("[X]", chosen_name)
 		
 	_show_resolution_slide()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if cinematic.active or cinematic.is_ending:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		return
+	_advance_story(event)
+
+func _on_cinematic_advance() -> void:
+	var event := InputEventAction.new()
+	event.action = "ui_accept"
+	event.pressed = true
+	_advance_story(event)

@@ -1,0 +1,4 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scratch/test_cinematic_input_transition.gd" id="1"]
+[node name="CinematicInputTransitionTest" type="Node"]
+script = ExtResource("1")

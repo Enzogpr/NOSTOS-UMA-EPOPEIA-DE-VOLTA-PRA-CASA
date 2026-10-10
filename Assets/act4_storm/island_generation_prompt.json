@@ -1,0 +1,5 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Godot top-down pixel-art island game sprite for Greek Odyssey storm navigation. Single isolated rugged Mediterranean rocky island viewed orthographically from overhead, no horizon. Broad crescent shape with open sheltered cove entering from LEFT, inviting sand beach inside cove, green cypresses and olive trees on upper/right slopes, layered dark slate cliffs, pale sand, moss, small ancient Greek stone stairway. Match reference rich dark pixel-art clusters and dithered rocky textures. Stepped crisp pixels rather than realistic painting. Entire island fits frame with transparent margins; real alpha transparency OUTSIDE island and inside sea cove, no rectangular sea/background, no text, no people, no buildings, no UI. Readable small game terrain sprite about 800 pixels wide at runtime. Top-down view, cove opens LEFT toward approaching ship.",
+  "asset": "sheltered_island.png"
+}

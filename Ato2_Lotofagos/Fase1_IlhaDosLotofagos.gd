@@ -1,5 +1,7 @@
 extends Control
 
+var cinematic: Control
+
 ## Fase 1 - A Ilha dos Lotófagos (Ato 2)
 ## Dungeon Crawler em Primeira Pessoa na Selva Labiríntica.
 
@@ -99,6 +101,8 @@ var explored := {}
 var inventory_tut_shown: bool = false
 
 func _ready() -> void:
+	cinematic = preload("res://Code/CinematicStaging.gd").attach(self, _on_cinematic_advance)
+	cinematic.hide()
 	MainHUD.set_station("Ato 2 - Fase 1: Ilha dos Lotófagos")
 	GameManager.heal_fully()
 	
@@ -136,6 +140,8 @@ func _process(delta: float) -> void:
 		_trigger_game_over("O TEMPO ACABOU!\nSeus homens esqueceram de suas casas para sempre e você perdeu sua tripulação.\nPressione [ R ] para reiniciar.")
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_dialogue_open or is_cutscene_open:
+		return
 	if is_game_over:
 		if event.is_pressed() and not event.is_echo():
 			if event.is_action_pressed("ui_accept") or (event is InputEventKey and event.keycode == KEY_R):
@@ -236,8 +242,13 @@ func _show_crew_dialogue(idx: int) -> void:
 		dialogue_text.text = "\"Capitão Odisseu... as flores daqui têm um sabor dos deuses... esqueci de Ítaca, esqueci de minha família...\"\n\n(Odisseu puxa o soldado com firmeza pelo braço e o arrasta em direção ao barco)."
 	elif idx == 2:
 		dialogue_text.text = "\"Por que partir? Esta terra traz a paz que nunca tivemos em dez anos de guerra...\"\n\n(Odisseu amarra o guerreiro à margem e continua a busca pelo último homem)."
+	dialogue_box.hide()
+	cinematic.show()
+	cinematic.present({"text": dialogue_text.text, "speaker": "Companheiro de Ítaca"}, "crew_" + str(idx), 0)
 
 func _close_dialogue() -> void:
+	cinematic.suspend()
+	cinematic.hide()
 	is_dialogue_open = false
 	dialogue_box.visible = false
 	_render_view()
@@ -264,6 +275,8 @@ func _update_cutscene_slide() -> void:
 		cutscene_img.texture = load(img_path.replace(".jpg", ".png"))
 	else:
 		cutscene_img.texture = null
+	cinematic.show()
+	cinematic.present(slide, "lotus_encounter", cutscene_slide)
 
 func _next_cutscene_slide() -> void:
 	cutscene_slide += 1
@@ -278,6 +291,8 @@ func _next_cutscene_slide() -> void:
 		var tween = create_tween()
 		tween.tween_property(cutscene_overlay, "modulate:a", 0.0, 0.6)
 		tween.tween_callback(func():
+			cinematic.suspend()
+			cinematic.hide()
 			is_cutscene_open = false
 			cutscene_overlay.visible = false
 			MainHUD.visible = true
@@ -351,3 +366,9 @@ func _update_hud() -> void:
 		
 	crew_label.text = "👥 MARINHEIROS: %d / 3" % crew_saved
 	compass_label.text = "BÚSSOLA: " + dir_names[player_dir]
+
+func _on_cinematic_advance() -> void:
+	if is_dialogue_open:
+		_close_dialogue()
+	elif is_cutscene_open:
+		_next_cutscene_slide()

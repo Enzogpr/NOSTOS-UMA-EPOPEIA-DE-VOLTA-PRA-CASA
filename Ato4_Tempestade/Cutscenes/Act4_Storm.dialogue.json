@@ -1,0 +1,18 @@
+[
+  {"speaker": "Odisseu", "text": "Essas ondas e marés", "hold": 1.5},
+  {"speaker": "Odisseu", "text": "Cresceram em força e tamanho", "hold": 1.5},
+  {"speaker": "Odisseu", "text": "É natureza ou divino", "hold": 1.5},
+  {"speaker": "Odisseu", "text": "Ou uma bênção disfarçada?", "hold": 1.8},
+  {"speaker": "Odisseu", "text": "Nossa casa está à vista", "hold": 1.8},
+  {"speaker": "Odisseu", "text": "Esta tempestade é nossa luta final", "hold": 1.5},
+  {"speaker": "Odisseu", "text": "Não há tempo para morrer", "hold": 1.4},
+  {"speaker": "Odisseu", "text": "Camaradas!", "hold": 0.9},
+  {"speaker": "Tripulação", "text": "Senhor!", "hold": 0.6},
+  {"speaker": "Odisseu", "text": "Prepare-se para uma tempestade", "hold": 1.5},
+  {"speaker": "Odisseu", "text": "Como nunca vimos antes", "pose": 1, "hold": 1.5},
+  {"speaker": "Odisseu", "text": "Com a casa tão perto, precisamos continuar avançando", "pose": 0, "hold": 1.7},
+  {"speaker": "Odisseu", "text": "Vá em direção à ilha, mas evite as ondas quebrando", "pose": 2, "hold": 1.6},
+  {"speaker": "Odisseu", "text": "Pise onde a maré está calma e então você será salvo", "pose": 3, "hold": 1.6},
+  {"speaker": "Euríloco", "text": "Capitão, vamos virar com essas ondas, nossa frota vai falhar", "pose": 0, "hold": 1.7},
+  {"speaker": "Odisseu", "text": "Faça-os seguir meu navio, eu garantirei que prevaleceremos", "pose": 3, "hold": 2.0}
+]
