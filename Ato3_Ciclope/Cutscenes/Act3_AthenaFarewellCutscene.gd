@@ -6,7 +6,9 @@ signal cinematic_finished
 
 const DESIGN_SIZE := Vector2(1152, 648)
 const DIALOGUE_FILE := "res://Ato3_Ciclope/Cutscenes/Act3_AthenaFarewell.dialogue.json"
+const ANIMATIC := preload("res://Ato3_Ciclope/Cutscenes/Act3_AthenaAnimatic.gd")
 
+@export var use_animatic: bool = true
 @export var autoplay: bool = true
 @export_range(20.0, 80.0) var characters_per_second: float = 38.0
 @export_range(0.5, 3.0) var playback_speed: float = 1.0
@@ -47,6 +49,7 @@ var ending_tween: Tween
 var pose_tweens: Dictionary = {}
 var previous_music_volume: float = 0.0
 var music_ducked: bool = false
+var animatic: Node2D
 
 func _ready() -> void:
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DIALOGUE_FILE))
@@ -54,6 +57,13 @@ func _ready() -> void:
 		push_error("O diálogo do adeus de Atena não pôde ser carregado.")
 		return
 	beats = parsed
+	if use_animatic:
+		animatic = ANIMATIC.new()
+		animatic.name = "Animatic"
+		stage.add_child(animatic)
+		stage.move_child(animatic, 1)
+		world.hide()
+		animatic.present(0, beats[0])
 	GameManager.combat_mode = false
 	MainHUD.set_station("Ato 3 - O Adeus de Atena")
 	resized.connect(_fit_stage)
@@ -88,6 +98,9 @@ func _fit_stage() -> void:
 
 func _process(delta: float) -> void:
 	elapsed += delta
+	if animatic:
+		animatic.presence = presence
+		animatic.agitation = agitation
 	input_cooldown = maxf(0.0, input_cooldown - delta)
 	shake = move_toward(shake, 0.0, delta * 10.0)
 	world.scale = Vector2.ONE * camera_zoom
@@ -124,6 +137,8 @@ func _show_beat(index: int) -> void:
 	var beat: Dictionary = beats[index]
 	var is_athena: bool = beat.speaker == "Atena"
 	var intensity: float = float(beat.get("intensity", 0.3))
+	if animatic:
+		animatic.present(index, beat)
 	dialogue.text = str(beat.text)
 	dialogue.visible_characters = 0
 	speaker.text = str(beat.speaker).to_upper()
@@ -235,6 +250,8 @@ func _finish() -> void:
 			tween.kill()
 	_change_pose(athena, 3)
 	_change_pose(odysseus, 0)
+	if animatic:
+		animatic.begin_departure()
 	atmosphere.burst()
 	ending_tween = create_tween()
 	ending_tween.tween_property($Stage/Captions, "modulate:a", 0.0, 0.5)

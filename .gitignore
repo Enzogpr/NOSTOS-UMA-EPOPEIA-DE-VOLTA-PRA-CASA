@@ -1,2 +1,12 @@
 # Godot
 .godot/
+
+# Local test renders, reference-video analysis and save recovery files.
+scratch/*.log
+scratch/*.backup
+scratch/campaign_review/
+scratch/athena_farewell_preview/
+scratch/athena_animatic_preview/
+scratch/athena_animatic_reference/
+scratch/analyze_athena_video.py
+scratch/upload_checkpoint.py
