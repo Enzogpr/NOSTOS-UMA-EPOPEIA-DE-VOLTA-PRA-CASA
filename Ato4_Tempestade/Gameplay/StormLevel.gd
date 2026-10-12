@@ -268,7 +268,7 @@ func continue_to_aeolia() -> void:
 		return
 	exiting = true
 	GameManager.set_meta("aeolia_arrival_hull", ship.hull)
-	get_tree().change_scene_to_file("res://Ato4_Tempestade/Gameplay/AeoliaHarpoon.tscn")
+	get_tree().change_scene_to_file("res://Ato4_Tempestade/Cutscenes/AeoliaApproach.tscn")
 
 func _exit_tree() -> void:
 	AudioManager.music_player.volume_db = previous_music_volume

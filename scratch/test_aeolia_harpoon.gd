@@ -90,6 +90,24 @@ func _ready() -> void:
 	check(storm.hud.continue_button.visible, "Winning the crossing must offer a visible route to Aeolia.")
 	check(storm.hud.continue_button.has_focus(), "The continue action must receive keyboard focus after victory.")
 	storm.hud.continue_button.pressed.emit()
+	var approach: Control = await wait_scene("AeoliaApproachCutscene")
+	check(approach.beats.size() == 8 and approach.beats[0].speaker == "Euríloco", "The storm button must first open the supplied eight-part crew dialogue.")
+	check(approach.beats[1].speaker == "Perimedes e Elpenor" and approach.beats[2].speaker == "Odisseu e Euríloco", "The joint speakers must retain their supplied names.")
+	check(float(GameManager.get_meta("aeolia_arrival_hull")) == 72.5 and not MainHUD.visible, "The dialogue must retain arrival hull and keep the combat HUD hidden.")
+	await get_tree().create_timer(0.7).timeout
+	await screenshot("aeolia_approach")
+	for index in approach.beats.size():
+		check(approach.beat_index == index and approach.cinematic.caption_text == approach.beats[index].text, "The introduction must present the exact supplied dialogue in order: %d." % index)
+		approach.cinematic.type_elapsed = 10.0
+		approach.cinematic.dialogue.visible_characters = approach.cinematic.dialogue.get_total_character_count()
+		await get_tree().process_frame
+		check(approach.cinematic.dialogue.get_content_height() <= int(approach.cinematic.dialogue.size.y), "The introduction caption must fit: %d." % index)
+		if index in [2, 7]:
+			await get_tree().create_timer(0.3).timeout
+			await screenshot("aeolia_approach_%d" % index)
+		approach.cinematic.input_cooldown = 0
+		approach.cinematic._advance_requested()
+	check(approach.handoff_started, "Only finishing the last line must hand control to the harpoon scene.")
 	var game: Control = await wait_scene("AeoliaHarpoon")
 	check(game.name == "AeoliaHarpoon" and game.state == game.State.READY, "The actual storm button must load the safe harpoon instructions.")
 	game.transition_enabled = false

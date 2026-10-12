@@ -1,5 +1,7 @@
 # Ato IV: a tempestade
 
+Depois de vencer a tempestade e selecionar **Alcançar Eólia**, a campanha passa por `Cutscenes/AeoliaApproach.tscn` antes de abrir a preparação do arpão. A descoberta da ilha usa as oito entradas de `AeoliaApproach.dialogue.json`, com o texto fornecido e os nomes das falas em conjunto preservados. Odisseu e Euríloco reaproveitam os retratos do prólogo, com Eólia visível ao longe sobre o convés. Espaço/Enter/clique revela a fala e avança; AUTO e pausa usam os controles existentes. A última fala abre `Gameplay/AeoliaHarpoon.tscn`. Executar o minigame diretamente com F6 ou repeti-lo após Éolo continua indo direto às instruções; para revisar o diálogo, execute `AeoliaApproach.tscn` com F6.
+
 O encerramento do terceiro ato agora segue para `Cutscenes/Act4_StormCutscene.tscn`, em vez de retornar ao mapa. Execute essa cena com F6 para revisar o prólogo sozinho.
 
 As 16 falas em `Cutscenes/Act4_Storm.dialogue.json` preservam o texto enviado. Até a resposta “Senhor!”, aparecem somente nome e fala no fundo preto, sem música nem tempestade. Na primeira fala “Prepare-se para uma tempestade”, o cenário aparece imediatamente, junto com o trovão e o loop de vento e ondas. Chuva, água e balanço acompanham as falas seguintes, com retratos da cintura para cima.
