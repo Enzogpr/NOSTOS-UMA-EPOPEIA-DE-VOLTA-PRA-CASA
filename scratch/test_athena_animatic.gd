@@ -34,7 +34,7 @@ func _ready() -> void:
 	scene.next_scene_path = ""
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
-	await get_tree().create_timer(4.8).timeout
+	await get_tree().create_timer(5.6).timeout
 	check(scene.use_animatic and scene.animatic != null and not scene.world.visible, "The campaign scene must use the animatic by default.")
 	check(scene.beats.size() == 34 and scene.animatic.SHOTS.size() == 34, "All 34 existing lines must have a staged shot.")
 	check(scene.can_advance and scene.current_beat == 0, "The existing opening must reach the first shot.")

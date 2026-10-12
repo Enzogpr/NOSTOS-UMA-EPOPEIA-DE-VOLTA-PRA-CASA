@@ -18,7 +18,7 @@ func _ready() -> void:
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
 	scene.cinematic_finished.connect(func(): completed = true)
-	await get_tree().create_timer(4.8).timeout
+	await get_tree().create_timer(5.6).timeout
 	check(scene.can_advance and scene.current_beat == 0, "A abertura deve chegar à primeira fala.")
 	check(scene.beats.size() == 34, "Todas as 34 falas devem estar presentes.")
 	check(not get_node("/root/MainHUD").visible, "O HUD de combate deve estar oculto na conversa.")
@@ -73,7 +73,7 @@ func _ready() -> void:
 	check(scene.presence < 0.001, "Atena deve desaparecer completamente após seu adeus.")
 	if "--capture" in OS.get_cmdline_user_args():
 		await save_frame("absence")
-	await get_tree().create_timer(3.6).timeout
+	await get_tree().create_timer(5.4).timeout
 	check(completed, "A cena deve emitir cinematic_finished ao terminar.")
 	scene.queue_free()
 	await get_tree().process_frame

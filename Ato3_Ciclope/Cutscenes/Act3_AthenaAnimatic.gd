@@ -4,6 +4,8 @@ extends Node2D
 
 const REGIONS := "res://Assets/act3_athena_farewell/animatic_regions.json"
 const SHADER := preload("res://Assets/act3_athena_farewell/animatic_presence.gdshader")
+const REALM_SHADER := preload("res://Assets/act3_athena_farewell/realm_transition.gdshader")
+const DECK := preload("res://Assets/cinematics/ship_deck.png")
 const SHOTS := [
 	"wide", "wide", "athena_foreground", "athena_foreground", "odysseus_close",
 	"athena_close", "divine", "athena_close", "reprimand", "athena_departure",
@@ -28,6 +30,15 @@ var current_index: int = 0
 var ending: bool = false
 var homes: Dictionary = {}
 var heights: Dictionary = {}
+var camera: Node2D
+var deck: Sprite2D
+var realm: float = 1.0
+var transition: String = ""
+var transition_progress: float = 0.0
+var transition_foot := Vector2.ZERO
+var transition_scale := Vector2.ONE
+var transition_target_foot := Vector2.ZERO
+var transition_target_scale := Vector2.ONE
 
 func _ready() -> void:
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(REGIONS))
@@ -35,6 +46,18 @@ func _ready() -> void:
 		push_error("Não foi possível carregar o enquadramento do animatic.")
 		return
 	assets = parsed
+	camera = Node2D.new()
+	camera.name = "RealmCamera"
+	add_child(camera)
+	deck = Sprite2D.new()
+	deck.name = "RealDeck"
+	deck.texture = DECK
+	deck.position = Vector2(576, 324)
+	deck.scale = Vector2(1152, 648) / DECK.get_size()
+	var deck_material := ShaderMaterial.new()
+	deck_material.shader = REALM_SHADER
+	deck.material = deck_material
+	camera.add_child(deck)
 	for i in 6:
 		var echo := _actor("Memory%d" % i, false)
 		echo.z_index = 0
@@ -52,7 +75,7 @@ func _actor(actor_name: String, spectral: bool) -> Sprite2D:
 	material.shader = SHADER
 	material.set_shader_parameter("spectral", 1.0 if spectral else 0.0)
 	actor.material = material
-	add_child(actor)
+	camera.add_child(actor)
 	return actor
 
 func _pose(actor: Sprite2D, asset: String, frame: int, height: float, foot: Vector2, flip: bool = false, depth: int = 0) -> void:
@@ -67,7 +90,7 @@ func _pose(actor: Sprite2D, asset: String, frame: int, height: float, foot: Vect
 	# Keep every shot below the later caption siblings in the Stage canvas.
 	actor.z_index = 0
 	if depth > 0:
-		move_child(actor, get_child_count() - 1)
+		camera.move_child(actor, camera.get_child_count() - 1)
 	actor.rotation = 0.0
 	actor.modulate = Color.WHITE
 	actor.show()
@@ -149,9 +172,70 @@ func begin_departure() -> void:
 	ending = true
 	shot_elapsed = 0.0
 
+func begin_entry() -> void:
+	present(0, {"speaker": "Atena", "pose": 0, "reaction": 0})
+	# Plant his feet on the deck rather than on the rail in the wide mental shot.
+	_body(odysseus, 0, 320, Vector2(576, 560))
+	realm = 0.0
+	presence = 0.0
+	_start_transition("enter")
+
+func begin_return() -> void:
+	# Keep the actual pose and position left by the departure; never replace the face.
+	_start_transition("return")
+
+func _start_transition(direction: String) -> void:
+	transition = direction
+	transition_progress = 0.0
+	transition_foot = odysseus.position
+	transition_scale = odysseus.scale
+	transition_target_foot = Vector2(332, 475) if direction == "enter" else Vector2(576, 560)
+	var target_height: float = 272.0 if direction == "enter" else 320.0
+	transition_target_scale = Vector2.ONE * target_height / odysseus.region_rect.size.y
+	_update_transition()
+
+func complete_transition() -> void:
+	if transition.is_empty():
+		return
+	transition_progress = 1.0
+	_update_transition()
+	homes[odysseus] = transition_target_foot
+	heights[odysseus] = transition_target_scale.x
+	shot_elapsed = 0.0
+	transition = ""
+	camera.transform = Transform2D.IDENTITY
+
+func _update_transition() -> void:
+	var progress := clampf(transition_progress, 0.0, 1.0)
+	var approach: float = smoothstep(0.0, 0.32, progress)
+	var retreat: float = smoothstep(0.65, 1.0, progress)
+	var focus: float = approach * (1.0 - retreat)
+	var zoom: float = lerpf(1.0, 3.1, focus)
+	camera.scale = Vector2.ONE * zoom
+	var foot := transition_foot.lerp(transition_target_foot, retreat)
+	var actor_scale := transition_scale.lerp(transition_target_scale, retreat)
+	var height: float = odysseus.region_rect.size.y * actor_scale.y
+	var eye := foot - Vector2(-height * 0.055, height * 0.88)
+	var eye_on_screen := eye.lerp(Vector2(480, 260), focus)
+	camera.position = eye_on_screen - eye * zoom
+	var dissolve: float = smoothstep(0.28, 0.68, progress)
+	realm = dissolve if transition == "enter" else 1.0 - dissolve
+	var material := deck.material as ShaderMaterial
+	material.set_shader_parameter("focus", focus)
+	material.set_shader_parameter("mental_mix", realm)
+	odysseus.position = foot + Vector2(0, sin(elapsed * 1.8) * 0.8)
+	odysseus.scale = actor_scale
+	if transition == "enter":
+		presence = smoothstep(0.65, 0.97, progress)
+
 func _process(delta: float) -> void:
 	elapsed += delta
 	shot_elapsed += delta
+	deck.visible = realm < 0.999 or not transition.is_empty()
+	if not transition.is_empty():
+		_update_transition()
+	else:
+		(deck.material as ShaderMaterial).set_shader_parameter("mental_mix", realm)
 	var push: float = minf(shot_elapsed / 7.0, 1.0) * 0.025
 	var entrance: float = 1.0 - smoothstep(0.0, 0.55, shot_elapsed)
 	for actor in [odysseus, athena]:
@@ -161,12 +245,20 @@ func _process(delta: float) -> void:
 		var motion := Vector2(0, sin(elapsed * (1.2 if actor == athena else 1.8)) * (1.6 if actor == athena else 0.8))
 		if current_shot in ["reprimand", "confrontation", "defiance"]:
 			motion.x += entrance * (-18.0 if actor == odysseus else 23.0)
-		if ending:
+		if ending and realm > 0.001:
 			var travel: float = smoothstep(0.0, 1.0, minf(shot_elapsed / 3.5, 1.0))
 			motion += Vector2(320, -28) * travel if actor == athena else Vector2(212, 0) * travel
 			push = -0.09 * travel
 		actor.position = home + motion
 		actor.scale = Vector2.ONE * float(heights[actor]) * (1.0 + push)
+		if not transition.is_empty():
+			if actor == odysseus:
+				var retreat: float = smoothstep(0.65, 1.0, transition_progress)
+				actor.position = transition_foot.lerp(transition_target_foot, retreat) + Vector2(0, sin(elapsed * 1.8) * 0.8)
+				actor.scale = transition_scale.lerp(transition_target_scale, retreat)
+			else:
+				actor.position = home
+				actor.scale = Vector2.ONE * float(heights[actor])
 		var material := actor.material as ShaderMaterial
 		material.set_shader_parameter("presence", presence if actor == athena else 1.0)
 		material.set_shader_parameter("elapsed", elapsed)
@@ -181,19 +273,28 @@ func _draw() -> void:
 	for strip in 81:
 		var ratio: float = strip / 80.0
 		draw_rect(Rect2(0, strip * 8, 1152, 8), Color(0.095, 0.15, 0.22).lerp(Color(0.22, 0.30, 0.34), ratio))
-	draw_rect(Rect2(0, 374, 1152, 274), Color(0.045, 0.10, 0.14, 0.42))
+	draw_set_transform_matrix(camera.transform)
+	draw_rect(Rect2(-2304, 374, 5760, 2200), Color(0.045, 0.10, 0.14, 0.42 * realm))
 	for i in 14:
 		var x: float = 576 + (i - 6.5) * 140
-		draw_line(Vector2(576 + (x - 576) * 0.16, 374), Vector2(x, 648), Color(0.41, 0.54, 0.61, 0.09), 1)
+		draw_line(Vector2(576 + (x - 576) * 0.16, 374), Vector2(x, 648), Color(0.41, 0.54, 0.61, 0.09 * realm), 1)
 	for i in 8:
 		var y: float = 374 + pow(i / 7.0, 2.0) * 274
-		draw_line(Vector2(0, y), Vector2(1152, y), Color(0.41, 0.54, 0.61, 0.09), 1)
+		draw_line(Vector2(0, y), Vector2(1152, y), Color(0.41, 0.54, 0.61, 0.09 * realm), 1)
 	for actor in [odysseus, athena]:
 		if actor != null and actor.visible and homes.has(actor) and Vector2(homes[actor]).y < 560:
 			var foot: Vector2 = actor.position
-			draw_set_transform(foot + Vector2(0, 3), 0, Vector2(2.8, 0.35))
+			draw_set_transform_matrix(camera.transform * Transform2D(0, Vector2(2.8, 0.35), 0, foot + Vector2(0, 3)))
 			draw_circle(Vector2.ZERO, 23, Color(0.01, 0.025, 0.04, 0.20 * (presence if actor == athena else 1.0)))
 	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+	var forming: float = presence * (1.0 - presence) * 4.0 if transition == "enter" else 0.0
+	if forming > 0.0:
+		var center: Vector2 = camera.transform * Vector2(778, 275)
+		for ring in 5:
+			draw_circle(center, (70 + ring * 26) * camera.scale.x, Color(0.40, 0.65, 0.95, forming * 0.012))
+		for i in 24:
+			var mote := Vector2(778 + sin(i * 2.4) * 90, 475 - fposmod(i * 37 + transition_progress * 490, 416))
+			draw_circle(camera.transform * mote, 1.7, Color(0.60, 0.81, 1.0, forming * 0.55))
 	for i in 32:
 		var point := Vector2(fposmod(i * 79 + sin(elapsed * 0.3 + i) * 5, 1152), fposmod(i * 67 - elapsed * 5, 452))
-		draw_rect(Rect2(point, Vector2(2, 2)), Color(0.63, 0.76, 0.87, 0.07 + presence * 0.08))
+		draw_rect(Rect2(point, Vector2(2, 2)), Color(0.63, 0.76, 0.87, (0.07 + presence * 0.08) * realm))
