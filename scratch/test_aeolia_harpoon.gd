@@ -102,7 +102,12 @@ func _ready() -> void:
 		approach.cinematic.dialogue.visible_characters = approach.cinematic.dialogue.get_total_character_count()
 		await get_tree().process_frame
 		check(approach.cinematic.dialogue.get_content_height() <= int(approach.cinematic.dialogue.size.y), "The introduction caption must fit: %d." % index)
-		if index in [2, 7]:
+		if index == 2:
+			check(approach.cinematic.image_path == approach.DISCOVERY and not approach.cinematic.get_node("Stage/World/Odysseus").visible and not approach.cinematic.get_node("Stage/World/Athena").visible, "Discovery must show the unobstructed sky landscape, without ship portraits covering Aeolia.")
+			check(approach.cinematic.get_node_or_null("Stage/World/SkyIsland") == null, "Aeolia must not be composited as a decal over the ship's sail.")
+		if index == 7:
+			check(approach.cinematic.get_node("Stage/World/Odysseus").visible and not approach.cinematic.get_node("Stage/World/Athena").visible, "The final command must have a dedicated shot of Odysseus.")
+		if index in [0, 1, 2, 3, 4, 6, 7]:
 			await get_tree().create_timer(0.3).timeout
 			await screenshot("aeolia_approach_%d" % index)
 		approach.cinematic.input_cooldown = 0

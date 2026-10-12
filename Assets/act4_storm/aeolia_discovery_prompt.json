@@ -1,0 +1,8 @@
+{
+  "tool": "image_gen built-in",
+  "references": [
+    "aeolia_floating.png",
+    "../cinematics/ship_deck.png"
+  ],
+  "prompt": "Use case: illustration-story. Asset type: 16:9 full-screen background plate for a colored pixel-art Greek Odyssey game cinematic, 1536x864 landscape. Input image 1 is the exact floating island design reference: retain its recognizable Greek temple city, gold roofs, cypress trees, jagged inverted rocky underside, waterfalls and mist. Input image 2 is ONLY a rendering style, ocean and muted blue-gold lighting reference; do not copy ANY boat parts from it. Primary request: a coherent cinematic view from sea level looking slightly upward at Aeolia hovering far above the sea after a storm. Place one floating island prominently in the upper middle-right of the shot, center approximately 58% width and 31% height, about 39% of frame width and 45% of frame height; its entire rocky underside must be visible, suspended freely within luminous mist and clouds, with open sky between the island and the low sea horizon. Match the detailed colored pixel-art aesthetic of both reference assets, cool storm-blue ocean and cloudy sky with restrained warm shafts of light on the Greek temples. Horizon at about 72% of image height; bottom region is unobstructed dark ocean with soft waves, suitable for overlay captions. Include generous sky and cloud depth around the island. The island must look integrated into the distant atmospheric landscape, with consistent lighting and scale. No foreground objects, NO ship, NO sail, NO mast, NO rigging, NO ropes, NO characters, NO additional islands, NO UI, NO text, NO borders, NO watermark. This is a complete opaque scene, not a cutout."
+}

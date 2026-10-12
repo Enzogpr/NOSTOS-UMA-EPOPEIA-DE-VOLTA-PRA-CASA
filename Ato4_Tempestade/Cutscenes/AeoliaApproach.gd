@@ -3,6 +3,7 @@ extends Control
 
 const STORY := "res://Ato4_Tempestade/Cutscenes/AeoliaApproach.dialogue.json"
 const HARPOON := "res://Ato4_Tempestade/Gameplay/AeoliaHarpoon.tscn"
+const DISCOVERY := "res://Assets/act4_storm/aeolia_discovery.png"
 @onready var cinematic: Control = $CinematicPresenter
 var beats: Array = []
 var beat_index: int = 0
@@ -20,27 +21,23 @@ func _ready() -> void:
 	var directions: Array = []
 	for index in beats.size():
 		var speaker_name: String = beats[index].speaker
+		var discovery: bool = index in [1, 2]
 		var focus := "wide"
 		if speaker_name == "Odisseu":
 			focus = "left"
 		elif speaker_name == "Euríloco":
 			focus = "right"
 		directions.append({
-			"background": "res://Assets/cinematics/ship_deck.png",
-			"left": "odysseus_storm", "right": "eurylochus_storm",
+			"background": DISCOVERY if discovery else "res://Assets/cinematics/ship_deck.png",
+			"left": "odysseus_storm" if index in [0, 3, 5, 7] else "",
+			"right": "eurylochus_storm" if index in [0, 4, 6] else "",
 			"left_pose": 2 if index in [3, 5, 7] else 3,
 			"right_pose": 1 if index in [0, 4, 6] else 3,
-			"focus": focus, "quiet": true, "water": 0.15,
-			"context": "CONVÉS · EÓLIA", "intensity": 0.15
+			"focus": "wide" if discovery else focus, "quiet": true,
+			"water": 0.0 if discovery else 0.15,
+			"context": "EÓLIA · NO CÉU" if discovery else "CONVÉS", "intensity": 0.15
 		})
 	cinematic.library.sequences["aeolia_approach"] = {"title": "UMA ILHA NO CÉU", "beats": directions}
-	var island := Sprite2D.new()
-	island.name = "SkyIsland"
-	island.texture = preload("res://Assets/act4_storm/aeolia_floating.png")
-	island.position = Vector2(0, -203)
-	island.scale = Vector2.ONE * 0.12
-	cinematic.get_node("Stage/World").add_child(island)
-	cinematic.get_node("Stage/World").move_child(island, 2)
 	cinematic.advance_requested.connect(_advance)
 	cinematic.autoplay = false
 	cinematic._update_auto_button()
@@ -63,19 +60,24 @@ func _portrait(source: Dictionary) -> Dictionary:
 		if bool(source.flip):
 			center = cell.x - center
 		offsets.append(Vector2(cell.x * 0.5 - center, 0))
-	return {"poses": poses, "pose_offsets": offsets, "height": 520.0, "flip": source.flip}
+	return {"poses": poses, "pose_offsets": offsets, "height": 380.0, "flip": source.flip}
 
 func _present() -> void:
 	cinematic.present(beats[beat_index], "aeolia_approach", beat_index)
 	var world: Node2D = cinematic.get_node("Stage/World")
-	world.get_node("SkyIsland").visible = beat_index >= 1
-	if beats[beat_index].speaker == "Odisseu e Euríloco":
-		world.get_node("Odysseus").modulate = Color.WHITE
-		world.get_node("Athena").modulate = Color.WHITE
-	elif beats[beat_index].speaker == "Perimedes e Elpenor":
-		# Their call comes from offscreen; the two officers react to the discovery.
-		world.get_node("Odysseus").modulate = Color(0.80, 0.85, 0.91)
-		world.get_node("Athena").modulate = Color(0.80, 0.85, 0.91)
+	# Let the cropped portraits end inside the bottom shade, not above it.
+	world.get_node("Odysseus").position.y = 58
+	world.get_node("Athena").position.y = 30
+	if beat_index in [3, 5, 7]:
+		world.get_node("Odysseus").position = Vector2(-40, 58)
+	elif beat_index in [4, 6]:
+		world.get_node("Athena").position = Vector2(40, 30)
+	# Cut to a distinct sky view: the island is part of that landscape, never a
+	# decal composited over the ship's sail, including during a background fade.
+	if cinematic.backdrop_tween and cinematic.backdrop_tween.is_running():
+		cinematic.backdrop_tween.kill()
+	cinematic.previous_cave.modulate.a = 0.0
+	world.get_node("Cave").modulate = Color(0.90, 0.93, 0.98, 1.0)
 
 func _advance() -> void:
 	if handoff_started:
