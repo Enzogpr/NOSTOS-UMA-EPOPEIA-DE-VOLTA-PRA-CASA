@@ -1,14 +1,17 @@
 extends Control
 signal vigilance_completed(record: Dictionary)
+signal vigilance_failed(reason: String)
 const MODEL := preload("res://Ato4_Tempestade/Gameplay/VigilModel.gd")
 const VISUALS := preload("res://Ato4_Tempestade/Gameplay/VigilStage.gd")
 const SOUND := preload("res://Ato4_Tempestade/Gameplay/VigilAudio.gd")
 const DESIGN_SIZE := Vector2(1152,648)
 const RECORD_FILE := "user://vigil_record.json"
+const THOUGHTS_FILE := "res://Ato4_Tempestade/Cutscenes/VigilThoughts.dialogue.json"
 @export var day_duration: float = 25.0
 @export var random_seed: int = 0
 @export var persist_record: bool = true
 @export var audio_enabled: bool = true
+@export var autoplay_thoughts: bool = true
 @onready var stage: Control = $Stage
 var model: MODEL
 var visuals: VISUALS
@@ -27,6 +30,19 @@ var day_dots: Array[Label] = []
 var gameplay_panels: Array[Panel] = []
 var intro: Panel
 var result_panel: Panel
+var result_title: Label
+var result_subtitle: Label
+var result_detail: Label
+var thought_panel: Panel
+var thought_speaker_label: Label
+var thought_text: RichTextLabel
+var thought_next: Button
+var thought_auto: Button
+var thoughts: Array = []
+var thought_index: int = -1
+var thought_type_clock: float = 0.0
+var thought_hold_clock: float = 0.0
+var thought_cooldown: float = 0.0
 var wake_button: Button
 var warn_button: Button
 var day_shade: ColorRect
@@ -45,7 +61,9 @@ func _ready() -> void:
 	model.feedback.connect(_feedback)
 	model.day_started.connect(_day_started)
 	model.ending_started.connect(_ending_started)
+	model.failed.connect(_failed)
 	model.completed.connect(_completed)
+	thoughts = JSON.parse_string(FileAccess.get_file_as_string(THOUGHTS_FILE))
 	visuals = VISUALS.new()
 	visuals.model = model
 	stage.add_child(visuals)
@@ -150,20 +168,37 @@ func _build_interface() -> void:
 	intro = _panel(Vector2(225,155),Vector2(702,334))
 	_label("NOVE DIAS DE VIGÍLIA",Vector2(26,20),Vector2(650,43),31,intro)
 	_label("Odisseu prometeu manter a bolsa fechada.",Vector2(26,73),Vector2(650,28),21,intro)
-	_label("ESPAÇO  ·  Desperte quando os olhos pesarem.\nA / D ou ← / →  ·  Olhe para os lados.\nE  ·  Afaste quem estiver se aproximando da bolsa.",Vector2(26,121),Vector2(650,112),20,intro)
-	_label("Cada dia passa em 25 segundos. Esc: pausa.",Vector2(26,233),Vector2(650,28),17,intro)
+	_label("ESPAÇO  ·  Desperte quando ficar sonolento.\nA / D ou ← / →  ·  Olhe para os lados.\nE  ·  Afaste tripulantes apenas enquanto estiver alerta.",Vector2(26,121),Vector2(650,112),20,intro)
+	_label("100% de sono ou alguém na bolsa: derrota.\nNove dias de 25 segundos. Esc: pausa.",Vector2(26,233),Vector2(650,42),17,intro)
 	_button("COMEÇAR A VIGÍLIA  ›",Vector2(190,277),Vector2(322,41),begin,intro)
 	result_panel = _panel(Vector2(208,155),Vector2(736,337))
 	result_panel.name = "Result"
-	_label("OS VENTOS FORAM LIBERTADOS",Vector2(25,18),Vector2(685,42),29,result_panel)
-	_label("A vigília terminou. A jornada continua.",Vector2(25,69),Vector2(685,30),21,result_panel)
+	result_title = _label("",Vector2(25,18),Vector2(685,42),29,result_panel)
+	result_subtitle = _label("",Vector2(25,69),Vector2(685,30),21,result_panel)
 	var record_label := _label("",Vector2(25,118),Vector2(685,106),22,result_panel)
 	record_label.name = "Record"
-	_label("O descanso no nono dia faz parte da história.",Vector2(25,238),Vector2(685,25),17,result_panel)
-	_button("JOGAR NOVAMENTE",Vector2(25,283),Vector2(320,38),replay,result_panel)
+	result_detail = _label("",Vector2(25,238),Vector2(685,25),17,result_panel)
+	_button("TENTAR NOVAMENTE",Vector2(25,283),Vector2(320,38),replay,result_panel)
 	_button("VOLTAR AO MAPA",Vector2(389,283),Vector2(320,38),return_to_map,result_panel)
 	result_panel.hide()
 	day_shade.hide()
+	_build_thought_interface()
+
+func _build_thought_interface() -> void:
+	thought_panel = _panel(Vector2(32,457),Vector2(1088,171))
+	thought_panel.name = "Thoughts"
+	thought_speaker_label = _label("",Vector2(20,10),Vector2(1000,30),23,thought_panel)
+	thought_text = RichTextLabel.new()
+	thought_text.position = Vector2(20,49)
+	thought_text.size = Vector2(1048,76)
+	thought_text.scroll_active = false
+	thought_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	thought_text.add_theme_font_size_override("normal_font_size",25)
+	thought_panel.add_child(thought_text)
+	thought_auto = _button("AUTO: SIM  [A]",Vector2(20,132),Vector2(160,30),_toggle_thought_auto,thought_panel)
+	thought_next = _button("MOSTRAR FALA  ›",Vector2(828,132),Vector2(240,30),_advance_thought_requested,thought_panel)
+	_label("ESPAÇO / ENTER / CLIQUE  ·  ESC: PAUSA",Vector2(204,136),Vector2(610,24),14,thought_panel)
+	thought_panel.hide()
 
 func begin() -> void:
 	if ready_delay > 0.0 or model.state != MODEL.State.READY:
@@ -185,6 +220,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_D,KEY_RIGHT: model.look(1)
 			KEY_SPACE: model.wake()
 			KEY_E: model.warn_crew()
+	elif model.state == MODEL.State.ENDING:
+		if code in [KEY_SPACE,KEY_ENTER]: _advance_thought_requested()
+		elif code == KEY_A: _toggle_thought_auto()
 	if code in [KEY_ENTER,KEY_SPACE,KEY_A,KEY_D,KEY_LEFT,KEY_RIGHT,KEY_E]:
 		get_viewport().set_input_as_handled()
 
@@ -195,6 +233,8 @@ func _process(delta: float) -> void:
 	message_time = maxf(0.0,message_time-delta)
 	model.tick(delta)
 	_update_interface()
+	if model.state == MODEL.State.ENDING:
+		_process_thoughts(delta)
 
 func _feedback(text: String, kind: String) -> void:
 	if message_label == null:
@@ -225,7 +265,8 @@ func _update_interface() -> void:
 	wake_label.text = "ESPAÇO · DESPERTE AGORA" if ready else "Espere os olhos pesarem"
 	wake_label.add_theme_color_override("font_color",color)
 	wake_button.disabled = model.state != MODEL.State.PLAYING or model.wake_cooldown > 0.0
-	warn_button.disabled = model.state != MODEL.State.PLAYING or model.shout_cooldown > 0.0
+	warn_button.disabled = model.state != MODEL.State.PLAYING or model.shout_cooldown > 0.0 or model.is_sleepy()
+	warn_button.text = "E · BLOQUEADO" if model.is_sleepy() else "E · AFASTAR"
 	left_label.text = "◀ ESQUERDA" + (" · VIGIANDO" if model.look_side < 0 else "")
 	right_label.text = "DIREITA ▶" + (" · VIGIANDO" if model.look_side > 0 else "")
 	for side in [-1,1]:
@@ -241,22 +282,16 @@ func _update_interface() -> void:
 	if day_shade.visible:
 		day_shade.modulate.a = sin(clampf(model.break_clock/1.65,0.0,1.0)*PI)
 		day_card.text = "DIA %d\nMais uma noite protegendo a bolsa." % (model.day+1)
-	if model.state == MODEL.State.ENDING:
-		message_label.show()
-		message_label.text = ending_caption(model.ending_clock)
-		wake_label.text = "O cansaço finalmente vence."
-		phase_label.text = "Ítaca à vista" if model.ending_clock < 7.3 else "TEMPESTADE"
-
-func ending_caption(age: float) -> String:
-	if age < 2.3: return "Ítaca estava logo ali."
-	if age < 4.4: return "Depois de nove dias, Odisseu fecha os olhos."
-	if age < 7.3: return "Euríloco se aproxima da bolsa."
-	if age < 9.6: return "Os ventos da tempestade são libertados."
-	return "O caminho de volta desaparece na tempestade."
+	if model.state in [MODEL.State.ENDING,MODEL.State.COMPLETE,MODEL.State.FAILED]:
+		message_label.hide()
 
 func _ending_started() -> void:
 	message_time = 0.0
-	# The cinematic has no gameplay prompts once the narrative takes over.
+	_hide_gameplay()
+	thought_panel.show()
+	_show_thought(0)
+
+func _hide_gameplay() -> void:
 	for control in [day_label,phase_label,status_label,day_bar,sleep_bar,sleep_label,wake_label,left_label,right_label,wake_button,warn_button]:
 		control.hide()
 	for dot in day_dots:
@@ -267,14 +302,75 @@ func _ending_started() -> void:
 		if child is Button and child not in [wake_button,warn_button] and child.position.y >= 560:
 			child.hide()
 
+func _show_thought(index: int) -> void:
+	thought_index = index
+	thought_type_clock = 0.0
+	thought_hold_clock = 0.0
+	thought_cooldown = 0.25
+	var beat: Dictionary = thoughts[index]
+	thought_text.text = str(beat.text)
+	thought_text.visible_characters = 0
+	thought_speaker_label.text = str(beat.speaker).to_upper()
+	thought_speaker_label.add_theme_color_override("font_color",Color(0.74,0.89,1.0) if beat.speaker == "Penélope" else Color(1.0,0.80,0.56))
+	visuals.thought_speaker = str(beat.speaker)
+	thought_auto.text = "AUTO: SIM  [A]" if autoplay_thoughts else "AUTO: NÃO  [A]"
+	if index == 4:
+		model.ending_alarm()
+		if sounds != null: sounds.feedback("","alarm")
+
+func _process_thoughts(delta: float) -> void:
+	thought_cooldown = maxf(0.0,thought_cooldown-delta)
+	thought_type_clock += delta
+	var count: int = thought_text.get_total_character_count()
+	thought_text.visible_characters = mini(count,int(thought_type_clock*38.0))
+	visuals.speaking = thought_text.visible_characters < count
+	thought_next.text = "MOSTRAR FALA  ›" if visuals.speaking else "CONTINUAR  ›"
+	if not visuals.speaking:
+		thought_hold_clock += delta
+		if autoplay_thoughts and thought_hold_clock >= float(thoughts[thought_index].hold)+count/70.0:
+			_next_thought()
+
+func _advance_thought_requested() -> void:
+	if model.state != MODEL.State.ENDING or thought_cooldown > 0.0: return
+	thought_cooldown = 0.22
+	if thought_text.visible_characters < thought_text.get_total_character_count():
+		thought_type_clock = 1000.0
+		thought_text.visible_characters = thought_text.get_total_character_count()
+	else: _next_thought()
+
+func _next_thought() -> void:
+	if thought_index+1 < thoughts.size(): _show_thought(thought_index+1)
+	else: model.finish_thoughts()
+
+func _toggle_thought_auto() -> void:
+	autoplay_thoughts = not autoplay_thoughts
+	thought_auto.text = "AUTO: SIM  [A]" if autoplay_thoughts else "AUTO: NÃO  [A]"
+
+func _failed(reason: String) -> void:
+	_hide_gameplay()
+	result_title.text = "VIGÍLIA INTERROMPIDA"
+	result_subtitle.text = "Odisseu adormeceu." if reason == "sono" else "Alguém alcançou a bolsa."
+	result_detail.text = "A tentativa terminou. Tente proteger a bolsa novamente."
+	_present_record(model.record())
+	if sounds != null: sounds.feedback("","miss")
+	vigilance_failed.emit(reason)
+
 func _completed(record: Dictionary) -> void:
 	completion_count += 1
+	thought_panel.hide()
+	visuals.speaking = false
+	result_title.text = "UM AVISO NA ESCURIDÃO"
+	result_subtitle.text = "Acorda, Odisseu!"
+	result_detail.text = "Eles estão abrindo a bolsa."
+	_present_record(record)
+	vigilance_completed.emit(record)
+
+func _present_record(record: Dictionary) -> void:
 	result_panel.show()
-	result_panel.get_node("Record").text = "Aproximações impedidas: %d\nDespertares a tempo: %d\nDias impecáveis: %d / 9" % [record.prevented,record.successful_wakes,record.perfect_days.size()]
+	result_panel.get_node("Record").text = "Aproximações impedidas: %d\nDespertares a tempo: %d\nDias concluídos: %d / 8" % [record.prevented,record.successful_wakes,record.days_completed]
 	message_label.hide()
 	if persist_record:
 		_save_record(record)
-	vigilance_completed.emit(record)
 
 func _save_record(record: Dictionary) -> void:
 	var best: Dictionary = {}
@@ -284,7 +380,7 @@ func _save_record(record: Dictionary) -> void:
 			best = parsed
 	best.last_run = record
 	best.best_prevented = maxi(int(best.get("best_prevented",0)),int(record.prevented))
-	best.best_perfect_days = maxi(int(best.get("best_perfect_days",0)),record.perfect_days.size())
+	best.best_perfect_days = maxi(mini(8,int(best.get("best_perfect_days",0))),record.perfect_days.size())
 	var file := FileAccess.open(RECORD_FILE,FileAccess.WRITE)
 	if file:
 		file.store_string(JSON.stringify(best))

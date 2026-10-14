@@ -3,6 +3,8 @@ render_mode unshaded;
 uniform sampler2D screen_image : hint_screen_texture, repeat_disable, filter_linear;
 uniform float fatigue = 0.0;
 uniform float closure = 0.0;
+uniform float day_pressure = 0.0;
+uniform vec2 vision_center = vec2(0.5, 0.48);
 uniform float clock = 0.0;
 void fragment() {
 	vec2 px = vec2(1.0) / vec2(textureSize(screen_image, 0));
@@ -15,9 +17,10 @@ void fragment() {
 	picture += texture(screen_image, at - vec2(radius.x, 0.0)) * 0.15;
 	picture += texture(screen_image, at + vec2(0.0, radius.y)) * 0.15;
 	picture += texture(screen_image, at - vec2(0.0, radius.y)) * 0.15;
-	float lid = mix(weight * weight * 0.12, 0.51, closure);
-	float opening = smoothstep(lid - 0.055, lid + 0.025, UV.y) * (1.0 - smoothstep(1.0 - lid - 0.025, 1.0 - lid + 0.055, UV.y));
-	float edge = smoothstep(0.22, 0.73, distance(UV, vec2(0.5, 0.48)));
-	picture.rgb *= (1.0 - edge * weight * 0.33) * opening * (1.0 - closure * 0.95);
+	// A tightening aperture: darkness advances from every border toward the gaze.
+	float radius_clear = max(0.025, 0.86 - weight * 0.69 - day_pressure * 0.13);
+	float distance_from_gaze = length((UV - vision_center) * vec2(1.25, 1.0));
+	float sight = 1.0 - smoothstep(radius_clear - 0.055, radius_clear + 0.075, distance_from_gaze);
+	picture.rgb *= sight * (1.0 - closure);
 	COLOR = vec4(picture.rgb, 1.0);
 }

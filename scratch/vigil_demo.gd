@@ -14,6 +14,9 @@ func _ready() -> void:
 	game.day_duration = 9.0
 	game.random_seed = 9044
 	game.persist_record = false
+	game.vigilance_failed.connect(func(_reason: String):
+		push_error("The demo must survive the first eight days.")
+		get_tree().quit(1))
 	get_tree().root.add_child(game)
 	get_tree().current_scene = game
 	await get_tree().create_timer(2.0).timeout
@@ -22,6 +25,7 @@ func _ready() -> void:
 	await get_tree().create_timer(2.0).timeout
 	print("VIGIL DEMO: nine abbreviated days and final scene complete")
 	game.sounds.stop()
+	await get_tree().create_timer(0.15).timeout
 	await get_tree().process_frame
 	await get_tree().process_frame
 	get_tree().quit()
@@ -30,10 +34,12 @@ func _process(delta: float) -> void:
 	if game == null or game.model.state != MODEL.State.PLAYING:
 		return
 	demo_clock += delta
-	# Deliberate pauses near the wake threshold keep the physical cues readable.
-	if game.model.fatigue > 77.0:
+	if game.model.fatigue >= MODEL.WAKE_START:
 		game.model.wake()
+	var urgent: Dictionary = {}
 	for visitor in game.model.crew:
-		if not visitor.retreating and float(visitor.progress) > 0.38:
-			game.model.look(int(visitor.side))
-			game.model.warn_crew()
+		if not visitor.retreating and (urgent.is_empty() or visitor.progress > urgent.progress):
+			urgent = visitor
+	if not urgent.is_empty() and float(urgent.progress) > 0.19:
+		game.model.look(int(urgent.side))
+		game.model.warn_crew()

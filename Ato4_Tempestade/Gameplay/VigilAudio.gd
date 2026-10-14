@@ -7,7 +7,6 @@ var cue: AudioStreamPlayer
 var storm: AudioStreamPlayer
 var previous_music: float = 0.0
 var music_ducked: bool = false
-var ending_step: int = -1
 
 func _ready() -> void:
 	if not enabled:
@@ -88,14 +87,11 @@ func _process(_delta: float) -> void:
 		ambient.volume_db = -23.0-smoothstep(0.0,3.0,age)*27.0
 		if music_ducked:
 			AudioManager.music_player.volume_db = previous_music-10.0-smoothstep(0.0,3.0,age)*25.0
-		if age >= 4.0 and age < 6.8:
-			var step: int = int((age-4.0)/0.65)
-			if step != ending_step:
-				ending_step = step
-				feedback("","steps")
 		if not model.bag_sealed and not storm.playing:
 			storm.play()
-		storm.volume_db = lerpf(-34.0,-10.0,smoothstep(7.3,9.3,age))
+		storm.volume_db = -28.0
+	elif model.state == MODEL.State.FAILED:
+		ambient.volume_db = -48.0
 
 func stop() -> void:
 	enabled = false
