@@ -1,0 +1,9 @@
+{
+  "name": "wind_bag_betrayal",
+  "prompt": "Use case: illustration-story. Transparent Godot cinematic contact-pose atlas, EXACTLY TWO wide cells side by side (2 columns, 1 row). Each cell contains a COMPLETE paired interaction between the TWO distinct men in references, with generous transparent gutters and all heads hands feet cloaks inside the cell. Reference 1 is Odysseus exact mature broad face/shorter natural nose/thick beard/long wavy brown hair, bronze OWL cuirass red cloak greaves sandals, seated on low wooden crate with gold-spiral brown wind bag on lap and teal/gold tied cord. Reference 2 is Eurylocus exact younger face/short tousled brown hair/short beard, plainer bronze cuirass leather shoulder strips red cloak greaves sandals. Do NOT clone faces. LEFT CELL: Odysseus seated on RIGHT asleep eyes closed chin down. Eurylocus crouches/kneels close on LEFT, both hands actually touching and loosening the teal/gold knot on the wind bag at Odysseus's lap, focused cautious expression, cord being untied clearly visible, mouth still nearly closed. RIGHT CELL: same positions and body sizes but the bag's MOUTH IS NOW WIDE OPEN facing upward, cords slack/untied in Eurylocus's hand, a bright IVORY/TEAL SWIRLING WIND plume shoots upward from opening, no gold coins or treasure. Odysseus has just awakened shocked and reaches toward bag with open palm, natural mouth slightly parted with intact teeth or no exposed teeth, Eurylocus recoils in alarm. Keep the bag small/carryable and identical gold spiral leather design in both cells. Dense colored cinematic PIXEL ART matching references, warm bronze with blue edge light. Full body two-character composition, no background, no text, no scene frames, no huge plume covering faces or crossing cells. Exactly 2 scenes, transparent outside figures.",
+  "refs": [
+    "Assets/act4_vigil/odysseus_vigil.png",
+    "Assets/act4_luck/eurylochus_luck_poses.png"
+  ],
+  "transparent": true
+}

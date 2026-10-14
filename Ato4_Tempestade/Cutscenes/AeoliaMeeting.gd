@@ -1,5 +1,5 @@
 extends "res://Ato4_Tempestade/Cutscenes/LuckRunsOut.gd"
-## Stops at the crew's assent. A later vigilance scene can use watch_requested.
+## Stops at the crew's assent and offers the nine-day vigilance.
 signal wind_bag_received
 signal watch_requested
 const FRIENDS_DIRECTOR := preload("res://Ato4_Tempestade/Cutscenes/FriendsStage.gd")

@@ -5,3 +5,4 @@
 script = ExtResource("1")
 next_scene_path = ""
 standalone_ascent = false
+watch_scene_path = "res://Ato4_Tempestade/Gameplay/NineDaysVigil.tscn"

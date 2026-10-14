@@ -1,0 +1,27 @@
+[
+  {
+    "name": "odysseus_vigil",
+    "prompt": "Use case: illustration-story. Transparent Godot character atlas, EXACTLY 2 columns x 2 rows, four complete separate full-body seated poses with generous empty gutters and all feet/fingers inside cells. Reference 1 is the exact Odysseus face identity: natural shorter straight nose, broad olive mature face, thick brown beard, wavy brown hair, natural closed lips (no missing teeth, no caricature). Reference 2 defines his bronze owl cuirass, dark leather skirt, bronze greaves, sandals, red cloak and CLOSED leather wind bag with gold spiral and tightly tied teal/gold cords. In EVERY cell SAME Odysseus seated on a small low wooden ship crate, both feet grounded, bag securely resting on his lap. Same figure size, same crate and ground baseline. TOP LEFT alert seated upright gazing three-quarter LEFT, both hands protecting closed bag. TOP RIGHT exhausted heavy eyelids head lowered slightly, one hand supporting forehead, other securing bag on lap. BOTTOM LEFT waking suddenly, eyes alert, back upright, one hand rubbing brow, other holds bag closed. BOTTOM RIGHT finally asleep, eyes FULLY CLOSED, chin gently lowered toward chest, relaxed shoulders, bag still CLOSED on lap, no comic expression. Complete natural seated anatomy, readable subtle face changes. Dense detailed colored pixel-art same as references, no background, no text, no glow. Preserve exact original face across four poses.",
+    "refs": [
+      "Assets/cinematics/odysseus_clean.png",
+      "Assets/act4_friends/odysseus_bag_poses_v2.png"
+    ],
+    "transparent": true
+  },
+  {
+    "name": "penelope_vision",
+    "prompt": "Use case: illustration-story. Single transparent waist-up portrait of Penelope, Odysseus's adult Greek queen wife, as a gentle memory apparition in the Odyssey game. Reference is ONLY the game's dense cinematic colored pixel-art rendering and lighting style, NOT the man's face, armor or clothing. Penelope is a distinct mature olive-skinned Greek woman around 35 with long wavy chestnut hair, calm brown eyes, natural proportional face, soft reassuring closed-lip expression, ivory linen Greek peplos with muted blue shawl and small gold brooch. She faces three-quarter RIGHT, one relaxed hand slightly extended toward her absent husband. Warm golden edge light and restrained color, no ghost effects baked into image because game controls opacity. Entire head, hair, shoulders, arm and fingers inside generous transparent margins, no text, no armor, no red cloak, no background.",
+    "refs": [
+      "Assets/cinematics/odysseus_clean.png"
+    ],
+    "transparent": true
+  },
+  {
+    "name": "deck_ithaca",
+    "prompt": "Use case: illustration-story. Edit the supplied empty ship-deck background for the ninth day near Ithaca. Preserve EXACT ship perspective, foreground wooden deck, left-edge mast and ropes, balustrade, barrel and framing, no characters. Change the sea/sky to serene blue and warm golden dawn, calm low ripples and gentle fair breeze. Beyond the rail, place a SMALL DISTANT real rocky green Greek island with tiny pale houses and an unobtrusive coastal harbor on the CENTRAL horizon, evoking Ithaca just beyond reach. Island must be grounded in the sea, distant, NOT floating, NOT sitting on ship furniture, and NOT covering rail/deck; its summit stays in the middle band of sky. Plenty of empty deck for actors and lower UI. Dense detailed cinematic colored pixel art exactly as reference. No words or UI, no people, no bags, no sail crossing center.",
+    "refs": [
+      "Assets/act4_luck/deck_luck.png"
+    ],
+    "transparent": false
+  }
+]

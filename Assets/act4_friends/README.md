@@ -23,7 +23,7 @@ Arpão → conversa com Euríloco → subida pela corda → `AeoliaMeeting.tscn`
 
 Abra `Ato4_Tempestade/Cutscenes/AeoliaMeeting.tscn` e use F6 para visualizar. A/Auto alterna reprodução automática, Espaço/Enter/clique revela e avança; Esc usa a pausa global. Repetir a conversa e voltar ao mapa ficam disponíveis no fim.
 
-A fase dos nove dias fica para a próxima etapa. `watch_scene_path` pode receber sua cena, e `watch_requested` avisa o início. `wind_bag_received` sinaliza a conclusão uma vez. A bolsa permanece fechada nesta conversa; visualizar/repetir não altera inventário, desbloqueios ou o save da campanha.
+A cena aponta `watch_scene_path` para `Ato4_Tempestade/Gameplay/NineDaysVigil.tscn`, e o botão **Iniciar viagem** abre a fase dos nove dias. `watch_requested` avisa o início e `wind_bag_received` sinaliza a conclusão da conversa uma vez. A bolsa permanece fechada nesta conversa; visualizar/repetir não altera inventário, desbloqueios ou o save da campanha.
 
 ## Verificação
 
