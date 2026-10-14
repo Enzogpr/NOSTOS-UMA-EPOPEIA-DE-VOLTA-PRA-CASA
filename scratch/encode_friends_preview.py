@@ -13,7 +13,7 @@ with (root/'encode.log').open('w') as log:
     for path in root.glob('movie_[0-9][0-9][0-9].jpg'):
         path.unlink()
     subprocess.run([ffmpeg,'-y','-i',str(root/'friends_close.mp4'),'-vf','fps=1/5,scale=480:270',str(root/'movie_%03d.jpg')],stdout=log,stderr=log,check=True)
-frames = sorted(root.glob('movie_*.jpg'))
+frames = sorted(root.glob('movie_[0-9][0-9][0-9].jpg'))
 for batch in range((len(frames)+15)//16):
     board = Image.new('RGB',(1920,1200),'#121a22')
     draw = ImageDraw.Draw(board)
