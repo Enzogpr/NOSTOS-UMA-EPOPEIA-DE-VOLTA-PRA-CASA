@@ -4,12 +4,13 @@ extends Control
 signal rope_attached
 signal ascent_completed
 
-enum State { READY, AIMING, CHARGING, FLYING, RETURNING, LATCHED, CLIMBING, COMPLETE }
+enum State { READY, AIMING, CHARGING, FLYING, RETURNING, LATCHED, DIALOGUE, CLIMBING, COMPLETE }
 const GRAVITY: float = 360.0
 const LAUNCHER := Vector2(274, 480)
 const ANCHOR_OFFSET := Vector2(-101, 17)
 const MEETING := "res://Ato4_Tempestade/Cutscenes/AeoliaMeeting.tscn"
 @export var transition_enabled: bool = true
+@export var play_climb_dialogue: bool = true
 @export var aim_speed: float = 42.0
 @export var charge_seconds: float = 1.25
 @onready var stage: Node2D = $Stage
@@ -38,6 +39,9 @@ var start_button: Button
 var map_button: Button
 var exiting: bool = false
 var font: Font = ThemeDB.fallback_font
+var conversation: Control
+var dialogue_completed: bool = false
+var ascent_reveal: float = 0.0
 
 func _ready() -> void:
 	set_meta("hide_main_hud", true)
@@ -160,10 +164,10 @@ func _physics_process(delta: float) -> void:
 		phase_age += delta
 		projectile = anchor.position
 		if phase_age >= 0.75:
-			state = State.CLIMBING
-			phase_age = 0
-			climber.show()
-			status = "Odisseu sobe pela corda até Eólia."
+			if play_climb_dialogue and not dialogue_completed:
+				_start_conversation()
+			else:
+				_begin_climb()
 	elif state == State.CLIMBING:
 		phase_age += delta
 		var progress: float = smoothstep(0.0, 1.0, minf(phase_age / 4.2, 1.0))
@@ -181,6 +185,46 @@ func _recall() -> void:
 	phase_age = 0
 	miss_origin = projectile
 	status = "Faltou alcance. Tente um pouco mais de força." if projectile.y > 561 and projectile.x < anchor.position.x - 28 else "Quase! Ajuste o ângulo ou a força e tente novamente."
+
+func _start_conversation() -> void:
+	if conversation != null:
+		return
+	state = State.DIALOGUE
+	set_meta("cinematic_active", true)
+	conversation = preload("res://Ato4_Tempestade/Cutscenes/LuckRunsOut.tscn").instantiate()
+	conversation.standalone_ascent = false
+	conversation.z_index = 30
+	conversation.conversation_finished.connect(_resume_after_conversation)
+	add_child(conversation)
+
+func _resume_after_conversation() -> void:
+	if dialogue_completed:
+		return
+	dialogue_completed = true
+	set_meta("cinematic_active", false)
+	conversation.queue_free()
+	conversation = null
+	_begin_climb()
+	ascent_reveal = 1.0
+	create_tween().tween_property(self,"ascent_reveal",0.0,0.65)
+
+func _begin_climb() -> void:
+	state = State.CLIMBING
+	phase_age = 0.0
+	climber.position = LAUNCHER + Vector2(-8,5)
+	climber.show()
+	status = "Odisseu sobe pela corda até Eólia."
+
+func prepare_ascent_preview() -> void:
+	# F6 on the dialogue previews its natural continuation without another shot.
+	dialogue_completed = true
+	frozen_island = island.position
+	projectile = anchor.position
+	start_button.hide()
+	map_button.hide()
+	_begin_climb()
+	ascent_reveal = 1.0
+	create_tween().tween_property(self,"ascent_reveal",0.0,0.65)
 
 func _attach_rope() -> void:
 	state = State.LATCHED
@@ -296,3 +340,5 @@ func draw_foreground(canvas: Node2D) -> void:
 		_label(canvas, "Um acerto basta. Errar permite tentar de novo.", Vector2(329, 409), 18, Color(0.77, 0.92, 0.84))
 	if state == State.CLIMBING and phase_age > 4.0:
 		canvas.draw_rect(Rect2(0, 0, 1152, 648), Color(0.025, 0.08, 0.13, clampf((phase_age - 4) / 0.8, 0, 1)))
+	if ascent_reveal > 0.0:
+		canvas.draw_rect(Rect2(0,0,1152,648),Color(0.0,0.0,0.0,ascent_reveal))

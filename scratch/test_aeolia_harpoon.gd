@@ -202,6 +202,29 @@ func _ready() -> void:
 		return
 	check(game.projectile.distance_to(game.anchor.position) < 1 and not game.map_button.visible, "A successful rope must stay fixed to the target and secure the ascent.")
 	await screenshot("aeolia_rope_attached")
+	for _frame in 100:
+		if game.conversation != null:
+			break
+		await get_tree().physics_frame
+	check(game.state == game.State.DIALOGUE and game.conversation != null and not game.climber.visible, "The secured rope must open Luck Runs Out before Odysseus climbs.")
+	var conversation: Control = game.conversation
+	conversation.autoplay = false
+	await get_tree().create_timer(1.3).timeout
+	check(conversation.beats.size() == 33 and conversation.can_advance, "The pre-ascent scene must load all supplied lines with working controls.")
+	key(KEY_ENTER,true)
+	key(KEY_ENTER,false)
+	await frames(2)
+	check(conversation.current_beat == 0 and conversation.dialogue.visible_characters == conversation.dialogue.get_total_character_count() and game.attempts == 2, "Real dialogue input must reveal the line without firing another harpoon.")
+	await screenshot("aeolia_luck_before_ascent")
+	var frozen_target: Vector2 = game.anchor.position
+	await frames(20)
+	check(game.state == game.State.DIALOGUE and game.anchor.position == frozen_target and game.arrival_hull == 72.5, "The dialogue must not move the secured island, begin ascent or damage the ship.")
+	conversation._show_beat(32)
+	conversation.input_cooldown = 0.0
+	conversation.dialogue.visible_characters = conversation.dialogue.get_total_character_count()
+	conversation._advance_requested()
+	await get_tree().create_timer(2.6).timeout
+	check(game.dialogue_completed and game.conversation == null and game.state == game.State.CLIMBING, "The final thanks must resume the same rope and begin ascent exactly once.")
 	await frames(100)
 	check(game.state == game.State.CLIMBING and game.climber.visible and game.climber.position.distance_to(game.LAUNCHER) > 15, "Odysseus must visibly climb the anchored rope.")
 	await screenshot("aeolia_ascent")
