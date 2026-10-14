@@ -1,0 +1,9 @@
+{
+  "name": "crew_poses_v3",
+  "prompt": "Edit FIRST reference four-pose atlas. Preserve these EXACT two newly distinct faces and hairstyles: top-row Perimedes young olive clean-shaven face with short black curls, bottom-row Elpenor young attentive face with short light chestnut hair and neat moustache/light stubble. Preserve their upright sober focused expressions, level eyes, RIGHT-facing poses and gestures. CHANGE THEIR CLOTHING ONLY to the soldiers' military uniform from SECOND reference: bronze anatomical cuirass, brown leather shoulder strips and leather skirt/pteruges over dark tunic, RED soldier cloak fastened with round bronze brooches, bronze wrist guards and bronze shin greaves with leather Greek sandals. Both must clearly belong to the SAME Greek soldier unit, same armor/cloak/tunic colors and designs as second reference. Perimedes remains bareheaded so his short black curls stay visible; Elpenor wears the plain bronze soldier helmet from second reference, with attentive level gaze and natural mouth, NO tilted-back head or sleepy/drunken expression. DO NOT copy the older long-haired bearded faces from second reference. Keep the younger faces from FIRST reference precisely. Exactly 2 columns and 2 rows, four complete separate whole-body figures, wide transparent gutters at all cell edges, every helmet/head/finger/foot complete. Detailed colored pixel-art Greek Odyssey game style, transparent background, no text, no props covering hands.",
+  "refs": [
+    "Assets/act4_friends/crew_poses_v2.png",
+    "Assets/act4_friends/crew_poses.png"
+  ],
+  "transparent": true
+}

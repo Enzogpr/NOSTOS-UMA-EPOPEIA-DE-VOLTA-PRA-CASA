@@ -12,9 +12,9 @@ func _ready() -> void:
 	set_meta("cinematic_active", true)
 	GameManager.combat_mode = false
 	MainHUD.set_station("Ato 4 - A sorte acaba")
-	beats = JSON.parse_string(FileAccess.get_file_as_string(STORY))
+	beats = JSON.parse_string(FileAccess.get_file_as_string(_dialogue_path()))
 	world.hide()
-	director = DIRECTOR.new()
+	director = _create_director()
 	director.name = "LuckStage"
 	stage.add_child(director)
 	stage.move_child(director, 1)
@@ -45,6 +45,12 @@ func _ready() -> void:
 		can_advance = true
 		_show_beat(0)
 	)
+
+func _dialogue_path() -> String:
+	return STORY
+
+func _create_director() -> Node2D:
+	return DIRECTOR.new()
 
 func _show_beat(index: int) -> void:
 	current_beat = index

@@ -12,3 +12,5 @@ scratch/analyze_athena_video.py
 scratch/upload_checkpoint.py
 scratch/luck_reference/
 scratch/luck_preview/
+scratch/friends_reference/
+scratch/friends_preview/

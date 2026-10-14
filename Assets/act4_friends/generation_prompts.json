@@ -1,0 +1,51 @@
+[
+  {
+    "name": "wind_bag",
+    "prompt": "Detailed colored pixel-art illustration matching the provided existing Greek Odyssey game art, crisp painterly pixel clusters, bronze gold teal and warm ivory lighting. No text, labels, UI or watermark. Single large sealed antique brown leather wind bag, rounded pear-shaped leather pouch, tight closed mouth gathered and securely tied with braided gold and teal cord, gold wind spiral embossed on front. Whole object centered with generous transparent margins. No open mouth, no escaping clouds, no coins.",
+    "refs": [
+      "Assets/act4_storm/aeolus_fullbody.png"
+    ],
+    "transparent": true
+  },
+  {
+    "name": "winions_poses",
+    "prompt": "Detailed colored pixel-art illustration matching the provided existing Greek Odyssey game art, crisp painterly pixel clusters, bronze gold teal and warm ivory lighting. No text, labels, UI or watermark. Transparent sprite atlas in exactly 2 columns and 2 rows, four separate whole cloud spirits, one per cell with wide empty transparent gutters. Mischievous little ivory and soft teal cloud faces with golden rim light, wispy swirling tails, tiny cloudy hands, expressive eyebrows, no human body. Top left laughing eyes closed; top right conspiratorial whisper pointing; bottom left impish excitement announcing treasure; bottom right waving goodbye. All complete, no cropped wisps, no grid lines.",
+    "refs": [
+      "Assets/act4_storm/aeolus_fullbody.png"
+    ],
+    "transparent": true
+  },
+  {
+    "name": "crew_poses",
+    "prompt": "Detailed colored pixel-art illustration matching the provided existing Greek Odyssey game art, crisp painterly pixel clusters, bronze gold teal and warm ivory lighting. No text, labels, UI or watermark. Transparent full-body character atlas exactly 2 columns by 2 rows, four poses with wide transparent gutters, complete heads fingertips and sandals fit each cell. Use the two soldiers from reference: TOP ROW unhelmeted Perimedes, olive skin shoulder length dark wavy hair full dark beard bronze breastplate leather straps red cloak: top left curious questioning palm up facing three-quarter RIGHT, top right reaching out eagerly facing RIGHT. BOTTOM ROW helmeted Elpenor, bronze helmet full dark beard bronze leather armor red cloak: bottom left curious open palm facing RIGHT, bottom right reluctant assent downcast shoulders facing RIGHT. Consistent identities, four separate whole figures, no overlap.",
+    "refs": [
+      "Assets/cinematics/companions.png"
+    ],
+    "transparent": true
+  },
+  {
+    "name": "aeolia_terrace",
+    "prompt": "Detailed colored pixel-art illustration matching the provided existing Greek Odyssey game art, crisp painterly pixel clusters, bronze gold teal and warm ivory lighting. No text, labels, UI or watermark. Wide 16:9 empty stage background of Aeolus's marble palace terrace on a floating Greek island high above clouds. Camera at standing-person level, ample broad marble floor throughout lower 45 percent for full-body animated actors. Open central space, ornate columns and cypresses only at left/right edges, golden temple ornaments at upper edges, sweeping blue sky and ivory clouds beyond low terrace balustrade, distant soft mountain clouds. Warm divine sunlight, inviting yet uncanny. No characters, no bag, no floating island cutout placed over scenery.",
+    "refs": [
+      "Assets/act4_storm/aeolia_floating.png"
+    ],
+    "transparent": false
+  },
+  {
+    "name": "aeolus_poses",
+    "prompt": "Detailed colored pixel-art full-body sprite atlas matching the supplied Greek Odyssey game's art, crisp painterly pixel clusters, warm bronze/ivory/teal tones. Transparent background. EXACTLY 3 columns and 2 rows of SIX completely separate whole figures, generous transparent gutters inside each cell. Every head, scarf, fingertip and sandal fully visible inside its own cell. No overlapping cells, no text, labels or watermark. Use exactly the same youthful androgynous wind god from reference, flowing golden-brown hair, thin gold spiral forehead band, ivory one-shoulder Greek robe with teal/gold border, golden sandals, wind spiral jewelry, long flowing ivory scarf. All face three-quarter LEFT toward Odysseus. Top left inviting relaxed levitation; top middle laughing with hand beside mouth; top right outstretched empty hand conjuring; bottom left leaning closer mischievously with warning raised finger; bottom middle wide open arms singing/chorus; bottom right twisting away and waving departure, scarves swept by wind. Empty hands, no bag in these sprites.",
+    "refs": [
+      "Assets/act4_storm/aeolus_fullbody.png"
+    ],
+    "transparent": true
+  },
+  {
+    "name": "odysseus_bag_poses",
+    "prompt": "Detailed colored pixel-art full-body sprite atlas matching the supplied Greek Odyssey game's art, crisp painterly pixel clusters, warm bronze/ivory/teal tones. Transparent background. EXACTLY 3 columns and 2 rows of SIX completely separate whole figures, generous transparent gutters inside each cell. Every head, scarf, fingertip and sandal fully visible inside its own cell. No overlapping cells, no text, labels or watermark. Keep EXACTLY our Odysseus identity from first reference: mature olive skin long wavy brown hair thick beard bronze owl armor red cloak bronze greaves/sandals. Our wind bag from second reference is brown leather gold wind spiral and teal/gold cords, its neck firmly cinched shut with tied cord in EVERY pose. Top left supplicant palm to chest facing RIGHT, no bag yet. Top middle surprised questioning with palm up facing RIGHT no bag yet. Top right holding CLOSED bag at waist with both hands facing LEFT. Bottom left protectively gripping CLOSED bag at chest facing LEFT. Bottom middle holding CLOSED bag high near shoulder, other hand palm out STOP to crew facing LEFT. Bottom right three-quarter rear view taking step carrying CLOSED bag beside hip, looking back LEFT. Bag small enough to carry, visible rope knot, never open, no loose coins.",
+    "refs": [
+      "Assets/act4_luck/odysseus_luck_poses.png",
+      "Assets/act4_friends/wind_bag.png"
+    ],
+    "transparent": true
+  }
+]

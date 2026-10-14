@@ -233,23 +233,26 @@ func _ready() -> void:
 	check(completed_in_correct_state and completed_count == 1, "The ascent must complete once and automatically open the encounter.")
 	await frames(5)
 	check(completed_count == 1 and completed_hull == 72.5, "Completion must not repeat or alter the arrival hull.")
-	check(meeting.name == "AeoliaMeetingCutscene" and meeting.beats.size() == 4, "Completing the ascent must load the real encounter with Aeolus.")
-	check(meeting.cinematic.library.actors.has("aeolus"), "Aeolus must have an integrated portrait in the encounter.")
-	await get_tree().create_timer(0.7).timeout
+	check(meeting.name == "AeoliaMeetingCutscene" and meeting.beats.size() == 34, "Completing the ascent must load the full supplied encounter with Aeolus.")
+	check(meeting.director.aeolus != null, "Aeolus must have an animated body in the encounter.")
+	meeting.autoplay = false
+	await get_tree().create_timer(1.3).timeout
 	await screenshot("aeolia_meeting_odysseus")
-	while not meeting.ended:
-		meeting.cinematic.input_cooldown = 0
-		meeting.cinematic.dialogue.visible_characters = meeting.cinematic.dialogue.get_total_character_count()
-		meeting.cinematic._advance_requested()
-		if meeting.beat_index == 1:
-			await get_tree().create_timer(0.3).timeout
-			await screenshot("aeolia_meeting_aeolus")
+	meeting._show_beat(5)
+	await get_tree().create_timer(1.5).timeout
+	await screenshot("aeolia_meeting_aeolus")
+	meeting._show_beat(33)
+	await get_tree().create_timer(2.4).timeout
+	meeting.input_cooldown = 0
+	meeting.dialogue.visible_characters = meeting.dialogue.get_total_character_count()
+	meeting._advance_requested()
+	await get_tree().create_timer(2.3).timeout
 	check(meeting.end_panel.visible, "The encounter must finish with usable replay/map controls.")
 	await screenshot("aeolia_meeting_complete")
 	meeting.end_panel.get_node("Retry").pressed.emit()
-	game = await wait_scene("AeoliaHarpoon")
-	check(game.name == "AeoliaHarpoon" and game.state == game.State.READY and game.attempts == 0, "Replay must reset just the minigame.")
-	game.return_to_map()
+	meeting = await wait_scene("AeoliaMeetingCutscene")
+	check(meeting.name == "AeoliaMeetingCutscene" and meeting.current_beat == -1 and not meeting.ended, "Replay must restart the conversation.")
+	meeting._leave("res://Scenes/WorldMap.tscn")
 	await wait_scene("WorldMap")
 	check(get_tree().current_scene.name == "WorldMap", "The minigame must provide an actual route back to the map.")
 	check(GameManager.highest_unlocked_level == original_progress and GameManager.inventory == original_inventory, "The introductory encounter must neither unlock another act nor award story items.")

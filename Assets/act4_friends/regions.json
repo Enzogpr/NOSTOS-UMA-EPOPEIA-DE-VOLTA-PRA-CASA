@@ -1,0 +1,153 @@
+{
+  "aeolus_poses": {
+    "texture": "res://Assets/act4_friends/aeolus_poses.png",
+    "regions": [
+      [
+        49,
+        13,
+        460,
+        496
+      ],
+      [
+        576,
+        28,
+        444,
+        479
+      ],
+      [
+        1055,
+        18,
+        456,
+        491
+      ],
+      [
+        56,
+        533,
+        435,
+        470
+      ],
+      [
+        525,
+        512,
+        499,
+        492
+      ],
+      [
+        1069,
+        522,
+        446,
+        478
+      ]
+    ]
+  },
+  "odysseus_bag_poses": {
+    "texture": "res://Assets/act4_friends/odysseus_bag_poses_v2.png",
+    "regions": [
+      [
+        55,
+        27,
+        404,
+        475
+      ],
+      [
+        538,
+        27,
+        454,
+        475
+      ],
+      [
+        1096,
+        28,
+        416,
+        480
+      ],
+      [
+        65,
+        513,
+        444,
+        482
+      ],
+      [
+        562,
+        513,
+        414,
+        481
+      ],
+      [
+        1067,
+        512,
+        407,
+        487
+      ]
+    ]
+  },
+  "crew_poses": {
+    "texture": "res://Assets/act4_friends/crew_poses_v3.png",
+    "regions": [
+      [
+        154,
+        8,
+        430,
+        604
+      ],
+      [
+        693,
+        9,
+        558,
+        602
+      ],
+      [
+        180,
+        618,
+        445,
+        623
+      ],
+      [
+        749,
+        618,
+        315,
+        623
+      ]
+    ]
+  },
+  "winions_poses": {
+    "texture": "res://Assets/act4_friends/winions_poses.png",
+    "regions": [
+      [
+        30,
+        35,
+        518,
+        570
+      ],
+      [
+        663,
+        38,
+        560,
+        575
+      ],
+      [
+        40,
+        631,
+        567,
+        587
+      ],
+      [
+        687,
+        646,
+        544,
+        560
+      ]
+    ]
+  },
+  "wind_bag": {
+    "texture": "res://Assets/act4_friends/wind_bag.png",
+    "regions": [
+      [
+        162,
+        52,
+        940,
+        1148
+      ]
+    ]
+  }
+}
