@@ -7,7 +7,11 @@ import imageio_ffmpeg
 root = Path('scratch/friends_preview')
 ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
 with (root/'encode.log').open('w') as log:
-    subprocess.run([ffmpeg,'-y','-i',str(root/'friends_close.avi'),'-c:v','libx264','-crf','21','-pix_fmt','yuv420p','-c:a','aac','-b:a','128k','-movflags','+faststart',str(root/'friends_close.mp4')],stdout=log,stderr=log,check=True)
+    if '--frames-only' not in sys.argv:
+        subprocess.run([ffmpeg,'-y','-i',str(root/'friends_close.avi'),'-c:v','libx264','-crf','21','-pix_fmt','yuv420p','-c:a','aac','-b:a','128k','-movflags','+faststart',str(root/'friends_close.mp4')],stdout=log,stderr=log,check=True)
+    # A shorter new recording must not retain samples from an older preview.
+    for path in root.glob('movie_[0-9][0-9][0-9].jpg'):
+        path.unlink()
     subprocess.run([ffmpeg,'-y','-i',str(root/'friends_close.mp4'),'-vf','fps=1/5,scale=480:270',str(root/'movie_%03d.jpg')],stdout=log,stderr=log,check=True)
 frames = sorted(root.glob('movie_*.jpg'))
 for batch in range((len(frames)+15)//16):
