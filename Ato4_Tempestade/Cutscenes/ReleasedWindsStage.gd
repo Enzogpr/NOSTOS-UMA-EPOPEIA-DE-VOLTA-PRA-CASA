@@ -2,6 +2,9 @@ extends Node2D
 ## The bag is already open when reality returns; its opener is never staged.
 const RIG := preload("res://Ato4_Tempestade/Cutscenes/LuckStage.gd")
 const DECK := preload("res://Assets/act4_released_winds/storm_deck.png")
+const OPEN_SEA := preload("res://Assets/act4_released_winds/storm_open_sea.png")
+const SHIP := preload("res://Assets/act4_storm/ship_harpoon_side.png")
+const PRESENCE := preload("res://Assets/act4_released_winds/unknown_presence.gdshader")
 var metadata: Dictionary
 var camera: Node2D
 var background: Sprite2D
@@ -25,6 +28,10 @@ var wind_strength: float = 1.0
 var atmosphere: float = 0.0
 var bag_secured: bool = false
 var ending: bool = false
+var exterior: Node2D
+var distant_ship: Sprite2D
+var presence: ColorRect
+var journey_progress: float = 0.0
 
 func _ready() -> void:
 	metadata = JSON.parse_string(FileAccess.get_file_as_string("res://Assets/act4_friends/regions.json"))
@@ -45,10 +52,43 @@ func _ready() -> void:
 	aeolus = _actor("aeolus_poses",285,Vector2(800,332))
 	rescue = _actor("wind_bag_rescue",365,Vector2(576,560))
 	rescue.hide()
+	_build_exterior()
+	presence = ColorRect.new()
+	presence.size = Vector2(1152,648)
+	presence.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var veil := ShaderMaterial.new()
+	veil.shader = PRESENCE
+	presence.material = veil
+	presence.hide()
+	add_child(presence)
 	air_effects = RIG.AirEffects.new()
 	air_effects.director = self
 	add_child(air_effects)
 	present({"shot":"cry","speaker":"Odisseu"})
+
+func _build_exterior() -> void:
+	exterior = Node2D.new()
+	add_child(exterior)
+	var sea := Sprite2D.new()
+	sea.texture = OPEN_SEA
+	sea.scale = Vector2(1152,648)/OPEN_SEA.get_size()
+	sea.position = Vector2(576,324)
+	exterior.add_child(sea)
+	distant_ship = Sprite2D.new()
+	distant_ship.texture = SHIP
+	exterior.add_child(distant_ship)
+	exterior.hide()
+
+func _process_exterior() -> void:
+	var travel_time: float = maxf(0.0,shot_elapsed-0.75)
+	journey_progress = clampf(travel_time/3.5,0.0,1.0)
+	var travel: float = 1.0-pow(1.0-journey_progress,1.4)
+	exterior.visible = current_shot == "giants"
+	exterior.modulate.a = smoothstep(0.0,0.45,travel_time)
+	distant_ship.scale = Vector2.ONE*lerpf(420.0,118.0,travel)/SHIP.get_width()
+	distant_ship.position = Vector2(lerpf(258,876,travel),lerpf(321,251,travel)+sin(elapsed*4.2)*lerpf(11,3,travel))
+	distant_ship.rotation = -0.06+sin(elapsed*3.3)*0.09*(1.0-travel*0.6)
+	distant_ship.modulate = Color.WHITE.lerp(Color(0.60,0.72,0.78),travel*0.55)
 
 func _actor(source: String, height: float, at: Vector2) -> RIG.Performer:
 	var actor := RIG.Performer.new(metadata,source)
@@ -105,6 +145,7 @@ func _process(delta: float) -> void:
 	var mysterious: bool = current_shot in ["voice","presence"]
 	var together: bool = current_shot in ["help","rescue","close"]
 	var deity: bool = current_shot in ["aeolus","giants"]
+	_process_exterior()
 	wind_strength = move_toward(wind_strength,0.12 if bag_secured else 1.0,delta*0.38)
 	atmosphere = move_toward(atmosphere,1.0 if mysterious else 0.0,delta*0.55)
 	focus = focus.lerp(target_focus,minf(delta*2.5,1.0))
@@ -114,6 +155,9 @@ func _process(delta: float) -> void:
 	camera.position = Vector2(576,324)-focus*zoom+sway
 	camera.rotation = sin(elapsed*1.7)*0.010*wind_strength
 	background.modulate = Color.WHITE.lerp(Color(0.43,0.59,0.70),atmosphere*0.65)
+	presence.visible = mysterious
+	(presence.material as ShaderMaterial).set_shader_parameter("clock",elapsed)
+	(presence.material as ShaderMaterial).set_shader_parameter("emergence",atmosphere)
 	# Overscan covers the viewport throughout the moving shots, including corners.
 	var half_size: Vector2 = background.texture.get_size()*background.scale*0.5
 	var top_left: Vector2 = -camera.position/zoom
@@ -146,11 +190,15 @@ func draw_floor(canvas: Node2D) -> void:
 	canvas.draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
 
 func draw_air(canvas: Node2D) -> void:
+	if exterior.visible and exterior.modulate.a > 0.02:
+		_draw_exile(canvas)
 	# Rain and wind remain procedural layers, so they move across every painting.
 	for i in 100:
-		var start := Vector2(fposmod(i*83.7-elapsed*480.0,1390.0)-110,fposmod(i*41.3+elapsed*340.0,830.0)-90)
-		canvas.draw_line(start,start+Vector2(-22,32),Color(0.69,0.85,0.96,0.12*(1.0-atmosphere*0.6)),1.0,true)
-	if atmosphere < 0.8:
+		var drift: float = 480.0 if current_shot == "giants" else -480.0
+		var start := Vector2(fposmod(i*83.7+elapsed*drift,1390.0)-110,fposmod(i*41.3+elapsed*340.0,830.0)-90)
+		var direction := Vector2(45,24) if current_shot == "giants" else Vector2(-22,32)
+		canvas.draw_line(start,start+direction,Color(0.69,0.85,0.96,0.12*(1.0-atmosphere*0.6)),1.0,true)
+	if atmosphere < 0.8 and current_shot != "giants":
 		var origin: Vector2 = camera.transform*((Vector2(595,336) if bag_secured else Vector2(520,345)) if rescue.visible else Vector2(170,590))
 		for ribbon in 15:
 			var points := PackedVector2Array()
@@ -174,3 +222,17 @@ func draw_air(canvas: Node2D) -> void:
 			canvas.draw_polyline(points,Color(0.005,0.026,0.038,0.09*atmosphere),14.0,true)
 	var flash: float = maxf(0.0,1.0-absf(shot_elapsed-0.18)*5.0) if current_shot == "cry" else 0.0
 	if flash > 0.0: canvas.draw_rect(Rect2(0,0,1152,648),Color(0.72,0.89,1.0,flash*0.16))
+
+func _draw_exile(canvas: Node2D) -> void:
+	var alpha: float = exterior.modulate.a
+	var keel: Vector2 = distant_ship.position+Vector2(0,SHIP.get_height()*distant_ship.scale.y*0.37)
+	var length: float = lerpf(225,75,journey_progress)
+	for band in 5:
+		var points := PackedVector2Array()
+		for i in 23:
+			var t: float = float(i)/22.0
+			points.append(keel+Vector2(-t*length,10*t+sin(t*12.0-elapsed*6.0+band)*3.0+band*2.5))
+		canvas.draw_polyline(points,Color(0.78,0.94,0.98,0.28*alpha),1.6,true)
+	for i in 22:
+		var start := Vector2(fposmod(i*92.0+elapsed*390.0,1400.0)-140,135+i*13.0+sin(elapsed+i)*6)
+		canvas.draw_line(start,start+Vector2(105,-14),Color(0.81,0.94,1.0,0.19*alpha),1.5,true)

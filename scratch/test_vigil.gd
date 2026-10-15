@@ -225,6 +225,16 @@ func _ready() -> void:
 			check(storm.current_shot == scene.thoughts[index].shot,"Each new line must cue its own action shot.")
 			if index == 8:
 				check(storm.aeolus.visible and not storm.odysseus.visible and not storm.eurylochus.visible,"Aeolus's close-up must not overlap the soldiers' portraits.")
+			if index == 9:
+				storm.shot_elapsed = 1.3
+				storm._process(0.0)
+				var ship_start: Vector2 = storm.distant_ship.position
+				var ship_size: float = storm.distant_ship.scale.x
+				await snapshot("winds_09_departure_near")
+				storm.shot_elapsed = 4.25
+				storm._process(0.0)
+				check(storm.exterior.visible and storm.distant_ship.position.x > ship_start.x+350 and storm.distant_ship.scale.x < ship_size*0.5,"The giant-land warning must visibly carry the ship far toward the horizon.")
+				await snapshot("winds_09_departure_far")
 			if index in [6,8,10,11,12,13,15]:
 				await get_tree().create_timer(0.8).timeout
 				await snapshot("winds_%02d_%s" % [index,storm.current_shot])
@@ -232,6 +242,7 @@ func _ready() -> void:
 	check(scene.thoughts[-1].speaker == "Desconhecido" and scene.thoughts[-1].text == "Você sabe quem eu sou?","The adaptation must stop at the unidentified voice's supplied question.")
 	check(scene.visuals.released_winds.bag_secured and scene.visuals.released_winds.atmosphere > 0.5,"The remaining wind is secured before the sea answers.")
 	check(not scene.visuals.released_winds.odysseus.visible and not scene.visuals.released_winds.eurylochus.visible and not scene.visuals.released_winds.aeolus.visible,"The final voice must have no identifying portrait.")
+	check(scene.visuals.released_winds.presence.visible and float(scene.visuals.released_winds.presence.material.get_shader_parameter("emergence")) > 0.5 and not scene.visuals.released_winds.exterior.visible,"The unknown voice must emerge as an indistinct fog form after the exterior shot.")
 	var storm_clock: float = scene.visuals.released_winds.elapsed
 	key(KEY_ESCAPE)
 	await get_tree().create_timer(0.15,true).timeout

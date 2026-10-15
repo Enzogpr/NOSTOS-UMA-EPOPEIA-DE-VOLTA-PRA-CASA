@@ -1,0 +1,9 @@
+{
+  "mode": "built-in image_gen",
+  "output": "Assets/act4_released_winds/storm_open_sea.png",
+  "prompt": "Use case: illustration-story. Asset type: empty background plate for a colored painterly pixel-art Greek Odyssey game cutscene, 16:9 wide approximately 1672x940. Reference image is STYLE AND WEATHER only; do NOT include its ship deck. EXTERNAL VIEW from above the stormy open sea looking toward a far horizon. Lower 70 percent entirely deep turbulent blue teal ocean with long diagonal white foam swells, room to animate a separate small Greek ship from near lower-left toward far upper-right. Horizon at upper 30 percent, distant jagged ominous giant-scale cliffs in the upper-right on the far horizon, barely visible through mist. Faint receding golden light at far left to imply home lost behind. Upper 30 percent dark layered sweeping storm clouds; cold atmospheric daylight. Strong depth: large sharp waves near bottom, tiny distant waves at horizon. Rich detailed painted pixel clusters matching the reference style and colors. No ship, no boat, no masts, no deck, no railing, no people, no god, no humanoid shape, no text or UI. The ship and wind streaks will be animated separately in game.",
+  "refs": [
+    "Assets/act4_released_winds/storm_deck.png"
+  ],
+  "transparent": false
+}
