@@ -7,6 +7,7 @@ const SOUND := preload("res://Ato4_Tempestade/Gameplay/VigilAudio.gd")
 const DESIGN_SIZE := Vector2(1152,648)
 const RECORD_FILE := "user://vigil_record.json"
 const THOUGHTS_FILE := "res://Ato4_Tempestade/Cutscenes/VigilThoughts.dialogue.json"
+const RELEASED_WINDS_FILE := "res://Ato4_Tempestade/Cutscenes/ReleasedWinds.dialogue.json"
 @export var day_duration: float = 25.0
 @export var random_seed: int = 0
 @export var persist_record: bool = true
@@ -64,6 +65,7 @@ func _ready() -> void:
 	model.failed.connect(_failed)
 	model.completed.connect(_completed)
 	thoughts = JSON.parse_string(FileAccess.get_file_as_string(THOUGHTS_FILE))
+	thoughts.append_array(JSON.parse_string(FileAccess.get_file_as_string(RELEASED_WINDS_FILE)))
 	visuals = VISUALS.new()
 	visuals.model = model
 	stage.add_child(visuals)
@@ -312,7 +314,10 @@ func _show_thought(index: int) -> void:
 	thought_text.visible_characters = 0
 	thought_speaker_label.text = str(beat.speaker).to_upper()
 	thought_speaker_label.add_theme_color_override("font_color",Color(0.74,0.89,1.0) if beat.speaker == "Penélope" else Color(1.0,0.80,0.56))
-	visuals.thought_speaker = str(beat.speaker)
+	if beat.speaker == "Éolo": thought_speaker_label.add_theme_color_override("font_color",Color(0.61,0.96,0.83))
+	if beat.speaker == "Desconhecido": thought_speaker_label.add_theme_color_override("font_color",Color(0.59,0.83,0.93))
+	visuals.present_ending(beat)
+	if sounds != null: sounds.present_ending(beat)
 	thought_auto.text = "AUTO: SIM  [A]" if autoplay_thoughts else "AUTO: NÃO  [A]"
 	if index == 4:
 		model.ending_alarm()
@@ -359,9 +364,9 @@ func _completed(record: Dictionary) -> void:
 	completion_count += 1
 	thought_panel.hide()
 	visuals.speaking = false
-	result_title.text = "UM AVISO NA ESCURIDÃO"
-	result_subtitle.text = "Acorda, Odisseu!"
-	result_detail.text = "Eles estão abrindo a bolsa."
+	result_title.text = "UMA VOZ SOBRE O MAR"
+	result_subtitle.text = "Você sabe quem eu sou?"
+	result_detail.text = "A tempestade os levou à Terra dos gigantes."
 	_present_record(record)
 	vigilance_completed.emit(record)
 

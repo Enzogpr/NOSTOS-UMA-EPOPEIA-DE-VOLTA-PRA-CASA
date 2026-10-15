@@ -4,6 +4,7 @@ const MODEL := preload("res://Ato4_Tempestade/Gameplay/VigilModel.gd")
 const DECK := preload("res://Assets/act4_luck/deck_luck.png")
 const HOME := preload("res://Assets/act4_vigil/deck_ithaca.png")
 const FATIGUE := preload("res://Assets/act4_vigil/fatigue.gdshader")
+const RELEASED_WINDS := preload("res://Ato4_Tempestade/Cutscenes/ReleasedWindsStage.gd")
 var model: MODEL
 var metadata: Dictionary
 var camera: Node2D
@@ -23,6 +24,7 @@ var vision_center := Vector2(0.5,0.48)
 var zoom: float = 1.0
 var elapsed: float = 0.0
 var failed_clock: float = 0.0
+var released_winds: Node2D
 
 func _ready() -> void:
 	metadata = JSON.parse_string(FileAccess.get_file_as_string("res://Assets/act4_vigil/regions.json"))
@@ -122,6 +124,9 @@ func _process(delta: float) -> void:
 	air_effects.queue_redraw()
 
 func _process_thoughts(delta: float) -> void:
+	if released_winds != null:
+		released_winds.speaking = speaking
+		return
 	# No deck, visitors, footsteps or opener are shown after the ninth-day loss.
 	mental_background.show()
 	background.hide()
@@ -146,6 +151,19 @@ func _process_thoughts(delta: float) -> void:
 	blur.hide()
 	floor_effects.hide()
 	air_effects.hide()
+
+func present_ending(beat: Dictionary) -> void:
+	thought_speaker = str(beat.speaker)
+	if beat.get("phase", "mind") != "storm": return
+	if released_winds == null:
+		released_winds = RELEASED_WINDS.new()
+		add_child(released_winds)
+		mental_background.hide()
+		camera.hide()
+		blur.hide()
+		floor_effects.hide()
+		air_effects.hide()
+	released_winds.present(beat)
 
 func _update_visitors(delta: float) -> void:
 	var present_ids: Array[int] = []

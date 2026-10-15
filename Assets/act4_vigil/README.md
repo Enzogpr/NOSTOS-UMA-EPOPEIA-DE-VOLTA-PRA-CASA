@@ -11,7 +11,7 @@ Cena jogável: `Ato4_Tempestade/Gameplay/NineDaysVigil.tscn`. Abra no Godot e us
 - O sono sobe mais rápido, os tripulantes caminham mais depressa e as aproximações ficam mais frequentes a cada dia. Há um visitante por vez nos dias 1–2; a partir do dia 3 podem vir dois juntos, um de cada lado. Os pares são garantidos nos dias 8–9.
 - A visão escurece das bordas para o centro conforme o sono e os dias avançam. Os controles permanecem legíveis. Penélope aparece como lembrança; Ítaca surge no horizonte no dia 9.
 - A aceleração do sono no dia 9 ultrapassa a recuperação máxima permitida pelo intervalo entre despertares: perder é inevitável, mesmo reagindo perfeitamente. A perda abre diretamente uma cena de pensamentos sobre fundo escuro. Ninguém aparece abrindo a bolsa.
-- `VigilThoughts.dialogue.json` contém todas as falas fornecidas de Odisseu e Penélope, terminando em “Acorda!”. Espaço/Enter revelam e avançam as falas; A alterna o avanço automático. Os ventos só são ouvidos quando Penélope avisa que estão abrindo a bolsa.
+- `VigilThoughts.dialogue.json` contém todas as falas fornecidas de Odisseu e Penélope, até “Acorda!”. Em seguida, `ReleasedWinds.dialogue.json` continua com as imagens da tempestade, Éolo, a tentativa de guardar os ventos restantes e a pergunta do Desconhecido. Espaço/Enter revelam e avançam as falas; A alterna o avanço automático. Os ventos só são ouvidos quando Penélope avisa que estão abrindo a bolsa.
 - O resultado mostra dias concluídos, aproximações impedidas e despertares, com replay e retorno ao mapa. Dias impecáveis ficam no registro. Só a sequência do dia 9 emite conclusão da história; uma derrota antecipada não conclui a fase.
 
 Esc pausa o jogo, a animação e as falas. A composição usa 1152×648 com letterboxing para outras proporções.
@@ -40,5 +40,6 @@ Perímedes/Elpenor reutilizam os uniformes de soldados e rostos de `Assets/act4_
 - `scratch/test_vigil_audio.tscn`: silêncio no pensamento, ventos após o aviso de Penélope e liberação dos players ao sair.
 - `scratch/inspect_vigil_assets.py`: verifica transparência e recortes sem editar os PNGs.
 - `scratch/vigil_demo.tscn`: prévia abreviada com dias de nove segundos. A fase normal mantém os 25 segundos e responde ao jogador.
+- `Ato4_Tempestade/Cutscenes/ReleasedWindsPreview.tscn`: prévia direta das falas finais de Penélope e da nova continuação ilustrada; não grava resultado. Artes e detalhes em `Assets/act4_released_winds/README.md`.
 
 Imagens e vídeo de QA ficam em `scratch/vigil_preview/`, ignorado no Git. A versão anterior da vigília está preservada no commit `4008d97`.

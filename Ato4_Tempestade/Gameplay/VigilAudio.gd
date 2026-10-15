@@ -7,6 +7,8 @@ var cue: AudioStreamPlayer
 var storm: AudioStreamPlayer
 var previous_music: float = 0.0
 var music_ducked: bool = false
+var ending_shot: String = ""
+var storm_target_db: float = -28.0
 
 func _ready() -> void:
 	if not enabled:
@@ -89,9 +91,20 @@ func _process(_delta: float) -> void:
 			AudioManager.music_player.volume_db = previous_music-10.0-smoothstep(0.0,3.0,age)*25.0
 		if not model.bag_sealed and not storm.playing:
 			storm.play()
-		storm.volume_db = -28.0
+		storm.volume_db = move_toward(storm.volume_db,storm_target_db,_delta*12.0)
 	elif model.state == MODEL.State.FAILED:
 		ambient.volume_db = -48.0
+
+func present_ending(beat: Dictionary) -> void:
+	if not enabled or beat.get("phase", "mind") != "storm": return
+	ending_shot = str(beat.shot)
+	storm_target_db = -19.0
+	if ending_shot == "close": storm_target_db = -29.0
+	if ending_shot in ["voice","presence"]: storm_target_db = -36.0
+	# No footsteps or staged bag-opener sounds accompany the return to reality.
+	if ending_shot == "cry":
+		cue.stop()
+		feedback("","alarm")
 
 func stop() -> void:
 	enabled = false

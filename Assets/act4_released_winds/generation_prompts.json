@@ -1,0 +1,23 @@
+[
+  {
+    "name": "storm_deck",
+    "mode": "built-in image_gen",
+    "prompt": "Use case: lighting-weather. Asset type: 16:9 full-bleed empty background plate for an existing Godot 2D cinematic. Input image is the REFERENCE for the exact Greek ship deck architecture, perspective, mast left, ropes, wooden railing and painterly pixel-art game style. Create the SAME empty deck in a violent magical sea storm after the wind bag opens. Huge curling teal navy waves beyond the railing, dark layered storm clouds, cold blue-gray daylight, wet planks with muted golden reflections, diagonal wind-whipped loose rigging, far jagged cliffs mostly obscured by mist. Keep deck large usable lower 45% and open middle space for separate character sprites; broad sky above for a floating wind deity. Cinematic richly colored painterly pixel art with crisp detailed brushwork matching reference, no realism/photo. Landscape 16:9 approximately 1664x936. No characters, no people, no gods, no faces in clouds, no bag, no lettering, no watermark, no interface. Not a ship exterior or overhead view. Static plate: leave rain/lightning/moving wind to game effects.",
+    "refs": [
+      "Assets/act4_luck/deck_luck.png"
+    ],
+    "transparent": false
+  },
+  {
+    "name": "wind_bag_rescue",
+    "mode": "built-in image_gen",
+    "prompt": "Use case: identity-preserve. Asset type: transparent sprite atlas, TWO side-by-side panels, each panel is a full-body two-character group, with generous transparent gutters, no labels. References: image1 CANONICAL ODYSSEUS identity and outfit, image2 CANONICAL EURYLOCHUS identity and outfit, image3 CANONICAL WIND BAG object. Match detailed colored painterly pixel-art Greek Odyssey game style. Odysseus is mature olive-skinned long dark wavy hair and full dark beard, natural straight nose same as reference not large or hooked, intact teeth; bronze owl breastplate dark tunic scarlet long cape gold greaves. Eurylochus has shorter brown hair, short stubble, younger face and different bronze shoulder armor cream red skirt trim from reference. Both are Greek SOLDIERS, never identical twins. LEFT PANEL: Odysseus left crouched in broad stable stance, holding the already OPEN wind bag between both hands at waist level, struggling to gather its open mouth closed, stressed shouting expression. Eurylochus right reaches both hands toward the bag to HELP CLOSE it, shocked and resisting wind. The bag was already opened by an unknown offscreen person; nobody is shown opening it. RIGHT PANEL: same two characters, same positions, same scale and feet baseline, both crouched lower together pulling the teal-gold cord tight around the bag, its neck now mostly closed, determination. Bag has golden spiral and brown leather. Hands actually grip the bag and cord, anatomically correct hands, no extra arms. Wind pushes their red cloaks strongly toward the left; do not bake in effects/clouds/lightning. All heads capes hands feet fully inside their own panel. True transparent alpha background, no ground, no scenery, no gradient or checkerboard, no border, no text, no watermark. Landscape wide atlas approximately 1800x1000. Preserve facial identity, normal noses and correct uniforms rigorously.",
+    "refs": [
+      "Assets/act4_friends/odysseus_bag_poses_v2.png",
+      "Assets/act4_luck/eurylochus_luck_poses.png",
+      "Assets/act4_friends/wind_bag.png"
+    ],
+    "transparent": true,
+    "layout_correction": "Edit target: attached two-pose transparent sprite atlas. Keep the SAME artwork, characters, faces, armor, clothes, wind bag and both actions. Correct the atlas layout only. Arrange the two complete groups in ONE COLUMN and TWO ROWS, top row = group with OPEN bag and Eurylochus reaching to help close it; bottom row = group pulling the cord and CLOSING the bag. Use a tall 1024x1536-ish canvas. Each entire two-character group must fit inside its own row without touching any edge. Leave at least 55 transparent pixels between row groups and at least 40 transparent pixels at all four outer edges. No overlapping groups, no foot or cape crossing the middle horizontal dividing area. Preserve FULL characters, hands, all feet and capes. Both groups at same scale and same horizontal center. True transparent alpha background. No grid, no ground, no labels, no text. Preserve all visual details and identity rigorously; no extra limbs or duplicates."
+  }
+]

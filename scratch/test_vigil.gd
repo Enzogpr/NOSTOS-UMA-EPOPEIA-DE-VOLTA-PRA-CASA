@@ -217,8 +217,27 @@ func _ready() -> void:
 		await get_tree().create_timer(0.5).timeout
 		check(scene.thought_text.text == scene.thoughts[index].text and scene.thought_text.get_content_height() <= int(scene.thought_text.size.y),"Every supplied line fits in thought beat %d." % index)
 		if index in [0,2,4,5]: await snapshot("loss_thought_%d" % index)
-	check(scene.visuals.thought_speaker == "Penélope" and scene.visuals.penelope.modulate.a > 0.8,"Penelope's warning must be the final voice in the dark.")
-	check(scene.thoughts[-1].speaker == "Penélope" and scene.thoughts[-1].text == "Acorda!","The adaptation stops exactly at the supplied final warning.")
+		if index == 5:
+			check(scene.visuals.thought_speaker == "Penélope" and scene.visuals.penelope.modulate.a > 0.8 and scene.visuals.released_winds == null,"Penelope's last warning stays in the dark before reality returns.")
+		if index >= 6:
+			var storm: Node2D = scene.visuals.released_winds
+			check(storm != null and not scene.visuals.camera.visible and not scene.visuals.mental_background.visible,"Every new line must use the illustrated storm instead of the mental background.")
+			check(storm.current_shot == scene.thoughts[index].shot,"Each new line must cue its own action shot.")
+			if index == 8:
+				check(storm.aeolus.visible and not storm.odysseus.visible and not storm.eurylochus.visible,"Aeolus's close-up must not overlap the soldiers' portraits.")
+			if index in [6,8,10,11,12,13,15]:
+				await get_tree().create_timer(0.8).timeout
+				await snapshot("winds_%02d_%s" % [index,storm.current_shot])
+	check(scene.thoughts[5].speaker == "Penélope" and scene.thoughts[5].text == "Acorda!" and scene.thoughts[6].text == "Não!","The new sequence must continue directly after Penelope's supplied last warning.")
+	check(scene.thoughts[-1].speaker == "Desconhecido" and scene.thoughts[-1].text == "Você sabe quem eu sou?","The adaptation must stop at the unidentified voice's supplied question.")
+	check(scene.visuals.released_winds.bag_secured and scene.visuals.released_winds.atmosphere > 0.5,"The remaining wind is secured before the sea answers.")
+	check(not scene.visuals.released_winds.odysseus.visible and not scene.visuals.released_winds.eurylochus.visible and not scene.visuals.released_winds.aeolus.visible,"The final voice must have no identifying portrait.")
+	var storm_clock: float = scene.visuals.released_winds.elapsed
+	key(KEY_ESCAPE)
+	await get_tree().create_timer(0.15,true).timeout
+	check(get_tree().paused and scene.visuals.released_winds.elapsed == storm_clock,"Esc must freeze the illustrated ending and its weather too.")
+	key(KEY_ESCAPE)
+	await frames(2)
 	scene.thought_cooldown = 0
 	scene._advance_thought_requested()
 	scene.model.finish_thoughts()

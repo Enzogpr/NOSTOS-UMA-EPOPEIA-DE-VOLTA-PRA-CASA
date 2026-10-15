@@ -1,0 +1,6 @@
+{
+  "wind_bag_rescue": {
+    "texture": "res://Assets/act4_released_winds/wind_bag_rescue.png",
+    "regions": [[32,107,980,640],[64,793,936,640]]
+  }
+}
