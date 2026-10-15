@@ -13,6 +13,7 @@ const RELEASED_WINDS_FILE := "res://Ato4_Tempestade/Cutscenes/ReleasedWinds.dial
 @export var persist_record: bool = true
 @export var audio_enabled: bool = true
 @export var autoplay_thoughts: bool = true
+@export var continue_to_poseidon: bool = true
 @onready var stage: Control = $Stage
 var model: MODEL
 var visuals: VISUALS
@@ -364,11 +365,31 @@ func _completed(record: Dictionary) -> void:
 	completion_count += 1
 	thought_panel.hide()
 	visuals.speaking = false
+	if continue_to_poseidon:
+		if persist_record: _save_record(record)
+		vigilance_completed.emit(record)
+		_continue_to_poseidon(record)
+		return
 	result_title.text = "UMA VOZ SOBRE O MAR"
 	result_subtitle.text = "Você sabe quem eu sou?"
 	result_detail.text = "A tempestade os levou à Terra dos gigantes."
 	_present_record(record)
 	vigilance_completed.emit(record)
+
+func _continue_to_poseidon(record: Dictionary) -> void:
+	if exiting: return
+	exiting = true
+	sounds.stop()
+	sounds.release_music()
+	var next: Control = load("res://Ato4_Tempestade/Cutscenes/Ruthlessness.tscn").instantiate()
+	next.handoff_record = record.duplicate(true)
+	next.modulate.a = 0.0
+	get_tree().root.add_child(next)
+	get_tree().current_scene = next
+	var transition := create_tween()
+	transition.tween_property(self,"modulate:a",0.0,0.65)
+	transition.parallel().tween_property(next,"modulate:a",1.0,0.65)
+	transition.tween_callback(queue_free)
 
 func _present_record(record: Dictionary) -> void:
 	result_panel.show()

@@ -1,0 +1,392 @@
+[
+  {
+    "id": 0,
+    "speaker": "Odisseu",
+    "text": "Poseidon",
+    "ref_start": 13.5,
+    "ref_end": 24.4,
+    "duration": 6.2,
+    "shot": "recognition",
+    "hold": 0.0
+  },
+  {
+    "id": 1,
+    "speaker": "Poseidon",
+    "text": "Em todos os meus anos de vida\nNão é sempre que fico irritado",
+    "ref_start": 24.4,
+    "ref_end": 31.22,
+    "duration": 6.82,
+    "shot": "calm_eye",
+    "hold": 0.0
+  },
+  {
+    "id": 2,
+    "speaker": "Poseidon",
+    "text": "Eu tento relaxar com as ondas",
+    "ref_start": 31.22,
+    "ref_end": 33.5,
+    "duration": 2.8,
+    "shot": "calm",
+    "hold": 0.0
+  },
+  {
+    "id": 3,
+    "speaker": "Poseidon",
+    "text": "Mas caramba, você passou do limite",
+    "ref_start": 33.5,
+    "ref_end": 38.78,
+    "duration": 5.28,
+    "shot": "stern",
+    "hold": 0.0
+  },
+  {
+    "id": 4,
+    "speaker": "Poseidon",
+    "text": "Eu tenho sido tão gentil\nE ainda assim, você machucou o meu filho",
+    "ref_start": 38.78,
+    "ref_end": 46.4,
+    "duration": 7.62,
+    "shot": "wrist",
+    "hold": 0.0
+  },
+  {
+    "id": 5,
+    "speaker": "Poseidon",
+    "text": "Isso mesmo, o ciclope que você cegou é meu",
+    "ref_start": 46.4,
+    "ref_end": 51.46,
+    "duration": 5.06,
+    "shot": "suspended",
+    "hold": 0.0
+  },
+  {
+    "id": 6,
+    "speaker": "Odisseu",
+    "text": "Não",
+    "ref_start": 51.46,
+    "ref_end": 52.8,
+    "duration": 1.8,
+    "shot": "denial",
+    "hold": 0.0
+  },
+  {
+    "id": 7,
+    "speaker": "Poseidon",
+    "text": "Fiquei sem escolha\nE sem dúvida",
+    "ref_start": 52.8,
+    "ref_end": 56.68,
+    "duration": 3.88,
+    "shot": "release",
+    "hold": 0.0
+  },
+  {
+    "id": 8,
+    "speaker": "Poseidon",
+    "text": "Parece que a alcateia está nadando com o tubarão agora",
+    "ref_start": 56.68,
+    "ref_end": 60.24,
+    "duration": 3.56,
+    "shot": "coil",
+    "hold": 0.0
+  },
+  {
+    "id": 9,
+    "speaker": "Poseidon",
+    "text": "Eu tenho que fazer você sangrar\nEu preciso ver você se afogar",
+    "ref_start": 60.24,
+    "ref_end": 63.82,
+    "duration": 3.58,
+    "shot": "encircle",
+    "hold": 0.0
+  },
+  {
+    "id": 10,
+    "speaker": "Poseidon",
+    "text": "Mas antes de você ir, preciso fazer você aprender como",
+    "ref_start": 63.82,
+    "ref_end": 67.98,
+    "duration": 4.16,
+    "shot": "railing",
+    "hold": 0.0
+  },
+  {
+    "id": 11,
+    "speaker": "Poseidon",
+    "text": "Crueldade é piedade para com nós mesmos",
+    "ref_start": 67.98,
+    "ref_end": 79.46,
+    "duration": 11.48,
+    "shot": "gallop",
+    "hold": 0.0
+  },
+  {
+    "id": 12,
+    "speaker": "Poseidon",
+    "text": "Você é o pior tipo de bom\nPorque você nem é ótimo",
+    "ref_start": 79.46,
+    "ref_end": 87.02,
+    "duration": 7.56,
+    "shot": "leap",
+    "hold": 0.0
+  },
+  {
+    "id": 13,
+    "speaker": "Poseidon",
+    "text": "Um grego que fede a falsa moralidade\nIsso é o que eu odeio",
+    "ref_start": 87.02,
+    "ref_end": 94.92,
+    "duration": 7.9,
+    "shot": "fall",
+    "hold": 0.0
+  },
+  {
+    "id": 14,
+    "speaker": "Poseidon",
+    "text": "Porque você luta para salvar vidas\nMas você não mata e não termina o serviço",
+    "ref_start": 94.92,
+    "ref_end": 99.86,
+    "duration": 4.94,
+    "shot": "ground",
+    "hold": 0.0
+  },
+  {
+    "id": 15,
+    "speaker": "Poseidon",
+    "text": "Digo, você com certeza poderia ter evitado tudo isso",
+    "ref_start": 99.86,
+    "ref_end": 103.6,
+    "duration": 3.74,
+    "shot": "reform",
+    "hold": 0.0
+  },
+  {
+    "id": 16,
+    "speaker": "Poseidon",
+    "text": "Se simplesmente tivesse matado meu filho",
+    "ref_start": 103.6,
+    "ref_end": 106.98,
+    "duration": 3.38,
+    "shot": "water_cup",
+    "hold": 0.0
+  },
+  {
+    "id": 17,
+    "speaker": "Poseidon",
+    "text": "Mas não",
+    "ref_start": 106.98,
+    "ref_end": 108.3,
+    "duration": 1.6,
+    "shot": "crush",
+    "hold": 0.0
+  },
+  {
+    "id": 18,
+    "speaker": "Poseidon",
+    "text": "Você é bonzinho demais",
+    "ref_start": 108.3,
+    "ref_end": 111.3,
+    "duration": 3.0,
+    "shot": "wounded",
+    "hold": 0.0
+  },
+  {
+    "id": 19,
+    "speaker": "Poseidon",
+    "text": "A piedade tem um preço",
+    "ref_start": 111.3,
+    "ref_end": 113.68,
+    "duration": 2.38,
+    "shot": "loom",
+    "hold": 0.0
+  },
+  {
+    "id": 20,
+    "speaker": "Poseidon",
+    "text": "É a última gota, agora estamos prestes a quebrar o gelo",
+    "ref_start": 113.68,
+    "ref_end": 117.14,
+    "duration": 3.46,
+    "shot": "head_grip",
+    "hold": 0.0
+  },
+  {
+    "id": 21,
+    "speaker": "Poseidon",
+    "text": "Você revela seu nome",
+    "ref_start": 117.14,
+    "ref_end": 118.8,
+    "duration": 1.9,
+    "shot": "resist",
+    "hold": 0.0
+  },
+  {
+    "id": 22,
+    "speaker": "Poseidon",
+    "text": "Depois deixa ele viver",
+    "ref_start": 118.8,
+    "ref_end": 120.94,
+    "duration": 2.14,
+    "shot": "twist",
+    "hold": 0.0
+  },
+  {
+    "id": 23,
+    "speaker": "Poseidon",
+    "text": "Ao contrário de você, não tenho mais piedade para dar",
+    "ref_start": 120.94,
+    "ref_end": 124.32,
+    "duration": 3.38,
+    "shot": "throw",
+    "hold": 0.0
+  },
+  {
+    "id": 24,
+    "speaker": "",
+    "text": "",
+    "ref_start": 124.32,
+    "ref_end": 136.26,
+    "duration": 11.94,
+    "shot": "support",
+    "hold": 0.0
+  },
+  {
+    "id": 25,
+    "speaker": "Poseidon",
+    "text": "E agora finalmente chegou a hora\nDe dizer adeus",
+    "ref_start": 136.26,
+    "ref_end": 143.94,
+    "duration": 7.68,
+    "shot": "kneel",
+    "hold": 0.0
+  },
+  {
+    "id": 26,
+    "speaker": "Poseidon",
+    "text": "Hoje você morre",
+    "ref_start": 143.94,
+    "ref_end": 145.7,
+    "duration": 1.8,
+    "shot": "verdict",
+    "hold": 0.0
+  },
+  {
+    "id": 27,
+    "speaker": "Poseidon",
+    "text": "A menos, é claro, que você peça desculpas",
+    "ref_start": 145.7,
+    "ref_end": 148.1,
+    "duration": 2.6,
+    "shot": "offer",
+    "hold": 0.0
+  },
+  {
+    "id": 28,
+    "speaker": "Poseidon",
+    "text": "Pela dor do meu filho\nE todos os seus choros",
+    "ref_start": 148.1,
+    "ref_end": 153.16,
+    "duration": 5.06,
+    "shot": "above",
+    "hold": 0.0
+  },
+  {
+    "id": 29,
+    "speaker": "Odisseu",
+    "text": "Poseidon, não queríamos fazer mal",
+    "ref_start": 153.16,
+    "ref_end": 156.4,
+    "duration": 3.24,
+    "shot": "plea_hand",
+    "hold": 0.0
+  },
+  {
+    "id": 30,
+    "speaker": "Odisseu",
+    "text": "Nós só o machucamos para desarmá-lo",
+    "ref_start": 156.4,
+    "ref_end": 159.62,
+    "duration": 3.22,
+    "shot": "plea_explain",
+    "hold": 0.0
+  },
+  {
+    "id": 31,
+    "speaker": "Odisseu",
+    "text": "Não tivemos prazer em sua dor",
+    "ref_start": 159.62,
+    "ref_end": 162.8,
+    "duration": 3.18,
+    "shot": "plea_chest",
+    "hold": 0.0
+  },
+  {
+    "id": 32,
+    "speaker": "Odisseu",
+    "text": "Nós só queríamos escapar",
+    "ref_start": 162.8,
+    "ref_end": 167.8,
+    "duration": 5.0,
+    "shot": "plea_eyes",
+    "hold": 0.0
+  },
+  {
+    "id": 33,
+    "speaker": "Poseidon",
+    "text": "A linha entre a ingenuidade e",
+    "ref_start": 167.8,
+    "ref_end": 171.2,
+    "duration": 3.4,
+    "shot": "judge",
+    "hold": 0.0
+  },
+  {
+    "id": 34,
+    "speaker": "Poseidon",
+    "text": "A esperança é quase invisível",
+    "ref_start": 171.2,
+    "ref_end": 175.28,
+    "duration": 4.08,
+    "shot": "small",
+    "hold": 0.0
+  },
+  {
+    "id": 35,
+    "speaker": "Poseidon",
+    "text": "Então feche seu coração",
+    "ref_start": 175.8,
+    "ref_end": 178.0,
+    "duration": 2.2,
+    "shot": "darken",
+    "hold": 0.0
+  },
+  {
+    "id": 36,
+    "speaker": "Poseidon",
+    "text": "O mundo é sombrio e",
+    "ref_start": 178.0,
+    "ref_end": 179.5,
+    "duration": 1.8,
+    "shot": "dissolve",
+    "hold": 0.0
+  },
+  {
+    "id": 37,
+    "speaker": "Poseidon",
+    "text": "Crueldade é piedade",
+    "ref_start": 179.5,
+    "ref_end": 181.78,
+    "duration": 2.28,
+    "shot": "jaw",
+    "hold": 0.0
+  },
+  {
+    "id": 38,
+    "speaker": "Poseidon",
+    "text": "Morra",
+    "ref_start": 181.78,
+    "ref_end": 185.0,
+    "duration": 3.7,
+    "shot": "impact",
+    "hold": 0.0
+  }
+]

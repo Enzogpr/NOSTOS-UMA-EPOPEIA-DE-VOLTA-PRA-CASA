@@ -14,6 +14,7 @@ func _ready() -> void:
 	game.day_duration = 9.0
 	game.random_seed = 9044
 	game.persist_record = false
+	game.continue_to_poseidon = false
 	game.vigilance_failed.connect(func(_reason: String):
 		push_error("The demo must survive the first eight days.")
 		get_tree().quit(1))

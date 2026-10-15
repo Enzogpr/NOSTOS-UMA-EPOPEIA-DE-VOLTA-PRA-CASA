@@ -124,6 +124,7 @@ func new_game() -> Control:
 	scene.random_seed = 933
 	scene.audio_enabled = false
 	scene.autoplay_thoughts = false
+	scene.continue_to_poseidon = false
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
 	return scene

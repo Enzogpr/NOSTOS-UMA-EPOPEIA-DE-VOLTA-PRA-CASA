@@ -115,5 +115,9 @@ func stop() -> void:
 
 func _exit_tree() -> void:
 	stop()
+	release_music()
+
+func release_music() -> void:
 	if music_ducked and is_instance_valid(AudioManager):
 		AudioManager.music_player.volume_db = previous_music
+	music_ducked = false

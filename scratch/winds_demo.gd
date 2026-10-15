@@ -7,6 +7,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	get_viewport().size = Vector2i(1152,648)
 	var game: Control = preload("res://Ato4_Tempestade/Cutscenes/ReleasedWindsPreview.tscn").instantiate()
+	game.continue_to_poseidon = false
 	get_tree().root.add_child(game)
 	get_tree().current_scene = game
 	await game.vigilance_completed
