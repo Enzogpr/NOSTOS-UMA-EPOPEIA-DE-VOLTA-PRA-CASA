@@ -4,6 +4,8 @@ Abra `Ato4_Tempestade/Cutscenes/Ruthlessness.tscn` no Godot e use F6. Na campanh
 
 O escopo confirmado termina em **“Morra” e no primeiro impacto do ataque**, antes do restante do massacre e da fuga. O roteiro contém todas as falas portuguesas fornecidas, com um intervalo silencioso para a coreografia que no original tinha refrão repetido. São 39 blocos, cerca de 169 segundos de montagem, mais a entrada/saída. Não há música ou voz copiada do vídeo.
 
+Depois desse impacto, a campanha agora continua para `Ato4_Tempestade/Gameplay/PoseidonEscape.tscn`. Para reproduzir somente esta cutscene com seu cartão final, desative a propriedade `continue_to_escape`; o demo e o teste isolados já fazem isso.
+
 ## Storyboard antes da implementação
 
 `Docs/POSEIDON_STORYBOARD.md` registra a leitura visual dos 04:35 completos, timestamps, ações identificadas, limites da inspeção e plano de implementação. A inspeção usa 550 quadros a 2/s; os trechos rápidos também foram extraídos a 6/s e examinados em folhas mais densas. Não é uma alegação de reprodução audiovisual contínua ou análise de cada um dos 12 quadros/s originais. A transcrição local aproximada errou várias palavras cantadas; suas palavras não foram copiadas para o roteiro.

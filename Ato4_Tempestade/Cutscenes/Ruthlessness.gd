@@ -1,6 +1,7 @@
 extends "res://Ato4_Tempestade/Cutscenes/LuckRunsOut.gd"
 ## Reuses the project's cinematic UI, with reference-directed shot durations.
 signal poseidon_finished
+@export var continue_to_escape: bool = true
 const POSEIDON_DIRECTOR := preload("res://Ato4_Tempestade/Cutscenes/PoseidonStage.gd")
 var shot_clock: float = 0.0
 var complete_count: int = 0
@@ -120,11 +121,26 @@ func _finish() -> void:
 	$Stage/Controls.hide()
 	black.color.a = 1.0
 	stop_audio()
-	end_panel.show()
 	complete_count += 1
 	poseidon_finished.emit()
 	conversation_finished.emit()
 	cinematic_finished.emit()
+	if continue_to_escape:
+		_continue_to_escape.call_deferred()
+	else:
+		end_panel.show()
+
+func _continue_to_escape() -> void:
+	release_music()
+	var next: Control = load("res://Ato4_Tempestade/Gameplay/PoseidonEscape.tscn").instantiate()
+	next.handoff_record = handoff_record.duplicate(true)
+	next.audio_enabled = audio_enabled
+	next.modulate.a = 0.0
+	get_tree().root.add_child(next)
+	get_tree().current_scene = next
+	var transition := next.create_tween()
+	transition.tween_property(next,"modulate:a",1.0,0.65)
+	queue_free()
 
 func _build_end_panel() -> void:
 	end_panel = Panel.new()
@@ -166,4 +182,8 @@ func stop_audio() -> void:
 
 func _exit_tree() -> void:
 	stop_audio()
+	release_music()
+
+func release_music() -> void:
 	if music_ducked and is_instance_valid(AudioManager): AudioManager.music_player.volume_db = previous_music_volume
+	music_ducked = false

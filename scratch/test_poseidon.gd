@@ -42,6 +42,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	get_viewport().size = Vector2i(1152,648)
 	var scene: Control = preload("res://Ato4_Tempestade/Cutscenes/Ruthlessness.tscn").instantiate()
+	scene.continue_to_escape = false
 	scene.autoplay = false
 	scene.audio_enabled = false
 	get_tree().root.add_child(scene)

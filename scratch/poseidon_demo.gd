@@ -22,6 +22,7 @@ func _ready() -> void:
 		push_error("Poseidon demo: the preceding cutscene did not hand off.")
 		get_tree().quit(1)
 		return
+	scene.continue_to_escape = false
 	await scene.cinematic_finished
 	await get_tree().create_timer(2.0).timeout
 	print("POSEIDON MOVIE: predecessor handoff, all supplied lines and first impact complete")
