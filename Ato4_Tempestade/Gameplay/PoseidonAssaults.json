@@ -1,0 +1,284 @@
+{
+  "route_duration": 20,
+  "passage_seconds": 10,
+  "acts": [
+    {
+      "name": "RECUPERE A BOLSA",
+      "duration": 33.6,
+      "events": [
+        {
+          "at": 1.2,
+          "kind": "jets",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 5,
+          "kind": "wave",
+          "lane": 432,
+          "sink": 6,
+          "damage": ""
+        },
+        {
+          "at": 9,
+          "kind": "fan",
+          "lane": 552,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 13,
+          "kind": "crush",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 17,
+          "kind": "aimed",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 21,
+          "kind": "jets",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 25,
+          "kind": "wave",
+          "lane": 491,
+          "sink": 7,
+          "damage": ""
+        },
+        {
+          "at": 29,
+          "kind": "hoof",
+          "lane": 0,
+          "sink": -1,
+          "damage": "mast"
+        }
+      ]
+    },
+    {
+      "name": "LEVE OS VENTOS AO LEME",
+      "duration": 32.8,
+      "events": [
+        {
+          "at": 1,
+          "kind": "fan",
+          "lane": 432,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 5,
+          "kind": "jets",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 8,
+          "kind": "wave",
+          "lane": 552,
+          "sink": 8,
+          "damage": ""
+        },
+        {
+          "at": 12,
+          "kind": "aimed",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 16,
+          "kind": "crush",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 20,
+          "kind": "jets",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 24,
+          "kind": "fan",
+          "lane": 491,
+          "sink": 9,
+          "damage": ""
+        },
+        {
+          "at": 28,
+          "kind": "hoof",
+          "lane": 0,
+          "sink": -1,
+          "damage": "crate"
+        }
+      ]
+    },
+    {
+      "name": "RESISTA À FÚRIA FINAL",
+      "duration": 31,
+      "events": [
+        {
+          "at": 1,
+          "kind": "fan",
+          "lane": 552,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 3.5,
+          "kind": "aimed",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 7,
+          "kind": "jets",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 10,
+          "kind": "wave",
+          "lane": 432,
+          "sink": 10,
+          "damage": ""
+        },
+        {
+          "at": 14,
+          "kind": "crush",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 18,
+          "kind": "fan",
+          "lane": 491,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 21,
+          "kind": "aimed",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        },
+        {
+          "at": 25.5,
+          "kind": "hoof",
+          "lane": 0,
+          "sink": -1,
+          "damage": ""
+        }
+      ]
+    }
+  ],
+  "routes": [
+    [
+      {
+        "at": 1.5,
+        "kind": "jets",
+        "lane": 0,
+        "sink": -1,
+        "damage": ""
+      },
+      {
+        "at": 6,
+        "kind": "wave",
+        "lane": 448,
+        "sink": -1,
+        "damage": ""
+      },
+      {
+        "at": 11,
+        "kind": "fan",
+        "lane": 481,
+        "sink": -1,
+        "damage": ""
+      },
+      {
+        "at": 16,
+        "kind": "crush",
+        "lane": 0,
+        "sink": -1,
+        "damage": ""
+      }
+    ],
+    [
+      {
+        "at": 1.5,
+        "kind": "aimed",
+        "lane": 0,
+        "sink": -1,
+        "damage": ""
+      },
+      {
+        "at": 6,
+        "kind": "jets",
+        "lane": 0,
+        "sink": -1,
+        "damage": ""
+      },
+      {
+        "at": 11,
+        "kind": "wave",
+        "lane": 481,
+        "sink": -1,
+        "damage": ""
+      },
+      {
+        "at": 16,
+        "kind": "crush",
+        "lane": 0,
+        "sink": -1,
+        "damage": ""
+      }
+    ],
+    [
+      {
+        "at": 1.5,
+        "kind": "fan",
+        "lane": 448,
+        "sink": -1,
+        "damage": ""
+      },
+      {
+        "at": 6,
+        "kind": "jets",
+        "lane": 0,
+        "sink": -1,
+        "damage": ""
+      },
+      {
+        "at": 11,
+        "kind": "wave",
+        "lane": 465,
+        "sink": -1,
+        "damage": ""
+      },
+      {
+        "at": 16,
+        "kind": "crush",
+        "lane": 0,
+        "sink": -1,
+        "damage": ""
+      }
+    ]
+  ]
+}

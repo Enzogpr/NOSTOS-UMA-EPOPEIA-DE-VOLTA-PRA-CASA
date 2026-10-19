@@ -10,6 +10,10 @@ const RECORD_FILE := "user://poseidon_escape_record.json"
 @onready var stage: Control = $Stage
 var model: MODEL
 var visuals: VISUALS
+var failure_panel: Panel
+var failure_detail: Label
+var controls_hint: Label
+var arrival_shade: ColorRect
 var intro: Panel
 var result: Panel
 var objective_label: Label
@@ -47,6 +51,7 @@ func _ready() -> void:
 	model.feedback.connect(_feedback)
 	model.impact.connect(_impact)
 	model.completed.connect(_completed)
+	model.failed.connect(_failed)
 	visuals = VISUALS.new()
 	visuals.model = model
 	stage.add_child(visuals)
@@ -141,7 +146,7 @@ func _build_interface() -> void:
 	_panel(Vector2(18,593),Vector2(1115,45))
 	balance_label = _label("EQUILÍBRIO",Vector2(31,598),Vector2(137,18),13)
 	balance_bar = _bar(Vector2(31,621),Vector2(137,7),Color(0.77,0.71,0.44))
-	_label("WASD / SETAS · MOVER      ESPAÇO · ESQUIVAR      E · INTERAGIR / AGARRAR      ESC · PAUSA",Vector2(190,607),Vector2(780,23),15)
+	controls_hint = _label("",Vector2(190,607),Vector2(780,23),14)
 	dash_label = _label("",Vector2(968,599),Vector2(148,27),14)
 	dash_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	action_label = _label("",Vector2(335,507),Vector2(482,26),18)
@@ -149,11 +154,11 @@ func _build_interface() -> void:
 	action_bar = _bar(Vector2(408,540),Vector2(336,8),Color(0.44,0.87,0.82))
 	intro = _panel(Vector2(222,181),Vector2(708,331),0.97)
 	intro.z_index = 40
-	_label("A FÚRIA DE POSEIDON",Vector2(28,20),Vector2(650,42),31,intro)
-	_label("Recupere a bolsa e leve os ventos até o leme.",Vector2(28,75),Vector2(650,29),22,intro)
-	_label("WASD / SETAS  ·  Atravesse o convés.\nESPAÇO  ·  Esquive dos jatos marcados no chão.\nE  ·  Solte a bolsa ou agarre uma corda junto dos círculos.\nProteja-se atrás do mastro quando a água varrer o navio.",Vector2(28,122),Vector2(650,110),19,intro)
-	_label("Os impactos derrubam e arrastam. Mantenha-se de pé.",Vector2(28,239),Vector2(650,24),18,intro)
-	_button("ALCANÇAR A BOLSA  ›",Vector2(174,278),Vector2(360,37),begin,intro)
+	_label("ENTRE A FROTA E O DEUS",Vector2(28,20),Vector2(650,42),31,intro)
+	_label("Uma onda te lançou para outro navio.\nA bolsa dos ventos continua na sua embarcação.",Vector2(28,73),Vector2(650,52),20,intro)
+	_label("WASD / SETAS · Mover. ESPAÇO · Esquivar / saltar na marca.\nE · Balançar pela corda, pegar a bolsa ou agarrar uma corda.\nPARTE I · Atravesse os navios antes de serem esmagados.\nPARTE II · No seu navio, resista aos três atos de ataques.",Vector2(28,135),Vector2(650,100),18,intro)
+	_label("Sem equilíbrio, retome o trecho. Odisseu não morre.",Vector2(28,239),Vector2(650,24),18,intro)
+	_button("ATRAVESSAR A FROTA  ›",Vector2(174,278),Vector2(360,37),begin,intro)
 	result = _panel(Vector2(233,182),Vector2(686,322),0.98)
 	result.z_index = 40
 	_label("UM ÚNICO NAVIO ESCAPOU",Vector2(28,25),Vector2(630,42),29,result)
@@ -162,6 +167,21 @@ func _build_interface() -> void:
 	_button("REPETIR A FUGA",Vector2(28,261),Vector2(290,39),replay,result)
 	_button("VOLTAR AO MAPA",Vector2(366,261),Vector2(290,39),return_to_map,result)
 	result.hide()
+	failure_panel = _panel(Vector2(246,190),Vector2(660,301),0.98)
+	failure_panel.z_index = 40
+	_label("FUGA INTERROMPIDA",Vector2(28,25),Vector2(610,42),30,failure_panel)
+	failure_detail = _label("",Vector2(28,88),Vector2(610,100),21,failure_panel)
+	failure_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_label("Retome esta passagem ou este ato de sobrevivência.",Vector2(28,196),Vector2(610,29),18,failure_panel)
+	_button("RETOMAR TRECHO  [ENTER]",Vector2(28,245),Vector2(300,38),retry_checkpoint,failure_panel)
+	_button("VOLTAR AO MAPA",Vector2(366,245),Vector2(266,38),return_to_map,failure_panel)
+	failure_panel.hide()
+	arrival_shade = ColorRect.new()
+	arrival_shade.size = DESIGN
+	arrival_shade.z_index = 28
+	arrival_shade.color = Color(0.01,0.04,0.06,0)
+	arrival_shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage.add_child(arrival_shade)
 
 func begin() -> void:
 	if ready_delay > 0.0 or model.phase != MODEL.Phase.READY: return
@@ -174,6 +194,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if code == KEY_ESCAPE: return
 	if model.phase == MODEL.Phase.READY and code in [KEY_SPACE,KEY_ENTER]:
 		begin()
+	elif model.phase == MODEL.Phase.FAILED and code == KEY_ENTER:
+		retry_checkpoint()
 	elif model.active() and code == KEY_SPACE:
 		dash_requested = true
 	if code in [KEY_SPACE,KEY_ENTER,KEY_E]: get_viewport().set_input_as_handled()
@@ -205,32 +227,55 @@ func _update_interface() -> void:
 	fleet_label.text = "FROTA\n%d / 12 NAVIOS" % model.fleet_remaining()
 	balance_bar.value = model.balance
 	balance_label.text = "EQUILÍBRIO  %d%%" % int(model.balance)
-	dash_label.text = "ESQUIVA PRONTA" if model.dash_cooldown <= 0.0 else "ESQUIVA  %.1fs" % model.dash_cooldown
+	var playable: bool = model.phase not in [MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]
+	balance_bar.visible = playable
+	balance_label.visible = playable
+	dash_label.visible = playable
+	dash_label.text = "ESQUIVA PRONTA" if model.dash_cooldown <= 0 else "ESQUIVA %.1fs" % model.dash_cooldown
+	controls_hint.text = "WASD / SETAS · MOVER     ESPAÇO · ESQUIVAR / SALTAR     E · CORDA / INTERAGIR     ESC · PAUSA"
 	prompt_label.text = model.prompt() if model.active() else ""
-	notice_label.visible = notice_time > 0.0 and model.active()
+	notice_label.visible = notice_time > 0 and model.active()
 	warning_label.text = ""
-	if model.phase == MODEL.Phase.FINAL_ATTACK:
-		warning_label.text = "AGORA! LIBERE OS VENTOS" if model.wind_window() else "A ONDA ESTÁ CRESCENDO…"
-		if model.wind_window(): notice_label.hide()
+	if model.phase == MODEL.Phase.TRAVERSAL and model.gate_open:
+		warning_label.text = "USE A CORDA NA MARCA DA PROA" if model.route_index == 1 else "SALTE NA MARCA DA PROA!"
+	elif model.phase == MODEL.Phase.ARRIVAL:
+		warning_label.text = "PARTE II · NO NAVIO DE ODISSEU"
+	elif model.phase == MODEL.Phase.FINAL_ATTACK:
+		warning_label.text = "AGORA! LIBERE OS VENTOS" if model.wind_window() else "SÓ RESTA O SEU NAVIO"
 	elif not model.hazards.is_empty():
-		var hazard: Dictionary = model.hazards[-1]
-		warning_label.text = "DESVIE DOS JATOS" if hazard.kind == "jets" else "PROTEJA-SE NO MASTRO" if hazard.kind == "sweep" else "AGARRE UMA CORDA"
-	var progress_visible: bool = model.phase == MODEL.Phase.FREE_BAG or model.phase == MODEL.Phase.FINAL_ATTACK
-	action_bar.visible = progress_visible
-	action_label.visible = progress_visible
-	if model.phase == MODEL.Phase.FREE_BAG:
-		action_bar.value = model.bag_progress*100
-		action_label.text = "CORDAS SOLTAS  %d%%" % int(model.bag_progress*100)
+		var titles := {"jets":"SAIA DAS MARCAS", "wave":"BUSQUE A ABERTURA OU ABRIGO", "fan":"ATRAVESSE A ABERTURA", "aimed":"RAJADA DIRECIONADA · MOVA-SE", "crush":"COLUNA ESMAGADORA · SAIA DA FAIXA", "hoof":"AGARRE UMA CORDA"}
+		warning_label.text = titles.get(model.hazards[-1].kind,"")
+	arrival_shade.color.a = (smoothstep(1.2,1.6,model.phase_clock) if model.phase_clock < 1.6 else 1-smoothstep(1.6,2.8,model.phase_clock)) if model.phase == MODEL.Phase.ARRIVAL else 0
+	action_bar.visible = model.active()
+	action_label.visible = model.active()
+	if model.phase == MODEL.Phase.TRAVERSAL:
+		action_bar.value = minf(100,model.phase_clock/model.assaults.route_duration*100)
+		action_label.text = "O PRÓXIMO NAVIO ESTÁ SE APROXIMANDO" if not model.gate_open else "PASSAGEM ABERTA · VÁ ATÉ A MARCA À DIREITA"
+	elif model.phase == MODEL.Phase.SURVIVAL:
+		if not model.has_bag:
+			action_bar.value = model.bag_progress*100
+			action_label.text = "CORDAS SOLTAS %d%% · RECUPERE A BOLSA" % int(model.bag_progress*100)
+		else:
+			action_bar.value = minf(100,model.phase_clock/model.assaults.acts[model.act_index].duration*100)
+			action_label.text = "RESISTA À SEQUÊNCIA DE ATAQUES · ATO %d / 3" % (model.act_index+1)
 	else:
 		action_bar.value = model.wind_progress*100
-		action_label.text = "SEGURE E PARA ABRIR A BOLSA" if model.wind_window() and model.wind_progress == 0 else "ABRINDO A BOLSA" if model.wind_window() else "Espere a abertura para usar a bolsa"
-	if model.phase in [MODEL.Phase.READY,MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]:
-		warning_label.text = ""
+		action_label.text = "SEGURE E PARA ABRIR A BOLSA" if model.wind_window() else "ESPERE A ABERTURA JUNTO AO LEME"
+	if not model.active():
 		notice_label.hide()
-	if model.phase in [MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]:
-		balance_bar.hide()
-		balance_label.hide()
-		dash_label.hide()
+		if model.phase != MODEL.Phase.ARRIVAL: warning_label.text = ""
+
+func _failed(reason: String) -> void:
+	failure_detail.text = reason
+	failure_panel.show()
+
+func retry_checkpoint() -> void:
+	if model.phase != MODEL.Phase.FAILED: return
+	model.retry_checkpoint()
+	failure_panel.hide()
+	visuals.fleet_stage.focus = model.position.x
+	notice_time = 0
+	_update_interface()
 
 func _feedback(text: String, kind: String) -> void:
 	if not text.is_empty():
@@ -287,7 +332,7 @@ func _completed(record: Dictionary) -> void:
 	if persist_record:
 		var file := FileAccess.open(RECORD_FILE,FileAccess.WRITE)
 		if file: file.store_string(JSON.stringify(record))
-	result_detail.text = "11 navios perdidos  ·  1 navio sobrevivente\n\nFuga em %.1f s   ·   %d impactos sofridos" % [record.seconds,record.hits]
+	result_detail.text = "11 navios perdidos  ·  1 navio sobrevivente\n3 passagens  ·  3 atos de sobrevivência\n%.1f s  ·  %d impactos  ·  %d retomadas" % [record.seconds,record.hits,record.retries]
 	result.show()
 	stop_audio()
 	escaped.emit(record)

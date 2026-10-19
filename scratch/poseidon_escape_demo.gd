@@ -6,6 +6,7 @@ var pilot := PILOT.new()
 var active: bool = false
 var finishing: bool = false
 var demo_clock: float = 0.0
+var failure_delay: float = 0.0
 
 func _ready() -> void:
 	set_meta("hide_main_hud",true)
@@ -42,6 +43,13 @@ func _key(code: Key, pressed: bool) -> void:
 func _process(delta: float) -> void:
 	if not active or finishing: return
 	demo_clock += delta
+	if scene.model.phase == MODEL.Phase.FAILED:
+		failure_delay += delta
+		if failure_delay > 1.5:
+			_key(KEY_ENTER,true)
+			_key(KEY_ENTER,false)
+			failure_delay = 0
+		return
 	var controls: Dictionary = pilot.controls(scene.model)
 	_key(KEY_D,controls.direction.x > 0.2)
 	_key(KEY_A,controls.direction.x < -0.2)
@@ -52,7 +60,7 @@ func _process(delta: float) -> void:
 	if scene.model.phase == MODEL.Phase.COMPLETE:
 		finishing = true
 		_finish_demo()
-	elif demo_clock > 95:
+	elif demo_clock > 400:
 		push_error("Escape demo did not complete the actual keyboard-driven route.")
 		get_tree().quit(1)
 

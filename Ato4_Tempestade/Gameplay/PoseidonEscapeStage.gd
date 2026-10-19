@@ -1,4 +1,7 @@
 extends Node2D
+const FX := preload("res://Ato4_Tempestade/Gameplay/PoseidonWaterEffects.gd")
+const FLEET_STAGE := preload("res://Ato4_Tempestade/Gameplay/PoseidonFleetStage.gd")
+const BROKEN := preload("res://Assets/act4_poseidon_escape/deck_broken.png")
 const MODEL := preload("res://Ato4_Tempestade/Gameplay/PoseidonEscapeModel.gd")
 const RIG := preload("res://Ato4_Tempestade/Cutscenes/LuckStage.gd")
 const SEA := preload("res://Assets/act4_released_winds/storm_open_sea.png")
@@ -7,6 +10,9 @@ const ACTOR := preload("res://Assets/act4_poseidon_escape/odysseus_escape_v2.png
 const SHIP := preload("res://Assets/act4_storm/ship_harpoon_side.png")
 const BAG := preload("res://Assets/act4_friends/wind_bag.png")
 const WAVE := preload("res://Assets/act4_storm/wave_front.png")
+var fleet_stage: Node2D
+var wood_clock: float = 0.0
+var previous_mast: bool = false
 var model: MODEL
 var rig: Node2D
 var world: Node2D
@@ -89,6 +95,9 @@ func _ready() -> void:
 	escape_ship = _picture(SHIP,Vector2(680,405),Vector2(420,234),8)
 	escape_ship.flip_h = true
 	escape_ship.hide()
+	fleet_stage = FLEET_STAGE.new()
+	fleet_stage.model = model
+	add_child(fleet_stage)
 	update_visuals(0.0)
 
 func _picture(texture: Texture2D, at: Vector2, dimensions: Vector2, layer: int) -> Sprite2D:
@@ -112,15 +121,25 @@ func _process(delta: float) -> void:
 
 func update_visuals(delta: float) -> void:
 	if model == null: return
+	fleet_stage.visible = model.is_route()
+	rig.visible = not model.is_route()
+	if model.is_route():
+		fleet_stage.update_visuals(delta)
+		return
+	deck.texture = BROKEN if model.mast_broken else DECK
+	mast.visible = not model.mast_broken
+	if model.mast_broken and not previous_mast: wood_clock = 1.2
+	previous_mast = model.mast_broken
+	wood_clock = maxf(0,wood_clock-delta)
 	elapsed += delta
 	(sea.material as ShaderMaterial).set_shader_parameter("storm_clock",elapsed)
 	walking = model.velocity.length() > 25 and model.stagger <= 0.0 and not model.untying
 	if walking: walk_clock += delta*(1.1 if model.has_bag else 1.7)
 	var frame: int = int(walk_clock*8.0)%4 if walking else 1
-	if model.has_bag: frame += 4
+	if model.has_bag and not model.bag_secured: frame += 4
 	if model.bracing: frame = 8
 	if model.untying: frame = 9
-	if model.stagger > 0.0: frame = 10
+	if model.stagger > 0.0 or model.phase == MODEL.Phase.FAILED: frame = 10
 	if model.phase == MODEL.Phase.ESCAPING: frame = 11
 	player_frame = frame
 	odysseus.region_rect = FRAME_RECTS[frame]
@@ -130,10 +149,10 @@ func update_visuals(delta: float) -> void:
 	odysseus.rotation = -model.facing*0.13 if model.dash_left > 0.0 else 0.0
 	odysseus.z_index = 5 if model.position.y < 445 else 7
 	odysseus.modulate = Color(1.0,0.65,0.56) if model.hit_flash > 0.0 else Color(0.92,0.97,1.0)
-	var belt_bag: bool = model.has_bag and frame in [8,10]
-	bag.visible = belt_bag or (not model.has_bag and not model.untying)
+	var belt_bag: bool = model.has_bag and not model.bag_secured and frame in [8,10]
+	bag.visible = model.bag_secured or belt_bag or (not model.has_bag and not model.untying)
 	bag.rotation = sin(elapsed*1.6)*0.08
-	bag.position = model.position+Vector2(-model.facing*23,-52) if belt_bag else MODEL.BAG-Vector2(0,34)+Vector2(sin(elapsed*1.4)*3,0)
+	bag.position = MODEL.HELM+Vector2(55,-42) if model.bag_secured else model.position+Vector2(-model.facing*23,-52) if belt_bag else MODEL.BAG-Vector2(0,34)+Vector2(sin(elapsed*1.4)*3,0)
 	var tilt: float = sin(elapsed*0.8)*0.007
 	var shake: float = model.hit_flash*11+model.impact_flash*8
 	rig.rotation = tilt
@@ -176,6 +195,8 @@ func _update_horse() -> void:
 	var target: int = 5 if final or horse_age >= 0.0 else 0
 	horse.height = 390.0+(smoothstep(0,8,model.phase_clock)*130 if final else 0.0)
 	horse.pose(target)
+	for sprite in horse.sprites:
+		if sprite.region_rect.size.y > 0: sprite.scale = Vector2.ONE*horse.height/sprite.region_rect.size.y
 	horse.position = Vector2(980,338+sin(elapsed*1.2)*8)
 	horse.modulate = Color(0.94,0.99,1.0,0.95 if final or horse_age >= 0 else 0.60)
 	if horse_age >= 0.0:
@@ -214,40 +235,23 @@ func _update_escape() -> void:
 func draw_floor(canvas: Node2D) -> void:
 	if model.phase in [MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]: return
 	for i in MODEL.ANCHORS.size():
-		var anchor: Vector2 = MODEL.ANCHORS[i]
-		var held: bool = model.bracing and model.anchor_index() == i
-		var color := Color(0.53,0.92,0.91,0.85) if held else Color(0.81,0.72,0.49,0.62)
-		canvas.draw_arc(anchor,26,0,TAU,40,color,2,true)
-		canvas.draw_line(anchor-Vector2(8,0),anchor+Vector2(8,0),color,3,true)
-		canvas.draw_line(anchor-Vector2(0,8),anchor+Vector2(0,8),color,3,true)
-	# A grounded foot shadow makes movement readable against the wet planks.
+		var at: Vector2 = MODEL.ANCHORS[i]
+		var color := Color(0.5,1,0.9,0.9) if model.bracing and model.anchor_index() == i else Color(0.8,0.7,0.45,0.6)
+		canvas.draw_arc(at,26,0,TAU,40,color,2,true)
+		canvas.draw_line(at-Vector2(8,0),at+Vector2(8,0),color,3,true)
+		canvas.draw_line(at-Vector2(0,8),at+Vector2(0,8),color,3,true)
 	canvas.draw_set_transform(model.position,0,Vector2(1,0.26))
-	canvas.draw_circle(Vector2.ZERO,32,Color(0.01,0.02,0.03,0.40))
+	canvas.draw_circle(Vector2.ZERO,32,Color(0,0,0,0.4))
 	canvas.draw_set_transform(Vector2.ZERO)
 	if not model.has_bag:
-		var pulse: float = 0.55+sin(elapsed*4)*0.15
-		canvas.draw_arc(MODEL.BAG,38,0,TAU,40,Color(1.0,0.8,0.35,pulse),3,true)
-		canvas.draw_line(MODEL.BAG+Vector2(-33,6),MODEL.BAG+Vector2(31,-8),Color(0.62,0.48,0.27),4,true)
-		canvas.draw_line(MODEL.BAG+Vector2(-33,-7),MODEL.BAG+Vector2(31,10),Color(0.62,0.48,0.27),3,true)
-	else:
-		canvas.draw_arc(MODEL.HELM,54,0,TAU,48,Color(0.52,0.96,0.89,0.7),3,true)
+		canvas.draw_arc(MODEL.BAG,38,0,TAU,40,Color(1,0.8,0.35,0.8),3,true)
+	elif not model.bag_secured:
+		canvas.draw_arc(MODEL.HELM,54,0,TAU,48,Color(0.5,1,0.87,0.8),3,true)
 	for hazard in model.hazards:
-		var t: float = hazard.age-hazard.warning
-		if hazard.kind == "jets":
-			for point in hazard.points:
-				canvas.draw_set_transform(point,0,Vector2(1,0.42))
-				var color := Color(1.0,0.57,0.24,0.3+sin(elapsed*10)*0.08) if t < 0 else Color(0.43,0.93,1.0,0.5)
-				canvas.draw_circle(Vector2.ZERO,53,color)
-				canvas.draw_arc(Vector2.ZERO,53,0,TAU,48,Color(1,0.78,0.42),2,true)
-				canvas.draw_arc(Vector2.ZERO,maxf(4,53*clampf(hazard.age/hazard.warning,0,1)),0,TAU,32,Color(1,0.9,0.63,0.9),2,true)
-				canvas.draw_set_transform(Vector2.ZERO)
-		elif hazard.kind == "sweep" and t < 0:
-			canvas.draw_rect(MODEL.WALK_AREA,Color(0.78,0.35,0.16,0.1))
-			canvas.draw_rect(MODEL.COVER,Color(0.18,0.86,0.70,0.23))
-			canvas.draw_rect(MODEL.COVER,Color(0.55,1.0,0.84,0.9),false,2)
-			for x in range(180,1080,140):
-				var at := Vector2(x,565)
-				canvas.draw_polyline(PackedVector2Array([at+Vector2(18,-8),at,at+Vector2(18,8)]),Color(1,0.7,0.35,0.7),3,true)
+		if hazard.kind == "wave" and hazard.age < hazard.warning:
+			if not model.mast_broken: canvas.draw_rect(MODEL.COVER,Color(0.2,0.8,0.6,0.25))
+			elif model.act_index == 1: canvas.draw_rect(MODEL.CRATE_COVER,Color(0.2,0.8,0.6,0.25))
+	FX.floor_marks(canvas,model,elapsed)
 
 func draw_air(canvas: Node2D) -> void:
 	for i in 90:
@@ -264,15 +268,12 @@ func draw_air(canvas: Node2D) -> void:
 		for j in 7:
 			var particle := center+Vector2((j-3)*age*19,-sin(minf(age/2.0,1)*PI)*45+j%2*8)
 			canvas.draw_line(particle,particle+Vector2(7,-12),Color(0.72,0.89,0.95,1-age/3.5),3,true)
-	for hazard in model.hazards:
-		var t: float = hazard.age-hazard.warning
-		if hazard.kind != "jets" or t < 0.0: continue
-		var height: float = sin(clampf(t/0.85,0,1)*PI)*170
-		for point in hazard.points:
-			for j in 7:
-				var bottom: Vector2 = point+Vector2((j-3)*5,0)
-				var top: Vector2 = bottom+Vector2(sin(elapsed*17+j)*9,-height*(1.0-abs(j-3)*0.1))
-				canvas.draw_line(bottom,top,Color(0.26+j*0.07,0.76+j*0.02,0.91,0.76),7,true)
+	FX.water(canvas,model,elapsed)
+	if wood_clock > 0:
+		var age: float = 1.2-wood_clock
+		for i in 22:
+			var at := MODEL.MAST+Vector2(sin(i*9.1)*age*170,-110-cos(i)*age*160+age*age*150)
+			canvas.draw_line(at,at+Vector2(10,16).rotated(i),Color(0.55,0.34,0.16,wood_clock/1.2),4,true)
 	if model.phase in [MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]:
 		var start: Vector2 = model.position-Vector2(0,100) if escape_amount < 1 else escape_ship.position
 		for j in 14:
