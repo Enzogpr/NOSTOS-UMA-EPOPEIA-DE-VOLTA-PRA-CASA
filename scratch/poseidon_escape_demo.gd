@@ -30,6 +30,10 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	scene.persist_record = false
+	if scene.proof_enabled:
+		scene._continue_legacy(0)
+		await get_tree().process_frame
+		scene = get_tree().current_scene
 	await get_tree().create_timer(2.5).timeout
 	scene.begin()
 	active = true

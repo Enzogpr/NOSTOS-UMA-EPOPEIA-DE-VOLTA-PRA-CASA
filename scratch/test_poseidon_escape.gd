@@ -175,6 +175,7 @@ func _scene_checks() -> void:
 	var health_before: int = GameManager.player_current_hp
 	var inventory_before: Array = GameManager.inventory.duplicate(true)
 	var scene: Control = preload("res://Ato4_Tempestade/Gameplay/PoseidonEscape.tscn").instantiate()
+	scene.proof_enabled = false
 	scene.persist_record = false
 	scene.audio_enabled = false
 	get_tree().root.add_child(scene)

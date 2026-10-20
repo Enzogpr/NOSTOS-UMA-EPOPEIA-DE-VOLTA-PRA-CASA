@@ -2,8 +2,13 @@ extends Control
 signal escaped(record: Dictionary)
 const MODEL := preload("res://Ato4_Tempestade/Gameplay/PoseidonEscapeModel.gd")
 const VISUALS := preload("res://Ato4_Tempestade/Gameplay/PoseidonEscapeStage.gd")
+const RUPTURE := preload("res://Ato4_Tempestade/Gameplay/PoseidonRuptureModel.gd")
+const RUPTURE_STAGE := preload("res://Ato4_Tempestade/Gameplay/PoseidonRuptureStage.gd")
+const ENCOUNTER_AUDIO := preload("res://Ato4_Tempestade/Gameplay/PoseidonEncounterAudio.gd")
 const DESIGN := Vector2(1152,648)
 const RECORD_FILE := "user://poseidon_escape_record.json"
+@export var proof_enabled: bool = true
+@export var legacy_start_boat: int = 0
 @export var audio_enabled: bool = true
 @export var persist_record: bool = true
 @export var random_seed: int = 614
@@ -41,22 +46,28 @@ var previous_music_volume: float = 0.0
 var music_ducked: bool = false
 var sound_clock: float = 0.0
 var previous_combat: bool = false
+var encounter_audio: Node
+var legacy_continue: Button
+var combat_handed_off := false
+var transferring := false
 
 func _ready() -> void:
 	set_meta("hide_main_hud",true)
 	previous_combat = GameManager.combat_mode
 	GameManager.combat_mode = false
 	MainHUD.set_station("Ato 4 - Fuga de Poseidon")
-	model = MODEL.new(random_seed)
+	model = RUPTURE.new(random_seed) if proof_enabled else MODEL.new(random_seed)
 	model.feedback.connect(_feedback)
 	model.impact.connect(_impact)
 	model.completed.connect(_completed)
 	model.failed.connect(_failed)
-	visuals = VISUALS.new()
+	visuals = RUPTURE_STAGE.new() if proof_enabled else VISUALS.new()
 	visuals.model = model
 	stage.add_child(visuals)
 	_build_interface()
 	_setup_audio()
+	if proof_enabled:
+		model.encounter_cue.connect(_encounter_cue)
 	resized.connect(_fit)
 	_fit()
 	_update_interface()
@@ -129,8 +140,8 @@ func _bar(at: Vector2, dimensions: Vector2, color: Color) -> ProgressBar:
 
 func _build_interface() -> void:
 	_panel(Vector2(18,14),Vector2(890,73))
-	_label("POSEIDON  /  O ÚLTIMO NAVIO",Vector2(35,23),Vector2(580,23),17)
-	objective_label = _label("",Vector2(35,51),Vector2(685,29),22)
+	_label("POSEIDON  /  MAR EM RUPTURA" if proof_enabled else "POSEIDON  /  O ÚLTIMO NAVIO",Vector2(35,23),Vector2(580,23),17)
+	objective_label = _label("",Vector2(35,51),Vector2(685,29),18 if proof_enabled else 22)
 	fleet_label = _label("",Vector2(728,28),Vector2(162,45),18)
 	fleet_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_button("VOLTAR AO MAPA",Vector2(938,22),Vector2(195,39),return_to_map)
@@ -154,18 +165,19 @@ func _build_interface() -> void:
 	action_bar = _bar(Vector2(408,138),Vector2(336,5),Color(0.44,0.87,0.82))
 	intro = _panel(Vector2(222,181),Vector2(708,331),0.97)
 	intro.z_index = 40
-	_label("ENTRE A FROTA E O DEUS",Vector2(28,20),Vector2(650,42),31,intro)
-	_label("Dez barcos separam você da sua embarcação.\nA bolsa dos ventos está lá. Poseidon vem atrás.",Vector2(28,73),Vector2(650,52),20,intro)
-	_label("A / D ou ← / → · Correr. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto. E · Interagir.\nUse barcos e destroços. Recue quando precisar.\nNo seu navio: alcance as amarras e recupere a bolsa.",Vector2(28,135),Vector2(650,100),18,intro)
+	_label("MAR EM RUPTURA · TRECHO DE PROVA" if proof_enabled else "ENTRE A FROTA E O DEUS",Vector2(28,20),Vector2(650,42),26 if proof_enabled else 31,intro)
+	_label("A destruição vai mudar o caminho.\nVocê mantém o controle durante os acontecimentos." if proof_enabled else "Dez barcos separam você da sua embarcação.\nA bolsa dos ventos está lá. Poseidon vem atrás.",Vector2(28,73),Vector2(650,52),20,intro)
+	_label("A / D ou ← / → · Correr e frear. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto.\nLeia a ruptura, recue e use o mastro como passagem.\nDepois atravesse os destroços antes da parede de água." if proof_enabled else "A / D ou ← / → · Correr. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto. E · Interagir.\nUse barcos e destroços. Recue quando precisar.\nNo seu navio: alcance as amarras e recupere a bolsa.",Vector2(28,135),Vector2(650,100),18,intro)
 	_label("Se cair ou ficar sem fôlego, retome o ponto seguro.",Vector2(28,239),Vector2(650,24),18,intro)
-	_button("ATRAVESSAR A FROTA  ›",Vector2(174,278),Vector2(360,37),begin,intro)
+	_button("INICIAR TRECHO  ›" if proof_enabled else "ATRAVESSAR A FROTA  ›",Vector2(28,278),Vector2(350,37),begin,intro)
+	if proof_enabled: _button("FASE ANTERIOR",Vector2(400,278),Vector2(280,37),func(): _continue_legacy(0),intro)
 	result = _panel(Vector2(233,182),Vector2(686,322),0.98)
 	result.z_index = 40
-	_label("UM ÚNICO NAVIO ESCAPOU",Vector2(28,25),Vector2(630,42),29,result)
-	_label("Poseidon destruiu a frota. Os ventos abriram a saída.",Vector2(28,83),Vector2(630,28),20,result)
+	_label("UM INSTANTE DE ABRIGO" if proof_enabled else "UM ÚNICO NAVIO ESCAPOU",Vector2(28,25),Vector2(630,42),29,result)
+	_label("O caminho ficou para trás. A frota ainda está adiante." if proof_enabled else "Poseidon destruiu a frota. Os ventos abriram a saída.",Vector2(28,83),Vector2(630,28),20,result)
 	result_detail = _label("",Vector2(28,135),Vector2(630,95),21,result)
-	_button("REPETIR A FUGA",Vector2(28,261),Vector2(290,39),replay,result)
-	_button("VOLTAR AO MAPA",Vector2(366,261),Vector2(290,39),return_to_map,result)
+	_button("REPETIR TRECHO" if proof_enabled else "REPETIR A FUGA",Vector2(28,261),Vector2(290,39),replay,result)
+	legacy_continue = _button("CONTINUAR TRAVESSIA" if proof_enabled else "VOLTAR AO MAPA",Vector2(366,261),Vector2(290,39),func(): _continue_legacy(3) if proof_enabled else return_to_map(),result)
 	result.hide()
 	failure_panel = _panel(Vector2(246,190),Vector2(660,301),0.98)
 	failure_panel.z_index = 40
@@ -187,6 +199,15 @@ func begin() -> void:
 	if ready_delay > 0.0 or model.phase != MODEL.Phase.READY: return
 	intro.hide()
 	model.start()
+	if not proof_enabled and legacy_start_boat > 0:
+		var index: int = clampi(legacy_start_boat,0,9)
+		model.position = model.boats[index].rect.position+Vector2(65,0)
+		for i in index:
+			model.boats[i].entered = 0.0
+			model._sink(i)
+		model._enter_boat(index)
+		model._save_checkpoint()
+		visuals.reset_camera()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not allow_input or not event is InputEventKey or not event.pressed or event.is_echo(): return
@@ -220,12 +241,17 @@ func _physics_process(delta: float) -> void:
 	model.tick(delta,horizontal,duck,jump_requested,jump_held,interaction)
 	jump_requested = false
 	_update_interface()
+	if proof_enabled and is_instance_valid(encounter_audio):
+		encounter_audio.update_state(model.tension,model.quiet,model.velocity.x,model.grounded)
 	if audio_enabled and is_instance_valid(wind):
 		var escaping_now: bool = model.phase == MODEL.Phase.ESCAPING
 		wind.volume_db = move_toward(wind.volume_db,-11.0 if escaping_now else -38.0,delta*16)
 		if escaping_now and not wind.playing: wind.play()
 
 func _update_interface() -> void:
+	if proof_enabled:
+		_update_proof_interface()
+		return
 	objective_label.text = model.objective()
 	fleet_label.text = "FROTA\n%d / 12 NAVIOS" % model.fleet_remaining()
 	balance_bar.value = model.balance
@@ -264,6 +290,8 @@ func _failed(reason: String) -> void:
 
 func retry_checkpoint() -> void:
 	if model.phase != MODEL.Phase.FAILED: return
+	jump_requested = false
+	held_interact = false
 	model.retry_checkpoint()
 	failure_panel.hide()
 	visuals.reset_camera()
@@ -271,6 +299,10 @@ func retry_checkpoint() -> void:
 	_update_interface()
 
 func _feedback(text: String, kind: String) -> void:
+	if proof_enabled:
+		notice_label.text = text
+		notice_time = 3.0
+		return
 	if not text.is_empty():
 		notice_label.text = text
 		notice_time = 3.8
@@ -279,6 +311,11 @@ func _feedback(text: String, kind: String) -> void:
 	elif kind == "warning": _tone(310)
 
 func _setup_audio() -> void:
+	if proof_enabled:
+		encounter_audio = ENCOUNTER_AUDIO.new()
+		add_child(encounter_audio)
+		encounter_audio.setup(audio_enabled)
+		return
 	if not audio_enabled: return
 	previous_music_volume = AudioManager.music_player.volume_db
 	music_ducked = AudioManager.music_player.playing
@@ -313,6 +350,9 @@ func _tone(frequency: float) -> void:
 	sound_clock = 0.15
 
 func _impact(_kind: String) -> void:
+	if proof_enabled:
+		_encounter_cue("splash")
+		return
 	if not audio_enabled or effects == null: return
 	effects.stream = preload("res://Assets/act4_storm/thunder.wav")
 	effects.volume_db = -18
@@ -322,6 +362,10 @@ func _impact(_kind: String) -> void:
 func _completed(record: Dictionary) -> void:
 	if complete_count > 0: return
 	complete_count += 1
+	if proof_enabled:
+		result_detail.text = "Trecho de prova atravessado.\n%.1f s · %d saltos · %d retomadas\nA fase completa permanece na versão anterior." % [record.seconds,record.jumps,record.retries]
+		result.show()
+		return
 	if persist_record:
 		var file := FileAccess.open(RECORD_FILE,FileAccess.WRITE)
 		if file: file.store_string(JSON.stringify(record))
@@ -331,6 +375,7 @@ func _completed(record: Dictionary) -> void:
 	escaped.emit(record)
 
 func stop_audio() -> void:
+	if is_instance_valid(encounter_audio): encounter_audio.stop_audio()
 	for player in [ambience,effects,wind]:
 		if is_instance_valid(player):
 			player.stop()
@@ -341,9 +386,7 @@ func release_music() -> void:
 	music_ducked = false
 
 func replay() -> void:
-	stop_audio()
-	release_music()
-	get_tree().change_scene_to_file("res://Ato4_Tempestade/Gameplay/PoseidonEscape.tscn")
+	_replace_scene(proof_enabled,legacy_start_boat)
 
 func return_to_map() -> void:
 	stop_audio()
@@ -353,4 +396,51 @@ func return_to_map() -> void:
 func _exit_tree() -> void:
 	stop_audio()
 	release_music()
-	GameManager.combat_mode = previous_combat
+	if not combat_handed_off: GameManager.combat_mode = previous_combat
+
+func _encounter_cue(kind: String) -> void:
+	if is_instance_valid(encounter_audio): encounter_audio.cue(kind)
+
+func _update_proof_interface() -> void:
+	objective_label.text = model.objective()
+	fleet_label.text = "TRECHO DE PROVA"
+	fleet_label.add_theme_font_size_override("font_size",14)
+	balance_bar.value = model.balance
+	balance_label.text = "FÔLEGO  %d%%" % int(model.balance)
+	controls_hint.text = "A / D · CORRER     S / ↓ · ABAIXAR     ESPAÇO · PULAR (SEGURE: MAIS ALTO)     ESC · PAUSA"
+	dash_label.text = "ABAIXADO" if model.crouching else "NO AR" if not model.grounded else "EM APOIO"
+	prompt_label.text = model.prompt() if model.active() else ""
+	warning_label.hide()
+	action_label.hide()
+	action_bar.hide()
+	notice_label.hide()
+	arrival_shade.color.a = 0
+	if model.phase == MODEL.Phase.COMPLETE:
+		prompt_label.text = ""
+		balance_bar.hide()
+		balance_label.hide()
+		dash_label.hide()
+
+func _continue_legacy(index: int) -> void:
+	_replace_scene(false,index,proof_enabled and model.phase == MODEL.Phase.COMPLETE)
+
+func _replace_scene(next_proof: bool, index: int, include_proof_record: bool = false) -> void:
+	if transferring: return
+	transferring = true
+	stop_audio()
+	release_music()
+	var next: Control = load("res://Ato4_Tempestade/Gameplay/PoseidonEscape.tscn").instantiate()
+	next.proof_enabled = next_proof
+	next.legacy_start_boat = index
+	next.audio_enabled = audio_enabled
+	next.persist_record = persist_record
+	next.random_seed = random_seed
+	next.allow_input = allow_input
+	next.handoff_record = handoff_record.duplicate(true)
+	if include_proof_record: next.handoff_record["rupture_proof"] = model.record()
+	next.previous_combat = previous_combat
+	get_tree().root.add_child(next)
+	next.previous_combat = previous_combat
+	combat_handed_off = true
+	get_tree().current_scene = next
+	queue_free()

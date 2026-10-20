@@ -1,5 +1,7 @@
 # Poseidon — travessia de plataforma
 
+**Entrada atual:** `PoseidonEscape.tscn` inicia o trecho representativo **Mar em ruptura**. A versão de dez barcos descrita abaixo permanece disponível no botão **Fase anterior**; após o trecho, **Continuar travessia** retoma seu percurso no quarto barco. Detalhes e validação desta entrega em `Docs/POSEIDON_TRECHO_DE_PROVA.md`. A conclusão do trecho não registra a fuga completa nem altera vida/inventário da campanha.
+
 Abra `Ato4_Tempestade/Gameplay/PoseidonEscape.tscn` e pressione F6. A entrada da campanha continua após “Morra” e o primeiro impacto de `Ruthlessness.tscn`.
 
 Esta versão substitui a arena e os três atos cronometrados por uma fase lateral: **dez barcos intermediários, trinta destroços e, depois, o navio de Odisseu**. Há gravidade e colisão contínuas; saltar não depende de marca, autorização ou arco automático. A passagem fica disponível desde o início. A duração depende de atravessar o cenário e cumprir o objetivo.

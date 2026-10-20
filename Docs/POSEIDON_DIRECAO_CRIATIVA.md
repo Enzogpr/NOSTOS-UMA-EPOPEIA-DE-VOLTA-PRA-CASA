@@ -137,4 +137,4 @@ Godot 4.7 com GL Compatibility permite composição 2D em camadas, shaders Canva
 - A sensação de controle deve ser aprovada em teste humano. Piloto e testes automatizados ficam responsáveis por regressões, determinismo, colisão e integração.
 - O primeiro trecho com direção final deve sustentar a intenção em movimento e com som antes de replicarmos sua produção para o restante da fase.
 
-A próxima entrega proposta é esse trecho representativo. Esta revisão encerra-se na visão e no alinhamento, preservando integralmente a implementação atual.
+A primeira entrega dessa direção foi implementada como trecho representativo e está descrita em [POSEIDON_TRECHO_DE_PROVA.md](POSEIDON_TRECHO_DE_PROVA.md). A expansão para as três sequências depende da avaliação desse trecho.
