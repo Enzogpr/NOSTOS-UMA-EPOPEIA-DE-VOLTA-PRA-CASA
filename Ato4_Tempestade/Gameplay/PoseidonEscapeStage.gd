@@ -1,5 +1,5 @@
 extends Node2D
-## Shared side-on camera, textured geometry, telegraphs and animation for both parts.
+## Shared side-on camera, physical ship geometry and character animation.
 const MODEL := preload("res://Ato4_Tempestade/Gameplay/PoseidonEscapeModel.gd")
 const RIG := preload("res://Ato4_Tempestade/Cutscenes/LuckStage.gd")
 const BOAT := preload("res://Assets/act4_poseidon_escape/traversal_ship.png")
@@ -10,6 +10,7 @@ const SEA := preload("res://Assets/act4_released_winds/storm_open_sea.png")
 const SMALL_SHIP := preload("res://Assets/act4_storm/ship_harpoon_side.png")
 const BAG := preload("res://Assets/act4_friends/wind_bag.png")
 const WAVE := preload("res://Assets/act4_storm/wave_front.png")
+const WATER_ACTING := preload("res://Ato4_Tempestade/Gameplay/PoseidonWaterAttack.gd")
 var debris_texture: Texture2D
 var model: MODEL
 var world: Node2D
@@ -104,7 +105,11 @@ func update_visuals(dt: float) -> void:
 	distant_ship.position = Vector2(350+sin(elapsed*0.5)*4,237+sin(elapsed*1.4)*4+maxf(0,sunk_age)*24)
 	distant_ship.rotation = maxf(0,sunk_age)*0.25
 	distant_ship.modulate = Color(0.67,0.82,0.9,1-smoothstep(0,3.5,sunk_age) if sunk_age >= 0 else 0.8)
-	horse.pose(4 if model.impact_flash > 0.28 else 3 if not model.grounded else 5)
+	var water_pose := 5
+	for hazard in model.hazards:
+		if hazard.age >= hazard.warning and hazard.age-hazard.warning < 0.65:
+			water_pose = 4 if hazard.kind == "slam" else 3
+	horse.pose(water_pose)
 	horse.position = Vector2(975+sin(elapsed*0.17)*30,357+sin(elapsed*1.2)*7)
 	_update_actor(dt)
 	geometry.queue_redraw()
@@ -152,6 +157,94 @@ func _text(canvas: Node2D, at: Vector2, text: String, color := Color(0.93,0.87,0
 	canvas.draw_string(font,at+Vector2(1,2),text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color(0.01,0.03,0.04,0.95))
 	canvas.draw_string(font,at,text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,color)
 
+func _draw_floating_wreck(canvas: Node2D, rect: Rect2, frame: int, submerge: float = 0.0) -> void:
+	# The top of the painted timber agrees with the floor collider. Its underside
+	# is submerged instead of exposing a whole dry cutout over the ocean image.
+	var selected: int = posmod(frame,4)
+	var width: float = rect.size.x+16
+	var water_y: float = model.water_height_at(rect.get_center().x,model.clock)
+	# A sinking collider continues down through the same water plane. Its art
+	# is clipped progressively at that plane instead of taking the sea with it.
+	water_y -= submerge*0.5
+	var edge: float = [215.0,215.0,190.0,200.0][selected]
+	var region := Rect2((selected%2)*768,(selected/2)*512,768,512)
+	var shape := Rect2(rect.position-Vector2(8,edge*width/768),Vector2(width,width*512/768))
+	if debris_texture != null:
+		var above_height: float = maxf(0,water_y-shape.position.y)
+		var source_height: float = above_height*768.0/width
+		canvas.draw_texture_rect_region(debris_texture,Rect2(shape.position,Vector2(width,above_height)),Rect2(region.position,Vector2(768,source_height)),Color(0.76,0.82,0.78))
+		# Texture clipping, rather than an opaque coloured rectangle, submerges
+		# the underside while preserving the painted water beneath the timber.
+		canvas.draw_texture_rect_region(debris_texture,Rect2(shape.position+Vector2(0,above_height),Vector2(width,11)),Rect2(region.position+Vector2(0,source_height),Vector2(768,11*768.0/width)),Color(0.15,0.39,0.43,0.28))
+	else:
+		_plank(canvas,Rect2(rect.position,Vector2(rect.size.x,24)),Color(0.7,0.76,0.74))
+	# The visible upper edge stays at rect.y and never rolls independently of it.
+	var contact := PackedVector2Array()
+	for i in 17:
+		var u: float = i/16.0
+		var x: float = lerpf(rect.position.x-12,rect.end.x+12,u)
+		var y: float = water_y+sin(u*TAU*1.5-elapsed*2.8)*1.5
+		contact.append(Vector2(x,y))
+	canvas.draw_polyline(contact,Color(0.54,0.77,0.78,0.64),2.5,true)
+	for side in [-1.0,1.0]:
+		var center := Vector2(rect.get_center().x+side*(rect.size.x*0.5+6),water_y+2)
+		var foam := PackedVector2Array()
+		for i in 10:
+			var u: float = i/9.0
+			foam.append(center+Vector2(side*u*37,sin(u*PI)*7+sin(elapsed*2+u*4)*1.3))
+		canvas.draw_polyline(foam,Color(0.73,0.87,0.85,0.6),2.2,true)
+	# Short wet glints remain attached to the timber, never a neon landing bar.
+	for i in 3:
+		var start := Vector2(rect.position.x+rect.size.x*(0.15+i*0.27),water_y+5+i%2*4)
+		canvas.draw_line(start,start+Vector2(10+sin(elapsed*1.7+i)*3,0),Color(0.56,0.77,0.79,0.4),1.5,true)
+
+func _draw_rigging_support(canvas: Node2D, rect: Rect2, deck: Rect2) -> void:
+	# Raised ledges are working scaffold decks: vertical posts and a diagonal
+	# brace terminate on the same ship's deck, never on a universal y=470 plane.
+	var feet := [rect.position.x+12,rect.end.x-12]
+	for x in feet:
+		canvas.draw_line(Vector2(x,rect.position.y+8),Vector2(x,deck.position.y+11),Color(0.25,0.19,0.12),9,true)
+		canvas.draw_line(Vector2(x+1.5,rect.position.y+8),Vector2(x+1.5,deck.position.y+10),Color(0.55,0.42,0.22),2,true)
+	canvas.draw_line(Vector2(feet[0],deck.position.y+5),Vector2(feet[1],rect.position.y+12),Color(0.36,0.27,0.15),6,true)
+
+func _draw_hanging_yard(canvas: Node2D, rect: Rect2, deck: Rect2) -> void:
+	# Mast anchor is derived from the existing ship texture's mast coordinate.
+	# Both ropes visibly end at its collar instead of stopping in empty space.
+	var ship_scale: float = (deck.size.x+38)/1536.0
+	var collar := Vector2(deck.position.x-19+835*ship_scale,deck.position.y-315*ship_scale)
+	for u in [0.12,0.88]:
+		var endpoint := Vector2(lerpf(rect.position.x,rect.end.x,u),rect.position.y+4)
+		canvas.draw_line(collar,endpoint,Color(0.13,0.12,0.085),5,true)
+		canvas.draw_line(collar+Vector2(1,0),endpoint+Vector2(1,0),Color(0.63,0.51,0.3),2.2,true)
+	canvas.draw_circle(collar,4,Color(0.71,0.56,0.27))
+	if debris_texture != null:
+		canvas.draw_texture_rect_region(debris_texture,rect.grow(3),Rect2(35,690,720,106),Color(0.73,0.75,0.65))
+	else:
+		_plank(canvas,rect,Color(0.7,0.67,0.54))
+	for u in [0.12,0.88]:
+		var x: float = lerpf(rect.position.x,rect.end.x,u)
+		for coil in 4:
+			canvas.draw_line(Vector2(x+coil*2-3,rect.position.y-1),Vector2(x+coil*2-3,rect.end.y+1),Color(0.7,0.59,0.38),1.5,true)
+
+func _draw_near_water(canvas: Node2D) -> void:
+	# The model supplies one coherent ocean surface. Floating floors follow it;
+	# neither individual water pillars nor visual-only bobbing support the wrecks.
+	var boundary := PackedVector2Array()
+	for i in 101:
+		var x: float = focus-900+i*18
+		boundary.append(Vector2(x,model.water_height_at(x,model.clock)))
+	var water := boundary.duplicate()
+	water.append(Vector2(focus+900,740))
+	water.append(Vector2(focus-900,740))
+	canvas.draw_colored_polygon(water,Color(0.025,0.12,0.16,0.46))
+	canvas.draw_polyline(boundary,Color(0.43,0.65,0.69,0.32),2,true)
+	for band in 3:
+		var flow := PackedVector2Array()
+		for i in boundary.size():
+			var p: Vector2 = boundary[i]+Vector2(0,13+band*17+sin(i*0.31-elapsed*1.9+band)*3)
+			flow.append(p)
+		canvas.draw_polyline(flow,Color(0.18,0.4,0.46,0.18-band*0.035),5,true)
+
 func draw_world(canvas: Node2D) -> void:
 	if model.phase in [MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]:
 		_draw_escape(canvas)
@@ -173,50 +266,37 @@ func draw_world(canvas: Node2D) -> void:
 			_plank(canvas,Rect2(r.position,Vector2(r.size.x,14)))
 			var label: String = "ODISSEU · BOLSA DOS VENTOS" if i == 10 else "%02d" % (i+1)
 			_text(canvas,Vector2(r.position.x+20,r.position.y+44),label,Color(1,0.83,0.4),17 if i == 10 else 14)
-			if i < 10 and model.boats[i].collapse >= 0:
-				var left: float = model.boats[i].collapse-model.clock
-				canvas.draw_rect(Rect2(r.position-Vector2(0,5),Vector2(r.size.x,7)),Color(1,0.32,0.16,0.45+sin(elapsed*16)*0.3))
-				_text(canvas,r.position+Vector2(r.size.x*0.32,-115),"SAIA DO NAVIO! %.1fs" % maxf(0,left),Color(1,0.65,0.34),18)
 		else:
 			for half in 2:
 				var direction: float = -1 if half == 0 else 1
 				canvas.draw_set_transform(picture.get_center()+Vector2(direction*age*40,age*50),direction*age*0.16)
 				canvas.draw_texture_rect_region(BOAT,Rect2(Vector2(-width/2+half*width/2,-picture.size.y/2),Vector2(width/2,picture.size.y)),Rect2(half*768,0,768,1024),Color(1,1,1,1-smoothstep(1,4,age)))
 			canvas.draw_set_transform(Vector2.ZERO)
-			var foam := Rect2(r.position-Vector2(20,90)+Vector2(0,age*18),Vector2(r.size.x+40,180))
-			canvas.draw_texture_rect(WAVE,foam,false,Color(0.8,0.94,1,sin(PI*clampf(age/4,0,1))*0.8))
+			for splash in 3:
+				var at := Vector2(lerpf(r.position.x,r.end.x,(splash+1)/4.0),model.water_height_at(r.get_center().x,model.clock))
+				WATER_ACTING.draw_splash(canvas,at,age-splash*0.12,1.4)
 	for i in model.platforms.size():
 		var p: Dictionary = model.platforms[i]
 		if p.gone or p.kind == "deck": continue
 		var r: Rect2 = model.platform_rect(i)
 		if r.end.x < min_x or r.position.x > max_view: continue
-		if p.kind == "wreck" and debris_texture != null:
-			var frame: int = (i-11)%4
-			var region := Rect2((frame%2)*768,(frame/2)*512,768,512)
-			var edge: float = [215.0,215.0,190.0,200.0][frame]
-			var width: float = r.size.x+16
-			canvas.draw_texture_rect_region(debris_texture,Rect2(r.position-Vector2(8,edge*width/768),Vector2(width,width*512/768)),region)
-			canvas.draw_line(r.position,Vector2(r.end.x,r.position.y),Color(0.83,0.72,0.48),2,true)
-		else: _plank(canvas,Rect2(r.position,Vector2(r.size.x,18)))
-		if p.kind == "rigging":
-			for side in [0.12,0.88]:
-				var x: float = r.position.x+r.size.x*side
-				canvas.draw_line(Vector2(x,470),Vector2(x,r.position.y+8),Color(0.4,0.26,0.13),8,true)
-				canvas.draw_line(Vector2(x+2,470),Vector2(x+2,r.position.y+8),Color(0.67,0.49,0.25),2,true)
-		if p.kind == "wreck" and p.touched >= 0 and model.clock-p.touched > 2.8:
-			canvas.draw_line(r.position-Vector2(0,2),Vector2(r.end.x,r.position.y-2),Color(1,0.37,0.16,0.5+sin(elapsed*18)*0.4),4,true)
+		if p.kind == "wreck":
+			var submerge: float = clampf((model.clock-float(p.drop_at))/0.6,0,1) if p.drop_at >= 0 else 0.0
+			_draw_floating_wreck(canvas,r,i-11,submerge)
+		else:
+			if p.kind == "rigging": _draw_rigging_support(canvas,r,model.boats[int(p.boat)].rect)
+			_plank(canvas,Rect2(r.position,Vector2(r.size.x,18)),Color(0.78,0.75,0.61))
 	for obstacle in model.obstacles:
 		if model.sunk_at[obstacle.boat] >= 0: continue
 		var r: Rect2 = obstacle.rect
 		if r.end.x < min_x or r.position.x > max_view: continue
-		_plank(canvas,r,Color(0.8,0.73,0.62))
 		if obstacle.kind == "crate":
+			_plank(canvas,r,Color(0.8,0.73,0.62))
 			canvas.draw_rect(r,Color(0.34,0.22,0.12),false,3)
 			canvas.draw_line(r.position,r.end,Color(0.76,0.57,0.3),5,true)
 			canvas.draw_line(Vector2(r.end.x,r.position.y),Vector2(r.position.x,r.end.y),Color(0.76,0.57,0.3),5,true)
 		else:
-			_text(canvas,r.position-Vector2(0,10),"↓ ABAIXE",Color(0.64,0.91,1),14)
-			canvas.draw_line(Vector2(r.position.x,r.position.y-100),r.position,Color(0.58,0.5,0.32),3,true)
+			_draw_hanging_yard(canvas,r,model.boats[int(obstacle.boat)].rect)
 	if focus > model.final_origin-700: _draw_final(canvas)
 	if model.phase in [MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]: _draw_escape(canvas)
 
@@ -240,39 +320,14 @@ func _draw_final(canvas: Node2D) -> void:
 		_plank(canvas,rect,Color(0.6,0.56,0.48))
 
 func draw_foreground(canvas: Node2D) -> void:
+	_draw_near_water(canvas)
 	for h in model.hazards:
 		var r: Rect2 = model.hazard_rect(h)
-		if h.age < h.warning:
-			var color := Color(1,0.43,0.2,0.2+sin(elapsed*15)*0.1)
-			if h.kind == "slam":
-				canvas.draw_rect(r,color)
-				canvas.draw_line(Vector2(h.target,r.position.y),Vector2(h.target,r.end.y),Color(1,0.68,0.28),2,true)
-				_text(canvas,Vector2(h.target-55,r.end.y-50),"SAIA DA MARCA",Color(1,0.76,0.4),15)
-			else:
-				var deck: Rect2 = model.boats[h.boat].rect
-				var y: float = r.position.y+15
-				for x in range(int(deck.position.x),int(deck.end.x),48): canvas.draw_line(Vector2(x,y),Vector2(x+20,y),Color(0.63,0.93,1,0.65),2,true)
-				_text(canvas,Vector2(deck.position.x+50,y-20),"↑ PULE" if h.kind == "low" else "↓ ABAIXE",Color(0.67,0.96,1),20)
-		else:
-			var live: bool = h.age-h.warning < (0.33 if h.kind == "slam" else 3.3)
-			if not live: continue
-			if h.kind == "slam":
-				canvas.draw_rect(r,Color(0.5,0.91,1,0.7))
-				for j in 7: canvas.draw_line(Vector2(r.position.x+j*13,r.position.y),Vector2(r.position.x+j*13,r.end.y),Color(0.83,0.98,1,0.8),4,true)
-			else:
-				canvas.draw_texture_rect(WAVE,r.grow(4),false,Color(0.55,0.91,1,0.86))
-				for j in 3:
-					var foam := PackedVector2Array()
-					for k in 12:
-						foam.append(r.position+Vector2(k*7,sin(k*0.6+elapsed*11+j)*4+5+j*9))
-					canvas.draw_polyline(foam,Color(0.78,0.98,1,0.8-j*0.15),2,true)
+		if r.end.x < focus-850 or r.position.x > focus+850: continue
+		WATER_ACTING.draw(canvas,h,r,elapsed,MODEL.WATER_SURFACE_Y)
 	for i in 50:
 		var p := Vector2(focus-750+fposmod(i*109.0-elapsed*210,1500),fposmod(i*67.0+elapsed*680,700))
 		canvas.draw_line(p,p+Vector2(-7,20),Color(0.62,0.85,0.95,0.17),1,true)
-	# Waterline is drawn below every playable surface, never over the character.
-	var foam_points := PackedVector2Array()
-	for i in 60: foam_points.append(Vector2(focus-800+i*28,MODEL.SEA_LEVEL+sin(i*0.7+elapsed*3)*5))
-	canvas.draw_polyline(foam_points,Color(0.55,0.83,0.9,0.4),4,true)
 
 func _draw_escape(canvas: Node2D) -> void:
 	var age: float = minf(4.8,model.phase_clock) if model.phase == MODEL.Phase.ESCAPING else 4.8

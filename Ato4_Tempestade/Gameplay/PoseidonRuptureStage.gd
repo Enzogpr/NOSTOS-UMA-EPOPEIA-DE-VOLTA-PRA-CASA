@@ -1,7 +1,9 @@
 extends "res://Ato4_Tempestade/Gameplay/PoseidonEscapeStage.gd"
 ## Direction for the rupture slice. Surface endpoints are the physics model's API;
-## ship art, the moving mast and warnings never invent an extra landing surface.
+## Hull, moving mast, water and debris share physical world coordinates.
 const DIVINE_ACTING := preload("res://Assets/act4_poseidon/acting.gdshader")
+const WATER_ATTACK := preload("res://Ato4_Tempestade/Gameplay/PoseidonWaterAttack.gd")
+const SIDE_WAVE := preload("res://Assets/act4_poseidon_escape/wave_side_v2.png")
 var encounter: Variant
 var god: RIG.Performer
 var atmosphere: Atmosphere
@@ -198,24 +200,10 @@ func draw_world(canvas: Node2D) -> void:
 		if kind == "ramp":
 			if encounter.ramp_ready: _surface(canvas,a,b,18,Color(0.83,0.76,0.57))
 		elif kind == "wreck" and debris_texture != null:
-			var frame: int = i%4
-			var texture_region := Rect2((frame%2)*768,(frame/2)*512,768,512)
-			var width: float = a.distance_to(b)+18
-			var edge: float = [215.0,215.0,190.0,200.0][frame]
-			canvas.draw_set_transform(a,(b-a).angle())
-			canvas.draw_texture_rect_region(debris_texture,Rect2(-9,-edge*width/768, width,width*512/768),texture_region,Color(0.73,0.81,0.81))
-			canvas.draw_line(Vector2.ZERO,Vector2(a.distance_to(b),0),Color(0.93,0.82,0.54),2,true)
-			canvas.draw_set_transform(Vector2.ZERO)
-		else:
-			if kind == "ledge":
-				var deck: Rect2 = model.boats[int(platform.boat)].rect
-				for side in [0.1,0.9]:
-					var x: float = lerpf(a.x,b.x,side)
-					canvas.draw_line(Vector2(x,a.y+10),Vector2(x,deck.position.y+12),Color(0.31,0.23,0.13),10,true)
-					canvas.draw_line(Vector2(x+2,a.y+10),Vector2(x+2,deck.position.y+12),Color(0.62,0.47,0.25),2,true)
-			_surface(canvas,a,b,16 if kind == "deck" else 22,Color(0.75,0.78,0.7))
+			_draw_floating_wreck(canvas,Rect2(a,Vector2(b.x-a.x,20)),i%4)
 	for obstacle in model.obstacles:
 		if not obstacle.get("active",true) or obstacle.kind != "crate": continue
+		if model.sunk_at[int(obstacle.boat)] >= 0: continue
 		var rect: Rect2 = obstacle.rect
 		canvas.draw_rect(rect,Color(0.27,0.19,0.1))
 		for row in 4:
@@ -226,8 +214,6 @@ func draw_world(canvas: Node2D) -> void:
 		canvas.draw_line(Vector2(rect.end.x,rect.position.y),Vector2(rect.position.x,rect.end.y),Color(0.62,0.46,0.22),4,true)
 	_draw_mast(canvas)
 	_draw_sail(canvas)
-	if encounter.encounter_state in ["safe","finished"]:
-		_text(canvas,Vector2(4920,345),"UM INSTANTE PARA RESPIRAR",Color(0.67,0.86,0.84),16)
 
 func _draw_mast(canvas: Node2D) -> void:
 	if focus > 1950: return
@@ -254,20 +240,20 @@ func _draw_sail(canvas: Node2D) -> void:
 	var amount: float = encounter.sail_drop
 	var lower: float = lerpf(238,415,amount)
 	var cloth := Rect2(490,200,140,lower-200)
-	canvas.draw_line(Vector2(490,160),cloth.position,Color(0.54,0.43,0.26),4,true)
-	canvas.draw_line(Vector2(630,160),Vector2(630,200),Color(0.54,0.43,0.26),4,true)
+	var anchor: Vector2 = encounter.ramp_start+Vector2.from_angle(encounter.mast_angle)*330
+	canvas.draw_line(anchor,cloth.position,Color(0.22,0.17,0.11),5,true)
+	canvas.draw_line(anchor,Vector2(630,200),Color(0.22,0.17,0.11),5,true)
+	canvas.draw_line(cloth.position,Vector2(630,200),Color(0.53,0.36,0.16),8,true)
 	canvas.draw_texture_rect_region(BOAT,cloth,Rect2(648,166,138,67),Color(0.88,0.84,0.71))
 	canvas.draw_line(Vector2(490,lower),Vector2(630,lower),Color(0.98,0.75,0.45),5,true)
 	for i in 5:
 		var x: float = 502+i*25
 		canvas.draw_line(Vector2(x,208),Vector2(x+sin(elapsed*2+i)*3,lower-5),Color(0.35,0.3,0.2,0.22),2,true)
-	if amount > 0.8 and encounter.encounter_state in ["retreat","mast_fall"]:
-		_text(canvas,Vector2(508,446),"↓",Color(0.78,0.95,1),24)
 
 func _rupture_spray(canvas: Node2D, at: Vector2, fracture_value: float) -> void:
 	var amount: float = sin(clampf(fracture_value,0,1)*PI)
 	if amount < 0.01: return
-	canvas.draw_texture_rect(WAVE,Rect2(at-Vector2(140,amount*150),Vector2(460,220+amount*130)),false,Color(0.64,0.89,0.95,amount*0.75))
+	WATER_ATTACK.draw_splash(canvas,at,clampf((encounter.event_age-1.1),0,0.7),1.6)
 	for i in 14:
 		var direction: Vector2 = Vector2.from_angle(-PI+i*PI/15)
 		var travel: float = fposmod(encounter.event_age*125+i*23,200)
@@ -275,64 +261,18 @@ func _rupture_spray(canvas: Node2D, at: Vector2, fracture_value: float) -> void:
 		canvas.draw_line(p,p+direction*6,Color(0.82,0.95,1,amount*(1-travel/200)),2,true)
 
 func _draw_pursuit(canvas: Node2D, front_only: bool) -> void:
-	if not encounter.front_active: return
+	if not encounter.front_active or front_only: return
 	var x: float = encounter.front_x
-	var left: float = focus-900
-	if x < left-150 or x > focus+900: return
-	var edge := PackedVector2Array()
-	for i in 23:
-		var y: float = 122+i*25
-		var curl: float = sin(i*0.38+elapsed*1.7)*20+sin(i*0.83-elapsed*3)*5
-		edge.append(Vector2(x-34+curl,y))
-	if front_only:
-		for i in 16:
-			var p: Vector2 = Vector2(x-45+sin(i*0.8+elapsed*4)*25,160+fposmod(i*41+elapsed*180,450))
-			canvas.draw_line(p,p+Vector2(12,20),Color(0.8,0.95,1,0.45),2,true)
-	else:
-		var body := PackedVector2Array([Vector2(left,730),Vector2(left,95)])
-		body.append_array(edge)
-		body.append(Vector2(x,730))
-		canvas.draw_colored_polygon(body,Color(0.015,0.11,0.15,0.93))
-		# The original painted water front is mirrored so its foam approaches from
-		# the left; the crest is aligned to front_x, with only spray extending ahead.
-		canvas.draw_set_transform(Vector2(x+160,85),0,Vector2(-1,1))
-		canvas.draw_texture_rect(WAVE,Rect2(0,0,720,650),false,Color(0.68,0.91,0.97,0.98))
-		canvas.draw_set_transform(Vector2.ZERO)
+	if x < focus-1050 or x > focus+900: return
+	WATER_ATTACK.draw_pursuit_signed(canvas,SIDE_WAVE,x,elapsed,MODEL.WATER_SURFACE_Y,focus-900)
 
 func draw_foreground(canvas: Node2D) -> void:
 	if encounter == null: return
+	_draw_near_water(canvas)
 	for h in model.hazards:
 		var rect: Rect2 = model.hazard_rect(h)
 		if rect.end.x < focus-850 or rect.position.x > focus+850: continue
-		var warning: bool = h.age < h.warning
-		if warning:
-			var prepare: float = clampf(h.age/h.warning,0,1)
-			if h.kind == "slam":
-				canvas.draw_rect(rect,Color(0.55,0.83,0.91,0.06+prepare*0.1))
-				canvas.draw_line(Vector2(rect.position.x,rect.end.y),rect.end,Color(0.98,0.72,0.38,0.8),4,true)
-				for i in 8:
-					var p := Vector2(rect.position.x+i*rect.size.x/8,rect.end.y-12-prepare*30)
-					canvas.draw_line(p,p-Vector2(0,12),Color(0.58,0.88,0.96,prepare*0.6),2,true)
-			else:
-				canvas.draw_line(Vector2(rect.position.x,rect.position.y+rect.size.y/2),Vector2(rect.end.x,rect.position.y+rect.size.y/2),Color(0.53,0.86,0.93,0.3+prepare*0.5),3,true)
-				var cue := "↑" if h.kind == "low" else "↓"
-				_text(canvas,Vector2(clampf(model.position.x+130,rect.position.x+20,rect.end.x-25),rect.position.y-14),cue,Color(0.79,0.96,1),24)
-		else:
-			var live: bool = h.age-h.warning < (0.33 if h.kind == "slam" else 3.3)
-			if not live: continue
-			canvas.draw_texture_rect(WAVE,rect,false,Color(0.59,0.88,0.96,0.86))
-			canvas.draw_line(rect.position,Vector2(rect.end.x,rect.position.y),Color(0.78,0.97,1,0.83),3,true)
-	_draw_pursuit(canvas,true)
-	var water := PackedVector2Array([Vector2(focus-900,760)])
-	var foam := PackedVector2Array()
-	for i in 65:
-		var p := Vector2(focus-900+i*29,616+sin(i*0.5+elapsed*2.1)*6+sin(i*0.9-elapsed*2)*3)
-		water.append(p)
-		foam.append(p)
-	water.append(Vector2(focus+960,760))
-	canvas.draw_colored_polygon(water,Color(0.025,0.11,0.15,0.84))
-	canvas.draw_polyline(foam,Color(0.44,0.7,0.75,0.48),3,true)
-	# Rain density follows tension; no rain stripe obscures the playable contour.
+		WATER_ATTACK.draw(canvas,h,rect,elapsed,MODEL.WATER_SURFACE_Y)
 	var count: int = 22+int(encounter.tension*22)
 	for i in count:
 		var p := Vector2(focus-800+fposmod(i*109.0-elapsed*115,1600),fposmod(i*67.0+elapsed*460,700))

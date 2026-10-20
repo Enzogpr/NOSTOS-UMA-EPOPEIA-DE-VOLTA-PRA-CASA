@@ -10,8 +10,8 @@ Esta versão substitui a arena e os três atos cronometrados por uma fase latera
 
 - A/D ou ←/→: correr, frear, voltar e corrigir o salto no ar. S/↓: abaixar e andar abaixado. Espaço: saltar; soltar cedo produz um salto menor. Há tolerância de 110 ms após sair de uma borda e buffer de 130 ms para um salto apertado pouco antes da aterrissagem.
 - Caixas são obstáculos sólidos, vigas deixam espaço para passar abaixado, destroços oscilam com sua superfície de colisão e afundam após o uso prolongado. As superfícies de madeira mais claras indicam onde os pés podem apoiar.
-- Ondas baixas exigem salto, rajadas altas passam por cima de Odisseu abaixado e colunas de água marcam uma posição fixa antes de atingir. Os golpes empurram e consomem fôlego; não existe dash ou invulnerabilidade ao abaixar.
-- Poseidon esmaga o barco abandonado enquanto Odisseu ainda atravessa os destroços. Permanecer num barco também acaba provocando sua destruição, após aviso. A câmera abre brevemente durante o naufrágio, mantendo o controle ativo.
+- Ondas baixas exigem salto, rajadas altas passam por cima de Odisseu abaixado e colunas de água descem sobre uma posição fixa do convés. Não há marcas de perigo, setas nem instruções de esquiva. Os golpes empurram e consomem fôlego; não existe dash ou invulnerabilidade ao abaixar.
+- Poseidon esmaga o barco abandonado enquanto Odisseu ainda atravessa os destroços. Permanecer num barco também acaba provocando sua destruição. A câmera abre brevemente durante o naufrágio, mantendo o controle ativo.
 - Checkpoints nos barcos 3, 5, 7 e 9, na chegada ao navio final e ao recuperar a bolsa. Queda ou falta de fôlego interrompe a tentativa; é preciso escolher retomar ou pressionar Enter. A vida da campanha não é reduzida e não há recuperação automática no meio do salto.
 
 ## Navio final

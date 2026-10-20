@@ -9,7 +9,7 @@ var fracture := 0.0
 var bow_broken := false
 var ramp_ready := false
 var ramp_start := Vector2(380,475)
-var ramp_end := Vector2(1100,315)
+var ramp_end := Vector2(1100,540)
 var mast_angle := -PI/2
 var sail_drop := 0.0
 var front_x := -650.0
@@ -30,9 +30,11 @@ var previous_grounded := true
 var trigger_x := 680.0
 var elapsed_total := 0.0
 var simulation_delta := 1.0/120.0
+var wave_profile: Dictionary = {}
 
 func _init(seed_value: int = 614) -> void:
 	super(seed_value)
+	wave_profile = JSON.parse_string(FileAccess.get_file_as_string("res://Ato4_Tempestade/Gameplay/PoseidonWaveProfile.json"))
 	position = Vector2(145,475)
 	level.physics.run_speed = 305
 	level.physics.crouch_speed = 145
@@ -52,22 +54,23 @@ func _build_level() -> void:
 	proof_platform(Rect2(805,475,375,22),"bow",0)
 	proof_platform(Rect2(380,475,720,20),"ramp",0)
 	platforms[2].gone = true
-	proof_platform(Rect2(1240,385,145,20),"wreck",0,5,18)
+	proof_platform(Rect2(1240,540,145,20),"wreck",0,5,18)
 	proof_platform(Rect2(1510,450,850,22),"deck",1)
-	proof_platform(Rect2(2475,490,130,20),"wreck",1,7,22)
-	proof_platform(Rect2(2670,410,145,20),"wreck",1,5,27)
-	proof_platform(Rect2(2855,465,105,20),"wreck",1,6,16)
+	proof_platform(Rect2(2475,540,130,20),"wreck",1,6,22)
+	proof_platform(Rect2(2670,540,145,20),"wreck",1,5,27)
+	proof_platform(Rect2(2855,540,105,20),"wreck",1,6,16)
 	proof_platform(Rect2(3000,435,590,22),"deck",2)
 	proof_platform(Rect2(3260,355,155,18),"ledge",2)
-	proof_platform(Rect2(3740,455,130,20),"wreck",2,8,18)
-	proof_platform(Rect2(3950,370,135,20),"wreck",2,7,25)
-	proof_platform(Rect2(4155,430,160,20),"wreck",2,7,30)
-	proof_platform(Rect2(4385,350,145,20),"wreck",2,6,22)
-	proof_platform(Rect2(4560,400,120,20),"wreck",2,5,15)
+	proof_platform(Rect2(3740,540,130,20),"wreck",2,6,18)
+	proof_platform(Rect2(3950,540,135,20),"wreck",2,6,25)
+	proof_platform(Rect2(4155,540,160,20),"wreck",2,6,30)
+	proof_platform(Rect2(4385,540,145,20),"wreck",2,6,22)
+	proof_platform(Rect2(4560,540,120,20),"wreck",2,5,15)
 	proof_platform(Rect2(4700,420,650,22),"deck",3)
 	obstacles.append({"rect":Rect2(240,432,56,43),"kind":"crate","boat":0,"active":true})
 	obstacles.append({"rect":Rect2(490,200,140,215),"kind":"sail","boat":0,"active":false})
 	obstacles.append({"rect":Rect2(1900,402,60,48),"kind":"crate","boat":1,"active":true})
+	obstacles.append({"rect":Rect2(3260,355,155,80),"kind":"crate","boat":2,"active":true})
 
 func proof_platform(r: Rect2, kind: String, boat: int, bob := 0.0, drift := 0.0) -> void:
 	platforms.append({"rect":r,"kind":kind,"boat":boat,"bob":bob,"drift":drift,"touched":-1.0,"gone":false,"drop_at":-1.0})
@@ -101,7 +104,8 @@ func surface_endpoints(index: int, at_time: float = -1.0) -> Array[Vector2]:
 	var r: Rect2 = p.rect
 	var offset := Vector2.ZERO
 	if p.bob > 0:
-		offset = Vector2(sin(t*1.1+index*1.6)*float(p.drift),sin(t*1.65+index*1.9)*float(p.bob))
+		offset.x = sin(t*1.1+index*1.6)*float(p.drift)
+		offset.y = water_height_at(r.get_center().x+offset.x,t)-18-r.position.y
 	if p.drop_at >= 0: offset.y += pow(maxf(0,t-float(p.drop_at)),2)*160
 	return [r.position+offset,Vector2(r.end.x,r.position.y)+offset]
 
@@ -114,7 +118,32 @@ func platform_rect(index: int, at_time: float = -1.0) -> Rect2:
 	return Rect2(Vector2(ends[0].x,minf(ends[0].y,ends[1].y)),Vector2(ends[1].x-ends[0].x,absf(ends[1].y-ends[0].y)+20))
 
 func _obstacle_enabled(o: Dictionary) -> bool:
-	return o.active and (o.boat != 0 or sunk_at[0] < 0)
+	return o.active and sunk_at[int(o.boat)] < 0
+
+func pursuit_boundary_at(y: float) -> float:
+	# Use the painted wave's solid edge, including its curling opening. Spray
+	# cannot kill before contact and a jump into the opening remains meaningful.
+	var height: float = float(wave_profile.height)
+	var origin_y: float = WATER_SURFACE_Y-height*float(wave_profile.water_v)
+	var source_y: float = (y-origin_y)/height*float(wave_profile.source_size[1])
+	var samples: Array = wave_profile.opaque_right_edge
+	if source_y < 0 or source_y > float(samples[-1][0]): return -INF
+	for i in samples.size()-1:
+		if source_y > float(samples[i+1][0]): continue
+		var left: Array = samples[i]
+		var right: Array = samples[i+1]
+		if float(left[1]) < 0 or float(right[1]) < 0: return -INF
+		var fraction: float = (source_y-float(left[0]))/float(right[0]-left[0])
+		var source_x: float = lerpf(float(left[1]),float(right[1]),fraction)
+		var width: float = height*float(wave_profile.source_size[0])/float(wave_profile.source_size[1])
+		return front_x-width*float(wave_profile.front_u)+source_x*height/float(wave_profile.source_size[1])-float(wave_profile.collision_margin)
+	return -INF
+
+func _pursuit_touches_body() -> bool:
+	var body: Rect2 = body_rect()
+	for fraction in [0.05,0.25,0.5,0.75,0.95]:
+		if body.position.x < pursuit_boundary_at(lerpf(body.position.y,body.end.y,fraction)): return true
+	return false
 
 func can_stand() -> bool:
 	for o in obstacles:
@@ -164,7 +193,7 @@ func _step(dt: float, move: float, duck: bool, jump_held: bool, _interact: bool)
 		for o in obstacles:
 			if o.kind == "sail" and o.active and position.x > o.rect.position.x-14 and position.x < o.rect.end.x+14: ducked_sail = true
 	if position.y > SEA_LEVEL+20: _fail("Você perdeu o apoio. Enter retoma o último convés seguro.")
-	if front_active and position.x-HALF_WIDTH < front_x and position.y > 230:
+	if front_active and _pursuit_touches_body():
 		_fail("A parede de água alcançou você. Retome o trecho e use os apoios à frente.")
 	previous_grounded = grounded
 	last_support = support
@@ -290,7 +319,7 @@ func _update_world() -> void:
 				_save_checkpoint()
 			if position.x > 3140 and _once("god_returns","divine_rumble"):
 				god_presence = 1
-			if position.x > 3270 and _once("mark","warning"): _spawn_attack("slam",2)
+			if position.x > 3270 and _once("mark"): _spawn_attack("slam",2)
 			if position.x > 3630 and _once("second_loss","wood_snap"):
 				sunk_at[1] = clock
 				platforms[4].gone = true
@@ -314,6 +343,8 @@ func _update_world() -> void:
 			sunk_at[2] = clock
 			platforms[8].gone = true
 	for p in platforms:
+		if p.kind != "wreck" and sunk_at[int(p.boat)] >= 0:
+			p.gone = true
 		if p.kind != "wreck" or p.gone or p.touched < 0: continue
 		if route_clock-p.touched > 3.6 and p.drop_at < 0: p.drop_at = route_clock
 		if p.drop_at >= 0 and route_clock-p.drop_at > 0.8: p.gone = true
@@ -341,6 +372,7 @@ func _hit(kind: String, side: float) -> void:
 func _save_checkpoint() -> void:
 	super()
 	local_checkpoint = {"route_clock":route_clock,"state":encounter_state,"route_beat":route_beat,"event_age":event_age,"front_x":front_x,"front_active":front_active,"fracture":fracture,"bow_broken":bow_broken,"ramp_ready":ramp_ready,"mast_angle":mast_angle,"sail_drop":sail_drop,"events":events.duplicate(true),"pursuit_start":pursuit_start,"obstacles":obstacles.duplicate(true),"title":checkpoint_title,"retreated":retreated,"ducked_sail":ducked_sail,"crossed_ramp":crossed_ramp}
+	local_checkpoint["hazards"] = hazards.duplicate(true)
 
 func retry_checkpoint() -> void:
 	if phase != Phase.FAILED: return
@@ -366,6 +398,7 @@ func retry_checkpoint() -> void:
 	events = data.events.duplicate(true)
 	pursuit_start = data.pursuit_start
 	obstacles = data.obstacles.duplicate(true)
+	hazards = data.get("hazards",[]).duplicate(true)
 	checkpoint_title = data.title
 	retreated = data.retreated
 	ducked_sail = data.ducked_sail
@@ -380,12 +413,10 @@ func retry_checkpoint() -> void:
 
 func objective() -> String:
 	if phase == Phase.FAILED: return "TRAVESSIA INTERROMPIDA"
-	return route_beat
+	if phase == Phase.COMPLETE: return "Trecho de prova concluído."
+	return "ATRAVESSE A FROTA"
 
 func prompt() -> String:
-	if encounter_state == "retreat": return "← VOLTE · S / ↓ PARA ABAIXAR"
-	if encounter_state == "mast_fall": return "O MASTRO ESTÁ ABRINDO A PASSAGEM"
-	if encounter_state == "foreboding": return "A / D · CORRER     ESPAÇO · SALTO COM ALTURA VARIÁVEL"
 	return ""
 
 func record() -> Dictionary:

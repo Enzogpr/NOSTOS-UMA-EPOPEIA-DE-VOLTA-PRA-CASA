@@ -166,8 +166,8 @@ func _build_interface() -> void:
 	intro = _panel(Vector2(222,181),Vector2(708,331),0.97)
 	intro.z_index = 40
 	_label("MAR EM RUPTURA · TRECHO DE PROVA" if proof_enabled else "ENTRE A FROTA E O DEUS",Vector2(28,20),Vector2(650,42),26 if proof_enabled else 31,intro)
-	_label("A destruição vai mudar o caminho.\nVocê mantém o controle durante os acontecimentos." if proof_enabled else "Dez barcos separam você da sua embarcação.\nA bolsa dos ventos está lá. Poseidon vem atrás.",Vector2(28,73),Vector2(650,52),20,intro)
-	_label("A / D ou ← / → · Correr e frear. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto.\nLeia a ruptura, recue e use o mastro como passagem.\nDepois atravesse os destroços antes da parede de água." if proof_enabled else "A / D ou ← / → · Correr. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto. E · Interagir.\nUse barcos e destroços. Recue quando precisar.\nNo seu navio: alcance as amarras e recupere a bolsa.",Vector2(28,135),Vector2(650,100),18,intro)
+	_label("Sua embarcação está além da frota.\nPoseidon não vai esperar por você." if proof_enabled else "Dez barcos separam você da sua embarcação.\nA bolsa dos ventos está lá. Poseidon vem atrás.",Vector2(28,73),Vector2(650,52),20,intro)
+	_label("A / D ou ← / → · Correr e frear. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto.\nEncontre uma passagem pelos navios e destroços.\nObserve o mar e mantenha-se em movimento." if proof_enabled else "A / D ou ← / → · Correr. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto. E · Interagir.\nUse barcos e destroços. Recue quando precisar.\nNo seu navio: alcance as amarras e recupere a bolsa.",Vector2(28,135),Vector2(650,100),18,intro)
 	_label("Se cair ou ficar sem fôlego, retome o ponto seguro.",Vector2(28,239),Vector2(650,24),18,intro)
 	_button("INICIAR TRECHO  ›" if proof_enabled else "ATRAVESSAR A FROTA  ›",Vector2(28,278),Vector2(350,37),begin,intro)
 	if proof_enabled: _button("FASE ANTERIOR",Vector2(400,278),Vector2(280,37),func(): _continue_legacy(0),intro)
@@ -264,10 +264,7 @@ func _update_interface() -> void:
 	controls_hint.text = "A / D · CORRER     S / ↓ · ABAIXAR     ESPAÇO · PULAR (SEGURE: MAIS ALTO)     E · INTERAGIR"
 	prompt_label.text = model.prompt() if model.active() else ""
 	notice_label.visible = notice_time > 0 and model.active()
-	warning_label.text = ""
-	for hazard in model.hazards:
-		if hazard.age >= hazard.warning: continue
-		warning_label.text = {"low":"ONDA BAIXA · PULE", "high":"RAJADA ALTA · ABAIXE", "slam":"IMPACTO DE CIMA · SAIA DA MARCA"}.get(hazard.kind,"")
+	warning_label.hide()
 	arrival_shade.color.a = 0
 	action_bar.visible = model.active()
 	action_label.visible = model.active()
@@ -308,7 +305,6 @@ func _feedback(text: String, kind: String) -> void:
 		notice_time = 3.8
 	if kind == "bag": _tone(520)
 	elif kind == "guard": _tone(190)
-	elif kind == "warning": _tone(310)
 
 func _setup_audio() -> void:
 	if proof_enabled:

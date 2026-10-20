@@ -35,10 +35,14 @@ func fixture(rect := Rect2(80,475,1000,20), kind := "deck", bob := 0.0, drift :=
 func _ready() -> void:
 	_ramp_checks()
 	_mobile_checks()
+	_water_contact_checks()
 	_jump_checks()
 	_sail_and_retreat_checks()
 	_failure_and_checkpoint_checks()
+	_hazard_checkpoint_checks()
+	_painted_pursuit_checks()
 	_completion_checks()
+	_run_route()
 	print("POSEIDON RUPTURE: ",checks," checks; ",failures," failures")
 	get_tree().quit(1 if failures else 0)
 
@@ -96,6 +100,47 @@ func _mobile_checks() -> void:
 	advance(removed,0.2)
 	check(not removed.grounded and removed.support == -1 and removed.position.y > before.y+20,"Removing a support underfoot must produce a fall, never relocation to another surface.")
 	check(absf(removed.position.x-before.x) < 0.05,"A removed moving support must stop transporting its former rider.")
+
+func _water_contact_checks() -> void:
+	var m := fresh()
+	var follows_water := true
+	var future_drift := false
+	for i in m.platforms.size():
+		if m.platforms[i].kind != "wreck": continue
+		for time in [0.0,0.35,2.2,8.75]:
+			var ends: Array[Vector2] = m.surface_endpoints(i,time)
+			var center_x: float = (ends[0].x+ends[1].x)*0.5
+			follows_water = follows_water and absf(ends[0].y-(m.water_height_at(center_x,time)-18)) < 0.001 and ends[0].y == ends[1].y
+			future_drift = future_drift or absf(ends[0].x-m.platforms[i].rect.position.x) > 10
+	check(follows_water and future_drift,"Every floating wreck must sample the shared water at its horizontally drifting center, including future collision samples.")
+	var before: Array[Vector2] = m.surface_endpoints(3,4.0)
+	m.platforms[3].drop_at = 3.5
+	var dropping: Array[Vector2] = m.surface_endpoints(3,4.0)
+	check(is_equal_approx(dropping[0].y-before[0].y,40.0) and dropping[0].x == before[0].x,"A wreck's sinking motion must be added to its water contact without shifting the horizontal drift phase.")
+	m.encounter_state = "mast_fall"
+	m.position = Vector2(350,475)
+	m.event_age = 1.45
+	advance(m,0.15)
+	var settled: Array[Vector2] = m.surface_endpoints(2)
+	var tip: Vector2 = m.ramp_start+Vector2.from_angle(m.mast_angle)*m.ramp_start.distance_to(m.ramp_end)
+	check(m.encounter_state == "crossing" and m.ramp_ready and not m.platforms[2].gone and settled[1] == Vector2(1100,540),"The completed mast fall must enable a physical ramp descending toward the water at y540.")
+	check(tip.distance_to(settled[1]) < 0.01 and settled[1].y > settled[0].y,"The settled visual mast angle and collision endpoint must coincide on the descending passage.")
+	var sinking := fresh()
+	sinking.encounter_state = "pursuit"
+	sinking.front_active = true
+	sinking.front_x = 3421
+	sinking.position = Vector2(3800,300)
+	sinking.grounded = false
+	sinking.support = -1
+	sinking.tick(1.0/120)
+	check(sinking.sunk_at[2] >= 0 and sinking.platforms[8].gone and sinking.platforms[9].gone,"Sinking the third hull must remove its deck and raised cargo support together, leaving no floating ledge collider.")
+	sinking.encounter_state = "sunk_cargo_fixture"
+	sinking.front_active = false
+	sinking.position = Vector2(3330,355)
+	sinking.grounded = true
+	sinking.support = -1
+	advance(sinking,0.2)
+	check(not sinking.grounded and sinking.position.y > 375,"The sunk hull's cargo obstacle must also stop supporting the player after its deck and ledge are removed.")
 
 func _jump_checks() -> void:
 	var coyote := fixture(Rect2(80,430,400,20))
@@ -223,3 +268,84 @@ func _completion_checks() -> void:
 	check(m.record().proof_complete and not m.record().escaped and m.record().mode == "rupture_proof","The proof result must remain distinct from escaping Poseidon in the full campaign.")
 	m.tick(4,1,false,true,true,true)
 	check(emitted.size() == 1 and m.completion_count == 1,"Additional inputs after proof completion must never emit another completion.")
+
+func _hazard_checkpoint_checks() -> void:
+	var m := fresh()
+	m.encounter_state = "checkpoint_fixture"
+	m.route_clock = 9.25
+	m.clock = 9.25
+	m._spawn_attack("low",1)
+	m.hazards[0].age = 0.37
+	m.hazards[0].hit = true
+	m.hazards[0].counted = true
+	m.events = {"low_wave":8.88}
+	m._save_checkpoint()
+	var saved: Dictionary = m.hazards[0].duplicate(true)
+	m.hazards[0].age = 3.0
+	m.hazards[0].hit = false
+	m.hazards[0].x += 400
+	m.events["discarded_attack"] = 12.25
+	check(m.local_checkpoint.hazards[0] == saved and not m.local_checkpoint.events.has("discarded_attack"),"A saved attack and event ledger must be independent of live dictionaries mutated later in the failed attempt.")
+	m._fail("checkpoint hazard fixture")
+	m.retry_checkpoint()
+	check(m.hazards.size() == 1 and m.hazards[0] == saved and m.events == {"low_wave":8.88},"Retry must restore active attacks with their exact age, position, hit and counted flags, alongside the matching event ledger.")
+	m.hazards[0].age += 0.1
+	m.hazards[0].hit = false
+	m.events["new_attempt"] = m.route_clock
+	check(m.local_checkpoint.hazards[0] == saved and m.local_checkpoint.events == {"low_wave":8.88},"Restored attacks and events must remain deep copies, so a second failed attempt cannot corrupt the checkpoint.")
+	m._fail("checkpoint hazard fixture second attempt")
+	m.retry_checkpoint()
+	check(m.hazards[0] == saved and m.events == {"low_wave":8.88},"A second retry must recover the original attack without replaying its spawn event or losing its hit state.")
+
+func _painted_pursuit_checks() -> void:
+	var source := fresh()
+	var image := Image.new()
+	image.load_png_from_buffer(FileAccess.get_file_as_bytes(str(source.wave_profile.texture)))
+	check(not image.is_empty() and image.get_size() == Vector2i(int(source.wave_profile.source_size[0]),int(source.wave_profile.source_size[1])),"The pursuit collision profile must describe the dimensions of the actual painted wave asset.")
+	var matches_paint := not image.is_empty()
+	if matches_paint:
+		for sample in source.wave_profile.opaque_right_edge:
+			var run := 0
+			var painted_edge := -1
+			for x in image.get_width():
+				if roundi(image.get_pixel(x,int(sample[0])).a*255) > int(source.wave_profile.alpha_threshold): run += 1
+				else: run = 0
+				if run >= int(source.wave_profile.minimum_opaque_run): painted_edge = x
+			matches_paint = matches_paint and painted_edge == int(sample[1])
+	check(matches_paint,"Every sampled collision edge must still match the substantial opaque water in the source image, excluding isolated spray pixels.")
+	var m := fixture(Rect2(1000,450,1000,20))
+	m.position = Vector2(1490,450)
+	m.front_active = true
+	m.front_x = 1500
+	advance(m,0.05)
+	check(m.phase == M.Phase.TRAVERSAL and m.position.x < m.front_x and not m._pursuit_touches_body(),"Passing the wave's nominal front must remain safe until the substantial painted water actually reaches the body.")
+	advance(m,0.6)
+	check(m.phase == M.Phase.FAILED and m._pursuit_touches_body(),"The same stationary character must be caught once the continuously advancing painted crest reaches him.")
+	var profile := fresh()
+	profile.front_x = 1500
+	check(profile.pursuit_boundary_at(350) < profile.pursuit_boundary_at(530)-100,"The curling opening around y350 must recede substantially behind the lower water mass instead of using a flat lethal wall.")
+	profile.position = Vector2(1400,350)
+	check(profile.position.x-M.HALF_WIDTH > profile.pursuit_boundary_at(350) and profile._pursuit_touches_body(),"A character whose feet clear the curling opening must still be hit when his upper body touches the painted crest above it.")
+	profile.position.y = 450
+	var body: Rect2 = profile.body_rect()
+	var limiting_edge := -INF
+	for fraction in [0.05,0.25,0.5,0.75,0.95]:
+		limiting_edge = maxf(limiting_edge,profile.pursuit_boundary_at(lerpf(body.position.y,body.end.y,fraction)))
+	profile.position.x = limiting_edge+M.HALF_WIDTH+0.25
+	var outside := not profile._pursuit_touches_body()
+	profile.position.x -= 0.5
+	check(outside and profile._pursuit_touches_body(),"Wave contact must follow the actual left body edge continuously, without snapping at a rounded nominal front coordinate.")
+	profile.position = Vector2(500,-10)
+	var above_safe := not profile._pursuit_touches_body() and profile.pursuit_boundary_at(-10) == -INF
+	profile.position.y = 700
+	check(above_safe and not profile._pursuit_touches_body() and profile.pursuit_boundary_at(700) == -INF,"Transparent space above and outside the wave image must not extend its lethal collision into an invisible infinite wall.")
+
+func _run_route() -> void:
+	var m := fresh()
+	var pilot := preload("res://scratch/PoseidonRupturePilot.gd").new()
+	for frame in 7200:
+		var control: Dictionary = pilot.controls(m)
+		m.tick(1.0/60,control.move,control.duck,control.jump,control.held,control.interact)
+		if m.phase in [M.Phase.FAILED,M.Phase.COMPLETE]: break
+	check(m.phase == M.Phase.COMPLETE and m.retreated and m.ducked_sail and m.crossed_ramp and m.mobile_landings >= 8,"The water-bound route must remain completable through real movement inputs, including retreat, crouch, mast crossing and the floating wrecks.")
+	print("RUPTURE PHYSICS ROUTE ",m.record()," position ",m.position," state ",m.encounter_state," phase ",m.phase," reason ",m.failure_reason)

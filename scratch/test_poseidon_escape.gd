@@ -91,10 +91,40 @@ func _ready() -> void:
 	advance(idle,25)
 	check(idle.phase == M.Phase.FAILED and idle.sunk_at[0] >= 0,"Waiting forever must let Poseidon destroy the actual support.")
 	_mechanic_checks()
+	_water_and_slam_checks()
 	_run_route()
 	if capture: await _scene_checks()
 	print("POSEIDON PLATFORM: ",checks," checks; ",failures," failures")
 	get_tree().quit(1 if failures else 0)
+
+func _water_and_slam_checks() -> void:
+	var m := fresh()
+	m.clock = 3.25
+	check(is_equal_approx(m.water_height_at(1100),m.water_height_at(1100,m.clock)),"The water profile must use the current simulation time unless a sample time is supplied.")
+	var supported := true
+	var authored := true
+	for i in m.platforms.size():
+		if m.platforms[i].kind != "wreck": continue
+		authored = authored and m.platforms[i].rect.position.y == 540
+		for time in [0.0,0.25,1.7,5.1]:
+			var surface: Rect2 = m.platform_rect(i,time)
+			supported = supported and absf(surface.end.y-m.water_height_at(surface.get_center().x,time)) < 0.001
+	check(authored and supported,"All thirty wreck colliders must float eighteen pixels above the same water profile, rather than inherit deck heights.")
+	check(m.platform_rect(0,2.0) == m.boats[0].rect,"Water motion must not displace the existing deck collider.")
+	var before_drop: Rect2 = m.platform_rect(11,2.0)
+	m.platforms[11].drop_at = 1.5
+	check(is_equal_approx(m.platform_rect(11,2.0).position.y-before_drop.position.y,45.0),"A sinking wreck must retain its quadratic descent on top of the shared water motion.")
+	var attack := {"kind":"slam","target":145.0,"y":480.0,"age":0.4,"warning":0.8}
+	var preparation: Rect2 = m.hazard_rect(attack)
+	attack.age = 0.8
+	var start: Rect2 = m.hazard_rect(attack)
+	attack.age = 0.86
+	var midway: Rect2 = m.hazard_rect(attack)
+	attack.age = 0.92
+	var full: Rect2 = m.hazard_rect(attack)
+	check(preparation.size.y == 355 and start.size.y == 0,"The compositor must see the complete prepared slam while active collision starts with zero reach.")
+	check(preparation.position.y == full.position.y and is_equal_approx(midway.size.y,177.5) and is_equal_approx(full.size.y,355),"The slam must descend smoothly from a fixed origin and reach its full height in 120 milliseconds.")
+	check(not m.body_rect().intersects(midway) and m.body_rect().intersects(full),"The slam must hit only once its descending water reaches the character, not when the entire column appears.")
 
 func _mechanic_checks() -> void:
 	var buffered := fresh()

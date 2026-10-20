@@ -12,6 +12,7 @@ const STAND_HEIGHT := 76.0
 const CROUCH_HEIGHT := 52.0
 const HALF_WIDTH := 14.0
 const SEA_LEVEL := 624.0
+const WATER_SURFACE_Y := 558.0
 var phase: Phase = Phase.READY
 var level: Dictionary
 var platforms: Array[Dictionary] = []
@@ -85,8 +86,7 @@ func _build_level() -> void:
 		var wreck_count: int = int(level.boats[i].wrecks)
 		for j in wreck_count:
 			var f: float = float(j+1)/float(wreck_count+1)
-			var y: float = lerpf(a.position.y,b.position.y,f)+(30.0 if level.boats[i].debris == "down" else -42.0)
-			_add_platform(Rect2(a.end.x+gap*f-63,y,126,18),"wreck",i,5.0+float(j)*2)
+			_add_platform(Rect2(a.end.x+gap*f-63,540,126,18),"wreck",i,5.0+float(j)*2)
 		var type: String = level.boats[i].obstacle
 		if type == "crate": obstacles.append({"rect":Rect2(a.position.x+155,a.position.y-43,57,43),"kind":"crate","boat":i})
 		if type == "beam": obstacles.append({"rect":Rect2(a.position.x+176,a.position.y-93,140,34),"kind":"beam","boat":i})
@@ -118,11 +118,16 @@ func fleet_remaining() -> int:
 		if time >= 0: count -= 1
 	return count
 
+func water_height_at(x: float, at_time: float = -1.0) -> float:
+	var time: float = clock if at_time < 0 else at_time
+	return WATER_SURFACE_Y+sin(x*0.012+time*1.8)*4+sin(x*0.032-time*2.4)*2
+
 func platform_rect(index: int, at_time: float = -1.0) -> Rect2:
 	var p: Dictionary = platforms[index]
 	var r: Rect2 = p.rect
 	var time: float = clock if at_time < 0 else at_time
-	if p.bob > 0: r.position.y += sin(time*1.65+index*1.9)*float(p.bob)
+	if p.kind == "wreck": r.position.y = water_height_at(r.get_center().x,time)-18
+	elif p.bob > 0: r.position.y += sin(time*1.65+index*1.9)*float(p.bob)
 	if p.drop_at >= 0: r.position.y += pow(maxf(0,time-float(p.drop_at)),2)*180
 	return r
 
@@ -303,13 +308,15 @@ func _spawn_attack(kind: String, boat_index: int) -> void:
 	var h := {"kind":kind,"age":0.0,"warning":warning,"boat":boat_index,"x":deck.end.x+90,"y":deck.position.y,"target":target_x,"hit":false,"passed":false,"counted":false,"speed":510.0 if final else 440.0}
 	if kind == "slam":
 		h.x = target_x
-		h.y = position.y
+		h.y = deck.position.y
 		h.warning = 1.05 if final else 1.25
 	hazards.append(h)
 	attack_started.emit(kind)
 
 func hazard_rect(h: Dictionary) -> Rect2:
-	if h.kind == "slam": return Rect2(float(h.target)-47,float(h.y)-330,94,355)
+	if h.kind == "slam":
+		var reach: float = 1.0 if h.age < h.warning else smoothstep(0,0.12,maxf(0,float(h.age)-float(h.warning)))
+		return Rect2(float(h.target)-47,float(h.y)-330,94,355*reach)
 	var height: float = 31 if h.kind == "low" else 37
 	var y: float = float(h.y)-31 if h.kind == "low" else float(h.y)-103
 	return Rect2(float(h.x)-36,y,72,height)
