@@ -30,7 +30,7 @@ var warning_label: Label
 var notice_time: float = 0.0
 var ready_delay: float = 0.3
 var held_interact: bool = false
-var dash_requested: bool = false
+var jump_requested: bool = false
 var allow_input: bool = true
 var handoff_record: Dictionary = {}
 var complete_count: int = 0
@@ -134,13 +134,13 @@ func _build_interface() -> void:
 	fleet_label = _label("",Vector2(728,28),Vector2(162,45),18)
 	fleet_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_button("VOLTAR AO MAPA",Vector2(938,22),Vector2(195,39),return_to_map)
-	warning_label = _label("",Vector2(140,101),Vector2(872,35),25)
+	warning_label = _label("",Vector2(140,203),Vector2(872,30),21)
 	warning_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	warning_label.add_theme_color_override("font_color",Color(1,0.79,0.39))
-	notice_label = _label("",Vector2(80,146),Vector2(992,48),18)
+	notice_label = _label("",Vector2(130,157),Vector2(892,40),17)
 	notice_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	notice_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	prompt_label = _label("",Vector2(130,553),Vector2(892,35),22)
+	prompt_label = _label("",Vector2(130,554),Vector2(892,30),19)
 	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	prompt_label.add_theme_color_override("font_color",Color(1.0,0.88,0.51))
 	_panel(Vector2(18,593),Vector2(1115,45))
@@ -149,15 +149,15 @@ func _build_interface() -> void:
 	controls_hint = _label("",Vector2(190,607),Vector2(780,23),14)
 	dash_label = _label("",Vector2(968,599),Vector2(148,27),14)
 	dash_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	action_label = _label("",Vector2(335,507),Vector2(482,26),18)
+	action_label = _label("",Vector2(315,111),Vector2(522,23),15)
 	action_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	action_bar = _bar(Vector2(408,540),Vector2(336,8),Color(0.44,0.87,0.82))
+	action_bar = _bar(Vector2(408,138),Vector2(336,5),Color(0.44,0.87,0.82))
 	intro = _panel(Vector2(222,181),Vector2(708,331),0.97)
 	intro.z_index = 40
 	_label("ENTRE A FROTA E O DEUS",Vector2(28,20),Vector2(650,42),31,intro)
-	_label("Uma onda te lançou para outro navio.\nA bolsa dos ventos continua na sua embarcação.",Vector2(28,73),Vector2(650,52),20,intro)
-	_label("WASD / SETAS · Mover. ESPAÇO · Esquivar / saltar na marca.\nE · Balançar pela corda, pegar a bolsa ou agarrar uma corda.\nPARTE I · Atravesse os navios antes de serem esmagados.\nPARTE II · No seu navio, resista aos três atos de ataques.",Vector2(28,135),Vector2(650,100),18,intro)
-	_label("Sem equilíbrio, retome o trecho. Odisseu não morre.",Vector2(28,239),Vector2(650,24),18,intro)
+	_label("Dez barcos separam você da sua embarcação.\nA bolsa dos ventos está lá. Poseidon vem atrás.",Vector2(28,73),Vector2(650,52),20,intro)
+	_label("A / D ou ← / → · Correr. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto. E · Interagir.\nUse barcos e destroços. Recue quando precisar.\nNo seu navio: alcance as amarras e recupere a bolsa.",Vector2(28,135),Vector2(650,100),18,intro)
+	_label("Se cair ou ficar sem fôlego, retome o ponto seguro.",Vector2(28,239),Vector2(650,24),18,intro)
 	_button("ATRAVESSAR A FROTA  ›",Vector2(174,278),Vector2(360,37),begin,intro)
 	result = _panel(Vector2(233,182),Vector2(686,322),0.98)
 	result.z_index = 40
@@ -172,7 +172,7 @@ func _build_interface() -> void:
 	_label("FUGA INTERROMPIDA",Vector2(28,25),Vector2(610,42),30,failure_panel)
 	failure_detail = _label("",Vector2(28,88),Vector2(610,100),21,failure_panel)
 	failure_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_label("Retome esta passagem ou este ato de sobrevivência.",Vector2(28,196),Vector2(610,29),18,failure_panel)
+	_label("Retome o último barco seguro ou o desafio final.",Vector2(28,196),Vector2(610,29),18,failure_panel)
 	_button("RETOMAR TRECHO  [ENTER]",Vector2(28,245),Vector2(300,38),retry_checkpoint,failure_panel)
 	_button("VOLTAR AO MAPA",Vector2(366,245),Vector2(266,38),return_to_map,failure_panel)
 	failure_panel.hide()
@@ -197,73 +197,66 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif model.phase == MODEL.Phase.FAILED and code == KEY_ENTER:
 		retry_checkpoint()
 	elif model.active() and code == KEY_SPACE:
-		dash_requested = true
+		jump_requested = true
 	if code in [KEY_SPACE,KEY_ENTER,KEY_E]: get_viewport().set_input_as_handled()
 
 func _pressed(code: Key) -> bool:
 	return Input.is_physical_key_pressed(code) or Input.is_key_pressed(code)
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if model == null: return
 	ready_delay = maxf(0.0,ready_delay-delta)
 	notice_time = maxf(0.0,notice_time-delta)
 	sound_clock = maxf(0.0,sound_clock-delta)
-	var direction := Vector2.ZERO
+	var horizontal := 0.0
+	var duck := false
+	var jump_held := false
 	var interaction: bool = held_interact
 	if allow_input:
-		direction.x = float(_pressed(KEY_D) or _pressed(KEY_RIGHT))-float(_pressed(KEY_A) or _pressed(KEY_LEFT))
-		direction.y = float(_pressed(KEY_S) or _pressed(KEY_DOWN))-float(_pressed(KEY_W) or _pressed(KEY_UP))
+		horizontal = float(_pressed(KEY_D) or _pressed(KEY_RIGHT))-float(_pressed(KEY_A) or _pressed(KEY_LEFT))
+		duck = _pressed(KEY_S) or _pressed(KEY_DOWN)
+		jump_held = _pressed(KEY_SPACE)
 		interaction = interaction or _pressed(KEY_E)
-	model.tick(delta,direction,interaction,dash_requested)
-	dash_requested = false
+	model.tick(delta,horizontal,duck,jump_requested,jump_held,interaction)
+	jump_requested = false
 	_update_interface()
 	if audio_enabled and is_instance_valid(wind):
-		var escaping: bool = model.phase == MODEL.Phase.ESCAPING
-		wind.volume_db = move_toward(wind.volume_db,-11.0 if escaping else -38.0,delta*16)
-		if escaping and not wind.playing: wind.play()
+		var escaping_now: bool = model.phase == MODEL.Phase.ESCAPING
+		wind.volume_db = move_toward(wind.volume_db,-11.0 if escaping_now else -38.0,delta*16)
+		if escaping_now and not wind.playing: wind.play()
 
 func _update_interface() -> void:
 	objective_label.text = model.objective()
 	fleet_label.text = "FROTA\n%d / 12 NAVIOS" % model.fleet_remaining()
 	balance_bar.value = model.balance
-	balance_label.text = "EQUILÍBRIO  %d%%" % int(model.balance)
+	balance_label.text = "FÔLEGO  %d%%" % int(model.balance)
 	var playable: bool = model.phase not in [MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]
 	balance_bar.visible = playable
 	balance_label.visible = playable
 	dash_label.visible = playable
-	dash_label.text = "ESQUIVA PRONTA" if model.dash_cooldown <= 0 else "ESQUIVA %.1fs" % model.dash_cooldown
-	controls_hint.text = "WASD / SETAS · MOVER     ESPAÇO · ESQUIVAR / SALTAR     E · CORDA / INTERAGIR     ESC · PAUSA"
+	dash_label.text = "ABAIXADO" if model.crouching else "NO AR" if not model.grounded else "EM APOIO"
+	controls_hint.text = "A / D · CORRER     S / ↓ · ABAIXAR     ESPAÇO · PULAR (SEGURE: MAIS ALTO)     E · INTERAGIR"
 	prompt_label.text = model.prompt() if model.active() else ""
 	notice_label.visible = notice_time > 0 and model.active()
 	warning_label.text = ""
-	if model.phase == MODEL.Phase.TRAVERSAL and model.gate_open:
-		warning_label.text = "USE A CORDA NA MARCA DA PROA" if model.route_index == 1 else "SALTE NA MARCA DA PROA!"
-	elif model.phase == MODEL.Phase.ARRIVAL:
-		warning_label.text = "PARTE II · NO NAVIO DE ODISSEU"
-	elif model.phase == MODEL.Phase.FINAL_ATTACK:
-		warning_label.text = "AGORA! LIBERE OS VENTOS" if model.wind_window() else "SÓ RESTA O SEU NAVIO"
-	elif not model.hazards.is_empty():
-		var titles := {"jets":"SAIA DAS MARCAS", "wave":"BUSQUE A ABERTURA OU ABRIGO", "fan":"ATRAVESSE A ABERTURA", "aimed":"RAJADA DIRECIONADA · MOVA-SE", "crush":"COLUNA ESMAGADORA · SAIA DA FAIXA", "hoof":"AGARRE UMA CORDA"}
-		warning_label.text = titles.get(model.hazards[-1].kind,"")
-	arrival_shade.color.a = (smoothstep(1.2,1.6,model.phase_clock) if model.phase_clock < 1.6 else 1-smoothstep(1.6,2.8,model.phase_clock)) if model.phase == MODEL.Phase.ARRIVAL else 0
+	for hazard in model.hazards:
+		if hazard.age >= hazard.warning: continue
+		warning_label.text = {"low":"ONDA BAIXA · PULE", "high":"RAJADA ALTA · ABAIXE", "slam":"IMPACTO DE CIMA · SAIA DA MARCA"}.get(hazard.kind,"")
+	arrival_shade.color.a = 0
 	action_bar.visible = model.active()
 	action_label.visible = model.active()
 	if model.phase == MODEL.Phase.TRAVERSAL:
-		action_bar.value = minf(100,model.phase_clock/model.assaults.route_duration*100)
-		action_label.text = "O PRÓXIMO NAVIO ESTÁ SE APROXIMANDO" if not model.gate_open else "PASSAGEM ABERTA · VÁ ATÉ A MARCA À DIREITA"
-	elif model.phase == MODEL.Phase.SURVIVAL:
-		if not model.has_bag:
-			action_bar.value = model.bag_progress*100
-			action_label.text = "CORDAS SOLTAS %d%% · RECUPERE A BOLSA" % int(model.bag_progress*100)
-		else:
-			action_bar.value = minf(100,model.phase_clock/model.assaults.acts[model.act_index].duration*100)
-			action_label.text = "RESISTA À SEQUÊNCIA DE ATAQUES · ATO %d / 3" % (model.act_index+1)
+		action_bar.value = clampf((model.max_x-145)/(model.final_origin-145)*100,0,100)
+		action_label.text = "SEU NAVIO ESTÁ À FRENTE  ›"
+	elif model.phase == MODEL.Phase.FINAL_SHIP:
+		action_bar.value = model.wind_progress*100 if model.has_bag else (model.bindings[0]+model.bindings[1]+model.bindings[2])/3.0*100
+		action_label.text = "VOLTE À POPA COM A BOLSA" if model.has_bag else "SUBA NOS APOIOS · SOLTE AS TRÊS AMARRAS"
 	else:
-		action_bar.value = model.wind_progress*100
-		action_label.text = "SEGURE E PARA ABRIR A BOLSA" if model.wind_window() else "ESPERE A ABERTURA JUNTO AO LEME"
+		action_bar.hide()
+		action_label.hide()
 	if not model.active():
 		notice_label.hide()
-		if model.phase != MODEL.Phase.ARRIVAL: warning_label.text = ""
+		warning_label.text = ""
 
 func _failed(reason: String) -> void:
 	failure_detail.text = reason
@@ -273,7 +266,7 @@ func retry_checkpoint() -> void:
 	if model.phase != MODEL.Phase.FAILED: return
 	model.retry_checkpoint()
 	failure_panel.hide()
-	visuals.fleet_stage.focus = model.position.x
+	visuals.reset_camera()
 	notice_time = 0
 	_update_interface()
 
@@ -332,7 +325,7 @@ func _completed(record: Dictionary) -> void:
 	if persist_record:
 		var file := FileAccess.open(RECORD_FILE,FileAccess.WRITE)
 		if file: file.store_string(JSON.stringify(record))
-	result_detail.text = "11 navios perdidos  ·  1 navio sobrevivente\n3 passagens  ·  3 atos de sobrevivência\n%.1f s  ·  %d impactos  ·  %d retomadas" % [record.seconds,record.hits,record.retries]
+	result_detail.text = "11 navios perdidos  ·  1 navio sobrevivente\n10 barcos atravessados  ·  bolsa recuperada\n%.1f s  ·  %d impactos  ·  %d retomadas" % [record.seconds,record.hits,record.retries]
 	result.show()
 	stop_audio()
 	escaped.emit(record)

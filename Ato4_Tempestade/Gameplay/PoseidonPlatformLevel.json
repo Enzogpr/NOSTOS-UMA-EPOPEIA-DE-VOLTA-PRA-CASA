@@ -1,0 +1,126 @@
+{
+  "version": 1,
+  "physics": {
+    "run_speed": 325,
+    "crouch_speed": 138,
+    "acceleration": 2350,
+    "air_acceleration": 1750,
+    "gravity": 1650,
+    "jump_speed": 690,
+    "coyote_seconds": 0.11,
+    "jump_buffer_seconds": 0.13
+  },
+  "boats": [
+    {
+      "width": 600,
+      "y": 480,
+      "gap": 600,
+      "obstacle": "none",
+      "attack": "low",
+      "debris": "down",
+      "wrecks": 3
+    },
+    {
+      "width": 640,
+      "y": 455,
+      "gap": 660,
+      "obstacle": "crate",
+      "attack": "high",
+      "debris": "up",
+      "wrecks": 3
+    },
+    {
+      "width": 620,
+      "y": 485,
+      "gap": 710,
+      "obstacle": "beam",
+      "attack": "slam",
+      "debris": "down",
+      "wrecks": 3
+    },
+    {
+      "width": 700,
+      "y": 445,
+      "gap": 680,
+      "obstacle": "crate",
+      "attack": "low",
+      "debris": "up",
+      "wrecks": 3
+    },
+    {
+      "width": 660,
+      "y": 480,
+      "gap": 740,
+      "obstacle": "beam",
+      "attack": "high",
+      "debris": "down",
+      "wrecks": 3
+    },
+    {
+      "width": 680,
+      "y": 460,
+      "gap": 760,
+      "obstacle": "crate",
+      "attack": "slam",
+      "debris": "up",
+      "wrecks": 3
+    },
+    {
+      "width": 620,
+      "y": 490,
+      "gap": 700,
+      "obstacle": "beam",
+      "attack": "low",
+      "debris": "down",
+      "wrecks": 3
+    },
+    {
+      "width": 720,
+      "y": 445,
+      "gap": 790,
+      "obstacle": "crate",
+      "attack": "high",
+      "debris": "up",
+      "wrecks": 3
+    },
+    {
+      "width": 670,
+      "y": 475,
+      "gap": 760,
+      "obstacle": "beam",
+      "attack": "slam",
+      "debris": "down",
+      "wrecks": 3
+    },
+    {
+      "width": 740,
+      "y": 460,
+      "gap": 800,
+      "obstacle": "crate",
+      "attack": "low",
+      "debris": "up",
+      "wrecks": 3
+    },
+    {
+      "width": 1080,
+      "y": 470,
+      "gap": 0,
+      "obstacle": "final",
+      "attack": "none",
+      "debris": "none"
+    }
+  ],
+  "collapse": {
+    "warning_seconds": 4.5,
+    "deck_stay_seconds": 17,
+    "debris_stay_seconds": 4.8,
+    "wreck_seconds": 4
+  },
+  "final": {
+    "binding_seconds": 0.85,
+    "bag_seconds": 0.55,
+    "release_seconds": 0.8,
+    "attack_interval": 2.5,
+    "first_attack_delay": 1.1
+  }
+}

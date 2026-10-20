@@ -7,6 +7,7 @@ var active: bool = false
 var finishing: bool = false
 var demo_clock: float = 0.0
 var failure_delay: float = 0.0
+var key_states: Dictionary = {}
 
 func _ready() -> void:
 	set_meta("hide_main_hud",true)
@@ -34,6 +35,8 @@ func _ready() -> void:
 	active = true
 
 func _key(code: Key, pressed: bool) -> void:
+	if key_states.get(code,false) == pressed: return
+	key_states[code] = pressed
 	var event := InputEventKey.new()
 	event.keycode = code
 	event.physical_keycode = code
@@ -51,12 +54,13 @@ func _process(delta: float) -> void:
 			failure_delay = 0
 		return
 	var controls: Dictionary = pilot.controls(scene.model)
-	_key(KEY_D,controls.direction.x > 0.2)
-	_key(KEY_A,controls.direction.x < -0.2)
-	_key(KEY_S,controls.direction.y > 0.2)
-	_key(KEY_W,controls.direction.y < -0.2)
+	_key(KEY_D,controls.move > 0.2)
+	_key(KEY_A,controls.move < -0.2)
+	_key(KEY_S,controls.duck)
+	_key(KEY_W,false)
 	_key(KEY_E,controls.interact)
-	_key(KEY_SPACE,controls.dash)
+	if controls.jump: _key(KEY_SPACE,false)
+	_key(KEY_SPACE,controls.held)
 	if scene.model.phase == MODEL.Phase.COMPLETE:
 		finishing = true
 		_finish_demo()
@@ -66,7 +70,7 @@ func _process(delta: float) -> void:
 
 func _finish_demo() -> void:
 	for code in [KEY_D,KEY_A,KEY_S,KEY_W,KEY_E,KEY_SPACE]: _key(code,false)
-	print("ESCAPE MOVIE: actual keyboard route complete; ",scene.model.record())
+	print("PLATFORM MOVIE: actual keyboard route complete; ",scene.model.record())
 	await get_tree().create_timer(2.4).timeout
 	scene.stop_audio()
 	await get_tree().create_timer(0.15).timeout

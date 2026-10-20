@@ -1,0 +1,19 @@
+{
+  "tool": "ImageGen integrado",
+  "mode": "built-in",
+  "crouch": {
+    "output": "Assets/act4_poseidon_escape/odysseus_crouch.png",
+    "prompt": "Use case: identity-preserve. Asset type: transparent 2x2 game sprite atlas, four frames, each exactly 768x512 on a 1536x1024 canvas. Input image 1 is the identity/costume/style reference; image 2 is pose/style reference. Create the SAME Odysseus, dark wavy brown hair, short dark beard, gold Greek cuirass with spiral motif, dark blue leather skirt, golden greaves, brown sandals and RED cape. All four views strict side view facing RIGHT, low full crouch for a side-scroller, silhouette half the standing height (head lowered, knees deeply bent, back near horizontal), hands empty and in front, no weapon, no bag, no rope. Top left crouch idle with both feet grounded, top right crouch walk first step, bottom left crouch walk second step, bottom right protective low crouch. Lock same anatomy size, face and outfit across all cells. EACH full figure fits wholly within its cell with 60px safety margin, feet on same local y=445 baseline, body area around x200..620, crouch head at y190 (not an upright kneel). Keep cape compact sweeping behind to left. Detailed crisp pixel-painted 2D game artwork matching reference. Real transparent background, no panel dividers, no lettering, no shadows outside sprite, no scene. Four separate complete figures; no cut-off limb or overlap into adjacent cells.",
+    "references": [
+      "odysseus_escape_v2.png: identidade, roupa e estilo",
+      "odysseus_jump_v2.png: identidade e poses"
+    ]
+  },
+  "wrecks": {
+    "output": "Assets/act4_poseidon_escape/platform_wrecks.png",
+    "prompt": "Use case: stylized-concept. Asset type: 2x2 transparent game sprite atlas on 1536x1024, four separate shipwreck platform props each fitting in its own 768x512 cell. Input image 1 is a STYLE and material reference (Greek wooden ship from our game). Create 4 different floating wood debris platforms in a precise side-scroller view: top left, wide broken bundle of deck planks lashed together; top right, half a wooden Greek ship hull with red/gold painted stripe; bottom left, a broken thick mast with short pieces of rope; bottom right, a compact broken deck with one broken railing. Each object's TOP WALKABLE EDGE is HORIZONTAL, spanning local x80 to690 at y=260, body extends only downward y270..420. Flat upper edge obvious, no vertical spikes on top. Side view with very slight visible top surface, no oblique diagonal rotation. Weathered dark walnut wood, broken splintered ends, bronze fittings and subtle red paint matching reference. Crisp pixel-painted detailed game artwork. Real transparent background, no sea, no foam, no water, no scene, no characters, no text, no panel borders. Keep 60px clear margin and no overlap between cells. These will be tiny 126px-wide jumping platforms; readable sturdy silhouettes.",
+    "references": [
+      "traversal_ship.png: materiais, cores e estilo"
+    ]
+  }
+}
