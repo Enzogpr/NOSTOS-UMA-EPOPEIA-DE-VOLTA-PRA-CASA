@@ -68,7 +68,9 @@ func _ready() -> void:
 	MainHUD.set_station("Ato 4 - Fuga de Poseidon")
 	if cadence_enabled: proof_enabled = false
 	model = CADENCE.new(random_seed) if cadence_enabled else RUPTURE.new(random_seed) if proof_enabled else MODEL.new(random_seed)
-	if cadence_enabled: model.dash_cooldown_seconds=maxf(0.5,GameManager.player_dash_cooldown)
+	if cadence_enabled:
+		model.dash_cooldown_seconds=maxf(0.5,GameManager.player_dash_cooldown)
+		model.boarding.player_damage=maxi(1,GameManager.player_damage)
 	model.feedback.connect(_feedback)
 	model.impact.connect(_impact)
 	model.completed.connect(_completed)

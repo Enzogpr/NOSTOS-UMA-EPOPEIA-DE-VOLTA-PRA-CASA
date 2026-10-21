@@ -8,8 +8,11 @@ const SWORD_REACH := 96.0
 const ENEMY_HEIGHT := 108.0
 const PLAYER_HEIGHT := 76.0
 const CROUCH_HEIGHT := 52.0
+const SOLDIER_HP := 18
+const CAPTAIN_HP := 30
 
 var deck := Rect2()
+var player_damage := 3
 var enemies: Array[Dictionary] = []
 var active := false
 var cleared := false
@@ -47,8 +50,8 @@ func setup(surface: Rect2) -> void:
 	champion_delay=-1.0
 	strike_count=0
 	blocked_count=0
-	_spawn(0,deck.position.x+680,3,0)
-	_spawn(1,deck.position.x+1190,3,1)
+	_spawn(0,deck.position.x+680,SOLDIER_HP,0)
+	_spawn(1,deck.position.x+1190,SOLDIER_HP,1)
 
 func _spawn(id: int, x: float, hp: int, variant: int) -> void:
 	enemies.append({"id":id,"position":Vector2(x,deck.position.y),"facing":-1.0,"hp":hp,"max_hp":hp,"state":"arrive","age":0.0,"kind":"sweep","target_x":x,"strike_serial":0,"flash":0.0,"variant":variant,"attack_index":0,"hit_player":false})
@@ -78,7 +81,7 @@ func tick(dt: float, player_position: Vector2, facing: float, grounded: bool, cr
 			if int(enemy.hp)<=0 or enemy.state=="arrive" or int(enemy.id) in player_attack_hits: continue
 			if not sword.intersects(enemy_rect(enemy)): continue
 			player_attack_hits.append(int(enemy.id))
-			enemy.hp=int(enemy.hp)-1
+			enemy.hp=maxi(0,int(enemy.hp)-maxi(1,player_damage))
 			enemy.flash=0.18
 			result.cue="sword_hit"
 			if int(enemy.hp)<=0:
@@ -141,7 +144,7 @@ func tick(dt: float, player_position: Vector2, facing: float, grounded: bool, cr
 			wave=2
 			# Enter from the opposite side, safely inside the surviving ship.
 			var spawn_x: float=deck.end.x-190 if player_position.x<deck.get_center().x else deck.position.x+190
-			_spawn(2,spawn_x,5,2)
+			_spawn(2,spawn_x,CAPTAIN_HP,2)
 	if kills>=3:
 		active=false
 		cleared=true
@@ -207,9 +210,10 @@ func remaining() -> int:
 	return 3-kills
 
 func snapshot() -> Dictionary:
-	return {"deck":deck,"enemies":enemies.duplicate(true),"active":active,"cleared":cleared,"elapsed":elapsed,"kills":kills,"attack_count":attack_count,"wave":wave,"player_attack_age":player_attack_age,"player_attack_facing":player_attack_facing,"player_guarding":player_guarding,"player_combo":player_combo,"player_attack_crouched":player_attack_crouched,"player_attack_hits":player_attack_hits.duplicate(),"previous_attack":previous_attack,"hurt_cooldown":hurt_cooldown,"champion_delay":champion_delay,"strike_count":strike_count,"blocked_count":blocked_count}
+	return {"deck":deck,"player_damage":player_damage,"enemies":enemies.duplicate(true),"active":active,"cleared":cleared,"elapsed":elapsed,"kills":kills,"attack_count":attack_count,"wave":wave,"player_attack_age":player_attack_age,"player_attack_facing":player_attack_facing,"player_guarding":player_guarding,"player_combo":player_combo,"player_attack_crouched":player_attack_crouched,"player_attack_hits":player_attack_hits.duplicate(),"previous_attack":previous_attack,"hurt_cooldown":hurt_cooldown,"champion_delay":champion_delay,"strike_count":strike_count,"blocked_count":blocked_count}
 
 func restore(saved: Dictionary) -> void:
+	player_damage=int(saved.get("player_damage",player_damage))
 	for field in ["deck","active","cleared","elapsed","kills","attack_count","wave","player_attack_age","player_attack_facing","player_guarding","player_combo","player_attack_crouched","previous_attack","hurt_cooldown","champion_delay","strike_count","blocked_count"]:
 		set(field,saved[field])
 	enemies.assign(saved.enemies.duplicate(true))

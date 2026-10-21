@@ -27,7 +27,8 @@ func collision(kind: String, feet: Vector2, crouched: bool, guard: bool, facing:
 func run() -> void:
 	var c:=fresh()
 	check(c.active and not c.cleared and c.enemies.size()==2 and c.remaining()==3,"Boarding begins with two water soldiers and a reserved champion")
-	check(c.enemies[0].hp==3 and c.enemies[1].hp==3,"Initial enemy health is authored")
+	check(c.enemies[0].hp==18 and c.enemies[1].hp==18,"Initial soldiers each have eighteen health")
+	check(c.player_damage==3,"Standalone sword damage matches the default campaign damage")
 	check(c.enemy_rect(c.enemies[0]).size==Vector2(44,108),"Regular water soldier collision follows the smaller body")
 	var body:=Vector2(680,470)
 	var safe:=c.tick(0.1,body,1,true,false,false,false)
@@ -40,16 +41,16 @@ func run() -> void:
 	c.enemies[0].state="recover"
 	c.enemies[0].age=0.0
 	for i in 30: c.tick(1.0/120,Vector2(500,470),-1,true,false,i==0,false)
-	check(c.enemies[0].hp==3,"Sword cannot hit the enemy behind Odisseu")
+	check(c.enemies[0].hp==18,"Sword cannot hit the enemy behind Odisseu")
 	c.player_attack_age=-1
 	for i in 30: c.tick(1.0/120,Vector2(500,470),1,true,false,i==0,false)
-	check(c.enemies[0].hp==2,"Sword active frames hit an enemy within forward reach")
+	check(c.enemies[0].hp==15,"Sword active frames apply three damage within forward reach")
 	for i in 60: c.tick(1.0/120,Vector2(500,470),1,true,false,false,false)
-	check(c.enemies[0].hp==2,"A single swing cannot damage repeatedly across its active frames")
+	check(c.enemies[0].hp==15,"A single swing cannot damage repeatedly across its active frames")
 	c=fresh()
 	c.enemies[0].state="recover"
 	for i in 30: c.tick(1.0/120,Vector2(300,470),1,true,false,i==0,false)
-	check(c.enemies[0].hp==3,"Sword cannot hit across the deck")
+	check(c.enemies[0].hp==18,"Sword cannot hit across the deck")
 	check(collision("sweep",Vector2(500,470),false,false).damage==20,"Low sweep hits a standing target")
 	check(collision("sweep",Vector2(500,470),true,false).damage==20,"Crouching does not evade the low sweep")
 	check(collision("sweep",Vector2(500,410),false,false,1,false).damage==0,"Jumping over the trident evades a low sweep")
@@ -67,22 +68,32 @@ func run() -> void:
 	c.enemies[0].age=0.0
 	c.enemies[0].position=Vector2(600,470)
 	for i in 20: c.tick(1.0/120,Vector2(500,470),1,true,false,i==0,false)
-	check(c.enemies[0].hp==2 and c.enemies[0].state=="windup","Hitting a committed swing cannot stun-lock its windup")
+	check(c.enemies[0].hp==15 and c.enemies[0].state=="windup","Hitting a committed swing cannot stun-lock its windup")
+	c.player_damage=7
 	var saved:=c.snapshot()
 	c.enemies[0].hp=0
 	c.enemies[0].position.x=999
 	c.elapsed=80
+	c.player_damage=1
 	c.restore(saved)
 	check(c.snapshot()==saved,"Checkpoint restores enemy health, positions and exact action timers")
+	check(c.player_damage==7,"Checkpoint preserves the campaign sword damage used by the fight")
 	c.enemies[0].hp=1
-	check(saved.enemies[0].hp==2,"Restored state does not mutate the saved checkpoint")
+	check(saved.enemies[0].hp==15,"Restored state does not mutate the saved checkpoint")
+	c=fresh()
+	c.enemies.resize(1)
+	c.player_damage=7
+	c.enemies[0].position=Vector2(600,470)
+	c.enemies[0].state="recover"
+	for i in 30: c.tick(1.0/120,Vector2(500,470),1,true,false,i==0,false)
+	check(c.enemies[0].hp==11,"A stronger campaign sword applies its actual damage rather than a fixed local value")
 	c=fresh()
 	for enemy in c.enemies:
 		enemy.hp=0
 		enemy.state="dead"
 	c.kills=2
 	for i in 150: c.tick(1.0/120,Vector2(200,470),1,true,false,false,false)
-	check(c.wave==2 and c.enemies.size()==3 and c.enemies[2].max_hp==5,"A stronger water captain follows the first pair")
+	check(c.wave==2 and c.enemies.size()==3 and c.enemies[2].max_hp==30,"A water captain with thirty health follows the first pair")
 	check(c.enemy_rect(c.enemies[2]).size==Vector2(50,122),"Water captain collision follows its taller visual body")
 	check(c.active and not c.cleared and c.remaining()==1,"Defeating the first pair alone cannot unlock the encounter")
 	c.enemies[2].hp=1
@@ -93,6 +104,7 @@ func run() -> void:
 		var hit:=c.tick(1.0/120,Vector2(500,470),1,true,false,i==0,false)
 		if hit.cue=="boarding_clear": clear_cue=hit.cue
 	check(c.kills==3 and c.cleared and not c.active and clear_cue=="boarding_clear","Last actual sword hit clears boarding exactly once")
+	check(c.enemies[2].hp==0,"A finishing blow clamps health to zero rather than showing negative HP")
 	var end:=c.snapshot()
 	for i in 120: c.tick(1.0/120,Vector2(500,470),1,true,false,true,true)
 	check(c.snapshot()==end,"A completed encounter never respawns boarders or advances clocks")

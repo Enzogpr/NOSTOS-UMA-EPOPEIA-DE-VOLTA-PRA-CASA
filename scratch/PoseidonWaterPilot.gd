@@ -15,7 +15,23 @@ func controls(combat: RefCounted, position: Vector2, facing: float, grounded: bo
 	var dx: float=float(nearest.position.x)-position.x
 	var desired: float=signf(dx)
 	c.move=desired if distance>87 else 0.0
-	# Defend committed trident swings; only attack through the recovery opening.
+	# A heavy swing locks its landing point during preparation. Retreat beyond
+	# that point rather than paying repeated chip damage through a guard.
+	var heavy: Dictionary={}
+	var heavy_distance:=INF
+	for enemy in combat.enemies:
+		if int(enemy.hp)<=0 or str(enemy.state) not in ["windup","strike"] or str(enemy.kind)!="overhead": continue
+		var landing_distance: float=absf(float(enemy.target_x)-position.x)
+		if landing_distance<110 and landing_distance<heavy_distance:
+			heavy=enemy
+			heavy_distance=landing_distance
+	if not heavy.is_empty():
+		var away: float=signf(position.x-float(heavy.target_x))
+		if absf(away)<0.1: away=-signf(float(heavy.position.x)-position.x)
+		if position.x+away*95<combat.deck.position.x+100 or position.x+away*95>combat.deck.end.x-100: away=-away
+		c.move=away if heavy_distance<86 else 0.0
+		return c
+	# Defend regular committed trident swings; counter through recovery openings.
 	var danger: Dictionary={}
 	var imminent:=INF
 	for enemy in combat.enemies:

@@ -544,8 +544,9 @@ func _draw_boarder_health(canvas: Node2D) -> void:
 		var bar:=Rect2(panel.position+Vector2(6,20),Vector2(78,5))
 		canvas.draw_rect(bar,Color(0.15,0.26,0.29,alpha))
 		canvas.draw_rect(Rect2(bar.position,Vector2(bar.size.x*float(health)/maximum,bar.size.y)),Color(0.4,0.9,0.96,alpha))
-		for pip in range(1,maximum):
-			var x: float=bar.position.x+bar.size.x*float(pip)/maximum
+		var segments: int=mini(maximum,10)
+		for pip in range(1,segments):
+			var x: float=bar.position.x+bar.size.x*float(pip)/segments
 			canvas.draw_line(Vector2(x,bar.position.y),Vector2(x,bar.end.y),Color(0.025,0.07,0.09,alpha),1.0)
 		var label: String="%d / %d" % [health,maximum]
 		var width: float=font.get_string_size(label,HORIZONTAL_ALIGNMENT_LEFT,-1,16).x

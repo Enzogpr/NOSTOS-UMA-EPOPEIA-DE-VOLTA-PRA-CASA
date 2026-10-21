@@ -34,11 +34,14 @@ func _ready() -> void:
 	set_meta("hide_main_hud",true)
 	await get_tree().process_frame
 	get_viewport().size = Vector2i(1152,648)
+	var saved_damage: int=GameManager.player_damage
+	GameManager.player_damage=7
 	scene = preload("res://Ato4_Tempestade/Gameplay/PoseidonEscape.tscn").instantiate()
 	scene.audio_enabled = false
 	scene.persist_record = false
 	scene.manual_score_clock = true
 	get_tree().root.add_child(scene)
+	GameManager.player_damage=saved_damage
 	get_tree().current_scene = scene
 	await get_tree().process_frame
 	scene.set_physics_process(false)
@@ -50,6 +53,7 @@ func _ready() -> void:
 	scene.model.next_attack_score = 100000.0
 	scene.model.fleet_next_score = 100000.0
 	check(absf(scene.model.dash_cooldown_seconds-maxf(0.5,GameManager.player_dash_cooldown)) < 0.001,"Controller imports the saved character's dash cooldown")
+	check(scene.model.boarding.player_damage==7,"Controller imports campaign sword damage instead of a scene-local constant")
 	check(scene.controls_hint.text.contains("SHIFT") and scene.controls_hint.text.contains("Q / BOTÃO DIREITO") and not scene.controls_hint.text.contains("K ·"),"Control hints advertise Shift guard and both dash bindings")
 	check(scene.dash_label.text.contains("DASH PRONTO"),"HUD presents dash ready before first use")
 	key(KEY_Q,true)
@@ -108,9 +112,9 @@ func _ready() -> void:
 		scene.model.position = Vector2(scene.model.final_origin+640.0,scene.model.boats[10].rect.position.y)
 		scene.model.velocity = Vector2.ZERO
 		scene.model.boarding.enemies[0].position.x = scene.model.final_origin+780.0
-		scene.model.boarding.enemies[0].hp = 2
+		scene.model.boarding.enemies[0].hp = 15
 		scene.model.boarding.enemies[1].position.x = scene.model.final_origin+1010.0
-		scene.model.boarding.enemies[1].hp = 1
+		scene.model.boarding.enemies[1].hp = 9
 		for enemy in scene.model.boarding.enemies:
 			enemy.state = "approach"
 			enemy.age = 0.4

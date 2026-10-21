@@ -41,14 +41,16 @@ Os soldados exibem barras segmentadas e vida atual/máxima acima da cabeça, aco
 
 | Personagem | Resistência | Dano causado | Movimento |
 | --- | --- | --- | --- |
-| Odisseu |100 de fôlego |1 HP por golpe de espada |305 px/s, agachado 143 px/s |
-| Cada um dos dois soldados |3 HP |20 de fôlego; pesado 25 |90 px/s |
-| Soldado reforçado |5 HP |20 de fôlego; pesado 25 |110 px/s |
+| Odisseu |100 de fôlego |Atributo salvo, padrão 3 HP por golpe |305 px/s, agachado 143 px/s |
+| Cada um dos dois soldados |18 HP |20 de fôlego; pesado 25 |90 px/s |
+| Soldado reforçado |30 HP |20 de fôlego; pesado 25 |110 px/s |
 | Poseidon |Sem barra de vida |Onda alta/baixa 28; impacto vertical 34 |Ataques ambientais |
 
 A espada tem alcance 96 px, preparação 0,075 s, janela ativa 0,12 s e duração total 0,46 s. Salto: impulso 690 px/s, gravidade 1620 px/s² e altura máxima aproximada 147 px. A guarda frontal no chão bloqueia golpes normais, recebe 8 de dano de golpes pesados e reduz a corrida a 48%; não bloqueia Poseidon. Não há regeneração contínua de fôlego: entrada no navio final restaura 100; checkpoints de início dos blocos seguintes garantem pelo menos 75.
 
-Estes valores de combate são locais. Os padrões persistentes da campanha (10 HP, dano 3, velocidade ×1, inteligência 5, idade 20) não são aplicados automaticamente por este controlador. A recarga do dash consulta explicitamente o atributo persistente, sem alterar o salvamento.
+A espada consulta `GameManager.player_damage` ao entrar na fase; o dano é preservado no checkpoint. Assim Odisseu conserva o dano usado contra o ciclope: padrão 3, sem aumento automático ao terminar aquela luta. Com dano 3, os soldados comuns exigem 6 acertos cada e o reforçado exige 10; melhorias salvas de dano reduzem esse número. As barras mostram HP atual/máximo e limitam as divisões visuais a dez para manter a leitura.
+
+O fôlego, a movimentação e a vida dos soldados continuam locais. A vida persistente de 10 HP, o multiplicador de velocidade e a inteligência não são aplicados automaticamente por este controlador. Dano da espada e recarga do dash consultam os atributos persistentes, sem alterar o salvamento.
 
 ## Música
 
@@ -95,16 +97,15 @@ A versão anterior à direção musical está no commit `d788ffb`. Para comparar
 ### Verificação desta revisão
 
 - Restauração do dash: 22 verificações de duração, movimento, colisões, exclusão de ações, dano, recarga, checkpoint e congelamento sem falhas.
-- Controles revisados: 15 verificações com eventos de teclado/mouse, Shift, Q, botão direito, remoção de K, atributos salvos e HUD, sem falhas em headless e OpenGL. Capturas confirmam barras de vida e controles sem cortes.
-- Combate isolado:32 verificações, nenhuma falha.
-- Modelo completo:75 verificações, nenhuma falha; piloto de movimento/combate completou149,3s, três soldados de água derrotados e navio final intacto.
-- Controller, trilha, checkpoint, pausa e persistência:23 verificações, nenhuma falha.
+- Controles revisados: 16 verificações com eventos de teclado/mouse, Shift, Q, botão direito, remoção de K, importação de dano da campanha e HUD, sem falhas em headless. A captura OpenGL anterior confirmou controles e status sem cortes.
+- Combate isolado: 36 verificações, nenhuma falha, incluindo dano variável, HP mínimo zero e dano salvo no checkpoint. Piloto que recua dos golpes pesados venceu em 28,9 s.
+- Modelo completo: 75 verificações, nenhuma falha; piloto de movimento/combate completou 162,2 s, três soldados de água derrotados e navio final intacto, usando os novos valores de 18/30 HP e dano 3.
+- Controller, trilha, checkpoint, pausa e persistência: 23 verificações, nenhuma falha, percurso de 163,6 s.
 - Diretor musical:15 verificações, incluindo loop Vorbis real, relógio do mixer e seek.
 - Handoff da cutscene:7 verificações, mesmo nó de áudio e mesma posição de reprodução.
 - Regressão da cutscene:115 verificações; integração da prova anterior:20 verificações. Nenhuma falha.
-- Percurso via eventos reais de teclado:146,2s, zero retomadas, três soldados de água, onze navios perdidos e o navio de Odisseu intacto.
 - Seis fixtures OpenGL revisadas mostram formação dos soldados de água, combate, espada, golpe baixo, dissolução e embarcação inteira durante a fuga. Essas fixtures posicionam atores para inspeção visual e não comprovam jogabilidade; o percurso acima usa apenas comandos.
 
 As artes de combate foram geradas com ImageGen integrado. `Assets/act4_poseidon_soldiers/generation_prompts.json` conserva prompts, referência explícita ao Odisseu existente, poses, âncoras e orientação. Os corpos são inteiramente de água e espuma, com formação e dissolução em vez de nascimento ou queda humana. Há seis poses com transições procedurais; não se trata de animação desenhada quadro a quadro. Os testes comprovam condições funcionais, sem substituir avaliação humana da dificuldade e do ritmo musical.
 
-A prévia curta atual (`scratch/poseidon_cadence_preview/water_soldiers.mp4`, arquivo local ignorado pelo Git) mostra o combate final e a fuga. O piloto primeiro ensaia a travessia por comandos antes de gravar esse recorte, sem deslocar o jogador artificialmente.
+A prévia curta (`scratch/poseidon_cadence_preview/water_soldiers.mp4`, arquivo local ignorado pelo Git) mostra o combate final e a fuga antes das revisões de dash, barras e balanceamento. O piloto primeiro ensaia a travessia por comandos antes de gravar esse recorte, sem deslocar o jogador artificialmente.
