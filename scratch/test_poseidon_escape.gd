@@ -207,6 +207,7 @@ func _scene_checks() -> void:
 	var scene: Control = preload("res://Ato4_Tempestade/Gameplay/PoseidonEscape.tscn").instantiate()
 	scene.proof_enabled = false
 	scene.persist_record = false
+	scene.cadence_enabled = false
 	scene.audio_enabled = false
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene

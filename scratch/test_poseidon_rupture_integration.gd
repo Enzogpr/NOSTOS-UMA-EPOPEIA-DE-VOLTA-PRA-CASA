@@ -34,6 +34,7 @@ func _ready() -> void:
 	var combat_before: bool = GameManager.combat_mode
 	GameManager.combat_mode = true
 	var scene: Control = preload("res://Ato4_Tempestade/Gameplay/PoseidonEscape.tscn").instantiate()
+	scene.cadence_enabled = false
 	scene.audio_enabled = false
 	scene.persist_record = false
 	scene.handoff_record = {"story_complete":true,"proof_test":"handoff"}

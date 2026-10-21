@@ -9,20 +9,21 @@ const STORM_PATH := "res://Assets/act4_storm/storm_loop.wav"
 const CUE_DURATION := {
 	"creak": 1.05, "wood_snap": 0.82, "splash": 0.88,
 	"divine_rumble": 2.8, "footstep": 0.17, "land": 0.38,
-	"gust": 1.4, "warning": 1.15,
+	"gust": 1.4, "warning": 1.15, "sword_swing":0.23, "sword_hit":0.28,
 }
 const CUE_VOLUME := {
 	"creak": -23.0, "wood_snap": -16.0, "splash": -21.0,
 	"divine_rumble": -17.0, "footstep": -29.0, "land": -23.0,
-	"gust": -25.0, "warning": -23.0,
+	"gust": -25.0, "warning": -23.0, "sword_swing":-23.0, "sword_hit":-19.0,
 }
 const CUE_GAP := {
 	"creak": 0.55, "wood_snap": 0.25, "splash": 0.22,
 	"divine_rumble": 1.1, "footstep": 0.17, "land": 0.2,
-	"gust": 0.6, "warning": 0.45,
+	"gust": 0.6, "warning": 0.45, "sword_swing":0.2, "sword_hit":0.12,
 }
 
 static var _bank: Dictionary = {}
+var mix_offset_db := 0.0
 var _enabled: bool = false
 var _initialized: bool = false
 var _storm: AudioStreamPlayer
@@ -96,14 +97,14 @@ func cue(kind: String) -> void:
 	_variant_index[kind] = index + 1
 	_last_cue[kind] = now
 	player.stream = variants[index]
-	player.volume_db = float(CUE_VOLUME[kind]) - _quiet * (2.0 if kind in ["wood_snap", "divine_rumble"] else 5.0)
+	player.volume_db = mix_offset_db + float(CUE_VOLUME[kind]) - _quiet * (2.0 if kind in ["wood_snap", "divine_rumble"] else 5.0)
 	player.pitch_scale = 1.0 + float(index - 1) * 0.025
 	player.play()
 
 func _process(delta: float) -> void:
 	if not _enabled:
 		return
-	var target_db: float = lerpf(-31.0, -23.0, _tension) - _quiet * 18.0
+	var target_db: float = mix_offset_db + lerpf(-31.0, -23.0, _tension) - _quiet * 18.0
 	_storm.volume_db = lerpf(_storm.volume_db, target_db, 1.0 - exp(-delta * 2.8))
 	if _grounded and _speed > 30.0:
 		_foot_clock += delta
@@ -187,6 +188,12 @@ static func _material(kind: String, duration: float, random_seed: int) -> AudioS
 			"gust":
 				envelope = pow(sin(PI * u), 1.7)
 				sample = band * 1.8 + hiss * 0.2
+			"sword_swing":
+				envelope = pow(sin(PI*u),2.0)
+				sample = hiss*1.4+band*0.5
+			"sword_hit":
+				envelope = exp(-t*19.0)
+				sample = body*2.8+hiss*exp(-t*36.0)*1.5
 			"warning":
 				envelope = pow(sin(PI * u), 0.8) * (0.35 + u * 0.65)
 				sample = slower * 4.0 + band * 1.2 + hiss * 0.07

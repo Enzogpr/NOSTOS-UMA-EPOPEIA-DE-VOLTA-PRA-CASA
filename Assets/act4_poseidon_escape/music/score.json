@@ -1,0 +1,402 @@
+{
+  "version": 2,
+  "source_file": "C:\\Users\\leiac\\Downloads\\vidssave.com Ruthlessness _ EPIC The Musical _ Animatic 720P.mp4",
+  "source_sha256": "e74590e6967ffa2673e0d514721508e7d13d93698343019f92e720482ba0df98",
+  "source_duration_seconds": 274.993923,
+  "source_channels": 2,
+  "sample_rate": 44100,
+  "source_encoding": "AAC stereo from the exact attached MP4",
+  "method": "PCM extraction; opening Poseidon call; instrumental-only escape-source phrase loops; 88 ms tail-to-preroll crossfade; no time stretch, pitch change or vocal cancellation",
+  "analysis": "Log-compressed spectral-flux autocorrelation of the real PCM, source ASR for approximate narrative labels",
+  "perceptual_review": "No full human listening review performed by this build script. Listen to preview_wrath_7s.wav and preview_score.ogg before final mix approval.",
+  "nominal_bpm": 113.25,
+  "beats_per_bar": 4,
+  "beat_seconds": 0.5298013245033113,
+  "notes": [
+    "113.25 BPM is a nominal gameplay pulse fitted to the instrumental tail. Spectral-flux autocorrelation gives a broad maximum near 112.35 BPM; this is an authored grid, not an assertion of exact performed tempo.",
+    "The opening contains repeated Poseidon calls. Old source 8.893-23.115 loops were not clean instrumental and are no longer used.",
+    "All gameplay and escape music comes from 239.711-254.54545, after the bag line and What, before Remember me at 255.92. No original post-verdict chorus or bag dialogue remains.",
+    "The three four-bar loops intentionally overlap within this short instrumental passage; there is no claim of newly composed orchestration or separate stems.",
+    "The opening call is selected from 21.6-24.24 using reference narrative timing. ASR alone cannot certify word boundaries or musical quality.",
+    "Escape wind_release at 3.273 is now an authored musical cue, with the phrase downbeat edited onto it; it is not the original source wind transient.",
+    "Crossfades prevent waveform clicks but do not establish perceptually seamless musical repetition. No subjective listening was possible in this execution environment."
+  ],
+  "section_map": {
+    "surge": "vamp_surge",
+    "wrecks": "vamp_wrecks",
+    "onslaught": "vamp_wrath",
+    "bag": "vamp_wrath",
+    "escape": "escape_release"
+  },
+  "clips": {
+    "impact_intro": {
+      "file": "impact_intro.ogg",
+      "sha256": "835fb9ea4ddd67c906fb2e04c9a9980cd95252d332b8f5575e8c8086d4631f58",
+      "source_start_seconds": 21.6,
+      "source_end_seconds": 24.24,
+      "duration_seconds": 2.64,
+      "samples": 116424,
+      "decoded_samples": 116424,
+      "loop": false,
+      "musical_role": "Opening Poseidon call only, isolated before the first verse",
+      "gain_db": -10.2321,
+      "raw_pcm_metrics": {
+        "peak_dbfs": 1.3162,
+        "rms_dbfs": -8.239,
+        "dc_per_channel": [
+          -0.00148744,
+          -0.00097602
+        ],
+        "clipped_samples": 319
+      },
+      "edited_pcm_metrics": {
+        "peak_dbfs": -8.9015,
+        "rms_dbfs": -18.5,
+        "dc_per_channel": [
+          -0.0,
+          -1e-08
+        ],
+        "clipped_samples": 0
+      },
+      "vorbis_metrics": {
+        "peak_dbfs": -8.7627,
+        "rms_dbfs": -18.561,
+        "dc_per_channel": [
+          -6.06e-06,
+          6.295e-05
+        ],
+        "clipped_samples": 0
+      },
+      "cue_points": [],
+      "bpm": 113.25,
+      "tempo_confidence": "nominal; source performance varies"
+    },
+    "vamp_surge": {
+      "file": "vamp_surge.ogg",
+      "sha256": "e090995f87f2ff4b4dd33e1dad45264d16121a74d81edee5171db8656a328026",
+      "source_start_seconds": 239.710998,
+      "source_end_seconds": 248.187823,
+      "duration_seconds": 8.476825397,
+      "samples": 373828,
+      "decoded_samples": 373828,
+      "loop": true,
+      "musical_role": "Instrumental aftermath of the wind release, first phrase",
+      "gain_db": -4.1534,
+      "raw_pcm_metrics": {
+        "peak_dbfs": -0.1601,
+        "rms_dbfs": -14.3713,
+        "dc_per_channel": [
+          -0.0002994,
+          -9.541e-05
+        ],
+        "clipped_samples": 0,
+        "seam_step_dbfs": -6.389,
+        "seam_step_vs_nearby_99th": 5.8303,
+        "head_rms_dbfs": -10.8182,
+        "tail_rms_dbfs": -15.7931
+      },
+      "edited_pcm_metrics": {
+        "peak_dbfs": -4.3134,
+        "rms_dbfs": -18.5,
+        "dc_per_channel": [
+          0.0,
+          0.0
+        ],
+        "clipped_samples": 0,
+        "seam_step_dbfs": -33.7643,
+        "seam_step_vs_nearby_99th": 0.3782,
+        "head_rms_dbfs": -14.9714,
+        "tail_rms_dbfs": -17.7115
+      },
+      "vorbis_metrics": {
+        "peak_dbfs": -4.391,
+        "rms_dbfs": -18.5532,
+        "dc_per_channel": [
+          0.00015821,
+          6.271e-05
+        ],
+        "clipped_samples": 0,
+        "seam_step_dbfs": -37.4024,
+        "seam_step_vs_nearby_99th": 0.2587,
+        "head_rms_dbfs": -14.9958,
+        "tail_rms_dbfs": -17.769
+      },
+      "cue_points": [],
+      "bpm": 113.25,
+      "beats": 16,
+      "bars": 4,
+      "beat_seconds": 0.5298013245033113,
+      "loop_start_seconds": 0,
+      "loop_end_seconds": 8.476825396825397,
+      "crossfade_seconds": 0.088,
+      "beat_times_seconds": [
+        0.0,
+        0.529801325,
+        1.059602649,
+        1.589403974,
+        2.119205298,
+        2.649006623,
+        3.178807947,
+        3.708609272,
+        4.238410596,
+        4.768211921,
+        5.298013245,
+        5.82781457,
+        6.357615894,
+        6.887417219,
+        7.417218543,
+        7.947019868
+      ]
+    },
+    "vamp_wrecks": {
+      "file": "vamp_wrecks.ogg",
+      "sha256": "2e998b8d0afaade067f7a245b0503f8b8f7deaf13404d1899e43698c60f8df37",
+      "source_start_seconds": 243.94941,
+      "source_end_seconds": 252.426236,
+      "duration_seconds": 8.476825397,
+      "samples": 373828,
+      "decoded_samples": 373828,
+      "loop": true,
+      "musical_role": "Overlapping instrumental phrase shifted by two bars",
+      "gain_db": -4.9074,
+      "raw_pcm_metrics": {
+        "peak_dbfs": 0.2311,
+        "rms_dbfs": -13.5933,
+        "dc_per_channel": [
+          -0.00034031,
+          -0.0002567
+        ],
+        "clipped_samples": 12,
+        "seam_step_dbfs": -26.5677,
+        "seam_step_vs_nearby_99th": 0.6982,
+        "head_rms_dbfs": -16.0198,
+        "tail_rms_dbfs": -18.785
+      },
+      "edited_pcm_metrics": {
+        "peak_dbfs": -4.6733,
+        "rms_dbfs": -18.5,
+        "dc_per_channel": [
+          0.0,
+          0.0
+        ],
+        "clipped_samples": 0,
+        "seam_step_dbfs": -35.2184,
+        "seam_step_vs_nearby_99th": 0.4075,
+        "head_rms_dbfs": -20.9272,
+        "tail_rms_dbfs": -23.5116
+      },
+      "vorbis_metrics": {
+        "peak_dbfs": -4.4764,
+        "rms_dbfs": -18.5307,
+        "dc_per_channel": [
+          2.689e-05,
+          0.00010034
+        ],
+        "clipped_samples": 0,
+        "seam_step_dbfs": -35.7126,
+        "seam_step_vs_nearby_99th": 0.3956,
+        "head_rms_dbfs": -21.004,
+        "tail_rms_dbfs": -23.5908
+      },
+      "cue_points": [],
+      "bpm": 113.25,
+      "beats": 16,
+      "bars": 4,
+      "beat_seconds": 0.5298013245033113,
+      "loop_start_seconds": 0,
+      "loop_end_seconds": 8.476825396825397,
+      "crossfade_seconds": 0.088,
+      "beat_times_seconds": [
+        0.0,
+        0.529801325,
+        1.059602649,
+        1.589403974,
+        2.119205298,
+        2.649006623,
+        3.178807947,
+        3.708609272,
+        4.238410596,
+        4.768211921,
+        5.298013245,
+        5.82781457,
+        6.357615894,
+        6.887417219,
+        7.417218543,
+        7.947019868
+      ]
+    },
+    "vamp_wrath": {
+      "file": "vamp_wrath.ogg",
+      "sha256": "ec6979ce5b4f0c7936aeb34321406e96e4f34c2789541766a5fde7d7d9512bbd",
+      "source_start_seconds": 246.068617,
+      "source_end_seconds": 254.545442,
+      "duration_seconds": 8.476825397,
+      "samples": 373828,
+      "decoded_samples": 373828,
+      "loop": true,
+      "musical_role": "Overlapping later instrumental phrase, before Remember me",
+      "gain_db": -4.2793,
+      "raw_pcm_metrics": {
+        "peak_dbfs": 0.2311,
+        "rms_dbfs": -14.251,
+        "dc_per_channel": [
+          -0.00035228,
+          -0.00024089
+        ],
+        "clipped_samples": 12,
+        "seam_step_dbfs": -14.2853,
+        "seam_step_vs_nearby_99th": 2.4501,
+        "head_rms_dbfs": -15.4578,
+        "tail_rms_dbfs": -25.5565
+      },
+      "edited_pcm_metrics": {
+        "peak_dbfs": -4.045,
+        "rms_dbfs": -18.5,
+        "dc_per_channel": [
+          0.0,
+          0.0
+        ],
+        "clipped_samples": 0,
+        "seam_step_dbfs": -32.4815,
+        "seam_step_vs_nearby_99th": 0.406,
+        "head_rms_dbfs": -19.7376,
+        "tail_rms_dbfs": -20.2852
+      },
+      "vorbis_metrics": {
+        "peak_dbfs": -3.8097,
+        "rms_dbfs": -18.5194,
+        "dc_per_channel": [
+          -5.929e-05,
+          -0.00010271
+        ],
+        "clipped_samples": 0,
+        "seam_step_dbfs": -36.9916,
+        "seam_step_vs_nearby_99th": 0.2482,
+        "head_rms_dbfs": -19.7978,
+        "tail_rms_dbfs": -20.2848
+      },
+      "cue_points": [],
+      "bpm": 113.25,
+      "beats": 16,
+      "bars": 4,
+      "beat_seconds": 0.5298013245033113,
+      "loop_start_seconds": 0,
+      "loop_end_seconds": 8.476825396825397,
+      "crossfade_seconds": 0.088,
+      "beat_times_seconds": [
+        0.0,
+        0.529801325,
+        1.059602649,
+        1.589403974,
+        2.119205298,
+        2.649006623,
+        3.178807947,
+        3.708609272,
+        4.238410596,
+        4.768211921,
+        5.298013245,
+        5.82781457,
+        6.357615894,
+        6.887417219,
+        7.417218543,
+        7.947019868
+      ]
+    },
+    "escape_release": {
+      "file": "escape_release.ogg",
+      "sha256": "59c70eb6c74ae8d9820b440a5ad3f3efe4aa409ec7db24d8a87530422f3155b8",
+      "duration_seconds": 16.35,
+      "samples": 721035,
+      "decoded_samples": 721035,
+      "loop": false,
+      "bpm": 113.25,
+      "tempo_confidence": "nominal; cue intentionally arranged",
+      "source_segments": [
+        {
+          "source_start_seconds": 239.711,
+          "source_end_seconds": 248.18782539682542,
+          "arrangement": "Crossfaded source loop tail 3.273s, then repetitions; final 0.5s fade"
+        }
+      ],
+      "musical_role": "Instrumental escape; phrase head enters at the authored wind release cue",
+      "edited_pcm_metrics": {
+        "peak_dbfs": -4.2596,
+        "rms_dbfs": -18.5,
+        "dc_per_channel": [
+          0.0,
+          0.0
+        ],
+        "clipped_samples": 0
+      },
+      "vorbis_metrics": {
+        "peak_dbfs": -4.0645,
+        "rms_dbfs": -18.5511,
+        "dc_per_channel": [
+          8.2e-05,
+          7.096e-05
+        ],
+        "clipped_samples": 0
+      },
+      "cue_points": [
+        {
+          "id": "wind_release",
+          "seconds": 3.273,
+          "origin": "authored phrase entry, not a source narrative timestamp"
+        }
+      ]
+    }
+  },
+  "sections": {
+    "intro": {
+      "clip": "impact_intro",
+      "file": "impact_intro.ogg",
+      "duration": 2.64,
+      "beat_period": 0.5298013245033113,
+      "beats": 0,
+      "loop": false,
+      "opening_call": true
+    },
+    "surge": {
+      "clip": "vamp_surge",
+      "file": "vamp_surge.ogg",
+      "duration": 8.476825397,
+      "beat_period": 0.5298013245033113,
+      "beats": 16,
+      "loop": true
+    },
+    "wrecks": {
+      "clip": "vamp_wrecks",
+      "file": "vamp_wrecks.ogg",
+      "duration": 8.476825397,
+      "beat_period": 0.5298013245033113,
+      "beats": 16,
+      "loop": true
+    },
+    "onslaught": {
+      "clip": "vamp_wrath",
+      "file": "vamp_wrath.ogg",
+      "duration": 8.476825397,
+      "beat_period": 0.5298013245033113,
+      "beats": 16,
+      "loop": true
+    },
+    "bag": {
+      "clip": "vamp_wrath",
+      "file": "vamp_wrath.ogg",
+      "duration": 8.476825397,
+      "beat_period": 0.5298013245033113,
+      "beats": 16,
+      "loop": true
+    },
+    "escape": {
+      "clip": "escape_release",
+      "file": "escape_release.ogg",
+      "duration": 16.35,
+      "beat_period": 0.5298013245033113,
+      "beats": 0,
+      "loop": false,
+      "wind_release": 3.273,
+      "beat_grid_is_nominal": true
+    }
+  }
+}

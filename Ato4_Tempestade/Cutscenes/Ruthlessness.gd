@@ -11,6 +11,8 @@ var foley: AudioStreamPlayer
 var audio_enabled: bool = true
 var sound_events: Array[String] = []
 var handoff_record: Dictionary = {}
+var escape_score: Node
+var score_transferred := false
 
 func _dialogue_path() -> String:
 	return "res://Ato4_Tempestade/Cutscenes/Ruthlessness.dialogue.json"
@@ -90,7 +92,7 @@ func _sound(kind: String) -> void:
 	if not audio_enabled: return
 	if kind == "impact":
 		foley.stream = preload("res://Assets/act4_storm/thunder.wav")
-		foley.volume_db = -10.0
+		foley.volume_db = -23.0 if is_instance_valid(escape_score) else -10.0
 		foley.play()
 	elif kind in ["surge","splash"]:
 		foley.stream = preload("res://Assets/act4_storm/storm_loop.wav")
@@ -130,13 +132,27 @@ func _finish() -> void:
 	else:
 		end_panel.show()
 
+func _start_escape_score() -> void:
+	escape_score = preload("res://Ato4_Tempestade/Gameplay/PoseidonScore.gd").new()
+	# A stable parent keeps AudioStreamPlayers inside the tree at the handoff.
+	# This scene owns cleanup until the gameplay controller accepts ownership.
+	get_tree().root.add_child(escape_score)
+	escape_score.setup(audio_enabled)
+	escape_score.start_entry()
+	# Only the opening invocation is voiced; gameplay phrases are instrumental.
+	# Campaign music is restored by this scene and ducked by the next owner.
+
 func _continue_to_escape() -> void:
+	if not is_instance_valid(escape_score): _start_escape_score()
 	release_music()
 	var next: Control = load("res://Ato4_Tempestade/Gameplay/PoseidonEscape.tscn").instantiate()
 	next.handoff_record = handoff_record.duplicate(true)
 	next.audio_enabled = audio_enabled
+	next.handoff_score = escape_score
+	next.autostart = true
 	next.modulate.a = 0.0
 	get_tree().root.add_child(next)
+	score_transferred = true
 	get_tree().current_scene = next
 	var transition := next.create_tween()
 	transition.tween_property(next,"modulate:a",1.0,0.65)
@@ -181,6 +197,9 @@ func stop_audio() -> void:
 			player.stream = null
 
 func _exit_tree() -> void:
+	if is_instance_valid(escape_score) and not score_transferred:
+		escape_score.stop_audio()
+		escape_score.queue_free()
 	stop_audio()
 	release_music()
 

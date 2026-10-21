@@ -1,0 +1,108 @@
+{
+  "mode": "built-in image_gen",
+  "reference_roles": [
+    {
+      "path": "Assets/act4_poseidon/water_horse.png",
+      "role": "water material, palette and established painterly pixel style"
+    },
+    {
+      "path": "Assets/act4_poseidon_escape/odysseus_escape_v2.png",
+      "role": "established game style; canonical hero identity only for preserved hero atlas"
+    }
+  ],
+  "water_soldier": {
+    "file": "water_soldier_combat.png",
+    "first_prompt": "Use case: stylized-concept. Production 2D SIDE-VIEW game combat sprite atlas, landscape1536x1024 EXACT3columns by2rows, six512x512 cells with generous clear gutters and feetbaseline at y480 in eachcell. Reference1 is WATER MATERIAL/PALETTE and painterly pixel-art style only: Poseidon's existing sea-water horse. Reference2 is CANONICAL GAME STYLE and normalhuman proportions only; do NOTcopyOdysseus costume or face. Create Poseidon's WATER SOLDIER: a Greek hoplite-shaped warrior constructed ENTIRELY of translucent dark turquoise and deepsea blue moving water, white foam eddies outlining flowing limbs and armor shapes. Helmet formed from water, two small cyanlight eye-slits in an abstract watery face; no human skin, no flesh, no hair/beard, no cloth/leather/bronze/metal, no clubs. Torso/arms/legs flow as liquid, broad Greek helmet crest made of a breaking wave, water-shaped shorttrident held in hands with three clearpointed prongs also ofwater. Foot tips merge into small contained splashes/puddle rather than solid sandals. Size NORMAL SOLDIER (~1.2 times human height), lean athletic proportions, not giant or bodybuilder. Painted detailed pixelart crispreadable shape matchingreferencewaterhorse, internal swirls and refracted light, no neon aura that obscures the silhouette. GENUINE TRANSPARENT ALPHA background. Sixfullbody keyposes with consistent form and scale, all native facing RIGHT and weapon strikingRIGHT: top1 braced idle withtrident held diagonallyupright by side, top2 forward step withtridentlow atready, top3 wind-updrawbackraisingtridentaboverearshoulder; bottom1 lowdownwardfinishingstrike tridentpointstoRIGHT nearanklelevel andkneesbent, bottom2 directhorizontalhighthrust tridentpointstoRIGHT atupperchestlevel witharmsextended, bottom3 woundedbodylosingcoherence onehandclutcheswatertorso and legs dissolving into fallingfoam whiletridentbreaksup. Maintain samehelmet/body/material inallframes; fullheadfeet andentiretrident insidecell, no crossingcellboundaries. Noscenery, no floor, no sea horizon, no shadowsoutsidewateryfigure, no numberslabelslettersUIwatermark. Genuinely transparent around each sprite; no bluebackground painted inemptyspace.",
+    "relayout_prompt": "Edit this WATER SOLDIER sprite atlas only: preserve the exact established entirely-water soldier design, liquid turquoise/deepblue material, whitefoam detail, helmet, abstract glowing eye slit, normal soldier proportions and same six actions. The problem is tridents cross cell boundaries. Re-layout into an EXACT2 COLUMNS by3 ROWS atlas, square1536x1536, eachcell768pixelswide x512pixelshigh, with a single complete isolated soldier and his entire trident fully contained inside eachcell and at least45pixels horizontal transparent padding. Keep character height420pixels, feetbaseliney475within eachcell. Use a SHORT compact trident ratherthanlongpole; its maximumtotal horizontalprojection must fit680pixels within each768cell. ALL sixsoldiers faceRIGHT, weaponsstrikeRIGHT. Cellorderleft-to-right: Row1 bracedidle withtridentdiagonalupright; row1right walkingreadytridentlow. Row2left winduptridentdrawnbackabovehead; row2right lowdownwardfinishingstrike tridenttipsrightatANKLElevel. Row3left horizontalhighthrust tridenttipsrightatUPPERCHESTlevel; row3right woundedlowerbodydissolvesintofoam whilehandclutcheschest. Fullheadsfeetandwholeweaponsclearlyseparate, NO sprite or weapon crossesgap. Do notadd any extrapersonorweapon floatinginsidecells. NOhumanflesh/hair/bronze/cloth/wood/materialchange. The water is thebodyandarmorandweapon. Original painterly detailed pixelstyle. Genuine transparent alpha aroundsprites, nogroundnosky noseascenery nobluebackground/nooutlineboxes/nolabelstextnumbers.",
+    "first_output": "C:/Users/leiac/.codex/generated_images/01a15c90-8ad6-7da3-b6d5-d1996da22948/exec-9eac8af5-044c-4ed7-96ae-0ebf4c1e9860.png",
+    "selected_output": "C:/Users/leiac/.codex/generated_images/01a15c90-8ad6-7da3-b6d5-d1996da22948/exec-86eddd4a-3b70-45ea-9073-cf92cba5a048.png",
+    "alpha": "Original generated RGBA retained without raster editing",
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "pose_regions": [
+      [
+        0,
+        0,
+        627,
+        440
+      ],
+      [
+        627,
+        0,
+        627,
+        440
+      ],
+      [
+        0,
+        440,
+        627,
+        430
+      ],
+      [
+        627,
+        440,
+        627,
+        430
+      ],
+      [
+        0,
+        870,
+        657,
+        384
+      ],
+      [
+        657,
+        870,
+        597,
+        384
+      ]
+    ],
+    "feet": [
+      [
+        312,
+        432
+      ],
+      [
+        275,
+        432
+      ],
+      [
+        321,
+        423
+      ],
+      [
+        262,
+        423
+      ],
+      [
+        320,
+        367
+      ],
+      [
+        227,
+        367
+      ]
+    ],
+    "native_facing": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "normal_scale": 0.252,
+    "leader_scale": 0.285,
+    "formation": "Bottom-up reveal and foam streams during arrive, including the leader's later summon",
+    "death": "Watery wounded pose collapses vertically into foam, then dissolves; model.clock continues last enemy effect after victory"
+  },
+  "preserved_hero": {
+    "file": "odysseus_combat.png",
+    "source": "C:/Users/leiac/.codex/generated_images/01a15c90-8ad6-7da3-b6d5-d1996da22948/exec-7277e0c2-0327-4c10-8565-48c8192ec0c5.png",
+    "prompt": "Use case: stylized-concept. Production 2D game character animation sprite atlas, genuine transparent alpha, landscape1536x1024 EXACT3columns by2rows, each512x512. Reference1 is CANONICAL ODYSSEUS IDENTITY, costume and painterly pixel-art style. Preserve same mature Greek captain: proportionate nose, complete teeth, full neat dark beard, shoulder length wavy brown hair, bronze owl breastplate, blacknavy leather skirt, flowing crimson cloak clasped with circular gold pins, bronze bracers/greaves/sandals, NOhelmet. Full-body isolated SIDE-VIEW facing RIGHT in all6cells, foot baseline y480 within each cell, consistent character height410px, generous transparent gutter, silhouette never touches neighbor. Add a short bronze Greek xiphos sword held in right hand with anatomically plausible grip, not magical, no painted slash effect. Six DIFFERENT natural combat keyposes left-to-right: top1 ready stance sword in front at waist withfeetbraced, top2 anticipatory draw-back sword beside rightshoulder torso turning back kneesbent, top3 committed forward horizontal slash toRIGHT frontlegstepping andarmextended; bottom1 low follow-through swordrightanddown cloaktailing torsoturn, bottom2 two-handed guarded sword held diagonal in frontofchest leaningback bracedlegs, bottom3 recoilstagger shieldingheadwithforearm sworddown butfeetplanted. No swordclipoutofcell. Preserve referenceface proportions andcostume precisely; do not borrow giant features. Coolstormambientlighting warmgoldrim consistentwithexistingatlas. Entire spriteheadsfeetandsword visible, no ground, no shadowsoutsidebody, no scenery, no UI, no text, no numbers or labels. Match established fine painted pixel texture, not cartoonoutline. True transparent alpha in all emptyspace, NO brownbackground.",
+    "adaptation": "Atlas retains established costume and face;6 keyposes used only for attack/guard/idle/stagger. Walking, crouch, jumps and bag carry retain previous atlases.",
+    "note": "Copied byte-for-byte from the previous generated hero atlas; canonical red cloak, beard and bronze owl armor unchanged."
+  }
+}
