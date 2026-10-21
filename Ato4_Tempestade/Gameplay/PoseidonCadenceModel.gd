@@ -1,5 +1,8 @@
 extends "res://Ato4_Tempestade/Gameplay/PoseidonEscapeModel.gd"
 const BOARDING := preload("res://Ato4_Tempestade/Gameplay/PoseidonWaterBoarding.gd")
+const DASH_DURATION := 0.2
+# Preserve the campaign dash/run ratio at this scene's larger pixel scale.
+const DASH_SPEED_RATIO := 400.0/120.0
 ## Musical phrases author attacks; free platform controls remain authoritative.
 signal encounter_cue(kind: String)
 signal checkpoint_created
@@ -47,6 +50,13 @@ var combat_guard := false
 var fleet_assaults: Array[Dictionary] = []
 var fleet_next_score := 8.0*60.0/113.25
 var background_sunk_at := -1.0
+var dash_time := 0.0
+var dash_cooldown_remaining := 0.0
+var dash_cooldown_seconds := 3.0
+var dash_speed := 305.0*DASH_SPEED_RATIO
+var dash_direction := 1.0
+var dash_requested := false
+var dashes := 0
 
 func _init(seed_value: int = 614) -> void:
 	super(seed_value)
@@ -133,6 +143,9 @@ func set_combat_input(attack_edge: bool, guard_held: bool) -> void:
 	combat_attack = (combat_attack or attack_edge) if phase==Phase.FINAL_SHIP else false
 	combat_guard = guard_held
 
+func set_dash_input(pressed: bool) -> void:
+	dash_requested = (dash_requested or pressed) if active() else false
+
 func fleet_remaining() -> int:
 	var remaining := 12
 	for i in 10:
@@ -190,7 +203,10 @@ func _step(dt: float, move: float, duck: bool, jump_held: bool, interact: bool) 
 	simulation_delta = dt
 	for field in ["hit_flash","impact_flash","landing_flash","invulnerable","hit_stun","jump_buffer"]:
 		set(field,maxf(0,float(get(field))-dt))
+	dash_cooldown_remaining=maxf(0,dash_cooldown_remaining-dt)
 	if phase == Phase.ESCAPING:
+		dash_time=0
+		dash_requested=false
 		# The director waits for the next phrase before starting the escape cue.
 		# Standalone simulation uses the identical cue duration on its own clock.
 		if externally_directed_escape:
@@ -213,8 +229,20 @@ func _step(dt: float, move: float, duck: bool, jump_held: bool, interact: bool) 
 	var speed: float = float(level.physics.crouch_speed if crouching else level.physics.run_speed)*(0.92 if has_bag else 1.0)
 	var accel: float = float(level.physics.acceleration if grounded else level.physics.air_acceleration)
 	if phase==Phase.FINAL_SHIP and combat_guard: speed*=0.48
-	if hit_stun <= 0: velocity.x = move_toward(velocity.x,move*speed,accel*dt)
-	if absf(move)>0.05 and hit_stun<=0: facing=signf(move)
+	if dash_requested and dash_cooldown_remaining<=0 and hit_stun<=0 and not crouching and not combat_guard and boarding.player_attack_age<0:
+		dash_direction=signf(move) if absf(move)>0.05 else facing
+		facing=dash_direction
+		dash_time=DASH_DURATION
+		dash_cooldown_remaining=maxf(0.5,dash_cooldown_seconds)
+		dashes+=1
+		encounter_cue.emit("dash")
+	dash_requested=false
+	if hit_stun>0: dash_time=0
+	if dash_time>0:
+		velocity.x=dash_direction*dash_speed
+	elif hit_stun <= 0:
+		velocity.x = move_toward(velocity.x,move*speed,accel*dt)
+	if absf(move)>0.05 and hit_stun<=0 and dash_time<=0: facing=signf(move)
 	if jump_buffer>0 and coyote>0 and not crouching and hit_stun<=0:
 		velocity.y=-float(level.physics.jump_speed)
 		grounded=false
@@ -225,6 +253,9 @@ func _step(dt: float, move: float, duck: bool, jump_held: bool, interact: bool) 
 	velocity.y=minf(900,velocity.y+float(level.physics.gravity)*dt)
 	_move_horizontal(dt)
 	_move_vertical(dt)
+	if dash_time>0:
+		dash_time=maxf(0,dash_time-dt) if absf(velocity.x)>0 else 0.0
+		if dash_time<=0: velocity.x=clampf(velocity.x,-speed,speed)
 	max_x=maxf(max_x,position.x)
 	_update_world()
 	_update_attacks(dt)
@@ -429,12 +460,13 @@ func _update_fleet_assaults() -> void:
 func _tick_boarding(dt: float) -> void:
 	var was_cleared: bool=boarding.cleared
 	var previous_wave: int=boarding.wave
-	var action: Dictionary=boarding.tick(dt,position,facing,grounded,crouching,combat_attack,combat_guard)
+	var action: Dictionary=boarding.tick(dt,position,facing,grounded,crouching,combat_attack and dash_time<=0,combat_guard and dash_time<=0)
 	combat_attack=false
 	if boarding.wave>previous_wave:
 		god_presence=1.0
 		encounter_cue.emit("divine_rumble")
 	if float(action.damage)>0 and invulnerable<=0:
+		dash_time=0
 		hits+=1
 		balance=maxf(0,balance-float(action.damage))
 		invulnerable=0.7
@@ -469,6 +501,7 @@ func _spawn_attack(kind: String, boat_index: int) -> void:
 	attack_started.emit(kind)
 
 func _hit(kind: String, side: float) -> void:
+	dash_time=0
 	hits+=1
 	balance=maxf(0,balance-(34 if kind=="slam" else 28))
 	invulnerable=0.8
@@ -482,7 +515,7 @@ func bindings_done() -> int:
 	return 3 # Compatibility only: this version contains no binding minigame.
 
 func _final_interaction(dt: float, interact: bool) -> void:
-	if not interact or not grounded or hit_stun>0: return
+	if not interact or not grounded or hit_stun>0 or dash_time>0: return
 	if not has_bag and boarding.cleared and position.distance_to(bag_point)<62:
 		interaction_active=true
 		bag_progress=minf(1,bag_progress+dt/float(level.final.bag_seconds))
@@ -517,6 +550,9 @@ func _save_checkpoint() -> void:
 	local_checkpoint["fleet_assaults"]=fleet_assaults.duplicate(true)
 	local_checkpoint["fleet_next_score"]=fleet_next_score
 	local_checkpoint["background_sunk_at"]=background_sunk_at
+	local_checkpoint["dash_time"]=dash_time
+	local_checkpoint["dash_cooldown_remaining"]=dash_cooldown_remaining
+	local_checkpoint["dash_direction"]=dash_direction
 	checkpoint_created.emit()
 
 func retry_checkpoint() -> void:
@@ -545,6 +581,10 @@ func retry_checkpoint() -> void:
 	fleet_assaults.assign(data.fleet_assaults.duplicate(true))
 	fleet_next_score=data.fleet_next_score
 	background_sunk_at=data.background_sunk_at
+	dash_time=data.get("dash_time",0.0)
+	dash_cooldown_remaining=data.get("dash_cooldown_remaining",0.0)
+	dash_direction=data.get("dash_direction",facing)
+	dash_requested=false
 	combat_attack=false
 	combat_guard=false
 	velocity=Vector2.ZERO
@@ -566,7 +606,7 @@ func objective() -> String:
 
 func prompt() -> String:
 	if phase==Phase.FINAL_SHIP:
-		if not has_bag and not boarding.cleared: return "J / CLIQUE · ATACAR     K · DEFENDER     PULE, ABAIXE OU RECUE DOS GOLPES"
+		if not has_bag and not boarding.cleared: return "SHIFT · DEFENDER     Q / BOTÃO DIREITO · DASH     PULE OU ABAIXE DOS GOLPES"
 		if not has_bag and position.distance_to(bag_point)<62: return "SEGURE E · PEGAR A BOLSA"
 		if has_bag and position.distance_to(exit_point)<65: return "SEGURE E · LIBERAR OS VENTOS"
 	return ""

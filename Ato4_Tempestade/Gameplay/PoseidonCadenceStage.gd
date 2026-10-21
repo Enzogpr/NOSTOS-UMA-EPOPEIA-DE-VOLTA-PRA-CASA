@@ -140,6 +140,8 @@ func _update_actor(dt: float) -> void:
 	var desired: float = clampf(slope,-0.12,0.12)
 	if model.grounded and not model.crouching:
 		desired += clampf(model.velocity.x/305.0,-1.0,1.0)*0.035
+	var dashing: bool=float(_value("dash_time",0.0))>0.0
+	if dashing and model.grounded: desired+=model.facing*0.095
 	actor_lean = lerpf(actor_lean,desired,1-exp(-dt*13.0))
 	odysseus.rotation = actor_lean
 	# Compression pivots at the authored feet of each atlas frame. It cannot
@@ -148,7 +150,7 @@ func _update_actor(dt: float) -> void:
 		var squash: float = clampf(model.landing_flash,0.0,0.1)*0.7
 		odysseus.scale *= Vector2(1.0+squash*0.32,1.0-squash)
 	var boarding: Variant = _value("boarding",null)
-	if boarding != null and not model.has_bag and model.grounded and not model.crouching and absf(model.velocity.x)<65 and model.phase==MODEL.Phase.FINAL_SHIP:
+	if boarding != null and not dashing and not model.has_bag and model.grounded and not model.crouching and absf(model.velocity.x)<65 and model.phase==MODEL.Phase.FINAL_SHIP:
 		var attack_age: float = float(boarding.player_attack_age)
 		var pose := -1
 		if attack_age>=0:
@@ -316,6 +318,7 @@ func draw_world(canvas: Node2D) -> void:
 		else:
 			_draw_cargo(canvas,r)
 	_draw_fleet_assaults(canvas)
+	_draw_dash_motion(canvas)
 	_draw_boarders(canvas)
 	if focus > model.final_origin-900: _draw_final(canvas)
 	if _wind_has_released(): _draw_escape(canvas)
@@ -522,6 +525,49 @@ func _draw_soldier_pose(canvas: Node2D, pose: int, tint: Color, formation: float
 	var origin: Vector2=-SOLDIER_FEET[pose]+Vector2(0,hidden)
 	canvas.draw_texture_rect_region(SOLDIER_ATLAS,Rect2(origin,region.size),region,tint)
 
+func _draw_boarder_health(canvas: Node2D) -> void:
+	var boarding: Variant=_value("boarding",null)
+	if boarding==null or model.phase in [MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]: return
+	# These belong to the foreground so weapons, foam and Odisseu cannot cover
+	# the health readout. Their world-space anchors still follow each soldier.
+	for enemy in boarding.enemies:
+		if str(enemy.state)=="dead" or int(enemy.hp)<=0: continue
+		var at: Vector2=enemy.position
+		if at.x<focus-850 or at.x>focus+850: continue
+		var captain: bool=int(enemy.variant)>1
+		var height:=122.0 if captain else 108.0
+		var alpha:=smoothstep(0.08,0.5,float(enemy.age)) if str(enemy.state)=="arrive" else 1.0
+		var maximum: int=maxi(1,int(enemy.max_hp))
+		var health: int=clampi(int(enemy.hp),0,maximum)
+		var panel:=Rect2(at+Vector2(-45,-height-41),Vector2(90,29))
+		canvas.draw_rect(panel,Color(0.015,0.045,0.06,alpha*0.92))
+		var bar:=Rect2(panel.position+Vector2(6,20),Vector2(78,5))
+		canvas.draw_rect(bar,Color(0.15,0.26,0.29,alpha))
+		canvas.draw_rect(Rect2(bar.position,Vector2(bar.size.x*float(health)/maximum,bar.size.y)),Color(0.4,0.9,0.96,alpha))
+		for pip in range(1,maximum):
+			var x: float=bar.position.x+bar.size.x*float(pip)/maximum
+			canvas.draw_line(Vector2(x,bar.position.y),Vector2(x,bar.end.y),Color(0.025,0.07,0.09,alpha),1.0)
+		var label: String="%d / %d" % [health,maximum]
+		var width: float=font.get_string_size(label,HORIZONTAL_ALIGNMENT_LEFT,-1,16).x
+		canvas.draw_string(font,Vector2(at.x-width*0.5,panel.position.y+15),label,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color(0.88,0.98,1.0,alpha))
+
+func _draw_dash_motion(canvas: Node2D) -> void:
+	var remaining: float=float(_value("dash_time",0.0))
+	if remaining<=0.0 or not model.grounded: return
+	var face: float=float(_value("dash_direction",model.facing))
+	var strength: float=smoothstep(0.0,0.045,remaining)
+	# Short deck spray stays behind the actual feet. The character keeps the
+	# established side-view atlas, without transparency or an invulnerability cue.
+	for i in 4:
+		var y: float=-7.0-i*15.0
+		var a: Vector2=model.position+Vector2(-face*(15+i*3),y)
+		var b: Vector2=a-Vector2(face*(68-i*12),-2.0)
+		canvas.draw_line(a,b,Color(0.71,0.83,0.8,strength*(0.25-i*0.04)),1.7-i*0.2,true)
+	for i in 5:
+		var travel: float=fposmod(elapsed*9+i*0.21,1.0)
+		var at: Vector2=model.position+Vector2(-face*(14+travel*90),-sin(travel*PI)*(4+i%3*2))
+		canvas.draw_line(at,at-Vector2(face*(4+travel*7),-1),Color(0.73,0.88,0.89,strength*(1.0-travel)*0.35),1.3,true)
+
 func _draw_water_materialization(canvas: Node2D, at: Vector2, age: float, captain: bool, dissolving: bool) -> void:
 	var duration: float=1.2 if dissolving else 0.82 if captain else 0.65
 	if age<0 or age>duration+0.3: return
@@ -594,6 +640,7 @@ func draw_foreground(canvas: Node2D) -> void:
 	for i in count:
 		var p := Vector2(focus-850+fposmod(i*113.0-elapsed*125,1700),fposmod(i*79.0+elapsed*450,730))
 		canvas.draw_line(p,p+Vector2(-5,15),Color(0.6,0.81,0.88,0.09+displayed_storm*0.035),1,true)
+	_draw_boarder_health(canvas)
 	if _wind_has_released():
 		var duration: float = float(_value("escape_duration",16.35))
 		var age: float = float(_value("escape_score_age",model.phase_clock))

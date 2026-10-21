@@ -41,6 +41,7 @@ var ready_delay: float = 0.3
 var held_interact: bool = false
 var jump_requested: bool = false
 var attack_requested := false
+var dash_requested := false
 var allow_input: bool = true
 var handoff_record: Dictionary = {}
 var complete_count: int = 0
@@ -67,6 +68,7 @@ func _ready() -> void:
 	MainHUD.set_station("Ato 4 - Fuga de Poseidon")
 	if cadence_enabled: proof_enabled = false
 	model = CADENCE.new(random_seed) if cadence_enabled else RUPTURE.new(random_seed) if proof_enabled else MODEL.new(random_seed)
+	if cadence_enabled: model.dash_cooldown_seconds=maxf(0.5,GameManager.player_dash_cooldown)
 	model.feedback.connect(_feedback)
 	model.impact.connect(_impact)
 	model.completed.connect(_completed)
@@ -177,7 +179,14 @@ func _build_interface() -> void:
 	balance_label = _label("EQUILÍBRIO",Vector2(31,598),Vector2(137,18),13)
 	balance_bar = _bar(Vector2(31,621),Vector2(137,7),Color(0.77,0.71,0.44))
 	controls_hint = _label("",Vector2(190,607),Vector2(780,23),14)
+	if cadence_enabled:
+		controls_hint.position=Vector2(190,599)
+		controls_hint.size=Vector2(766,38)
+		controls_hint.add_theme_font_size_override("font_size",13)
 	dash_label = _label("",Vector2(968,599),Vector2(148,27),14)
+	if cadence_enabled:
+		dash_label.size.y=38
+		dash_label.add_theme_font_size_override("font_size",13)
 	dash_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	action_label = _label("",Vector2(315,111),Vector2(522,23),15)
 	action_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -186,7 +195,7 @@ func _build_interface() -> void:
 	intro.z_index = 40
 	_label("MAR EM RUPTURA · TRECHO DE PROVA" if proof_enabled else "ENTRE A FROTA E O DEUS",Vector2(28,20),Vector2(650,42),26 if proof_enabled else 31,intro)
 	_label("Sua embarcação está além da frota.\nPoseidon não vai esperar por você." if proof_enabled else "Dez barcos separam você da sua embarcação.\nA bolsa dos ventos está lá. Poseidon vem atrás.",Vector2(28,73),Vector2(650,52),20,intro)
-	_label("A / D ou ← / → · Correr e frear. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto.\nEncontre uma passagem pelos navios e destroços.\nObserve o mar e mantenha-se em movimento." if proof_enabled else "A / D ou ← / → · Correr. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto. E · Interagir.\nUse barcos e destroços. Recue quando precisar.\nNo seu navio: derrote os soldados de água e recupere a bolsa.",Vector2(28,135),Vector2(650,100),18,intro)
+	_label("A / D ou ← / → · Correr e frear. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto.\nEncontre uma passagem pelos navios e destroços.\nObserve o mar e mantenha-se em movimento." if proof_enabled else "A/D ou ←/→ · Correr. S/↓ · Abaixar. ESPAÇO · Pular.\nQ ou botão direito · Dash. SHIFT · Defender.\nJ ou clique esquerdo · Atacar. E · Interagir.\nNo seu navio: derrote os soldados e recupere a bolsa.",Vector2(28,135),Vector2(650,100),18,intro)
 	_label("Se cair ou ficar sem fôlego, retome o ponto seguro.",Vector2(28,239),Vector2(650,24),18,intro)
 	_button("INICIAR TRECHO  ›" if proof_enabled else "ATRAVESSAR A FROTA  ›",Vector2(28,278),Vector2(350,37),begin,intro)
 	if proof_enabled: _button("FASE ANTERIOR",Vector2(400,278),Vector2(280,37),func(): _continue_legacy(0),intro)
@@ -242,11 +251,15 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		jump_requested = true
 	elif cadence_enabled and model.active() and code == KEY_J:
 		attack_requested = true
-	if code in [KEY_SPACE,KEY_ENTER,KEY_E]: get_viewport().set_input_as_handled()
+	elif cadence_enabled and model.active() and code == KEY_Q:
+		dash_requested = true
+	if code in [KEY_SPACE,KEY_ENTER,KEY_E,KEY_J,KEY_Q]: get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if cadence_enabled and allow_input and model != null and model.active() and event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and event.pressed:
-		attack_requested=true
+	if cadence_enabled and allow_input and model != null and model.active() and event is InputEventMouseButton and event.pressed:
+		if event.button_index==MOUSE_BUTTON_LEFT: attack_requested=true
+		elif event.button_index==MOUSE_BUTTON_RIGHT: dash_requested=true
+		else: return
 		get_viewport().set_input_as_handled()
 
 func _pressed(code: Key) -> bool:
@@ -269,11 +282,13 @@ func _physics_process(delta: float) -> void:
 	if cadence_enabled and model.phase != MODEL.Phase.READY:
 		if manual_score_clock: score.advance(delta)
 		model.set_score_time(maxf(0,score.absolute_time))
-		model.set_combat_input(attack_requested,_pressed(KEY_K) if allow_input else false)
+		model.set_combat_input(attack_requested,_pressed(KEY_SHIFT) if allow_input else false)
+		model.set_dash_input(dash_requested if allow_input else false)
 		model.escape_score_age = score.section_elapsed if score.section == "escape" else -1.0
 	model.tick(delta,horizontal,duck,jump_requested,jump_held,interaction)
 	jump_requested = false
 	attack_requested = false
+	dash_requested = false
 	_update_interface()
 	if (proof_enabled or cadence_enabled) and is_instance_valid(encounter_audio):
 		encounter_audio.update_state(model.tension,model.quiet,model.velocity.x,model.grounded)
@@ -295,7 +310,10 @@ func _update_interface() -> void:
 	balance_label.visible = playable
 	dash_label.visible = playable
 	dash_label.text = "ABAIXADO" if model.crouching else "NO AR" if not model.grounded else "EM APOIO"
-	controls_hint.text = "A / D · CORRER   S / ↓ · ABAIXAR   ESPAÇO · PULAR   J / CLIQUE · ATACAR   K · DEFENDER   E · BOLSA" if cadence_enabled and model.phase==MODEL.Phase.FINAL_SHIP else "A / D · CORRER     S / ↓ · ABAIXAR     ESPAÇO · PULAR (SEGURE: MAIS ALTO)     E · INTERAGIR"
+	controls_hint.text = "A/D · CORRER   S/↓ · ABAIXAR   ESPAÇO · PULAR   Q / BOTÃO DIREITO · DASH\nJ/CLIQUE · ATACAR   SHIFT · DEFENDER   E · BOLSA" if cadence_enabled else "A / D · CORRER     S / ↓ · ABAIXAR     ESPAÇO · PULAR (SEGURE: MAIS ALTO)     E · INTERAGIR"
+	if cadence_enabled:
+		var dash_status: String="DASH ATIVO" if model.dash_time>0 else "DASH %.1fs" % model.dash_cooldown_remaining if model.dash_cooldown_remaining>0 else "DASH PRONTO"
+		dash_label.text=dash_status+"\n"+dash_label.text
 	prompt_label.text = model.prompt() if model.active() else ""
 	notice_label.visible = not cadence_enabled and notice_time > 0 and model.active()
 	warning_label.hide()
@@ -326,6 +344,7 @@ func retry_checkpoint() -> void:
 	if model.phase != MODEL.Phase.FAILED: return
 	jump_requested = false
 	attack_requested = false
+	dash_requested = false
 	held_interact = false
 	model.retry_checkpoint()
 	if cadence_enabled and is_instance_valid(encounter_audio): encounter_audio.setup(audio_enabled)

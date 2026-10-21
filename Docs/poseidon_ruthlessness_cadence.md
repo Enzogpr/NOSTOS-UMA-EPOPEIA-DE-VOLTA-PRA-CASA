@@ -28,9 +28,27 @@ A bolsa fica visível na carga da proa, mas pegar ou manter E pressionado antes 
 - S/seta para baixo: abaixar.
 - Espaço: pular; segurar permite salto mais alto.
 - J ou clique esquerdo: atacar com a espada.
-- K: manter guarda contra golpes dos soldados de água.
+- Shift: manter guarda contra golpes dos soldados de água.
+- Q ou botão direito do mouse: dash horizontal, no chão ou no ar.
 - E: pegar a bolsa após a luta e abrir os ventos na popa.
 - Esc: pausa. Enter após falhar: retomar.
+
+O dash dura 0,2 s, conserva gravidade e colisões e não concede invulnerabilidade. Usa a mesma relação entre dash/corrida do personagem da campanha (400/120), adaptada à escala desta fase: 1016,67 px/s para corrida de 305 px/s. A recarga vem de `GameManager.player_dash_cooldown` (padrão 3 s, mínimo 0,5 s); a interface mostra quando está pronto e o tempo restante. Não pode começar durante guarda, agachamento, ataque de espada ou reação ao dano. Atingir uma parede ou receber dano o interrompe. O checkpoint preserva sua duração e recarga.
+
+Os soldados exibem barras segmentadas e vida atual/máxima acima da cabeça, acompanhando seu movimento e desaparecendo ao se desfazerem.
+
+### Atributos locais da fase
+
+| Personagem | Resistência | Dano causado | Movimento |
+| --- | --- | --- | --- |
+| Odisseu |100 de fôlego |1 HP por golpe de espada |305 px/s, agachado 143 px/s |
+| Cada um dos dois soldados |3 HP |20 de fôlego; pesado 25 |90 px/s |
+| Soldado reforçado |5 HP |20 de fôlego; pesado 25 |110 px/s |
+| Poseidon |Sem barra de vida |Onda alta/baixa 28; impacto vertical 34 |Ataques ambientais |
+
+A espada tem alcance 96 px, preparação 0,075 s, janela ativa 0,12 s e duração total 0,46 s. Salto: impulso 690 px/s, gravidade 1620 px/s² e altura máxima aproximada 147 px. A guarda frontal no chão bloqueia golpes normais, recebe 8 de dano de golpes pesados e reduz a corrida a 48%; não bloqueia Poseidon. Não há regeneração contínua de fôlego: entrada no navio final restaura 100; checkpoints de início dos blocos seguintes garantem pelo menos 75.
+
+Estes valores de combate são locais. Os padrões persistentes da campanha (10 HP, dano 3, velocidade ×1, inteligência 5, idade 20) não são aplicados automaticamente por este controlador. A recarga do dash consulta explicitamente o atributo persistente, sem alterar o salvamento.
 
 ## Música
 
@@ -76,6 +94,8 @@ A versão anterior à direção musical está no commit `d788ffb`. Para comparar
 
 ### Verificação desta revisão
 
+- Restauração do dash: 22 verificações de duração, movimento, colisões, exclusão de ações, dano, recarga, checkpoint e congelamento sem falhas.
+- Controles revisados: 15 verificações com eventos de teclado/mouse, Shift, Q, botão direito, remoção de K, atributos salvos e HUD, sem falhas em headless e OpenGL. Capturas confirmam barras de vida e controles sem cortes.
 - Combate isolado:32 verificações, nenhuma falha.
 - Modelo completo:75 verificações, nenhuma falha; piloto de movimento/combate completou149,3s, três soldados de água derrotados e navio final intacto.
 - Controller, trilha, checkpoint, pausa e persistência:23 verificações, nenhuma falha.

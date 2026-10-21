@@ -104,7 +104,7 @@ func _process(delta: float) -> void:
 		_key(KEY_S,controls.duck)
 		_key(KEY_W,false)
 		_key(KEY_E,controls.interact)
-		_key(KEY_K,controls.get("guard",false))
+		_key(KEY_SHIFT,controls.get("guard",false))
 		_key(KEY_J,controls.get("attack",false))
 		if controls.jump: _key(KEY_SPACE,false)
 		_key(KEY_SPACE,controls.held)
@@ -117,7 +117,7 @@ func _process(delta: float) -> void:
 		get_tree().quit(1)
 
 func _finish_demo() -> void:
-	for code in [KEY_D,KEY_A,KEY_S,KEY_W,KEY_E,KEY_SPACE,KEY_J,KEY_K]: _key(code,false)
+	for code in [KEY_D,KEY_A,KEY_S,KEY_W,KEY_E,KEY_SPACE,KEY_J,KEY_SHIFT,KEY_Q]: _key(code,false)
 	print("CADENCE MOVIE: ","model commands" if model_input else "actual keyboard events","; ",scene.model.record())
 	await get_tree().create_timer(2.4).timeout
 	scene.stop_audio()
