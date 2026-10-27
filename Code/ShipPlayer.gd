@@ -1,4 +1,5 @@
 extends CharacterBody2D
+const ATTRIBUTES := preload("res://Code/PlayerAttributes.gd")
 
 ## Controlador de Navegação do Navio Grego de Odisseu
 
@@ -17,13 +18,26 @@ var current_hull: int = 100
 var current_speed: float = 0.0
 var is_invulnerable: bool = false
 var invuln_timer: float = 0.0
+var handling_speed_factor := 1.0
+var handling_turn_factor := 1.0
 
 @onready var visual: Node2D = $Visual
 @onready var wake_particles: CPUParticles2D = $WakeParticles
 
 func _ready() -> void:
+	GameManager.player_stats_changed.connect(_sync_player_stats)
+	_sync_player_stats()
 	current_hull = max_hull
 	hull_changed.emit(current_hull, max_hull)
+
+func _sync_player_stats() -> void:
+	apply_player_stats(ATTRIBUTES.capture(GameManager))
+
+func apply_player_stats(stats: Dictionary) -> void:
+	# Captain agility affects handling; hull durability belongs to the vessel.
+	# Exported values remain the baseline so repeated updates never compound.
+	handling_speed_factor=clampf(sqrt(maxf(0.3,float(stats.get("speed_mult",1.0)))),0.7,1.3)
+	handling_turn_factor=clampf(1.0+(float(stats.get("intellect",5))-5.0)*0.02,1.0,1.2)
 
 func _physics_process(delta: float) -> void:
 	if current_hull <= 0:
@@ -57,19 +71,19 @@ func _physics_process(delta: float) -> void:
 			turn_factor = -0.8
 		elif abs(current_speed) < 20.0 and throttle_input == 0.0:
 			turn_factor = 0.6 # Permite alinhar a proa mesmo quase parado
-		rotation += turn_input * turn_speed * delta * turn_factor
+		rotation += turn_input * turn_speed * handling_turn_factor * delta * turn_factor
 		
 	# Aceleração das Velas / Remos
 	var target_speed = 0.0
 	if throttle_input > 0.0:
-		target_speed = max_speed
+		target_speed = max_speed * handling_speed_factor
 	elif throttle_input < 0.0:
-		target_speed = -max_speed * 0.4
+		target_speed = -max_speed * handling_speed_factor * 0.4
 	else:
 		target_speed = 0.0
 		
 	if current_speed < target_speed:
-		current_speed = move_toward(current_speed, target_speed, acceleration * delta)
+		current_speed = move_toward(current_speed, target_speed, acceleration * handling_speed_factor * delta)
 	else:
 		current_speed = move_toward(current_speed, target_speed, deceleration * delta)
 		

@@ -1,0 +1,14 @@
+[
+  {"shot":"scan","speaker":"","text":"","duration":3.5},
+  {"shot":"wrecks","speaker":"","text":"","duration":3.0},
+  {"shot":"question","speaker":"Odisseu","text":"Poseidon... o que aconteceu com meus homens?","duration":4.5},
+  {"shot":"forty_three","speaker":"Poseidon","text":"Sobraram quarenta e três sob seu comando.","duration":5.0},
+  {"shot":"reaction","speaker":"","text":"","duration":1.8},
+  {"shot":"last_words","speaker":"Poseidon","text":"Últimas palavras?","duration":3.0},
+  {"shot":"bag_reveal","speaker":"","text":"","duration":1.8},
+  {"shot":"bag_open","speaker":"","text":"","duration":1.6},
+  {"shot":"surprise","speaker":"Poseidon","text":"O que?","duration":1.7},
+  {"shot":"escape","speaker":"","text":"","duration":6.0},
+  {"shot":"look_back","speaker":"","text":"","duration":1.6},
+  {"shot":"remember","speaker":"Poseidon","text":"Lembre de mim.","duration":4.5}
+]

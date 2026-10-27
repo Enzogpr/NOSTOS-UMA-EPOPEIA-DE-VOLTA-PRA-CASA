@@ -1,0 +1,20 @@
+{
+  "mode": "built-in image_gen",
+  "ship": {
+    "prompt": "Use case: stylized-concept. Asset type: transparent 2D gameplay platform, full ancient Greek trireme seen in an ELEVATED SIDE VIEW, 1536x1024 landscape. Input image 1 is the canonical Greek ship style/material reference, input image 2 is the wet deck/pixel painterly detail reference. Create a single horizontal Greek wooden ship, stern LEFT and bow RIGHT. Critical gameplay geometry: very broad EMPTY exposed upper deck, clearly visible as a flat walking plane from x=12% to x=88%, between y=46% and y=66% of the canvas. A LOW rear railing along y=45%; near/front edge at y=67% should stay low enough for character feet to remain visible. Hull underneath from y=67% to y=94%, oars extending downward, bronze ram on right, curved stern on left. One thin mast at center, sail FURLED and tied high at y=18%, never obstructing the walking plane. Ship fully fits canvas, long horizontal silhouette, open space for running from end to end. Dark wet timber, bronze rivets, red Greek meander accents, storm-lit painterly pixel art matching references. No people, no sea, no sky, no platform labels, no text, no bag. Genuine transparent alpha around and above the ship. Do not paint a background, horizon, water, floor or ground. Not a top-down boat. The wide visible deck must be usable by side-view characters.",
+    "references": [
+      "Assets/act4_storm/ship_harpoon_side.png",
+      "Assets/act4_poseidon_escape/deck.png"
+    ]
+  },
+  "jump": {
+    "prompt": "Use case: identity-preserve. Asset: transparent 2D action sprite sheet, FOUR columns in one horizontal row, 1536x768 landscape. The attached atlas is the CANONICAL Odysseus identity/costume/style reference, not an edit target. Render this exact mature man with dark medium-long wavy hair, natural nose and full beard, bronze owl armor, dark navy leather skirt, RED cloak with golden round shoulder clasps, bronze greaves and sandals. Consistent painterly detailed pixel art, same slight elevated side camera, faces RIGHT. Four distinct isolated full-body action poses, same scale with transparent gutters: column1 crouched anticipation to jump, both knees bent and arms back; column2 airborne jump forward, legs tucked and arms reaching, red cloak trailing left; column3 landing on deck, one foot forward and knees deeply bent, arm out for balance; column4 swinging from a rope, both hands gripping above head, knees tucked, cloak streaming left. Rope in column4 only a short segment above hands, not crossing other cells. No ground, no sea, no background, no labels, no text. Genuine transparent alpha. Keep all four characters wholly inside their separate 384px-wide cells, with margin around cloak and hands. Frame1,2,3 feet baseline at y=680; frame4 highest hand at y=90 and feet at y=670. Do not introduce a helmet, sword, blue cape, cream skirt, exaggerated nose or missing teeth.",
+    "references": [
+      "Assets/act4_poseidon_escape/odysseus_escape_v2.png"
+    ]
+  },
+  "damaged_deck": {
+    "prompt": "Use case: precise-object-edit. Edit TARGET is the attached transparent ship deck foreground. Create a damaged sibling version for a later boss phase. Keep the EXACT same elevated perspective, floor plane, hull/rail placement, left steering mechanism, right crate, timber colors, transparency and 1536x1024 composition. Change only the CENTER MAST: it has just been snapped by a colossal water impact. The tall vertical mast above the bronze base is GONE, leaving a jagged broken stump at the same base around x=50%,y=63%; the severed upper mast and furled sail have fallen OUTSIDE the ship and must NOT lie across the walkable floor. Leave a few splintered wood chips and slack torn ropes beside the stump, with a wet scar in the wood. The upper region, previously occupied by mast, is now TRANSPARENT so the sea behind can show. Keep a low damaged crate on right that can serve as a second temporary shelter. Most floor remains intact and open. Do not add people, sea, sky, UI, text or fire. Preserve genuine alpha everywhere above the railing.",
+    "target": "Assets/act4_poseidon_escape/deck.png"
+  }
+}

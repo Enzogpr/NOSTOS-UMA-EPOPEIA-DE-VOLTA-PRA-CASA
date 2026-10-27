@@ -6,7 +6,9 @@ signal cinematic_finished
 
 const DESIGN_SIZE := Vector2(1152, 648)
 const DIALOGUE_FILE := "res://Ato3_Ciclope/Cutscenes/Act3_AthenaFarewell.dialogue.json"
+const ANIMATIC := preload("res://Ato3_Ciclope/Cutscenes/Act3_AthenaAnimatic.gd")
 
+@export var use_animatic: bool = true
 @export var autoplay: bool = true
 @export_range(20.0, 80.0) var characters_per_second: float = 38.0
 @export_range(0.5, 3.0) var playback_speed: float = 1.0
@@ -47,6 +49,8 @@ var ending_tween: Tween
 var pose_tweens: Dictionary = {}
 var previous_music_volume: float = 0.0
 var music_ducked: bool = false
+var animatic: Node2D
+var sea_ambience: AudioStreamPlayer
 
 func _ready() -> void:
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DIALOGUE_FILE))
@@ -54,6 +58,13 @@ func _ready() -> void:
 		push_error("O diálogo do adeus de Atena não pôde ser carregado.")
 		return
 	beats = parsed
+	if use_animatic:
+		animatic = ANIMATIC.new()
+		animatic.name = "Animatic"
+		stage.add_child(animatic)
+		stage.move_child(animatic, 1)
+		world.hide()
+		animatic.begin_entry()
 	GameManager.combat_mode = false
 	MainHUD.set_station("Ato 3 - O Adeus de Atena")
 	resized.connect(_fit_stage)
@@ -69,6 +80,20 @@ func _ready() -> void:
 	black.color.a = 1.0
 	_start_ambience()
 	intro_tween = create_tween()
+	if animatic:
+		# Establish the real deck, then enter through the same character's eyes.
+		intro_tween.tween_property(black, "color:a", 0.0, 0.8)
+		intro_tween.tween_interval(0.5)
+		intro_tween.tween_property(animatic, "transition_progress", 1.0, 3.4)
+		intro_tween.tween_callback(animatic.complete_transition)
+		intro_tween.tween_property($Stage/Captions, "modulate:a", 1.0, 0.4)
+		intro_tween.parallel().tween_property($Stage/Controls, "modulate:a", 1.0, 0.4)
+		intro_tween.tween_callback(func():
+			presence = 1.0
+			can_advance = true
+			_show_beat(0)
+		)
+		return
 	intro_tween.tween_property(black, "color:a", 0.0, 1.0)
 	intro_tween.parallel().tween_property($Stage/Opening, "modulate:a", 1.0, 0.8)
 	intro_tween.tween_interval(1.0)
@@ -88,6 +113,16 @@ func _fit_stage() -> void:
 
 func _process(delta: float) -> void:
 	elapsed += delta
+	if animatic:
+		if animatic.transition == "enter":
+			presence = smoothstep(0.65, 0.97, animatic.transition_progress)
+		animatic.presence = presence
+		animatic.agitation = agitation
+		# Scene-owned sea and drone follow the visual dissolve, including the return.
+		$MindAmbience.volume_db = lerpf(-35.0, -14.0, animatic.realm)
+		sea_ambience.volume_db = lerpf(-26.0, -55.0, animatic.realm)
+		if music_ducked:
+			AudioManager.music_player.volume_db = previous_music_volume - 14.0 * animatic.realm
 	input_cooldown = maxf(0.0, input_cooldown - delta)
 	shake = move_toward(shake, 0.0, delta * 10.0)
 	world.scale = Vector2.ONE * camera_zoom
@@ -124,6 +159,8 @@ func _show_beat(index: int) -> void:
 	var beat: Dictionary = beats[index]
 	var is_athena: bool = beat.speaker == "Atena"
 	var intensity: float = float(beat.get("intensity", 0.3))
+	if animatic:
+		animatic.present(index, beat)
 	dialogue.text = str(beat.text)
 	dialogue.visible_characters = 0
 	speaker.text = str(beat.speaker).to_upper()
@@ -235,6 +272,9 @@ func _finish() -> void:
 			tween.kill()
 	_change_pose(athena, 3)
 	_change_pose(odysseus, 0)
+	if animatic:
+		animatic.complete_transition()
+		animatic.begin_departure()
 	atmosphere.burst()
 	ending_tween = create_tween()
 	ending_tween.tween_property($Stage/Captions, "modulate:a", 0.0, 0.5)
@@ -243,8 +283,14 @@ func _finish() -> void:
 	ending_tween.tween_property(self, "presence", 0.0, 3.0).set_trans(Tween.TRANS_SINE)
 	ending_tween.parallel().tween_property(self, "camera_zoom", 1.0, 3.0)
 	ending_tween.parallel().tween_property(self, "camera_offset", Vector2.ZERO, 3.0)
-	ending_tween.parallel().tween_property($MindAmbience, "volume_db", -35.0, 3.0)
-	ending_tween.tween_interval(2.2)
+	if animatic:
+		ending_tween.tween_callback(animatic.begin_return)
+		ending_tween.tween_property(animatic, "transition_progress", 1.0, 3.4)
+		ending_tween.tween_callback(animatic.complete_transition)
+		ending_tween.tween_interval(0.6)
+	else:
+		ending_tween.parallel().tween_property($MindAmbience, "volume_db", -35.0, 3.0)
+		ending_tween.tween_interval(2.2)
 	ending_tween.tween_property(black, "color:a", 1.0, 1.2)
 	ending_tween.tween_callback(func():
 		cinematic_finished.emit()
@@ -276,8 +322,47 @@ func _start_ambience() -> void:
 	$MindAmbience.play()
 	previous_music_volume = AudioManager.music_player.volume_db
 	if AudioManager.music_player.playing:
-		AudioManager.music_player.volume_db = previous_music_volume - 14.0
+		AudioManager.music_player.volume_db = previous_music_volume - (0.0 if animatic else 14.0)
 		music_ducked = true
+	if animatic:
+		_start_sea_ambience()
+
+func _start_sea_ambience() -> void:
+	# A quiet, filtered noise loop gives the real deck a sound to lose and regain.
+	var sample_rate := 22050
+	var samples := sample_rate * 4
+	var data := PackedByteArray()
+	data.resize(samples * 2)
+	var random := RandomNumberGenerator.new()
+	random.seed = 3107
+	var filtered: float = 0.0
+	var noise := PackedFloat32Array()
+	noise.resize(samples)
+	for i in samples:
+		filtered = lerpf(filtered, random.randf_range(-1.0, 1.0), 0.075)
+		noise[i] = filtered
+	# Overlap the final 80 ms with the start to avoid a seam in the ambient loop.
+	var overlap := int(sample_rate * 0.08)
+	for i in samples:
+		var value: float = noise[i]
+		if i >= samples - overlap:
+			value = lerpf(value, noise[i - (samples - overlap)], float(i - (samples - overlap)) / overlap)
+		var swell: float = 0.70 + 0.30 * sin(TAU * float(i) / samples)
+		data.encode_s16(i * 2, int(value * swell * 32767.0))
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = sample_rate
+	stream.data = data
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_begin = overlap
+	stream.loop_end = samples
+	sea_ambience = AudioStreamPlayer.new()
+	sea_ambience.name = "SeaAmbience"
+	sea_ambience.bus = &"Music"
+	sea_ambience.volume_db = -26.0
+	sea_ambience.stream = stream
+	add_child(sea_ambience)
+	sea_ambience.play()
 
 func _exit_tree() -> void:
 	if music_ducked and is_instance_valid(AudioManager):

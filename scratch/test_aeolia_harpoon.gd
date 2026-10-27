@@ -70,6 +70,7 @@ func solve_shot(game: Control) -> Vector2:
 	return solution
 
 func _ready() -> void:
+	GameManager.persistence_enabled=false
 	set_meta("hide_main_hud", true)
 	capture = "--capture" in OS.get_cmdline_user_args()
 	await get_tree().process_frame
@@ -90,6 +91,29 @@ func _ready() -> void:
 	check(storm.hud.continue_button.visible, "Winning the crossing must offer a visible route to Aeolia.")
 	check(storm.hud.continue_button.has_focus(), "The continue action must receive keyboard focus after victory.")
 	storm.hud.continue_button.pressed.emit()
+	var approach: Control = await wait_scene("AeoliaApproachCutscene")
+	check(approach.beats.size() == 8 and approach.beats[0].speaker == "Euríloco", "The storm button must first open the supplied eight-part crew dialogue.")
+	check(approach.beats[1].speaker == "Perimedes e Elpenor" and approach.beats[2].speaker == "Odisseu e Euríloco", "The joint speakers must retain their supplied names.")
+	check(float(GameManager.get_meta("aeolia_arrival_hull")) == 72.5 and not MainHUD.visible, "The dialogue must retain arrival hull and keep the combat HUD hidden.")
+	await get_tree().create_timer(0.7).timeout
+	await screenshot("aeolia_approach")
+	for index in approach.beats.size():
+		check(approach.beat_index == index and approach.cinematic.caption_text == approach.beats[index].text, "The introduction must present the exact supplied dialogue in order: %d." % index)
+		approach.cinematic.type_elapsed = 10.0
+		approach.cinematic.dialogue.visible_characters = approach.cinematic.dialogue.get_total_character_count()
+		await get_tree().process_frame
+		check(approach.cinematic.dialogue.get_content_height() <= int(approach.cinematic.dialogue.size.y), "The introduction caption must fit: %d." % index)
+		if index == 2:
+			check(approach.cinematic.image_path == approach.DISCOVERY and not approach.cinematic.get_node("Stage/World/Odysseus").visible and not approach.cinematic.get_node("Stage/World/Athena").visible, "Discovery must show the unobstructed sky landscape, without ship portraits covering Aeolia.")
+			check(approach.cinematic.get_node_or_null("Stage/World/SkyIsland") == null, "Aeolia must not be composited as a decal over the ship's sail.")
+		if index == 7:
+			check(approach.cinematic.get_node("Stage/World/Odysseus").visible and not approach.cinematic.get_node("Stage/World/Athena").visible, "The final command must have a dedicated shot of Odysseus.")
+		if index in [0, 1, 2, 3, 4, 6, 7]:
+			await get_tree().create_timer(0.3).timeout
+			await screenshot("aeolia_approach_%d" % index)
+		approach.cinematic.input_cooldown = 0
+		approach.cinematic._advance_requested()
+	check(approach.handoff_started, "Only finishing the last line must hand control to the harpoon scene.")
 	var game: Control = await wait_scene("AeoliaHarpoon")
 	check(game.name == "AeoliaHarpoon" and game.state == game.State.READY, "The actual storm button must load the safe harpoon instructions.")
 	game.transition_enabled = false
@@ -179,6 +203,29 @@ func _ready() -> void:
 		return
 	check(game.projectile.distance_to(game.anchor.position) < 1 and not game.map_button.visible, "A successful rope must stay fixed to the target and secure the ascent.")
 	await screenshot("aeolia_rope_attached")
+	for _frame in 100:
+		if game.conversation != null:
+			break
+		await get_tree().physics_frame
+	check(game.state == game.State.DIALOGUE and game.conversation != null and not game.climber.visible, "The secured rope must open Luck Runs Out before Odysseus climbs.")
+	var conversation: Control = game.conversation
+	conversation.autoplay = false
+	await get_tree().create_timer(1.3).timeout
+	check(conversation.beats.size() == 33 and conversation.can_advance, "The pre-ascent scene must load all supplied lines with working controls.")
+	key(KEY_ENTER,true)
+	key(KEY_ENTER,false)
+	await frames(2)
+	check(conversation.current_beat == 0 and conversation.dialogue.visible_characters == conversation.dialogue.get_total_character_count() and game.attempts == 2, "Real dialogue input must reveal the line without firing another harpoon.")
+	await screenshot("aeolia_luck_before_ascent")
+	var frozen_target: Vector2 = game.anchor.position
+	await frames(20)
+	check(game.state == game.State.DIALOGUE and game.anchor.position == frozen_target and game.arrival_hull == 72.5, "The dialogue must not move the secured island, begin ascent or damage the ship.")
+	conversation._show_beat(32)
+	conversation.input_cooldown = 0.0
+	conversation.dialogue.visible_characters = conversation.dialogue.get_total_character_count()
+	conversation._advance_requested()
+	await get_tree().create_timer(2.6).timeout
+	check(game.dialogue_completed and game.conversation == null and game.state == game.State.CLIMBING, "The final thanks must resume the same rope and begin ascent exactly once.")
 	await frames(100)
 	check(game.state == game.State.CLIMBING and game.climber.visible and game.climber.position.distance_to(game.LAUNCHER) > 15, "Odysseus must visibly climb the anchored rope.")
 	await screenshot("aeolia_ascent")
@@ -187,23 +234,33 @@ func _ready() -> void:
 	check(completed_in_correct_state and completed_count == 1, "The ascent must complete once and automatically open the encounter.")
 	await frames(5)
 	check(completed_count == 1 and completed_hull == 72.5, "Completion must not repeat or alter the arrival hull.")
-	check(meeting.name == "AeoliaMeetingCutscene" and meeting.beats.size() == 4, "Completing the ascent must load the real encounter with Aeolus.")
-	check(meeting.cinematic.library.actors.has("aeolus"), "Aeolus must have an integrated portrait in the encounter.")
-	await get_tree().create_timer(0.7).timeout
+	check(meeting.name == "AeoliaMeetingCutscene" and meeting.beats.size() == 34, "Completing the ascent must load the full supplied encounter with Aeolus.")
+	check(meeting.director.aeolus != null, "Aeolus must have an animated body in the encounter.")
+	meeting.autoplay = false
+	await get_tree().create_timer(1.3).timeout
 	await screenshot("aeolia_meeting_odysseus")
-	while not meeting.ended:
-		meeting.cinematic.input_cooldown = 0
-		meeting.cinematic.dialogue.visible_characters = meeting.cinematic.dialogue.get_total_character_count()
-		meeting.cinematic._advance_requested()
-		if meeting.beat_index == 1:
-			await get_tree().create_timer(0.3).timeout
-			await screenshot("aeolia_meeting_aeolus")
+	meeting._show_beat(5)
+	await get_tree().create_timer(1.5).timeout
+	await screenshot("aeolia_meeting_aeolus")
+	meeting._show_beat(33)
+	await get_tree().create_timer(2.4).timeout
+	meeting.input_cooldown = 0
+	meeting.dialogue.visible_characters = meeting.dialogue.get_total_character_count()
+	meeting._advance_requested()
+	await get_tree().create_timer(2.3).timeout
 	check(meeting.end_panel.visible, "The encounter must finish with usable replay/map controls.")
 	await screenshot("aeolia_meeting_complete")
 	meeting.end_panel.get_node("Retry").pressed.emit()
-	game = await wait_scene("AeoliaHarpoon")
-	check(game.name == "AeoliaHarpoon" and game.state == game.State.READY and game.attempts == 0, "Replay must reset just the minigame.")
-	game.return_to_map()
+	meeting = await wait_scene("AeoliaMeetingCutscene")
+	check(meeting.name == "AeoliaMeetingCutscene" and meeting.current_beat == -1 and not meeting.ended, "Replay must restart the conversation.")
+	check(meeting.watch_scene_path == "res://Ato4_Tempestade/Gameplay/NineDaysVigil.tscn", "The encounter must connect to the nine-day vigilance.")
+	meeting._finish()
+	await get_tree().create_timer(2.3).timeout
+	check(meeting.end_panel.get_node("Map").text == "INICIAR VIAGEM", "The completed encounter must offer the voyage.")
+	meeting.end_panel.get_node("Map").pressed.emit()
+	var vigilance: Control = await wait_scene("NineDaysVigil")
+	check(vigilance.model.state == vigilance.MODEL.State.READY and vigilance.intro.visible, "The voyage button must load the actual vigilance with instructions.")
+	vigilance.return_to_map()
 	await wait_scene("WorldMap")
 	check(get_tree().current_scene.name == "WorldMap", "The minigame must provide an actual route back to the map.")
 	check(GameManager.highest_unlocked_level == original_progress and GameManager.inventory == original_inventory, "The introductory encounter must neither unlock another act nor award story items.")

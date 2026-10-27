@@ -1,0 +1,21 @@
+[
+  {
+    "asset": "poseidon_faces",
+    "mode": "built-in image_gen",
+    "prompt": "Use case: identity-preserve. Asset type: transparent CLOSE-UP ACTING atlas for the SAME Poseidon in the reference. Exactly THREE columns TWO rows with large transparent gutters; six isolated HEAD-AND-SHOULDERS busts, same framing scale head position, complete hair edges and shoulder drape inside each cell. Match the colored painterly pixel-art Greek game style and this exact face, black hair black beard and ivory/teal drape. All look slightly down toward LEFT, no crown or trident. Top-left eyes FULLY CLOSED, calm controlled restraint, mouth resting. Top-middle eyelids just HALF OPEN, suppressed irritation. Top-right eyes open stern, intense turquoise pupils, mouth lightly speaking. Bottom-left tight cruel asymmetrical smile, eyes narrowed. Bottom-middle cold anger, lowered eyebrows, mouth forceful command (not an exaggerated scream). Bottom-right looks downward with detached judgment, lips closed, no smile. Keep normal anatomy, face proportions and identical long full black beard, no giant nose or missing teeth. All six busts at identical scale with shoulders aligned for smooth pose blending. Genuine transparent alpha, no background or effects, no labels, no grid. Landscape atlas 1536x1024-ish. Expressions must be clearly different while preserving this single person's identity.",
+    "refs": [
+      "Assets/act4_poseidon/poseidon_poses.png"
+    ],
+    "transparent": true
+  },
+  {
+    "asset": "contact_poses_v2",
+    "mode": "built-in image_gen",
+    "prompt": "Edit target image1: the four-panel contact sprite atlas. Supporting image2 is CANONICAL ODYSSEUS COSTUME reference only. Correct ONLY the costume drift of ODYSSEUS (the long-haired bearded man with scarlet cape and bronze OWL breastplate) in ALL FOUR panels. His pleated/leather skirt and underlying tunic must be the same DARK NAVY/CHARCOAL as image2, with bronze armored tabs and NO wide cream/white strip, NO red-and-white patterned hem. On top-left and top-right and bottom-left the man left of Poseidon is Odysseus. On bottom-right the LEFT long-haired fully bearded man is Odysseus; correct his skirt only. The RIGHT shorter-haired supporting man is EURYLOCHUS: keep HIS original narrow cream-red trim and clothes unchanged. ABSOLUTE INVARIANTS: preserve every existing character FACE, hair, body, hand grip, limb position, pose, proportions, composition and panel placement; do not redraw the actions, do not change anyone's expression or add parts. Preserve the two-by-two atlas arrangement and original transparent gutters exactly. Keep the true transparent alpha. Same pixel-art rendering, same image dimensions as target. No background or labels. Only recolor/redesign Odysseus's skirt trim to match his canonical dark skirt; keep everything else identical.",
+    "refs": [
+      "Assets/act4_poseidon/contact_poses.png",
+      "Assets/act4_friends/odysseus_bag_poses_v2.png"
+    ],
+    "transparent": true
+  }
+]

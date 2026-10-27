@@ -1,0 +1,6 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://Scenes/CinematicPresenter.tscn" id="1"]
+[ext_resource type="Script" path="res://Ato4_Tempestade/Cutscenes/LuckRunsOut.gd" id="2"]
+[node name="LuckRunsOutCutscene" instance=ExtResource("1")]
+script = ExtResource("2")
+next_scene_path = ""

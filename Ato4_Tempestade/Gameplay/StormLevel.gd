@@ -236,6 +236,7 @@ func finish(won: bool) -> void:
 	hud.retry_button.visible = true
 	hud.map_button.visible = true
 	if won:
+		if persist_progress: GameManager.unlock_act4_stage(1)
 		hud.continue_button.show()
 		hud.continue_button.grab_focus()
 	else:
@@ -268,7 +269,7 @@ func continue_to_aeolia() -> void:
 		return
 	exiting = true
 	GameManager.set_meta("aeolia_arrival_hull", ship.hull)
-	get_tree().change_scene_to_file("res://Ato4_Tempestade/Gameplay/AeoliaHarpoon.tscn")
+	get_tree().change_scene_to_file("res://Ato4_Tempestade/Cutscenes/AeoliaApproach.tscn")
 
 func _exit_tree() -> void:
 	AudioManager.music_player.volume_db = previous_music_volume

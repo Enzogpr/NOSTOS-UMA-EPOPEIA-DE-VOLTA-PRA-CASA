@@ -1,0 +1,59 @@
+{
+  "odysseus_vigil": {
+    "texture": "res://Assets/act4_vigil/odysseus_vigil.png",
+    "regions": [
+      [
+        56,
+        15,
+        537,
+        596
+      ],
+      [
+        686,
+        42,
+        538,
+        569
+      ],
+      [
+        57,
+        633,
+        558,
+        583
+      ],
+      [
+        686,
+        649,
+        548,
+        567
+      ]
+    ]
+  },
+  "penelope_vision": {
+    "texture": "res://Assets/act4_vigil/penelope_vision.png",
+    "regions": [
+      [
+        10,
+        20,
+        1232,
+        1218
+      ]
+    ]
+  },
+  "wind_bag_betrayal": {
+    "texture": "res://Assets/act4_vigil/wind_bag_betrayal.png",
+    "regions": [
+      [
+        14,
+        25,
+        870,
+        799
+      ],
+      [
+        907,
+        25,
+        865,
+        799
+      ]
+    ]
+  }
+}

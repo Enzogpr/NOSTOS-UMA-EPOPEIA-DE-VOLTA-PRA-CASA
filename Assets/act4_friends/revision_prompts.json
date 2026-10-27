@@ -1,0 +1,19 @@
+[
+  {
+    "name": "odysseus_bag_poses_v2",
+    "prompt": "Edit the FIRST supplied six-pose atlas. Keep exactly the same 3 columns x 2 rows, all SIX complete bodies, gestures, armor, red cloak, closed wind bags and transparent gutters. Correct ONLY Odysseus's head identity in every pose to match the SECOND reference canonical Odysseus closeup: strong mature olive face, broad natural SHORTER straight nose with rounded tip, same thick brown beard and moustache, heavy eyebrows and wavy hair. The current atlas nose is too long and hooked; reduce its projection and restore canonical facial proportions. Mouth must be anatomically natural, calm closed lips or slight talking opening with continuous intact teeth if visible, NO missing tooth, NO black gap between front teeth, NO comical grimace. Same exact person in all six poses and canonical second reference. Maintain detailed colored pixel-art style and original warm/cool lighting. Whole heads and fingers inside every cell, full transparent background, no text.",
+    "refs": [
+      "Assets/act4_friends/odysseus_bag_poses.png",
+      "Assets/cinematics/odysseus_clean.png"
+    ],
+    "transparent": true
+  },
+  {
+    "name": "crew_poses_v2",
+    "prompt": "Edit the supplied 2 columns x 2 rows four full-body crew atlas. Preserve pose meanings and RIGHT-facing direction, but redesign both men to have CLEAR DISTINCT younger ordinary sailor identities, unlike the bearded long-haired armored captain Eurylocus in the reference. TOP ROW is Perimedes, lean man about 28, short black CURLY hair, clean-shaven rounded youthful olive face, brown eyes alert and focused, muted TEAL knee-length tunic and simple brown leather shoulder vest/belt, small bronze wrist guards and sandals, no red cloak, no heroic bronze breastplate, no long hair or full beard. Top left natural questioning palm up, top right curious reaching gesture. BOTTOM ROW Elpenor, young man about 23, short tousled light chestnut hair, short neat moustache and light chin stubble, narrower face, attentive hazel eyes, ochre tunic and a muted BLUE short shoulder mantle, simple brown leather belt and sandals, NO HELMET, no red cloak. Bottom left serious questioning open hand with upright head and level eyes looking RIGHT (no vacant eyes, no rolled eyes, no tilted-back head, no drunk expression); bottom right sober reluctant assent with relaxed mouth and hand over heart. Both have grounded balanced upright posture, alert expressions, anatomically natural mouths and hands. Match detailed colored pixel-art Odyssey style. Exactly four whole figures in 2x2 cells, wide transparent gutters including between rows, every head/finger/sandal complete, no overlap, no text. Transparent background.",
+    "refs": [
+      "Assets/act4_friends/crew_poses.png"
+    ],
+    "transparent": true
+  }
+]

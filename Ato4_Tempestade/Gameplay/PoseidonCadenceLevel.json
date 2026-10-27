@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "description": "Ten intermediate vessels, three musical sequences, intact captain vessel and a battle against Poseidon's water soldiers.",
+  "boats": [
+    {"width":1500,"y":480,"gap":650,"wrecks":3,"layout":"intro","section":"surge"},
+    {"width":1800,"y":465,"gap":720,"wrecks":3,"layout":"cargo_low","section":"surge"},
+    {"width":1150,"y":480,"gap":620,"wrecks":3,"layout":"refuge","section":"surge"},
+    {"width":1900,"y":455,"gap":820,"wrecks":4,"layout":"double_cargo","section":"wrecks"},
+    {"width":1500,"y":475,"gap":700,"wrecks":3,"layout":"low_cargo","section":"wrecks"},
+    {"width":1300,"y":470,"gap":680,"wrecks":3,"layout":"refuge","section":"wrecks"},
+    {"width":1800,"y":465,"gap":790,"wrecks":4,"layout":"cargo_low","section":"onslaught"},
+    {"width":1550,"y":480,"gap":720,"wrecks":3,"layout":"double_cargo","section":"onslaught"},
+    {"width":1950,"y":455,"gap":850,"wrecks":4,"layout":"low_cargo","section":"onslaught"},
+    {"width":1700,"y":475,"gap":750,"wrecks":4,"layout":"cargo_low","section":"onslaught"},
+    {"width":1600,"y":470,"gap":0,"wrecks":0,"layout":"final","section":"bag"}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "key": "odysseus",
+      "file": "odysseus_luck_poses.png",
+      "ref": "odysseus_fullbody.png",
+      "prompt": "Use case: illustration-story. Asset type: transparent animation pose atlas for a colored pixel-art Godot Greek Odyssey cinematic. Reference image is ONLY the identity, exact outfit, proportions and detailed colored pixel-art style to preserve. Draw precisely SIX complete full-body poses of the SAME character, a clean 3-column by 2-row grid on a genuinely transparent background, landscape canvas about 1536x1024. Read order left-to-right top-to-bottom. Each pose completely inside its own equally sized cell with at least 24 px transparent gutters on all sides, including above hair and beneath sandals. Keep consistent head/body size, lighting, face and clothing across all six poses. All face THREE-QUARTER RIGHT, except the explicitly stated last walking rear pose. No text, no borders, no background, no props that obscure faces, no weapons held, no cut-off feet. Detailed crisp pixel clusters, bronze highlights, red cloak and warm skin matching the reference. Character: ODISSEU, mature olive skin, long wavy brown hair, thick dark beard, golden-bronze owl/muscular breastplate, dark leather skirt, bronze greaves, strappy sandals, rich burgundy cloak. Poses: (0 top left) stops beside a taut rope, one hand held up toward the sky, excited but thoughtful expression. (1 top middle) reassuring friendly smile, right arm extended horizontally at another man's shoulder height, relaxed OPEN hand palm down to rest on his shoulder, left hand over his own chest. (2 top right) earnest open stance, both arms extended with open palms, speaking confidently about the journey. (3 bottom left) troubled listening, arms down, head slightly bowed, brows drawn. (4 bottom middle) stern leader leaning forward a little, one index finger pointing forward at eye level, a controlled firm warning, no shouting. (5 bottom right) three-quarter back view walking to the RIGHT, head turned to the right, cloak flowing LEFT, one leg stepping forward."
+    },
+    {
+      "key": "eurylochus",
+      "file": "eurylochus_luck_poses.png",
+      "ref": "eurylochus_fullbody.png",
+      "prompt": "Use case: illustration-story. Asset type: transparent animation pose atlas for a colored pixel-art Godot Greek Odyssey cinematic. Reference image is ONLY the identity, exact outfit, proportions and detailed colored pixel-art style to preserve. Draw precisely SIX complete full-body poses of the SAME character, a clean 3-column by 2-row grid on a genuinely transparent background, landscape canvas about 1536x1024. Read order left-to-right top-to-bottom. Each pose completely inside its own equally sized cell with at least 24 px transparent gutters on all sides, including above hair and beneath sandals. Keep consistent head/body size, lighting, face and clothing across all six poses. All face THREE-QUARTER RIGHT, except the explicitly stated last walking rear pose. No text, no borders, no background, no props that obscure faces, no weapons held, no cut-off feet. Detailed crisp pixel clusters, bronze highlights, red cloak and warm skin matching the reference. Character: EURÍLOCO, the man from the reference, shoulder-length wavy brown hair shorter than Odysseus, short dark beard, bronze muscular breastplate and brown leather shoulder straps, red cloak clasped with round gold brooches, cream/red-edged leather skirt, bronze greaves and sandals. Poses: (0 top left) stepping forward and reaching one open palm to stop his captain from climbing, worried tense face. (1 top middle) skeptical questioning, one hand palm-up near waist, other arm folded lightly, raised brow. (2 top right) anxious pleading, both open hands extended at chest height, worried eyes, explaining danger. (3 bottom left) intimate sorrow, right hand over his heart, other hand reaches gently toward his brother, tired sad face. (4 bottom middle) tense disagreement, arms folded, brows furrowed, held-in frustration. (5 bottom right) resigned acceptance, arms at sides, shoulders slightly lowered, eyes lowered and subtle nod, facing RIGHT."
+    },
+    {
+      "key": "deck",
+      "file": "deck_luck.png",
+      "prompt": "Use case: illustration-story. Asset type: opaque 16:9 cinematic background plate, landscape 1536x864. The input reference is the existing colored detailed pixel-art Greek trireme and blue/gold seascape style. Draw a different camera angle on the SAME ancient Greek wooden ship: a side-facing spacious deck looking across the railing toward open sea and distant low rocky coast after a storm. Broad EMPTY wooden floor in perspective fills the lower 45 percent; horizon around 38 percent. A thick bronze-banded mast and loosely coiled rope are confined to the far LEFT EDGE, rail spans the middle distance at 52 percent height, a few barrels far right edge. Subdued muted blue clouds with warm light through them. This is a staging plate for full-body actors around center-left and center-right, so KEEP THE CENTRAL DECK CLEAR, uninterrupted wood floor and open sky behind their heads. Detailed colored pixel clusters and restrained dithering matching reference. NO people, NO text, NO floating island, NO huge sail across the picture, NO central mast, NO weapons, NO UI. Opaque complete background.",
+      "refs": [
+        "Assets/cinematics/ship_deck.png"
+      ],
+      "transparent": false
+    },
+    {
+      "key": "contact",
+      "file": "brothers_luck.png",
+      "prompt": "Use case: illustration-story. Asset type: transparent two-frame full-body paired-characters animation atlas, 2 columns x 1 row on landscape 1536x1024. Image 1 is Odysseus exact identity/outfit reference: mature long brown wavy hair and heavy beard, bronze owl breastplate dark skirt and red cloak. Image 2 is Eurylochus exact identity/outfit reference: shorter shoulder-length brown hair and short beard, bronze leather-strapped breastplate cream/red-edged skirt and red cloak. Both adult muscular olive-skinned Greek men in bronze greaves and sandals. Preserve both faces and outfits and detailed colored PIXEL ART. Draw TWO SEPARATE complete paired compositions with wide transparent gutters, full figures from hair to sandals. LEFT FRAME: Odysseus on the LEFT faces right, rests his right hand gently on Eurylochus's near shoulder, left palm open as he smiles reassuringly; Eurylochus on RIGHT faces left, hands lowered, worried eyes meet his captain. Friendly brotherly support, anatomically coherent physical hand contact. RIGHT FRAME: same men same positions, Odysseus leans a little forward with a firm grave gaze, one pointing index finger raised between them at chest level as he warns privately; Eurylochus faces him, eyes lowered with resigned acceptance, arms down. Characters stand on the same ground level, consistent size across both frames. NO background, NO text, NO frame outlines, NO other people, NO objects, NO glow or shadow backdrop. Genuinely transparent alpha everywhere outside characters.",
+      "refs": [
+        "Assets/act4_storm/odysseus_fullbody.png",
+        "Assets/act4_storm/eurylochus_fullbody.png"
+      ],
+      "transparent": true
+    }
+  ]
+}

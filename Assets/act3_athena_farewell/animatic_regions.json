@@ -1,0 +1,118 @@
+{
+  "odysseus_animatic": {
+    "texture": "res://Assets/act3_athena_farewell/odysseus_animatic.png",
+    "regions": [
+      [
+        168,
+        2,
+        310,
+        587
+      ],
+      [
+        649,
+        15,
+        538,
+        574
+      ],
+      [
+        195,
+        596,
+        391,
+        605
+      ],
+      [
+        790,
+        596,
+        291,
+        597
+      ]
+    ]
+  },
+  "athena_animatic": {
+    "texture": "res://Assets/act3_athena_farewell/athena_animatic.png",
+    "regions": [
+      [
+        97,
+        4,
+        418,
+        622
+      ],
+      [
+        641,
+        1,
+        599,
+        614
+      ],
+      [
+        45,
+        619,
+        483,
+        613
+      ],
+      [
+        652,
+        615,
+        455,
+        617
+      ]
+    ]
+  },
+  "odysseus_expressions": {
+    "texture": "res://Assets/act3_athena_farewell/odysseus_expressions.png",
+    "regions": [
+      [
+        12,
+        16,
+        608,
+        604
+      ],
+      [
+        633,
+        17,
+        612,
+        603
+      ],
+      [
+        11,
+        629,
+        609,
+        610
+      ],
+      [
+        633,
+        627,
+        611,
+        612
+      ]
+    ]
+  },
+  "athena_expressions": {
+    "texture": "res://Assets/act3_athena_farewell/athena_expressions.png",
+    "regions": [
+      [
+        35,
+        10,
+        592,
+        606
+      ],
+      [
+        670,
+        12,
+        571,
+        607
+      ],
+      [
+        77,
+        627,
+        544,
+        614
+      ],
+      [
+        688,
+        627,
+        545,
+        614
+      ]
+    ]
+  }
+}

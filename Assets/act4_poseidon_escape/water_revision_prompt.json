@@ -1,0 +1,7 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "intent": "new side-view game sprite",
+  "transparent_background": true,
+  "output": "wave_side_v2.png",
+  "prompt": "Use case: stylized-concept. Asset type: a single transparent sprite for a 2D SIDE-VIEW ancient Greek storm escape game. Draw a truly side-on enormous BREAKING OCEAN WAVE advancing to the RIGHT, NOT a top-down water strip. Dense hand-painted pixel-art fantasy realism, sharp detailed brush clusters, dark midnight navy and deep turquoise water, delicate ivory foam, muted cyan rim light. Match a detailed bronze-and-red Greek ship sprite game. Composition: landscape 1536x1024 canvas, only ONE coherent wave, generous 40px transparent margin. The huge thick ocean mass occupies the LEFT and lower part, and rolls into one heavy curling crest at upper RIGHT; right-facing steep concave face, a substantial broad submerged base along the bottom, windblown spray on the lip, layered water volumes, foamy collision with the sea below. It must look like tonnes of water, never a ribbon, flag, sheet, curtain, claw, smooth glass or flat blue polygon. Keep all water and spray entirely inside canvas. All space outside the wave must be genuinely transparent alpha, no background, no sky, no ocean horizon, no ground, no borders, no characters, no ships, no UI, no text. Fine jagged foam edge and painted swirling water grain, physically readable side-profile depth. Image will be animated by a mesh in Godot, so no baked motion blur, no photorealistic lens effects, no repeating patterns."
+}

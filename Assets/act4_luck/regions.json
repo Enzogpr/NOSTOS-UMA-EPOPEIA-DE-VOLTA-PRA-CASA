@@ -1,0 +1,112 @@
+{
+  "odysseus_luck_poses": {
+    "texture": "res://Assets/act4_luck/odysseus_luck_poses.png",
+    "regions": [
+      [
+        79,
+        12,
+        411,
+        488
+      ],
+      [
+        559,
+        37,
+        442,
+        463
+      ],
+      [
+        1057,
+        36,
+        428,
+        464
+      ],
+      [
+        86,
+        524,
+        350,
+        462
+      ],
+      [
+        537,
+        520,
+        487,
+        464
+      ],
+      [
+        1086,
+        526,
+        384,
+        463
+      ]
+    ],
+    "pose_overrides": {
+      "4": {
+        "texture": "res://Assets/act4_storm/odysseus_fullbody.png",
+        "region": [
+          111,
+          682,
+          493,
+          516
+        ]
+      }
+    }
+  },
+  "eurylochus_luck_poses": {
+    "texture": "res://Assets/act4_luck/eurylochus_luck_poses.png",
+    "regions": [
+      [
+        74,
+        22,
+        438,
+        481
+      ],
+      [
+        609,
+        16,
+        350,
+        488
+      ],
+      [
+        1063,
+        21,
+        416,
+        482
+      ],
+      [
+        87,
+        519,
+        425,
+        479
+      ],
+      [
+        619,
+        512,
+        357,
+        487
+      ],
+      [
+        1067,
+        517,
+        326,
+        481
+      ]
+    ]
+  },
+  "brothers_luck": {
+    "texture": "res://Assets/act4_luck/brothers_luck.png",
+    "regions": [
+      [
+        4,
+        104,
+        763,
+        812
+      ],
+      [
+        778,
+        126,
+        756,
+        790
+      ]
+    ]
+  }
+}

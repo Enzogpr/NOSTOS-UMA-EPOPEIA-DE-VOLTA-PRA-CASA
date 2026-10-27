@@ -1,6 +1,308 @@
 [
-  {"speaker": "Odisseu", "text": "Sou Odisseu, rei de Ítaca. Meu navio atravessou a tempestade para chegar até aqui."},
-  {"speaker": "Éolo", "text": "Uma corda entre o mar e o céu… Você encontrou uma entrada bastante ousada."},
-  {"speaker": "Odisseu", "text": "Minha tripulação precisa voltar para casa. Vim pedir sua ajuda com os ventos."},
-  {"speaker": "Éolo", "text": "Então aproxime-se, Odisseu. Vamos conversar sobre o caminho para Ítaca."}
+  {
+    "speaker": "Odisseu",
+    "text": "Grande Deus do vento, Éolo",
+    "shot": "arrival",
+    "ody": 0,
+    "aeolus": 0,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Não sei se você sabe disso",
+    "shot": "plea",
+    "ody": 0,
+    "aeolus": 0,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Mas nosso caminho para casa está bloqueado por uma tempestade impenetrável",
+    "shot": "storm",
+    "ody": 1,
+    "aeolus": 0,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Eu peço a sua ajuda\nPara que nós finalmente possamos ir longe",
+    "shot": "plea",
+    "ody": 0,
+    "aeolus": 0,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Você pode lançar os ventos perfeitos para nós e ajudar em nossa jornada para casa?",
+    "shot": "appeal",
+    "ody": 1,
+    "aeolus": 0,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo",
+    "text": "Ha ha ha\nVamos jogar um jogo",
+    "shot": "laugh",
+    "ody": 1,
+    "aeolus": 1,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Um jogo?",
+    "shot": "reaction",
+    "ody": 1,
+    "aeolus": 1,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo",
+    "text": "É isso o que eu proponho\nE se você vencer, você conseguirá o que deseja",
+    "shot": "offer",
+    "ody": 1,
+    "aeolus": 3,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Fechado",
+    "shot": "agreement",
+    "ody": 0,
+    "aeolus": 0,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo",
+    "text": "Dê uma olhada aqui nesta bolsa",
+    "shot": "conjure",
+    "ody": 0,
+    "aeolus": 2,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo",
+    "text": "Ela tem os ventos da tempestade todos presos",
+    "shot": "bag",
+    "ody": 0,
+    "aeolus": 2,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo",
+    "text": "Tudo que você precisa fazer é não abrir esta bolsa",
+    "shot": "handoff",
+    "ody": 2,
+    "aeolus": 3,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Parece muito fácil, qual é a pegadinha?",
+    "shot": "ody_bag",
+    "ody": 2,
+    "aeolus": 3,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo, winions",
+    "text": "Ha ha ha",
+    "shot": "chorus",
+    "ody": 2,
+    "aeolus": 1,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo, winions",
+    "text": "Mantenha seus amigos por perto e seus inimigos mais perto ainda",
+    "shot": "orbit",
+    "ody": 2,
+    "aeolus": 4,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo, winions",
+    "text": "Nunca se sabe realmente em quem você pode confiar",
+    "shot": "warning",
+    "ody": 3,
+    "aeolus": 3,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo, winions",
+    "text": "Às vezes matar é uma necessidade",
+    "shot": "divine_close",
+    "ody": 3,
+    "aeolus": 3,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "O que?",
+    "shot": "shock",
+    "ody": 3,
+    "aeolus": 3,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo, winions",
+    "text": "Porque os fins sempre justificam os meios",
+    "shot": "chorus",
+    "ody": 3,
+    "aeolus": 4,
+    "phase": "palace",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Éolo, winions",
+    "text": "Amigos se transformam em inimigos e rivais",
+    "shot": "farewell",
+    "ody": 3,
+    "aeolus": 5,
+    "phase": "palace",
+    "hold": 2
+  },
+  {
+    "speaker": "Perímedes",
+    "text": "Capitão, o que está acontecendo?",
+    "shot": "return",
+    "ody": 5,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Perímedes e Elpenor",
+    "text": "O que está preso nessa bolsa?",
+    "shot": "crew_two",
+    "ody": 2,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Algo perigoso, amigos\nNão devemos abrir essa bolsa",
+    "shot": "protect",
+    "ody": 3,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Winions",
+    "text": "É um tesouro!",
+    "shot": "treasure",
+    "ody": 3,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "O que?",
+    "shot": "ship_shock",
+    "ody": 3,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Winions",
+    "text": "Tchau tchau!",
+    "shot": "winions_exit",
+    "ody": 3,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Perímedes",
+    "text": "Abra a bolsa!",
+    "shot": "perimedes",
+    "ody": 3,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Elpenor",
+    "text": "Vamos ver o que você tem!",
+    "shot": "elpenor",
+    "ody": 3,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Não, não abram\nTodos ouçam com atenção",
+    "shot": "stop",
+    "ody": 4,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Estão vendo como essa bolsa está fechada?",
+    "shot": "sealed",
+    "ody": 4,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "É assim que deve estar",
+    "shot": "knot",
+    "ody": 4,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Esta bolsa tem a tempestade dentro",
+    "shot": "storm_bag",
+    "ody": 4,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Odisseu",
+    "text": "Não podemos deixar o boato do tesouro se espalhar",
+    "shot": "captain",
+    "ody": 3,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 1.1
+  },
+  {
+    "speaker": "Perímedes e Elpenor",
+    "text": "Tentaremos",
+    "shot": "assent",
+    "ody": 2,
+    "aeolus": 5,
+    "phase": "ship",
+    "hold": 2.0
+  }
 ]

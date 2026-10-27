@@ -1,0 +1,12 @@
+[
+  {"speaker":"Odisseu","text":"Não!","hold":0.8,"phase":"storm","shot":"cry"},
+  {"speaker":"Odisseu","text":"Para onde a tempestade está nos levando?","hold":1.3,"phase":"storm","shot":"course"},
+  {"speaker":"Éolo","text":"Eu disse para manter a bolsa fechada, mas vocês não me deram ouvidos","hold":1.5,"phase":"storm","shot":"aeolus"},
+  {"speaker":"Éolo","text":"Se eu tivesse que dar um palpite? Vocês estão indo para a Terra dos gigantes","hold":1.6,"phase":"storm","shot":"giants"},
+  {"speaker":"Odisseu","text":"Me ajude a fechar a bolsa","hold":1.2,"phase":"storm","shot":"help"},
+  {"speaker":"Euríloco","text":"Mas, senhor, é tarde demais","hold":1.3,"phase":"storm","shot":"late"},
+  {"speaker":"Odisseu","text":"Podemos guardar o vento que sobrar para usar outro dia","hold":1.5,"phase":"storm","shot":"rescue"},
+  {"speaker":"Odisseu","text":"Vamos!","hold":1.0,"phase":"storm","shot":"close"},
+  {"speaker":"Desconhecido","text":"Odisseu de Ítaca","hold":1.6,"phase":"storm","shot":"voice"},
+  {"speaker":"Desconhecido","text":"Você sabe quem eu sou?","hold":2.0,"phase":"storm","shot":"presence"}
+]
