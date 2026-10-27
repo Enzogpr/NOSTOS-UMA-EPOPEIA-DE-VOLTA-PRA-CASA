@@ -31,6 +31,10 @@ var inventory: Array = []
 
 var highest_unlocked_level: int = 1
 const SAVE_FILE_PATH: String = "user://odisseia_save.json"
+# Tests and isolated previews can opt out or redirect persistence without
+# touching the player's campaign file.
+var persistence_enabled: bool = true
+var save_file_path: String = SAVE_FILE_PATH
 
 func add_item(id: String, item_name: String, icon_path: String, description: String, usage: String) -> void:
 	for item in inventory:
@@ -94,11 +98,15 @@ func trigger_victory() -> void:
 	game_over = true
 	victory.emit()
 
-func reset() -> void:
+func reset_encounter() -> void:
 	suspicion = 0.0
 	game_over = false
 	combat_mode = false
 	has_player_moved = false
+	suspicion_changed.emit(suspicion)
+
+func reset() -> void:
+	reset_encounter()
 	
 	player_age = 20
 	player_max_hp = 10
@@ -111,7 +119,6 @@ func reset() -> void:
 	highest_unlocked_level = 1
 	inventory = []
 	
-	suspicion_changed.emit(suspicion)
 	player_stats_changed.emit()
 	player_health_changed.emit(player_current_hp)
 
@@ -121,6 +128,7 @@ func unlock_level(level: int) -> void:
 		save_game()
 
 func save_game() -> void:
+	if not persistence_enabled: return
 	var save_data = {
 		"highest_unlocked_level": highest_unlocked_level,
 		"player_age": player_age,
@@ -133,15 +141,17 @@ func save_game() -> void:
 		"guard_detection_mult": guard_detection_mult,
 		"inventory": inventory
 	}
-	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
+	var file = FileAccess.open(save_file_path, FileAccess.WRITE)
 	if file:
 		file.store_string(JSON.stringify(save_data))
 		file.close()
+	else:
+		push_error("Não foi possível salvar a campanha: %s" % error_string(FileAccess.get_open_error()))
 
 func load_game() -> bool:
-	if not FileAccess.file_exists(SAVE_FILE_PATH):
+	if not FileAccess.file_exists(save_file_path):
 		return false
-	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
+	var file = FileAccess.open(save_file_path, FileAccess.READ)
 	if file:
 		var content = file.get_as_text()
 		file.close()
@@ -166,7 +176,7 @@ func load_game() -> bool:
 	return false
 
 func has_save_file() -> bool:
-	return FileAccess.file_exists(SAVE_FILE_PATH)
+	return FileAccess.file_exists(save_file_path)
 
 func enable_combat_mode() -> void:
 	combat_mode = true
@@ -212,3 +222,4 @@ func sacrifice_year() -> void:
 	
 	player_stats_changed.emit()
 	player_health_changed.emit(player_current_hp)
+	save_game()

@@ -38,10 +38,18 @@ var next_crew_id: int = 0
 var bag_sealed: bool = true
 var loss_reason: String = ""
 var rng := RandomNumberGenerator.new()
+var fatigue_stat_factor: float = 1.0
 
 func _init(seed_value: int = 0) -> void:
 	if seed_value == 0: rng.randomize()
 	else: rng.seed = seed_value
+
+func apply_player_stats(stats: Dictionary) -> void:
+	# Wisdom improves concentration; lost vitality makes the vigil harder.
+	# Neither changes current fatigue nor supplies an automatic wake action.
+	var vitality: float=clampf(pow(10.0/maxf(1.0,float(stats.get("max_hp",10))),0.2),1.0,1.35)
+	var concentration: float=clampf(1.0-(float(stats.get("intellect",5))-5.0)*0.025,0.8,1.15)
+	fatigue_stat_factor=vitality*concentration
 
 func start() -> void:
 	if state != State.READY: return
@@ -52,7 +60,7 @@ func start() -> void:
 func fatigue_rate() -> float:
 	var rate: float = FATIGUE_RATES[clampi(day-1,0,8)]
 	# At day nine the rate overtakes even the maximum recovery per cooldown.
-	return rate+120.0*pow(day_progress(),2.2) if day == 9 else rate
+	return (rate+120.0*pow(day_progress(),2.2) if day == 9 else rate)*fatigue_stat_factor
 
 func approach_seconds() -> float:
 	return APPROACH_TIMES[clampi(day-1,0,8)]

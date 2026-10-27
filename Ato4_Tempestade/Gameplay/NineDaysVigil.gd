@@ -4,6 +4,7 @@ signal vigilance_failed(reason: String)
 const MODEL := preload("res://Ato4_Tempestade/Gameplay/VigilModel.gd")
 const VISUALS := preload("res://Ato4_Tempestade/Gameplay/VigilStage.gd")
 const SOUND := preload("res://Ato4_Tempestade/Gameplay/VigilAudio.gd")
+const ATTRIBUTES := preload("res://Code/PlayerAttributes.gd")
 const DESIGN_SIZE := Vector2(1152,648)
 const RECORD_FILE := "user://vigil_record.json"
 const THOUGHTS_FILE := "res://Ato4_Tempestade/Cutscenes/VigilThoughts.dialogue.json"
@@ -60,6 +61,8 @@ func _ready() -> void:
 	MainHUD.set_station("Ato 4 - Nove dias de vigília")
 	model = MODEL.new(random_seed)
 	model.day_duration = maxf(day_duration,0.25)
+	_sync_player_stats()
+	GameManager.player_stats_changed.connect(_sync_player_stats)
 	model.feedback.connect(_feedback)
 	model.day_started.connect(_day_started)
 	model.ending_started.connect(_ending_started)
@@ -78,6 +81,9 @@ func _ready() -> void:
 	resized.connect(_fit_stage)
 	_fit_stage()
 	_update_interface()
+
+func _sync_player_stats() -> void:
+	if model!=null: model.apply_player_stats(ATTRIBUTES.capture(GameManager))
 
 func _fit_stage() -> void:
 	var factor: float = minf(size.x/DESIGN_SIZE.x,size.y/DESIGN_SIZE.y)

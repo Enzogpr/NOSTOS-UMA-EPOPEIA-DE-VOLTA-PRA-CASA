@@ -20,14 +20,25 @@ func _ready() -> void:
 	close_btn.pressed.connect(_on_close_pressed)
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.keycode == KEY_TAB and event.pressed:
+	if event is InputEventKey and event.keycode == KEY_TAB and event.pressed and not event.is_echo():
 		toggle_menu()
+
+func _can_use_attributes() -> bool:
+	var scene: Node=get_tree().current_scene
+	if not is_instance_valid(scene): return false
+	return scene.scene_file_path not in ["res://Scenes/TitleScreen.tscn","res://Scenes/SplashScreen.tscn"]
+
+func _process(_delta: float) -> void:
+	if control.visible and not _can_use_attributes():
+		control.hide()
+		get_tree().paused=false
 
 func toggle_menu() -> void:
 	if control.visible:
 		control.visible = false
 		get_tree().paused = false
 	else:
+		if not _can_use_attributes(): return
 		_update_stats_ui()
 		control.visible = true
 		get_tree().paused = true
@@ -50,6 +61,7 @@ func _update_stats_ui() -> void:
 		status_label.text = "Jovem Guerreiro (" + str(GameManager.player_age) + " Anos)"
 
 func _on_sacrifice_pressed() -> void:
+	if not control.visible or not _can_use_attributes(): return
 	GameManager.sacrifice_year()
 	
 func _on_close_pressed() -> void:

@@ -8,6 +8,7 @@ const CADENCE := preload("res://Ato4_Tempestade/Gameplay/PoseidonCadenceModel.gd
 const CADENCE_STAGE := preload("res://Ato4_Tempestade/Gameplay/PoseidonCadenceStage.gd")
 const SCORE := preload("res://Ato4_Tempestade/Gameplay/PoseidonScore.gd")
 const ENCOUNTER_AUDIO := preload("res://Ato4_Tempestade/Gameplay/PoseidonEncounterAudio.gd")
+const ATTRIBUTES := preload("res://Code/PlayerAttributes.gd")
 const DESIGN := Vector2(1152,648)
 const RECORD_FILE := "user://poseidon_escape_record.json"
 @export var cadence_enabled: bool = true
@@ -69,8 +70,8 @@ func _ready() -> void:
 	if cadence_enabled: proof_enabled = false
 	model = CADENCE.new(random_seed) if cadence_enabled else RUPTURE.new(random_seed) if proof_enabled else MODEL.new(random_seed)
 	if cadence_enabled:
-		model.dash_cooldown_seconds=maxf(0.5,GameManager.player_dash_cooldown)
-		model.boarding.player_damage=maxi(1,GameManager.player_damage)
+		_apply_player_stats()
+		GameManager.player_stats_changed.connect(_apply_player_stats)
 	model.feedback.connect(_feedback)
 	model.impact.connect(_impact)
 	model.completed.connect(_completed)
@@ -94,6 +95,11 @@ func _ready() -> void:
 	if autostart:
 		ready_delay = 0
 		begin()
+
+func _apply_player_stats() -> void:
+	if model==null or not cadence_enabled: return
+	model.apply_player_stats(ATTRIBUTES.capture(GameManager))
+	if is_instance_valid(balance_bar): _update_interface()
 
 func _fit() -> void:
 	var factor: float = minf(size.x/DESIGN.x,size.y/DESIGN.y)
@@ -307,6 +313,10 @@ func _update_interface() -> void:
 	fleet_label.text = "FROTA\n%d / 12 NAVIOS" % model.fleet_remaining()
 	balance_bar.value = model.balance
 	balance_label.text = "FÔLEGO  %d%%" % int(model.balance)
+	if cadence_enabled:
+		balance_bar.max_value=model.max_balance
+		balance_bar.value=model.balance
+		balance_label.text="FÔLEGO %d/%d" % [ceili(model.balance),int(model.max_balance)]
 	var playable: bool = model.phase not in [MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]
 	balance_bar.visible = playable
 	balance_label.visible = playable

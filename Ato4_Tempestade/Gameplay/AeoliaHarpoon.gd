@@ -9,6 +9,7 @@ const GRAVITY: float = 360.0
 const LAUNCHER := Vector2(274, 480)
 const ANCHOR_OFFSET := Vector2(-101, 17)
 const MEETING := "res://Ato4_Tempestade/Cutscenes/AeoliaMeeting.tscn"
+const ATTRIBUTES := preload("res://Code/PlayerAttributes.gd")
 @export var transition_enabled: bool = true
 @export var play_climb_dialogue: bool = true
 @export var aim_speed: float = 42.0
@@ -42,10 +43,14 @@ var font: Font = ThemeDB.fallback_font
 var conversation: Control
 var dialogue_completed: bool = false
 var ascent_reveal: float = 0.0
+var charge_stat_factor: float = 1.0
+var wind_stat_factor: float = 1.0
 
 func _ready() -> void:
 	set_meta("hide_main_hud", true)
 	GameManager.combat_mode = false
+	_sync_player_stats()
+	GameManager.player_stats_changed.connect(_sync_player_stats)
 	arrival_hull = float(GameManager.get_meta("aeolia_arrival_hull", 100.0))
 	start_button = _button("PREPARAR O ARPÃO  ›", Vector2(416, 448), Vector2(320, 46), begin)
 	map_button = _button("VOLTAR AO MAPA", Vector2(931, 21), Vector2(194, 38), return_to_map)
@@ -53,6 +58,17 @@ func _ready() -> void:
 	_fit_stage()
 	_update_world()
 	start_button.grab_focus()
+
+func apply_player_stats(stats: Dictionary) -> void:
+	# Keep designer exports as baselines; reapplying stats cannot compound them.
+	charge_stat_factor=sqrt(maxf(0.3,float(stats.get("speed_mult",1.0))))
+	wind_stat_factor=clampf(1.0-maxf(0.0,float(stats.get("intellect",5))-5.0)*0.025,0.75,1.0)
+
+func _sync_player_stats() -> void:
+	apply_player_stats(ATTRIBUTES.capture(GameManager))
+
+func effective_charge_seconds() -> float:
+	return maxf(0.05,charge_seconds/maxf(0.1,charge_stat_factor))
 
 func _button(text: String, at: Vector2, dimensions: Vector2, action: Callable) -> Button:
 	var button := Button.new()
@@ -127,7 +143,7 @@ func release_shot() -> void:
 	launch_point = muzzle_for(angle_degrees)
 	projectile = launch_point
 	projectile_velocity = direction_for(angle_degrees) * speed_for(charge)
-	shot_wind = wind
+	shot_wind = wind*wind_stat_factor
 	$ShotSound.play()
 	status = "O arpão está no ar…"
 
@@ -140,7 +156,7 @@ func _physics_process(delta: float) -> void:
 		var turn: float = float(Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT)) - float(Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT))
 		angle_degrees = clampf(angle_degrees + turn * aim_speed * delta, 25.0, 75.0)
 		if state == State.CHARGING:
-			charge = minf(1.0, charge + delta / charge_seconds)
+			charge = minf(1.0, charge + delta / effective_charge_seconds())
 	elif state == State.FLYING:
 		flight_age += delta
 		var previous: Vector2 = projectile
@@ -301,7 +317,7 @@ func draw_foreground(canvas: Node2D) -> void:
 		canvas.draw_line(LAUNCHER, LAUNCHER + ray * 36, Color(0.84, 0.62, 0.28), 4)
 		for dot in range(1, 10):
 			var time: float = dot * 0.055
-			var point: Vector2 = muzzle_for(angle_degrees) + ray * speed_for(charge) * time + Vector2(wind, GRAVITY) * (0.5 * time * time)
+			var point: Vector2 = muzzle_for(angle_degrees) + ray * speed_for(charge) * time + Vector2(wind*wind_stat_factor, GRAVITY) * (0.5 * time * time)
 			canvas.draw_circle(point, 2.5, Color(0.94, 0.87, 0.59, 0.65 - dot * 0.04))
 	if state in [State.FLYING, State.RETURNING] or attached:
 		var rope := PackedVector2Array()

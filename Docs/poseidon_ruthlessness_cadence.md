@@ -33,11 +33,11 @@ A bolsa fica visível na carga da proa, mas pegar ou manter E pressionado antes 
 - E: pegar a bolsa após a luta e abrir os ventos na popa.
 - Esc: pausa. Enter após falhar: retomar.
 
-O dash dura 0,2 s, conserva gravidade e colisões e não concede invulnerabilidade. Usa a mesma relação entre dash/corrida do personagem da campanha (400/120), adaptada à escala desta fase: 1016,67 px/s para corrida de 305 px/s. A recarga vem de `GameManager.player_dash_cooldown` (padrão 3 s, mínimo 0,5 s); a interface mostra quando está pronto e o tempo restante. Não pode começar durante guarda, agachamento, ataque de espada ou reação ao dano. Atingir uma parede ou receber dano o interrompe. O checkpoint preserva sua duração e recarga.
+O dash dura 0,2 s, conserva gravidade e colisões e não concede invulnerabilidade. Sua velocidade é 1016,67 px/s, adaptada à escala desta fase a partir da relação original 400/120. Como no personagem principal, a agilidade modifica a corrida e a recarga, mantendo a velocidade do dash. A recarga vem de `GameManager.player_dash_cooldown` (padrão 3 s, mínimo 0,5 s) e atualiza durante a fase, preservando a fração ainda não recarregada. Não pode começar durante guarda, agachamento, ataque de espada ou reação ao dano. Atingir uma parede ou receber dano o interrompe. O checkpoint preserva sua duração e progresso.
 
 Os soldados exibem barras segmentadas e vida atual/máxima acima da cabeça, acompanhando seu movimento e desaparecendo ao se desfazerem.
 
-### Atributos locais da fase
+### Atributos da fase (valores base aos 20 anos)
 
 | Personagem | Resistência | Dano causado | Movimento |
 | --- | --- | --- | --- |
@@ -48,9 +48,11 @@ Os soldados exibem barras segmentadas e vida atual/máxima acima da cabeça, aco
 
 A espada tem alcance 96 px, preparação 0,075 s, janela ativa 0,12 s e duração total 0,46 s. Salto: impulso 690 px/s, gravidade 1620 px/s² e altura máxima aproximada 147 px. A guarda frontal no chão bloqueia golpes normais, recebe 8 de dano de golpes pesados e reduz a corrida a 48%; não bloqueia Poseidon. Não há regeneração contínua de fôlego: entrada no navio final restaura 100; checkpoints de início dos blocos seguintes garantem pelo menos 75.
 
-A espada consulta `GameManager.player_damage` ao entrar na fase; o dano é preservado no checkpoint. Assim Odisseu conserva o dano usado contra o ciclope: padrão 3, sem aumento automático ao terminar aquela luta. Com dano 3, os soldados comuns exigem 6 acertos cada e o reforçado exige 10; melhorias salvas de dano reduzem esse número. As barras mostram HP atual/máximo e limitam as divisões visuais a dez para manter a leitura.
+A espada consulta `GameManager.player_damage` na entrada e a cada sinal de mudança dos atributos. Assim Odisseu conserva o dano usado contra o ciclope: padrão 3, sem aumento automático ao terminar aquela luta. Com dano 3, os soldados comuns exigem 6 acertos cada e o reforçado exige 10; melhorias salvas de dano reduzem esse número. As barras mostram HP atual/máximo e limitam as divisões visuais a dez para manter a leitura.
 
-O fôlego, a movimentação e a vida dos soldados continuam locais. A vida persistente de 10 HP, o multiplicador de velocidade e a inteligência não são aplicados automaticamente por este controlador. Dano da espada e recarga do dash consultam os atributos persistentes, sem alterar o salvamento.
+A corrida e a velocidade agachada usam o multiplicador de velocidade da campanha. O fôlego máximo corresponde a 10 vezes a vida máxima: 10 HP dão 100 de fôlego; 7 HP dão 70. Reduzir a capacidade limita o fôlego atual sem curar. A interface mostra atual/máximo. Entrar no navio final restaura apenas a capacidade atual; os respiros garantem 75% dessa capacidade. Mudanças em TAB atualizam esses valores imediatamente, mesmo com a árvore pausada.
+
+Os checkpoints restauram a tentativa, preservando os sacrifícios permanentes feitos depois de gravá-los: não devolvem anos, dano, velocidade ou vida máxima. A recarga recupera a fração gravada usando a duração atual. Inteligência continua associada às mecânicas de percepção e concentração das outras fases; não reduz os golpes de Poseidon.
 
 ## Música
 

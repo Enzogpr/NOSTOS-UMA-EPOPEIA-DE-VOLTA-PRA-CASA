@@ -57,6 +57,8 @@ var dash_speed := 305.0*DASH_SPEED_RATIO
 var dash_direction := 1.0
 var dash_requested := false
 var dashes := 0
+var max_balance := 100.0
+var player_stats: Dictionary = {}
 
 func _init(seed_value: int = 614) -> void:
 	super(seed_value)
@@ -70,6 +72,20 @@ func _init(seed_value: int = 614) -> void:
 	level.final.bag_seconds = 0.28
 	level.final.release_seconds = 0.6
 	wave_profile = JSON.parse_string(FileAccess.get_file_as_string("res://Ato4_Tempestade/Gameplay/PoseidonWaveProfile.json"))
+
+func apply_player_stats(stats: Dictionary) -> void:
+	player_stats=stats.duplicate(true)
+	var speed_mult: float=maxf(0.3,float(stats.get("speed_mult",1.0)))
+	level.physics.run_speed=305.0*speed_mult
+	level.physics.crouch_speed=143.0*speed_mult
+	# As in the shared Player, agility changes running and recharge, not dash speed.
+	max_balance=float(maxi(1,int(stats.get("max_hp",10))))*10.0
+	balance=minf(balance,max_balance)
+	boarding.player_damage=maxi(1,int(stats.get("damage",3)))
+	var previous_cooldown: float=maxf(0.5,dash_cooldown_seconds)
+	dash_cooldown_seconds=maxf(0.5,float(stats.get("dash_cooldown",3.0)))
+	if dash_cooldown_remaining>0:
+		dash_cooldown_remaining=clampf(dash_cooldown_remaining/previous_cooldown,0.0,1.0)*dash_cooldown_seconds
 
 func _build_level() -> void:
 	var chart: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://Ato4_Tempestade/Gameplay/PoseidonCadenceLevel.json"))
@@ -341,14 +357,14 @@ func _enter_boat(index: int) -> void:
 		_set_state("boarding")
 		_request_section("bag")
 		route_beat="Derrote os soldados de água e recupere a bolsa."
-		balance=100
+		balance=max_balance
 		hazards.clear()
 		next_attack_score=_next_beat(score_time,12)
 		_save_checkpoint()
 	elif index in [3,6]:
 		_set_state("traversal")
 		_request_section("wrecks" if index==3 else "onslaught")
-		balance=maxf(balance,75)
+		balance=maxf(balance,max_balance*0.75)
 		_save_checkpoint()
 	elif index in [2,5]:
 		_set_state("refuge")
@@ -553,6 +569,7 @@ func _save_checkpoint() -> void:
 	local_checkpoint["dash_time"]=dash_time
 	local_checkpoint["dash_cooldown_remaining"]=dash_cooldown_remaining
 	local_checkpoint["dash_direction"]=dash_direction
+	local_checkpoint["dash_cooldown_seconds"]=dash_cooldown_seconds
 	checkpoint_created.emit()
 
 func retry_checkpoint() -> void:
@@ -584,6 +601,7 @@ func retry_checkpoint() -> void:
 	dash_time=data.get("dash_time",0.0)
 	dash_cooldown_remaining=data.get("dash_cooldown_remaining",0.0)
 	dash_direction=data.get("dash_direction",facing)
+	dash_cooldown_seconds=data.get("dash_cooldown_seconds",dash_cooldown_seconds)
 	dash_requested=false
 	combat_attack=false
 	combat_guard=false
@@ -592,6 +610,8 @@ func retry_checkpoint() -> void:
 	hit_stun=0
 	invulnerable=0
 	crouching=false
+	# Checkpoints rewind the encounter, not permanent sacrifices made afterwards.
+	if not player_stats.is_empty(): apply_player_stats(player_stats)
 	if base.has("music"):
 		score_snapshot=base.music.duplicate(true)
 		music_seek_requested.emit(score_snapshot)

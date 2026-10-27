@@ -28,7 +28,7 @@ func _try_load(path: String) -> Texture2D:
 
 func _ready() -> void:
 	add_to_group("level")
-	GameManager.reset()
+	GameManager.reset_encounter()
 	MainHUD.set_station("Ato 1 - Fase 1: Portão de Troia")
 	randomize()
 

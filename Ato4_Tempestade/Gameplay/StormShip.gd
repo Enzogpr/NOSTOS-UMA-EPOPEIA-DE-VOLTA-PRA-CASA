@@ -1,4 +1,5 @@
 extends CharacterBody2D
+const ATTRIBUTES := preload("res://Code/PlayerAttributes.gd")
 ## Wind is part of the physical velocity, so cliffs and map limits still collide.
 
 signal hull_changed(value: float)
@@ -33,7 +34,22 @@ var scripted_helm: bool = false
 var helm := Vector2.ZERO
 var brace_command: bool = false
 var repair_command: bool = false
+var handling_speed_factor := 1.0
+var handling_turn_factor := 1.0
 @onready var sprite: Sprite2D = $Sprite2D
+
+func _ready() -> void:
+	GameManager.player_stats_changed.connect(_sync_player_stats)
+	_sync_player_stats()
+
+func _sync_player_stats() -> void:
+	apply_player_stats(ATTRIBUTES.capture(GameManager))
+
+func apply_player_stats(stats: Dictionary) -> void:
+	# Captain handling changes, while sea forces and the ship's hull retain
+	# their authored values. Keep exports intact for idempotent live updates.
+	handling_speed_factor=clampf(sqrt(maxf(0.3,float(stats.get("speed_mult",1.0)))),0.7,1.3)
+	handling_turn_factor=clampf(1.0+(float(stats.get("intellect",5))-5.0)*0.02,1.0,1.2)
 
 func _process(delta: float) -> void:
 	if not sailing:
@@ -58,11 +74,11 @@ func _physics_process(delta: float) -> void:
 	var wants_repair: bool = repair_command if scripted_helm else Input.is_key_pressed(KEY_E)
 	rowing_effort = throttle
 	helm_turn = turn
-	rotation += turn * turn_speed * delta * (-0.7 if speed < -10.0 else 1.0)
-	var target: float = throttle * max_speed * (0.55 if braced else 1.0)
+	rotation += turn * turn_speed * handling_turn_factor * delta * (-0.7 if speed < -10.0 else 1.0)
+	var target: float = throttle * max_speed * handling_speed_factor * (0.55 if braced else 1.0)
 	if throttle < 0.0:
 		target *= 0.35
-	speed = move_toward(speed, target, (140.0 if throttle != 0.0 else 190.0) * delta)
+	speed = move_toward(speed, target, (140.0*handling_speed_factor if throttle != 0.0 else 190.0) * delta)
 	repairing = calm and not in_whirlpool and wants_repair and absf(speed) < 45.0
 	var wind_factor: float = 0.0 if repairing else 0.15 if calm else 0.55 if braced else 1.0
 	drift = drift.move_toward(wind * wind_factor, delta * 130.0)

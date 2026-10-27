@@ -1,4 +1,5 @@
 extends Control
+const ATTRIBUTES := preload("res://Code/PlayerAttributes.gd")
 
 var cinematic: Control
 
@@ -78,6 +79,7 @@ var cutscene_slides := [
 ]
 
 var explored := {}
+var navigation_memory_radius := 1
 
 @onready var first_person_view: Control = $MainLayout/ViewContainer/FirstPersonView
 @onready var minimap: Control = $MainLayout/SideContainer/MinimapContainer/Minimap
@@ -105,6 +107,8 @@ func _ready() -> void:
 	cinematic.hide()
 	MainHUD.set_station("Ato 2 - Fase 1: Ilha dos Lotófagos")
 	GameManager.heal_fully()
+	GameManager.player_stats_changed.connect(_sync_player_stats)
+	_sync_player_stats()
 	
 	dialogue_box.visible = false
 	cutscene_overlay.visible = false
@@ -212,11 +216,30 @@ func _can_walk(pos: Vector2i) -> bool:
 	return tile != 1 and tile != 6
 
 func _mark_explored(pos: Vector2i) -> void:
-	explored[pos] = true
-	for d in dir_vectors:
-		var adj = pos + d
-		if adj.x >= 0 and adj.x < map_width and adj.y >= 0 and adj.y < map_height:
-			explored[adj] = true
+	# Greater intellect remembers a wider connected stretch of the route.
+	# Reveal the bordering trees, but never look through solid jungle/ruins.
+	var frontier: Array[Vector2i]=[pos]
+	var distance: Dictionary={pos:0}
+	while not frontier.is_empty():
+		var at: Vector2i=frontier.pop_front()
+		explored[at]=true
+		var depth: int=int(distance[at])
+		if depth>=navigation_memory_radius: continue
+		for d in dir_vectors:
+			var adj: Vector2i=at+d
+			if adj.x<0 or adj.x>=map_width or adj.y<0 or adj.y>=map_height: continue
+			explored[adj]=true
+			if distance.has(adj) or not _can_walk(adj): continue
+			distance[adj]=depth+1
+			frontier.append(adj)
+
+func _sync_player_stats() -> void:
+	apply_player_stats(ATTRIBUTES.capture(GameManager))
+
+func apply_player_stats(stats: Dictionary) -> void:
+	navigation_memory_radius=clampi(1+int(maxi(0,int(stats.get("intellect",5))-5)/2),1,3)
+	_mark_explored(player_pos)
+	if is_node_ready(): _render_minimap()
 
 func _check_tile_events() -> void:
 	var tile = map[player_pos.y][player_pos.x]

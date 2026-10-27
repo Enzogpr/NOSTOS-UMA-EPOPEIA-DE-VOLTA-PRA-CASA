@@ -20,6 +20,7 @@ var attack_visual: Polygon2D
 
 var _dash_timer: Timer
 var _dash_cooldown: Timer
+var _dash_cooldown_total: float = 3.0
 var _attack_timer: Timer
 
 # Animation state
@@ -36,7 +37,9 @@ func _ready() -> void:
 	GameManager.player_current_hp = max_hp
 	add_to_group("player")
 
-	GameManager.player_stats_changed.connect(_update_odysseus_sprite)
+	GameManager.player_stats_changed.connect(_on_player_stats_changed)
+	GameManager.player_health_changed.connect(_on_player_health_changed)
+	_dash_cooldown_total = GameManager.player_dash_cooldown
 	_update_odysseus_sprite()
 
 	# Attack hitbox
@@ -309,7 +312,8 @@ func _dash() -> void:
 	AudioManager.play_dash_sfx()
 	is_dashing = true
 	_dash_timer.start(0.2)
-	_dash_cooldown.start(GameManager.player_dash_cooldown)
+	_dash_cooldown_total = GameManager.player_dash_cooldown
+	_dash_cooldown.start(_dash_cooldown_total)
 
 	var input := Vector2.ZERO
 	if Input.is_action_pressed("ui_up") or Input.is_key_pressed(KEY_W):
@@ -430,6 +434,22 @@ func heal(amount: int) -> void:
 					visual.modulate = Color(1, 1, 1),
 		)
 
+
+func _on_player_health_changed(hp: int) -> void:
+	current_hp = hp
+
+func _on_player_stats_changed() -> void:
+	max_hp = GameManager.player_max_hp
+	current_hp = GameManager.player_current_hp
+	if is_instance_valid(_dash_cooldown) and not _dash_cooldown.is_stopped():
+		# Preserve the fraction still missing when ageing changes the cooldown.
+		# Reopening the menu cannot finish or restart a partially recharged dash.
+		var fraction: float = clampf(_dash_cooldown.time_left/maxf(0.001,_dash_cooldown_total),0.0,1.0)
+		_dash_cooldown_total = GameManager.player_dash_cooldown
+		_dash_cooldown.start(maxf(0.001,_dash_cooldown_total*fraction))
+	else:
+		_dash_cooldown_total = GameManager.player_dash_cooldown
+	_update_odysseus_sprite()
 
 func _update_odysseus_sprite() -> void:
 	var spr: Sprite2D = get_node_or_null("Sprite2D") as Sprite2D
