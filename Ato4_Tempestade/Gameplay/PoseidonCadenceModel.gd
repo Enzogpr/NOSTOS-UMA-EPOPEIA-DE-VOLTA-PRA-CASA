@@ -8,6 +8,7 @@ signal encounter_cue(kind: String)
 signal checkpoint_created
 signal music_seek_requested(snapshot: Dictionary)
 signal score_section_requested(section: String)
+signal boarding_won
 
 var final_index := 10
 var score_time := 0.0
@@ -59,6 +60,9 @@ var dash_requested := false
 var dashes := 0
 var max_balance := 100.0
 var player_stats: Dictionary = {}
+# The campaign enables the cinematic; isolated physics can rehearse the bag route.
+var cinematic_after_boarding := false
+var aftermath_completed := false
 
 func _init(seed_value: int = 614) -> void:
 	super(seed_value)
@@ -501,6 +505,16 @@ func _tick_boarding(dt: float) -> void:
 		# Existing water keeps its visual follow-through; victory opens a safe gap.
 		for hazard in hazards: hazard.hit=true
 		encounter_cue.emit("splash")
+		if cinematic_after_boarding:
+			velocity=Vector2.ZERO
+			dash_time=0
+			combat_attack=false
+			combat_guard=false
+			_set_state("aftermath")
+			route_beat="Odisseu procura sua frota."
+			_change(Phase.CINEMATIC)
+			boarding_won.emit()
+			return
 		_set_state("bag")
 		route_beat="Convés livre. Recupere a bolsa na proa."
 		_save_checkpoint()
@@ -531,7 +545,7 @@ func bindings_done() -> int:
 	return 3 # Compatibility only: this version contains no binding minigame.
 
 func _final_interaction(dt: float, interact: bool) -> void:
-	if not interact or not grounded or hit_stun>0 or dash_time>0: return
+	if phase!=Phase.FINAL_SHIP or not interact or not grounded or hit_stun>0 or dash_time>0: return
 	if not has_bag and boarding.cleared and position.distance_to(bag_point)<62:
 		interaction_active=true
 		bag_progress=minf(1,bag_progress+dt/float(level.final.bag_seconds))
@@ -549,6 +563,19 @@ func _final_interaction(dt: float, interact: bool) -> void:
 			_change(Phase.ESCAPING)
 			_set_state("escaping")
 			_request_section("escape")
+
+func complete_aftermath() -> void:
+	if phase!=Phase.CINEMATIC or aftermath_completed or not boarding.cleared: return
+	aftermath_completed=true
+	# The cinematic wreck panorama has now shown the rest of the fleet's fate.
+	for index in final_index: _sink(index)
+	if background_sunk_at<0: background_sunk_at=clock
+	has_bag=true
+	wind_released=true
+	wind_progress=1.0
+	_change(Phase.COMPLETE)
+	completion_count+=1
+	completed.emit(record())
 
 func _save_checkpoint() -> void:
 	super()
@@ -619,6 +646,7 @@ func retry_checkpoint() -> void:
 
 func objective() -> String:
 	if phase==Phase.FAILED: return "TRAVESSIA INTERROMPIDA"
+	if phase==Phase.CINEMATIC: return "O QUE RESTOU"
 	if phase in [Phase.ESCAPING,Phase.COMPLETE]: return "UM ÚNICO NAVIO ESCAPOU"
 	if has_bag: return "VOLTE À POPA · LIBERE OS VENTOS"
 	if phase==Phase.FINAL_SHIP: return "DERROTE OS SOLDADOS DE ÁGUA · %d/3" % boarding.kills if not boarding.cleared else "ALCANCE A BOLSA NA PROA"
@@ -632,4 +660,4 @@ func prompt() -> String:
 	return ""
 
 func record() -> Dictionary:
-	return {"escaped":phase==Phase.COMPLETE,"seconds":snappedf(elapsed_total,0.1),"route_seconds":snappedf(clock,0.1),"ships_lost":12-fleet_remaining(),"ships_remaining":fleet_remaining(),"boats_crossed":mini(visited_boat,10),"hits":hits,"jumps":jumps,"retries":retries,"ducked_attacks":ducked_attacks,"attacks_cleared":cleared_attacks,"bindings":0,"has_bag":has_bag,"returned_lower":returned_lower,"mobile_landings":mobile_landings,"chart_events":chart_events.size(),"water_soldiers_defeated":boarding.kills,"captain_ship_intact":not mast_broken and sunk_at[10]<0,"mode":"ruthlessness_water_boarding"}
+	return {"escaped":phase==Phase.COMPLETE,"seconds":snappedf(elapsed_total,0.1),"route_seconds":snappedf(clock,0.1),"ships_lost":12-fleet_remaining(),"ships_remaining":fleet_remaining(),"boats_crossed":mini(visited_boat,10),"hits":hits,"jumps":jumps,"retries":retries,"ducked_attacks":ducked_attacks,"attacks_cleared":cleared_attacks,"bindings":0,"has_bag":has_bag,"returned_lower":returned_lower,"mobile_landings":mobile_landings,"chart_events":chart_events.size(),"water_soldiers_defeated":boarding.kills,"captain_ship_intact":not mast_broken and sunk_at[10]<0,"survivors":43 if aftermath_completed else 0,"aftermath_completed":aftermath_completed,"mode":"ruthlessness_water_boarding"}

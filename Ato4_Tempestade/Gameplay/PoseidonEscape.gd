@@ -12,6 +12,7 @@ const ATTRIBUTES := preload("res://Code/PlayerAttributes.gd")
 const DESIGN := Vector2(1152,648)
 const RECORD_FILE := "user://poseidon_escape_record.json"
 @export var cadence_enabled: bool = true
+@export var aftermath_enabled: bool = true
 @export var proof_enabled: bool = true
 @export var legacy_start_boat: int = 0
 @export var audio_enabled: bool = true
@@ -61,6 +62,10 @@ var score: Node
 var handoff_score: Node
 var autostart := false
 var manual_score_clock := false
+var aftermath_scene: Control
+var aftermath_started := false
+var aftermath_previous_input := true
+var aftermath_record: Dictionary = {}
 
 func _ready() -> void:
 	set_meta("hide_main_hud",true)
@@ -72,6 +77,8 @@ func _ready() -> void:
 	if cadence_enabled:
 		_apply_player_stats()
 		GameManager.player_stats_changed.connect(_apply_player_stats)
+		model.cinematic_after_boarding=aftermath_enabled
+		model.boarding_won.connect(_begin_aftermath)
 	model.feedback.connect(_feedback)
 	model.impact.connect(_impact)
 	model.completed.connect(_completed)
@@ -100,6 +107,42 @@ func _apply_player_stats() -> void:
 	if model==null or not cadence_enabled: return
 	model.apply_player_stats(ATTRIBUTES.capture(GameManager))
 	if is_instance_valid(balance_bar): _update_interface()
+
+func _begin_aftermath() -> void:
+	if aftermath_started or not aftermath_enabled: return
+	aftermath_started=true
+	aftermath_previous_input=allow_input
+	allow_input=false
+	jump_requested=false
+	attack_requested=false
+	dash_requested=false
+	held_interact=false
+	stop_audio()
+	release_music()
+	set_meta("cinematic_active",true)
+	call_deferred("_mount_aftermath")
+
+func _mount_aftermath() -> void:
+	if not is_inside_tree() or model.phase!=MODEL.Phase.CINEMATIC: return
+	aftermath_scene=load("res://Ato4_Tempestade/Cutscenes/PoseidonAftermath.tscn").instantiate()
+	aftermath_scene.audio_enabled=audio_enabled
+	aftermath_scene.manual_score_clock=manual_score_clock
+	var incoming: Dictionary=handoff_record.duplicate(true)
+	incoming.merge(model.record(),true)
+	incoming["survivors"]=43
+	aftermath_scene.handoff_record=incoming
+	aftermath_scene.aftermath_finished.connect(_on_aftermath_finished)
+	stage.hide()
+	add_child(aftermath_scene)
+
+func _on_aftermath_finished(record: Dictionary) -> void:
+	if model.phase!=MODEL.Phase.CINEMATIC: return
+	aftermath_record=record.duplicate(true)
+	model.complete_aftermath()
+	allow_input=aftermath_previous_input
+	set_meta("cinematic_active",false)
+	stage.show()
+	if is_instance_valid(aftermath_scene): aftermath_scene.queue_free()
 
 func _fit() -> void:
 	var factor: float = minf(size.x/DESIGN.x,size.y/DESIGN.y)
@@ -203,7 +246,7 @@ func _build_interface() -> void:
 	intro.z_index = 40
 	_label("MAR EM RUPTURA · TRECHO DE PROVA" if proof_enabled else "ENTRE A FROTA E O DEUS",Vector2(28,20),Vector2(650,42),26 if proof_enabled else 31,intro)
 	_label("Sua embarcação está além da frota.\nPoseidon não vai esperar por você." if proof_enabled else "Dez barcos separam você da sua embarcação.\nA bolsa dos ventos está lá. Poseidon vem atrás.",Vector2(28,73),Vector2(650,52),20,intro)
-	_label("A / D ou ← / → · Correr e frear. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto.\nEncontre uma passagem pelos navios e destroços.\nObserve o mar e mantenha-se em movimento." if proof_enabled else "A/D ou ←/→ · Correr. S/↓ · Abaixar. ESPAÇO · Pular.\nQ ou botão direito · Dash. SHIFT · Defender.\nJ ou clique esquerdo · Atacar. E · Interagir.\nNo seu navio: derrote os soldados e recupere a bolsa.",Vector2(28,135),Vector2(650,100),18,intro)
+	_label("A / D ou ← / → · Correr e frear. S / ↓ · Abaixar.\nESPAÇO · Pular; segure para ir mais alto.\nEncontre uma passagem pelos navios e destroços.\nObserve o mar e mantenha-se em movimento." if proof_enabled else "A/D ou ←/→ · Correr. S/↓ · Abaixar. ESPAÇO · Pular.\nQ ou botão direito · Dash. SHIFT · Defender.\nJ ou clique esquerdo · Atacar.\nNo seu navio: derrote os soldados e enfrente Poseidon.",Vector2(28,135),Vector2(650,100),18,intro)
 	_label("Se cair ou ficar sem fôlego, retome o ponto seguro.",Vector2(28,239),Vector2(650,24),18,intro)
 	_button("INICIAR TRECHO  ›" if proof_enabled else "ATRAVESSAR A FROTA  ›",Vector2(28,278),Vector2(350,37),begin,intro)
 	if proof_enabled: _button("FASE ANTERIOR",Vector2(400,278),Vector2(280,37),func(): _continue_legacy(0),intro)
@@ -323,6 +366,7 @@ func _update_interface() -> void:
 	dash_label.visible = playable
 	dash_label.text = "ABAIXADO" if model.crouching else "NO AR" if not model.grounded else "EM APOIO"
 	controls_hint.text = "A/D · CORRER   S/↓ · ABAIXAR   ESPAÇO · PULAR   Q / BOTÃO DIREITO · DASH\nJ/CLIQUE · ATACAR   SHIFT · DEFENDER   E · BOLSA" if cadence_enabled else "A / D · CORRER     S / ↓ · ABAIXAR     ESPAÇO · PULAR (SEGURE: MAIS ALTO)     E · INTERAGIR"
+	if cadence_enabled and aftermath_enabled: controls_hint.text=controls_hint.text.replace("   E · BOLSA","")
 	if cadence_enabled:
 		var dash_status: String="DASH ATIVO" if model.dash_time>0 else "DASH %.1fs" % model.dash_cooldown_remaining if model.dash_cooldown_remaining>0 else "DASH PRONTO"
 		dash_label.text=dash_status+"\n"+dash_label.text
@@ -444,6 +488,10 @@ func _impact(_kind: String) -> void:
 func _completed(record: Dictionary) -> void:
 	if complete_count > 0: return
 	complete_count += 1
+	if not aftermath_record.is_empty():
+		record.merge(aftermath_record,false)
+		record["survivors"]=43
+		record["aftermath_completed"]=true
 	if proof_enabled:
 		result_detail.text = "Trecho de prova atravessado.\n%.1f s · %d saltos · %d retomadas\nA fase completa permanece na versão anterior." % [record.seconds,record.jumps,record.retries]
 		result.show()
@@ -452,6 +500,8 @@ func _completed(record: Dictionary) -> void:
 		var file := FileAccess.open(RECORD_FILE,FileAccess.WRITE)
 		if file: file.store_string(JSON.stringify(record))
 	result_detail.text = "11 navios perdidos  ·  1 navio sobrevivente\n10 barcos atravessados  ·  bolsa recuperada\n%.1f s  ·  %d impactos  ·  %d retomadas" % [record.seconds,record.hits,record.retries]
+	if aftermath_started:
+		result_detail.text="43 sobreviventes  ·  1 navio preservado\nOdisseu escapou com a bolsa dos ventos.\n%.1f s de travessia e combate  ·  %d impactos" % [record.seconds,record.hits]
 	result.show()
 	if cadence_enabled:
 		if is_instance_valid(encounter_audio): encounter_audio.stop_audio()
@@ -517,6 +567,7 @@ func _replace_scene(next_proof: bool, index: int, include_proof_record: bool = f
 	release_music()
 	var next: Control = load("res://Ato4_Tempestade/Gameplay/PoseidonEscape.tscn").instantiate()
 	next.cadence_enabled = next_cadence
+	next.aftermath_enabled = aftermath_enabled
 	next.proof_enabled = next_proof
 	next.manual_score_clock = manual_score_clock
 	next.legacy_start_boat = index

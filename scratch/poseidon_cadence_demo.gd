@@ -97,6 +97,8 @@ func _process(delta: float) -> void:
 				_key(KEY_ENTER,false)
 			failure_delay = 0
 		return
+	if scene.model.phase==MODEL.Phase.CINEMATIC and is_instance_valid(scene.aftermath_scene):
+		scene.aftermath_scene.advance(delta)
 	if not model_input:
 		var controls: Dictionary = pilot.controls(scene.model)
 		_key(KEY_D,controls.move > 0.2)

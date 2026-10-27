@@ -20,7 +20,9 @@ O convés final é uma arena contínua. Dois soldados de água abordam o navio; 
 
 Poseidon continua atacando durante essa luta em intervalos mais espaçados, independentes das ações dos soldados de água. A vitória abre uma brecha: não surgem novos golpes, e a água que já estava em movimento conclui a animação sem causar dano. Assim o checkpoint não aprisiona quem venceu com pouco fôlego num retorno repetidamente fatal. A guarda reduz golpes físicos e não anula a água divina. Odisseu perde a tentativa ao esgotar o fôlego ou cair; Enter restaura explicitamente o checkpoint.
 
-A bolsa fica visível na carga da proa, mas pegar ou manter E pressionado antes de derrotar os três inimigos não a libera. Depois da vitória, Odisseu a recolhe e volta pelo mesmo convés intacto até a popa. Abrir os ventos inicia a saída com o navio inteiro, preservando a continuidade narrativa. Não há mais rompimento central nem retorno por destroços no último navio.
+Depois da derrota dos três inimigos, a campanha congela o controle e passa diretamente ao desfecho `PoseidonAftermath.tscn`. Odisseu percebe a frota destruída, pergunta por seus homens, recebe a notícia dos 43 sobreviventes e a pergunta “Últimas palavras?”, abre a bolsa e foge. Poseidon reage e encerra à distância com “Lembre de mim.” Só depois dessa fala a fuga é registrada. O navio sai inteiro, sem rompimento central. O storyboard e as adaptações da referência estão em `poseidon_desfecho_storyboard.md`.
+
+A coleta e o retorno jogáveis anteriores permanecem apenas como ensaio com `aftermath_enabled=false`. A configuração padrão da campanha é `true` e não exige procurar a bolsa nem apertar E depois do combate. `scratch/test_poseidon_aftermath.tscn` percorre e testa essa configuração padrão; a antiga integração musical desativa explicitamente o desfecho para continuar cobrindo o ensaio manual.
 
 ### Controles
 
@@ -30,7 +32,8 @@ A bolsa fica visível na carga da proa, mas pegar ou manter E pressionado antes 
 - J ou clique esquerdo: atacar com a espada.
 - Shift: manter guarda contra golpes dos soldados de água.
 - Q ou botão direito do mouse: dash horizontal, no chão ou no ar.
-- E: pegar a bolsa após a luta e abrir os ventos na popa.
+- Após a luta: avanço automático da cutscene; Espaço/Enter/clique mostram o texto ou avançam depois da duração do plano.
+- E: bolsa apenas no ensaio manual com `aftermath_enabled=false`.
 - Esc: pausa. Enter após falhar: retomar.
 
 O dash dura 0,2 s, conserva gravidade e colisões e não concede invulnerabilidade. Sua velocidade é 1016,67 px/s, adaptada à escala desta fase a partir da relação original 400/120. Como no personagem principal, a agilidade modifica a corrida e a recarga, mantendo a velocidade do dash. A recarga vem de `GameManager.player_dash_cooldown` (padrão 3 s, mínimo 0,5 s) e atualiza durante a fase, preservando a fração ainda não recarregada. Não pode começar durante guarda, agachamento, ataque de espada ou reação ao dano. Atingir uma parede ou receber dano o interrompe. O checkpoint preserva sua duração e progresso.
@@ -86,6 +89,8 @@ As durações decodificadas e os níveis PCM/Vorbis foram verificados: nenhum cl
 | PoseidonScore.gd | Relógio do mixer, loops, compassos, pausa e restauração musical |
 | PoseidonEscape.gd | Entrada, teclado/mouse, interface, resultado e integração com a campanha |
 | Ruthlessness.gd | Passagem da cutscene para a fase |
+| PoseidonAftermath.gd / .dialogue.json | Texto, duração dos planos, instrumental, avanço e fim do novo desfecho |
+| PoseidonAftermathStage.gd | Destroços, reação, abertura da bolsa, fuga e Poseidon à distância |
 
 A apresentação é2D com sprites, recortes e interpolação. Os testes de comandos verificam travessia e combate sem teleporte, alteração de HP ou invulnerabilidade, mas não medem empolgação ou dificuldade percebida por pessoas.
 

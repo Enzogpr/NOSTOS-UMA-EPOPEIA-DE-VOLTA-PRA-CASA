@@ -34,6 +34,8 @@ func _ready() -> void:
 	var inventory: Array=GameManager.inventory.duplicate(true)
 	var combat_before: bool=GameManager.combat_mode
 	var scene: Control=preload("res://Ato4_Tempestade/Gameplay/PoseidonEscape.tscn").instantiate()
+	# Retain the manual-bag rehearsal; test_poseidon_aftermath covers campaign default.
+	scene.aftermath_enabled=false
 	scene.audio_enabled=false
 	scene.persist_record=false
 	scene.manual_score_clock=true

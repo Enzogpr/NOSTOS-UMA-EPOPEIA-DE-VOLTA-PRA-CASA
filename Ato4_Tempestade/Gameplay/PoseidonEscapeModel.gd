@@ -7,7 +7,7 @@ signal impact(kind: String)
 signal ship_sunk(index: int)
 signal completed(record: Dictionary)
 signal failed(reason: String)
-enum Phase { READY, TRAVERSAL, FINAL_SHIP, ESCAPING, COMPLETE, FAILED }
+enum Phase { READY, TRAVERSAL, FINAL_SHIP, ESCAPING, COMPLETE, FAILED, CINEMATIC }
 const STAND_HEIGHT := 76.0
 const CROUCH_HEIGHT := 52.0
 const HALF_WIDTH := 14.0
