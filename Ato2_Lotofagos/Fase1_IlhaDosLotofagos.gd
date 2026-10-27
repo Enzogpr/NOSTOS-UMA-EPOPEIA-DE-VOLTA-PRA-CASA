@@ -175,6 +175,8 @@ func _move_forward() -> void:
 		player_pos = next_pos
 		_mark_explored(player_pos)
 		_check_tile_events()
+		if first_person_view and first_person_view.has_method("trigger_step_animation"):
+			first_person_view.trigger_step_animation()
 		_render_view()
 		_render_minimap()
 
@@ -184,17 +186,23 @@ func _move_backward() -> void:
 		player_pos = next_pos
 		_mark_explored(player_pos)
 		_check_tile_events()
+		if first_person_view and first_person_view.has_method("trigger_step_animation"):
+			first_person_view.trigger_step_animation()
 		_render_view()
 		_render_minimap()
 
 func _turn_left() -> void:
 	player_dir = (player_dir - 1 + 4) % 4
+	if first_person_view and first_person_view.has_method("trigger_turn_animation"):
+		first_person_view.trigger_turn_animation()
 	_update_hud()
 	_render_view()
 	_render_minimap()
 
 func _turn_right() -> void:
 	player_dir = (player_dir + 1) % 4
+	if first_person_view and first_person_view.has_method("trigger_turn_animation"):
+		first_person_view.trigger_turn_animation()
 	_update_hud()
 	_render_view()
 	_render_minimap()
@@ -341,8 +349,8 @@ func _render_minimap() -> void:
 	minimap.queue_redraw()
 
 func _update_hud() -> void:
-	var mins = int(time_left) / 60
-	var secs = int(time_left) % 60
+	var mins: int = int(time_left / 60.0)
+	var secs: int = int(time_left) % 60
 	timer_label.text = "⏳ TEMPO: %02d:%02d" % [mins, secs]
 	if time_left < 60.0:
 		timer_label.add_theme_color_override("font_color", Color(1, 0.2, 0.2))
