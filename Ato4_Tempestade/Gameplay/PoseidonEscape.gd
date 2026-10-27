@@ -11,6 +11,7 @@ const ENCOUNTER_AUDIO := preload("res://Ato4_Tempestade/Gameplay/PoseidonEncount
 const ATTRIBUTES := preload("res://Code/PlayerAttributes.gd")
 const DESIGN := Vector2(1152,648)
 const RECORD_FILE := "user://poseidon_escape_record.json"
+var record_file_path: String = RECORD_FILE
 @export var cadence_enabled: bool = true
 @export var aftermath_enabled: bool = true
 @export var proof_enabled: bool = true
@@ -497,8 +498,9 @@ func _completed(record: Dictionary) -> void:
 		result.show()
 		return
 	if persist_record:
-		var file := FileAccess.open(RECORD_FILE,FileAccess.WRITE)
+		var file := FileAccess.open(record_file_path,FileAccess.WRITE)
 		if file: file.store_string(JSON.stringify(record))
+		if bool(record.get("aftermath_completed",false)): GameManager.complete_act4()
 	result_detail.text = "11 navios perdidos  ·  1 navio sobrevivente\n10 barcos atravessados  ·  bolsa recuperada\n%.1f s  ·  %d impactos  ·  %d retomadas" % [record.seconds,record.hits,record.retries]
 	if aftermath_started:
 		result_detail.text="43 sobreviventes  ·  1 navio preservado\nOdisseu escapou com a bolsa dos ventos.\n%.1f s de travessia e combate  ·  %d impactos" % [record.seconds,record.hits]

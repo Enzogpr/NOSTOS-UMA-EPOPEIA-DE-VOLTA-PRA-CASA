@@ -4,6 +4,7 @@ signal wind_bag_received
 signal watch_requested
 const FRIENDS_DIRECTOR := preload("res://Ato4_Tempestade/Cutscenes/FriendsStage.gd")
 @export_file("*.tscn") var watch_scene_path: String = ""
+@export var persist_progress: bool = true
 var end_panel: Panel
 var ended: bool = false
 var exiting: bool = false
@@ -73,6 +74,7 @@ func _finish() -> void:
 		end_panel.get_node("Map").grab_focus()
 		if not reward_emitted:
 			reward_emitted = true
+			if persist_progress: GameManager.unlock_act4_stage(2)
 			wind_bag_received.emit()
 			conversation_finished.emit()
 			cinematic_finished.emit()

@@ -10,6 +10,7 @@ signal player_health_changed(hp: int)
 signal game_over_combat
 signal player_first_move
 signal player_stats_changed
+signal act4_progress_changed
 
 var suspicion: float = 0.0
 var max_suspicion: float = 100.0
@@ -30,6 +31,8 @@ var guard_detection_mult: float = 1.0
 var inventory: Array = []
 
 var highest_unlocked_level: int = 1
+var act4_unlocked_stage: int = 0
+var act4_completed: bool = false
 const SAVE_FILE_PATH: String = "user://odisseia_save.json"
 # Tests and isolated previews can opt out or redirect persistence without
 # touching the player's campaign file.
@@ -117,20 +120,70 @@ func reset() -> void:
 	player_intellect = 5
 	guard_detection_mult = 1.0
 	highest_unlocked_level = 1
+	act4_unlocked_stage = 0
+	act4_completed = false
 	inventory = []
 	
 	player_stats_changed.emit()
 	player_health_changed.emit(player_current_hp)
+	act4_progress_changed.emit()
 
 func unlock_level(level: int) -> void:
 	if level > highest_unlocked_level:
 		highest_unlocked_level = level
 		save_game()
+		act4_progress_changed.emit()
+
+func unlock_act4_stage(stage: int) -> void:
+	var next_stage: int=clampi(stage,0,3)
+	if highest_unlocked_level>=4 and next_stage<=act4_unlocked_stage: return
+	highest_unlocked_level=maxi(4,highest_unlocked_level)
+	act4_unlocked_stage=maxi(act4_unlocked_stage,next_stage)
+	act4_progress_changed.emit()
+	save_game()
+
+func complete_act4() -> void:
+	if act4_completed: return
+	highest_unlocked_level=maxi(4,highest_unlocked_level)
+	act4_unlocked_stage=3
+	act4_completed=true
+	act4_progress_changed.emit()
+	save_game()
+
+func _read_journey_record(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path): return {}
+	var parsed: Variant=JSON.parse_string(FileAccess.get_file_as_string(path))
+	return parsed if parsed is Dictionary else {}
+
+func _restore_act4_progress(data: Dictionary) -> void:
+	act4_unlocked_stage=clampi(int(data.get("act4_unlocked_stage",0)),0,3)
+	act4_completed=bool(data.get("act4_completed",false))
+	if highest_unlocked_level<4:
+		act4_unlocked_stage=0
+		act4_completed=false
+		return
+	if act4_completed:
+		act4_unlocked_stage=3
+		return
+	if data.has("act4_unlocked_stage"): return
+	# Old saves only knew the act number. Recover completed chapters from their
+	# existing records in the same save directory, without rewriting on load.
+	var directory: String=ProjectSettings.globalize_path(save_file_path).get_base_dir()
+	var vigil: Dictionary=_read_journey_record(directory.path_join("vigil_record.json"))
+	var last_run: Variant=vigil.get("last_run",{})
+	if last_run is Dictionary and bool(last_run.get("story_complete",false)):
+		act4_unlocked_stage=3
+	var escape: Dictionary=_read_journey_record(directory.path_join("poseidon_escape_record.json"))
+	if bool(escape.get("escaped",false)):
+		act4_unlocked_stage=3
+		act4_completed=bool(escape.get("aftermath_completed",false))
 
 func save_game() -> void:
 	if not persistence_enabled: return
 	var save_data = {
 		"highest_unlocked_level": highest_unlocked_level,
+		"act4_unlocked_stage": act4_unlocked_stage,
+		"act4_completed": act4_completed,
 		"player_age": player_age,
 		"player_max_hp": player_max_hp,
 		"player_current_hp": player_current_hp,
@@ -169,9 +222,11 @@ func load_game() -> bool:
 			player_intellect = data.get("player_intellect", 5)
 			guard_detection_mult = data.get("guard_detection_mult", 1.0)
 			inventory = data.get("inventory", [])
+			_restore_act4_progress(data)
 			
 			player_stats_changed.emit()
 			player_health_changed.emit(player_current_hp)
+			act4_progress_changed.emit()
 			return true
 	return false
 

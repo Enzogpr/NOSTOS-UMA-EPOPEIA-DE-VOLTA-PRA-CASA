@@ -236,6 +236,7 @@ func finish(won: bool) -> void:
 	hud.retry_button.visible = true
 	hud.map_button.visible = true
 	if won:
+		if persist_progress: GameManager.unlock_act4_stage(1)
 		hud.continue_button.show()
 		hud.continue_button.grab_focus()
 	else:

@@ -9,6 +9,7 @@ const DESIGN_SIZE := Vector2(1152,648)
 const RECORD_FILE := "user://vigil_record.json"
 const THOUGHTS_FILE := "res://Ato4_Tempestade/Cutscenes/VigilThoughts.dialogue.json"
 const RELEASED_WINDS_FILE := "res://Ato4_Tempestade/Cutscenes/ReleasedWinds.dialogue.json"
+var record_file_path: String = RECORD_FILE
 @export var day_duration: float = 25.0
 @export var random_seed: int = 0
 @export var persist_record: bool = true
@@ -369,6 +370,8 @@ func _failed(reason: String) -> void:
 
 func _completed(record: Dictionary) -> void:
 	completion_count += 1
+	if persist_record and bool(record.get("story_complete",false)):
+		GameManager.unlock_act4_stage(3)
 	thought_panel.hide()
 	visuals.speaking = false
 	if continue_to_poseidon:
@@ -406,14 +409,14 @@ func _present_record(record: Dictionary) -> void:
 
 func _save_record(record: Dictionary) -> void:
 	var best: Dictionary = {}
-	if FileAccess.file_exists(RECORD_FILE):
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(RECORD_FILE))
+	if FileAccess.file_exists(record_file_path):
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(record_file_path))
 		if parsed is Dictionary:
 			best = parsed
 	best.last_run = record
 	best.best_prevented = maxi(int(best.get("best_prevented",0)),int(record.prevented))
 	best.best_perfect_days = maxi(mini(8,int(best.get("best_perfect_days",0))),record.perfect_days.size())
-	var file := FileAccess.open(RECORD_FILE,FileAccess.WRITE)
+	var file := FileAccess.open(record_file_path,FileAccess.WRITE)
 	if file:
 		file.store_string(JSON.stringify(best))
 

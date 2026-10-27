@@ -70,6 +70,7 @@ func solve_shot(game: Control) -> Vector2:
 	return solution
 
 func _ready() -> void:
+	GameManager.persistence_enabled=false
 	set_meta("hide_main_hud", true)
 	capture = "--capture" in OS.get_cmdline_user_args()
 	await get_tree().process_frame
