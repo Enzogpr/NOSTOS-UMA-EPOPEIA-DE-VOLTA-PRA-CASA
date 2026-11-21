@@ -1,0 +1,729 @@
+{
+  "width": 6600,
+  "start": [
+	180,
+	540
+  ],
+  "hermes": [
+	440,
+	540
+  ],
+  "palace": [
+	835,
+	540
+  ],
+  "flower": [
+	6150,
+	230
+  ],
+  "platforms": [
+	[
+	  0,
+	  540,
+	  700,
+      "earth"
+	],
+	[
+	  700,
+	  540,
+	  220,
+      "earth"
+	],
+	[
+	  920,
+	  540,
+	  130,
+      "earth"
+	],
+	[
+	  1010,
+	  540,
+	  235,
+      "root"
+	],
+	[
+	  1190,
+	  540,
+	  310,
+      "earth"
+	],
+	[
+	  1500,
+	  460,
+	  220,
+      "earth"
+	],
+	[
+	  1730,
+	  510,
+	  150,
+      "root"
+	],
+	[
+	  1890,
+	  540,
+	  100,
+      "earth"
+	],
+	[
+	  1990,
+	  540,
+	  160,
+      "earth"
+	],
+	[
+	  2150,
+	  540,
+	  140,
+      "earth"
+	],
+	[
+	  2290,
+	  450,
+	  200,
+      "earth"
+	],
+	[
+	  2490,
+	  540,
+	  230,
+      "earth"
+	],
+	[
+	  2820,
+	  480,
+	  135,
+      "memory"
+	],
+	[
+	  3060,
+	  420,
+	  140,
+      "memory"
+	],
+	[
+	  3300,
+	  480,
+	  150,
+      "memory"
+	],
+	[
+	  3540,
+	  420,
+	  145,
+      "memory"
+	],
+	[
+	  3770,
+	  520,
+	  280,
+      "earth"
+	],
+	[
+	  4050,
+	  540,
+	  380,
+      "earth"
+	],
+	[
+	  4430,
+	  455,
+	  180,
+      "earth"
+	],
+	[
+	  4700,
+	  375,
+	  170,
+      "branch"
+	],
+	[
+	  4900,
+	  300,
+	  130,
+      "branch"
+	],
+	[
+	  4920,
+	  365,
+	  190,
+      "branch"
+	],
+	[
+	  5200,
+	  230,
+	  150,
+      "earth"
+	],
+	[
+	  5350,
+	  230,
+	  160,
+      "earth"
+	],
+	[
+	  5510,
+	  230,
+	  120,
+      "earth"
+	],
+	[
+	  5750,
+	  200,
+	  180,
+      "branch"
+	],
+	[
+	  6030,
+	  230,
+	  420,
+      "earth"
+	]
+  ],
+  "shortcuts": [
+	[
+	  2700,
+	  560,
+	  135,
+      "root"
+	],
+	[
+	  2935,
+	  510,
+	  145,
+      "root"
+	],
+	[
+	  3180,
+	  475,
+	  140,
+      "root"
+	],
+	[
+	  3430,
+	  455,
+	  130,
+      "root"
+	],
+	[
+	  3670,
+	  490,
+	  120,
+      "root"
+	]
+  ],
+  "illusions": [
+	[
+	  2810,
+	  570,
+	  145
+	],
+	[
+	  3060,
+	  535,
+	  140
+	],
+	[
+	  3300,
+	  360,
+	  150
+	],
+	[
+	  3540,
+	  535,
+	  145
+	]
+  ],
+  "hazards": [
+	{
+	  "x": 1570,
+	  "y": 460,
+	  "width": 65,
+	  "height": 76,
+	  "period": 3.8,
+	  "offset": 0.0
+	},
+	{
+	  "x": 2060,
+	  "y": 540,
+	  "width": 110,
+	  "height": 68,
+	  "period": 3.9,
+	  "offset": 1.7
+	},
+	{
+	  "x": 3820,
+	  "y": 520,
+	  "width": 85,
+	  "height": 110,
+	  "period": 3.8,
+	  "offset": 0.8
+	},
+	{
+	  "x": 4485,
+	  "y": 455,
+	  "width": 70,
+	  "height": 100,
+	  "period": 3.8,
+	  "offset": 2.1
+	},
+	{
+	  "x": 5330,
+	  "y": 230,
+	  "width": 55,
+	  "height": 84,
+	  "period": 3.6,
+	  "offset": 1.2
+	}
+  ],
+  "checkpoints": [
+	[
+	  180,
+	  540
+	],
+	[
+	  970,
+	  540
+	],
+	[
+	  1450,
+	  540
+	],
+	[
+	  1940,
+	  540
+	],
+	[
+	  2560,
+	  540
+	],
+	[
+	  3360,
+	  480
+	],
+	[
+	  4160,
+	  540
+	],
+	[
+	  5240,
+	  230
+	],
+	[
+	  6120,
+	  230
+	]
+  ],
+  "low_branches": [
+	[
+	  1290,
+	  440,
+	  160,
+	  34
+	],
+	[
+	  2120,
+	  440,
+	  80,
+	  34
+	]
+  ],
+  "motions": [
+	{
+	  "x": 1010,
+	  "amplitude": 8,
+	  "period": 4.8
+	},
+	{
+	  "x": 4700,
+	  "amplitude": 24,
+	  "period": 4.5
+	}
+  ],
+  "crumbling": [
+	{
+	  "x": 1010,
+	  "delay": 0.85
+	},
+	{
+	  "x": 1730,
+	  "delay": 0.65
+	},
+	{
+	  "x": 4900,
+	  "delay": 0.95
+	}
+  ],
+  "memory_gate": [
+	2650,
+	160,
+	36,
+	380
+  ],
+  "return_trees": [
+	{
+	  "x": 3980,
+	  "y": 520,
+	  "length": 180,
+	  "trigger": 440,
+	  "warning": 0.8,
+	  "fall": 0.95
+	},
+	{
+	  "x": 2240,
+	  "y": 540,
+	  "length": 210,
+	  "trigger": 440,
+	  "warning": 0.8,
+	  "fall": 0.95
+	}
+  ],
+  "false_flower": [
+	5430,
+	230
+  ],
+  "return_checkpoints": [
+	[
+	  6120,
+	  230
+	],
+	[
+	  5820,
+	  200
+	],
+	[
+	  5560,
+	  230
+	],
+	[
+	  4160,
+	  540
+	],
+	[
+	  3360,
+	  480
+	],
+	[
+	  2235,
+	  540
+	],
+	[
+	  1240,
+	  540
+	],
+	[
+	  970,
+	  540
+	]
+  ],
+  "tricks": [
+	{
+	  "id": "bridge_betrayal",
+	  "x": [
+		1070,
+		1200
+	  ],
+	  "when": "enter",
+	  "effects": [
+		{
+		  "kind": "cut",
+		  "surface_x": 1010,
+		  "start": 0.34
+		},
+		{
+		  "kind": "sweep",
+		  "from": [
+			1185,
+			455
+		  ],
+		  "to": [
+			1450,
+			455
+		  ],
+		  "size": [
+			70,
+			40
+		  ],
+		  "start": 0.32,
+		  "travel": 0.7,
+		  "hold": 0.15
+		}
+	  ],
+	  "phase": "out",
+	  "sound": "wood"
+	},
+	{
+	  "id": "jump_teeth",
+	  "x": [
+		1505,
+		1660
+	  ],
+	  "when": "air",
+	  "effects": [
+		{
+		  "kind": "spikes",
+		  "from": [
+			1575,
+			460
+		  ],
+		  "to": [
+			1575,
+			420
+		  ],
+		  "size": [
+			100,
+			40
+		  ],
+		  "start": 0.22,
+		  "travel": 0.12,
+		  "hold": 0.65
+		}
+	  ],
+	  "phase": "out",
+	  "sound": "wood"
+	},
+	{
+	  "id": "false_rest",
+	  "x": [
+		1990,
+		2120
+	  ],
+	  "when": "land",
+	  "effects": [
+		{
+		  "kind": "cut",
+		  "surface_x": 1990,
+		  "start": 0.2
+		}
+	  ],
+	  "phase": "out",
+	  "sound": "wood"
+	},
+	{
+	  "id": "retreat_punished",
+	  "x": [
+		1900,
+		2010
+	  ],
+	  "when": "retreat",
+	  "effects": [
+		{
+		  "kind": "sweep",
+		  "from": [
+			1880,
+			455
+		  ],
+		  "to": [
+			2150,
+			455
+		  ],
+		  "size": [
+			60,
+			40
+		  ],
+		  "start": 0.08,
+		  "travel": 0.55,
+		  "hold": 0.15
+		}
+	  ],
+	  "phase": "out",
+	  "sound": "wood",
+	  "after": "false_rest"
+	},
+	{
+	  "id": "memory_slide",
+	  "x": [
+		2800,
+		2955
+	  ],
+	  "when": "land",
+	  "effects": [
+		{
+		  "kind": "slide",
+		  "surface_x": 2820,
+		  "start": 0.08,
+		  "travel": 0.48,
+		  "shift": [
+			-45,
+			8
+		  ]
+		}
+	  ],
+	  "phase": "out",
+	  "sound": "wood"
+	},
+	{
+	  "id": "jump_column",
+	  "x": [
+		2770,
+		2960
+	  ],
+	  "when": "jump",
+	  "effects": [
+		{
+		  "kind": "fall",
+		  "from": [
+			2940,
+			170
+		  ],
+		  "to": [
+			2940,
+			490
+		  ],
+		  "size": [
+			48,
+			90
+		  ],
+		  "start": 0.1,
+		  "travel": 0.3,
+		  "hold": 0.24
+		}
+	  ],
+	  "phase": "out",
+	  "sound": "wood",
+	  "after": "memory_slide"
+	},
+	{
+	  "id": "dash_echo",
+	  "x": [
+		4450,
+		4840
+	  ],
+	  "when": "dash",
+	  "effects": [
+		{
+		  "kind": "sweep",
+		  "from": [
+			4300,
+			383
+		  ],
+		  "to": [
+			4860,
+			383
+		  ],
+		  "size": [
+			60,
+			38
+		  ],
+		  "start": 0.14,
+		  "travel": 0.7,
+		  "hold": 0.16
+		}
+	  ],
+	  "phase": "out",
+	  "sound": "wood"
+	},
+	{
+	  "id": "false_flower",
+	  "x": [
+		5410,
+		5470
+	  ],
+	  "when": "enter",
+	  "effects": [
+		{
+		  "kind": "cut",
+		  "surface_x": 5350,
+		  "start": 0.35
+		},
+		{
+		  "kind": "sweep",
+		  "from": [
+			5200,
+			145
+		  ],
+		  "to": [
+			5550,
+			145
+		  ],
+		  "size": [
+			72,
+			40
+		  ],
+		  "start": 0.12,
+		  "travel": 0.62,
+		  "hold": 0.12
+		}
+	  ],
+	  "phase": "out",
+	  "sound": "wood"
+	},
+	{
+	  "id": "last_bough",
+	  "x": [
+		5770,
+		5900
+	  ],
+	  "when": "jump",
+	  "effects": [
+		{
+		  "kind": "fall",
+		  "from": [
+			5890,
+			-40
+		  ],
+		  "to": [
+			5890,
+			210
+		  ],
+		  "size": [
+			48,
+			80
+		  ],
+		  "start": 0.1,
+		  "travel": 0.33,
+		  "hold": 0.2
+		}
+	  ],
+	  "phase": "out",
+	  "sound": "wood"
+	},
+	{
+	  "id": "backward_teeth",
+	  "x": [
+		5520,
+		5630
+	  ],
+	  "when": "land",
+	  "effects": [
+		{
+		  "kind": "spikes",
+		  "from": [
+			5515,
+			230
+		  ],
+		  "to": [
+			5515,
+			195
+		  ],
+		  "size": [
+			65,
+			35
+		  ],
+		  "start": 0.25,
+		  "travel": 0.12,
+		  "hold": 0.55
+		}
+	  ],
+	  "phase": "back",
+	  "sound": "wood"
+	},
+	{
+	  "id": "last_door",
+	  "x": [
+		930,
+		950
+	  ],
+	  "when": "enter",
+	  "effects": [
+		{
+		  "kind": "cut",
+		  "surface_x": 700,
+		  "start": 0.48
+		}
+	  ],
+	  "phase": "back",
+	  "sound": "wood"
+	}
+  ]
+}

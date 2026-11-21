@@ -37,14 +37,14 @@ func run() -> void:
 	check(c.attack_count==1,"Holding attack cannot produce an automatic chain of sword strikes")
 	c=fresh()
 	c.enemies.resize(1)
-	c.enemies[0].position=Vector2(600,470)
+	c.enemies[0].position=Vector2(632,470)
 	c.enemies[0].state="recover"
 	c.enemies[0].age=0.0
 	for i in 30: c.tick(1.0/120,Vector2(500,470),-1,true,false,i==0,false)
 	check(c.enemies[0].hp==18,"Sword cannot hit the enemy behind Odisseu")
 	c.player_attack_age=-1
 	for i in 30: c.tick(1.0/120,Vector2(500,470),1,true,false,i==0,false)
-	check(c.enemies[0].hp==15,"Sword active frames apply three damage within forward reach")
+	check(c.enemies[0].hp==15,"Sword active frames reach a soldier beyond the former hitbox")
 	for i in 60: c.tick(1.0/120,Vector2(500,470),1,true,false,false,false)
 	check(c.enemies[0].hp==15,"A single swing cannot damage repeatedly across its active frames")
 	c=fresh()

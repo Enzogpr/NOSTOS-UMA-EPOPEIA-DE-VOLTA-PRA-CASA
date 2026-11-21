@@ -15,6 +15,7 @@ O menu de atributos bloqueia abertura e sacrifício nas telas de título/splash 
 | Arpão | Agilidade altera o tempo de carga; inteligência reduz a influência do vento. Não aumenta a área do alvo ou garante acerto. |
 | Vigília | Vitalidade altera resistência ao sono e inteligência melhora concentração. Não recupera sono nem desperta automaticamente. A perda do dia nove continua obrigatória. |
 | Poseidon | Dano, corrida, velocidade agachada e recarga do dash usam a campanha; o máximo de fôlego é vida máxima ×10. Checkpoints preservam sacrifícios posteriores. |
+| Submundo | Velocidade e recarga do dash usam a campanha. Inteligência reduz o apego e o tempo necessário para sustentar os selos. Os ecos ajustam o intervalo para manter as provas resolvíveis com velocidade reduzida. Vida atual e dano são preservados, sem cura, dano físico ou fornecimento de suprimentos nessas duas fases. |
 
 ## Fórmulas específicas
 
@@ -23,6 +24,7 @@ O menu de atributos bloqueia abertura e sacrifício nas telas de título/splash 
 - Arpão: tempo de carga base / `sqrt(max(0.3, speed_mult))`; vento × `clamp(1 - max(0, intellect - 5) * 0.025, 0.75, 1)`. O disparo em voo preserva o vento calculado no lançamento.
 - Vigília: crescimento de sono × `clamp((10 / max_hp)^0.2, 1, 1.35) * clamp(1 - (intellect - 5) * 0.025, 0.8, 1.15)`. A rampa inevitável do dia nove permanece.
 - Poseidon: corrida `305 * speed_mult`; agachado `143 * speed_mult`; capacidade de fôlego `10 * max_hp`; dano e recarga iguais aos atributos salvos. Salto, gravidade e velocidade instantânea do dash continuam nas escalas existentes da fase.
+- Submundo: caminhada `215 * speed_mult`; apego × `clamp(1 - (intellect - 5) * 0.025, 0.55, 1.2)`; permanência conjunta nos selos `max(0.22, 0.42 - (intellect - 5) * 0.009)` segundos; intervalo dos ecos `max(2.4, 1.1 + 230 / (215 * speed_mult))` segundos.
 
 Os atributos base de 20 anos mantêm os valores originais das mecânicas. Dano da espada não é aplicado ao casco ou ao alvo do arpão; vida do capitão não vira vida da embarcação. Mapa e cutscenes não recebem alterações de ritmo por sacrifício.
 

@@ -75,7 +75,7 @@ func _refresh_map() -> void:
 
 func _on_player_arrived(stop: MapNode) -> void:
 	info_label.text=stop.get_display_name()
-	status_label.text=stop.get_status_text()+"  ·  "+("Ato IV" if stop.level_id==4 else "Ato %s" % ["I","II","III"][clampi(stop.level_id-1,0,2)])
+	status_label.text=stop.get_status_text()+"  ·  Ato "+["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII"][clampi(stop.level_id-1,0,12)]
 	enter_button.text="REJOGAR  ›" if stop.is_completed() else "INICIAR  ›"
 	enter_button.disabled=not stop.is_unlocked()
 	for marker in stops:

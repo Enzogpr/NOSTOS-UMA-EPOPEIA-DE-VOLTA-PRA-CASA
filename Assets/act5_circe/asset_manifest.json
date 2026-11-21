@@ -1,0 +1,35 @@
+{
+  "image_tool": "built-in image_gen",
+  "background": "enchanted_forest.png",
+  "atlas": "forest_atlas.png",
+  "background_prompt": "Production background for a Greek Odyssey side-scrolling platform game. Detailed painterly pixel art, Mediterranean enchanted forest, ancient oaks and olive trees, golden afternoon to violet twilight, distant Grecian marble palace, layered depth, readable empty gameplay space, dark lower foreground. Strict horizontal side view. No characters, UI, text, floating platforms or contact sheets.",
+  "atlas_prompt": "Transparent production sprite atlas, 1536x1024, strict 2x2 equal 768x512 cells: top-left mossy solid earth cliff cross section; top-right horizontal fallen oak root bridge; bottom-left ancient Greek marble palace gateway with violet magical veil; bottom-right luminous white moly flower with black root. Detailed painterly pixel art matching the forest, isolated complete objects, no characters, text or UI.",
+  "audio": "Locally synthesized deterministic wind, birds, chime and footstep; no extracted external soundtrack.",
+  "regions": {
+    "earth": [
+      35,
+      137,
+      690,
+      278
+    ],
+    "bridge": [
+      780,
+      238,
+      748,
+      170
+    ],
+    "palace": [
+      85,
+      515,
+      620,
+      500
+    ],
+    "flower": [
+      936,
+      531,
+      415,
+      469
+    ]
+  },
+  "extraction_prompt": "Background extraction edit of this exact 1536x1024 sprite atlas. Keep the four sprite objects in EXACTLY the same positions, sizes, colors and detail: mossy earth top-left, root bridge top-right, marble gate bottom-left, white flower bottom-right. Remove ALL gray/white checker, gray gradient, white background and the thin grid separator lines. Output genuine clean RGBA transparency, alpha ZERO wherever no sprite object exists, fully opaque object interiors. This is a game sprite sheet; checkerboards cannot be painted or embedded in any alpha channel. Preserve white flower petals and marble, their white color is part of the object. Do not rearrange or repaint the sprites, only remove the background. No shadows outside silhouettes."
+}

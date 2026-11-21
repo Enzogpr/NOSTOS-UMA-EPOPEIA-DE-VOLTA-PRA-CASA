@@ -37,6 +37,10 @@ func _on_resume_pressed() -> void:
 func _on_restart_pressed() -> void:
 	get_tree().paused = false
 	visible = false
+	var scene:=get_tree().current_scene
+	if is_instance_valid(scene) and scene.has_method("restart_checkpoint"):
+		scene.restart_checkpoint()
+		return
 	GameManager.heal_fully()
 	get_tree().reload_current_scene()
 

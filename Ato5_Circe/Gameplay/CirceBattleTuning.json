@@ -1,0 +1,17 @@
+{
+  "arena": [95,220,962,315],
+  "player_speed":225.0, "player_radius":13.0,
+  "dash_speed":400.0, "dash_duration":0.20,
+  "sword_cooldown":0.43, "sword_range":109.0,
+  "boss_hp":80, "mirror_threshold":53, "palace_threshold":27,
+  "observe_charge":0.72, "observe_cost":20, "observe_duration":1.8,
+  "table_speed":430, "root_warning":0.85,
+  "attack_pattern":["enchant","table","roots","staff","table","enchant","roots","staff"],
+  "mirror_spots":[[270,290],[865,290],[575,465]],
+  "palace_events":[
+	{"id":"west_column","trigger":"enter","kind":"column","pivot":[355,343],"rect":[355,325,175,35],"warning":1.0,"duration":0.45},
+	{"id":"north_gate","trigger":"cross_center","kind":"gate","rect":[500,300,170,30],"warning":0.65,"duration":0.65},
+	{"id":"dash_floor","trigger":"dash","kind":"pit","radius":36,"warning":1.0,"duration":0.3},
+	{"id":"east_column","trigger":"second_hit","kind":"column","pivot":[775,443],"rect":[775,426,175,35],"warning":1.05,"duration":0.45}
+  ]
+}

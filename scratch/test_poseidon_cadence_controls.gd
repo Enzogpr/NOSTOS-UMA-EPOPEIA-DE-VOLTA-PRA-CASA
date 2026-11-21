@@ -29,6 +29,7 @@ func mouse(button: MouseButton, pressed: bool) -> void:
 
 func step(seconds: float = 1.0/60.0) -> void:
 	scene._physics_process(seconds)
+	scene.visuals.update_visuals(0.0)
 
 func _ready() -> void:
 	set_meta("hide_main_hud",true)
@@ -55,17 +56,20 @@ func _ready() -> void:
 	check(absf(scene.model.dash_cooldown_seconds-maxf(0.5,GameManager.player_dash_cooldown)) < 0.001,"Controller imports the saved character's dash cooldown")
 	check(scene.model.boarding.player_damage==7,"Controller imports campaign sword damage instead of a scene-local constant")
 	check(scene.controls_hint.text.contains("SHIFT") and scene.controls_hint.text.contains("Q / BOTÃO DIREITO") and not scene.controls_hint.text.contains("K ·"),"Control hints advertise Shift guard and both dash bindings")
-	check(scene.dash_label.text.contains("DASH PRONTO"),"HUD presents dash ready before first use")
+	check(not scene.visuals.dash_bar.visible,"The recharge bar is hidden before the first dash")
 	key(KEY_Q,true)
 	await get_tree().process_frame
 	check(scene.dash_requested,"Real Q input reaches the controller's dash edge handler")
 	step()
 	key(KEY_Q,false)
 	check(scene.model.dashes == 1 and scene.model.dash_time > 0,"Q starts dash through controller physics")
-	check(scene.dash_label.text.contains("DASH ATIVO"),"HUD presents active dash during motion")
+	check(scene.visuals.dash_bar.visible and scene.visuals.dash_bar.position.is_equal_approx(scene.visuals.world.transform * scene.visuals.odysseus.position),"The recharge bar appears at the hero's projected feet")
+	var progress: float = scene.visuals.dash_bar.progress
 	step(0.25)
-	check(scene.dash_label.text.contains("s") and not scene.dash_label.text.contains("DASH PRONTO"),"HUD presents cooldown after dash motion ends")
+	check(scene.visuals.dash_bar.visible and scene.visuals.dash_bar.progress > progress,"The recharge bar fills after the dash motion ends")
 	scene.model.dash_cooldown_remaining = 0.0
+	scene.visuals.update_visuals(0.0)
+	check(not scene.visuals.dash_bar.visible,"The recharge bar disappears once the dash is ready")
 	mouse(MOUSE_BUTTON_RIGHT,true)
 	await get_tree().process_frame
 	check(scene.dash_requested,"Right mouse input reaches the controller's dash edge handler")
@@ -107,7 +111,7 @@ func _ready() -> void:
 	scene.allow_input = true
 	scene._update_interface()
 	check(scene.controls_hint.get_combined_minimum_size().x <= scene.controls_hint.size.x+0.01 and scene.controls_hint.get_combined_minimum_size().y <= scene.controls_hint.size.y+0.01,"Two-line controls fit their HUD rectangle")
-	check(scene.dash_label.get_combined_minimum_size().x <= scene.dash_label.size.x+0.01 and scene.dash_label.get_combined_minimum_size().y <= scene.dash_label.size.y+0.01,"Two-line dash status fits its HUD rectangle")
+	check(scene.stance_label.text in ["ABAIXADO", "NO AR", "EM APOIO"],"The footer shows stance only")
 	if "--capture" in OS.get_cmdline_user_args():
 		scene.model.position = Vector2(scene.model.final_origin+640.0,scene.model.boats[10].rect.position.y)
 		scene.model.velocity = Vector2.ZERO

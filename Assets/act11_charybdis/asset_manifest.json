@@ -1,0 +1,6 @@
+{
+  "tool": "ImageGen integrado",
+  "assets": {
+    "hazards.png": "Transparent true RGBA game sprite atlas for a hand-painted pixel art game about the Greek Odyssey, overhead sea level view. Exact 2-column, one row layout, each sprite wholly within its own half, centered, generous transparent padding. LEFT only: a group of three huge curved ivory triangular fangs mounted closely on one dark black-purple scaled low arcing jaw ridge seen from high overhead, wet weathered surfaces, small muted turquoise reflected accents, broad distinctive silhouette, tips pointing toward TOP of image; no splashes or background. RIGHT only: two broken wood logs bound with old rope and a broken bronze rim fragment in a single compact asymmetrical floating wreckage, high overhead, horizontal silhouette, earthy brown and gold, no water or splashes. Both sprites evenly scaled, isolated, no color clouds, genuine transparent background, sharp painterly pixel brush detail, no text no panels no UI."
+  }
+}

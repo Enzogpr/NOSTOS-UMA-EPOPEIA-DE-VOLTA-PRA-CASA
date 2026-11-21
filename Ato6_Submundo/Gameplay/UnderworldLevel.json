@@ -1,0 +1,85 @@
+{
+  "world_size":[4980,1120],
+  "checkpoints":[[178,684],[1000,648],[2880,641]],
+  "shelters":[[1550,321],[2040,439],[2440,461],[3450,460],[3940,805],[4480,360]],
+  "mother":[2780,602],
+  "exit":[4825,460],
+  "banks":[
+    [[60,710,180],[320,689,156],[520,650,130],[720,606,143],[900,630,169],[1080,645,172]],
+    [[970,720,118],[1250,754,107],[1510,772,113],[1800,837,104],[2080,788,107],[2340,761,99],[2540,706,109],[2750,650,140],[2900,640,140]],
+    [[980,560,113],[1160,492,106],[1390,352,104],[1610,310,125],[1820,418,111],[2040,468,135],[2250,401,121],[2420,440,117],[2640,540,118],[2810,628,147],[2920,650,131]],
+    [[2800,640,147],[3040,623,123],[3230,475,104],[3400,438,103],[3580,541,101],[3770,752,104],[3930,786,105],[4080,716,89],[4280,483,104],[4490,370,98],[4660,422,108],[4920,455,158]]
+  ],
+  "props":[
+    [132,553,2,0.82],[458,754,2,0.64],[809,500,2,0.84],[995,508,0,0.90],
+    [1183,517,3,0.78],[1320,354,1,0.87],[1550,267,0,1.12],[1650,389,1,0.76],
+    [1860,327,2,0.96],[2057,406,1,1.02],[2220,333,0,0.80],[2440,401,3,0.86],
+    [1290,819,2,0.91],[1615,878,2,0.61],[1865,738,2,0.75],[2140,879,2,0.76],[2495,805,1,0.92],
+    [2760,530,2,0.81],[2915,549,0,0.86],[3130,656,2,0.82],[3468,407,2,0.71],
+    [3615,506,2,1.0],[3820,860,2,1.04],[4044,805,2,0.76],[4215,693,2,0.75],
+    [4500,322,1,0.92],[4720,520,3,0.96],[4870,456,0,1.22]
+  ],
+  "soul_lines":["Capitão... espera!","Você mandou a gente remar.","Ainda estamos aqui.","Capitão... onde está o navio?","Não nos deixe aqui.","Estamos atrás de você, capitão.","Capitão..."],
+  "currents":[
+    {"x":570,"width":124,"from":445,"to":860,"depth":90,"travel":3.0,"period":5.7,"offset":0.2,"voice":0},
+    {"x":1390,"width":105,"from":960,"to":608,"depth":81,"travel":2.2,"period":5.4,"offset":1.7,"voice":1},
+    {"x":1790,"width":126,"from":660,"to":1030,"depth":88,"travel":2.4,"period":5.2,"offset":0.8,"voice":2},
+    {"x":2250,"width":120,"from":946,"to":598,"depth":83,"travel":2.4,"period":5.3,"offset":3.1,"voice":3},
+    {"x":1790,"width":92,"from":212,"to":532,"depth":76,"travel":2.4,"period":6.2,"offset":1.3,"voice":1},
+    {"x":2270,"width":90,"from":593,"to":252,"depth":75,"travel":2.4,"period":6.1,"offset":4.5,"voice":2},
+    {"x":3210,"width":115,"from":297,"to":735,"depth":93,"travel":2.7,"period":5.0,"offset":0.9,"voice":4},
+    {"x":3680,"width":150,"from":436,"to":940,"depth":92,"travel":2.65,"period":5.3,"offset":0.9,"voice":5},
+    {"x":3770,"width":135,"from":950,"to":455,"depth":87,"travel":2.7,"period":5.3,"offset":3.1,"voice":4},
+    {"x":4230,"width":139,"from":805,"to":290,"depth":95,"travel":2.55,"period":5.1,"offset":0.7,"voice":6},
+    {"x":4370,"width":115,"from":202,"to":641,"depth":84,"travel":2.55,"period":5.1,"offset":3.25,"voice":6}
+  ],
+  "echo_delay":2.4,
+  "puzzles":[
+    {"title":"A PRIMEIRA PEGADA","hint":"Pare no primeiro selo. Seu eco repete o tempo que você ficou ali.",
+      "start":[230,440],"floor":[[135,365,575,145]],"pads":[[330,425,1],[560,425,0]],"rule":"together"},
+    {"title":"A PONTE QUE CEDE","hint":"Deixe o primeiro eco no selo enquanto você atravessa.",
+      "start":[200,415],"floor":[[125,340,395,150],[705,340,290,150]],"pads":[[360,415,1]],"rule":"cross","goal":[845,415],"reach":370,
+      "bridges":[[500,389,225,52,0]]},
+    {"title":"AS DUAS MARGENS","hint":"O primeiro eco sustenta a ponte. O segundo repete uma parada mais antiga.",
+      "start":[205,415],"floor":[[125,330,260,185],[515,335,230,165],[875,335,150,165]],"pads":[[270,415,1],[610,415,2]],"rule":"cross","goal":[959,415],
+      "bridges":[[360,389,180,52,0],[720,389,176,52,1]]},
+    {"title":"O REFLEXO INVERTIDO","hint":"O eco aparece à mesma distância, do outro lado do espelho.",
+      "start":[230,445],"floor":[[145,330,400,175],[607,330,400,175]],"pads":[[792,385,1],[475,455,0]],"rule":"together","mirror":576},
+    {"title":"A ORDEM DOS PASSOS","hint":"Acenda os selos na ordem marcada. O eco mais antigo começa.",
+      "start":[195,440],"floor":[[135,330,875,180]],"pads":[[290,402,2],[545,460,1],[790,402,0]],"rule":"sequence","reach":280},
+    {"title":"O ÚLTIMO PASSO","hint":"Prepare as duas paradas. O eco antigo abre a primeira ponte e o recente abre a segunda.",
+      "start":[200,420],"floor":[[125,320,345,200],[650,370,115,96],[885,312,146,191]],"pads":[[245,389,2],[365,449,1]],"rule":"cross","goal":[930,433],"reach":520,
+      "bridges":[[450,391,225,54,0],[742,391,164,54,1]]}
+  ],
+  "prophet":[986,347],
+  "dialogues":{
+    "mother":[
+      {"speaker":"ODISSEU","text":"Mãe...?"},
+      {"speaker":"ANTICLEIA","text":"Meu filho. Eu esperava ver seu rosto mais uma vez."},
+      {"speaker":"ODISSEU","text":"Ainda tenho um caminho a cumprir. Queria poder ficar."},
+      {"speaker":"ANTICLEIA","text":"Então leve meu amor com você."}
+    ],
+    "vision_1":[
+      {"speaker":"TIRÉSIAS","text":"Eu vejo uma canção de um romance passado"}
+    ],
+    "vision_2":[
+      {"speaker":"TIRÉSIAS","text":"Vejo o sacrifício de homens"}
+    ],
+    "vision_3":[
+      {"speaker":"TIRÉSIAS","text":"Vejo retratos de traições, E a última resistência de um irmão"}
+    ],
+    "vision_4":[
+      {"speaker":"TIRÉSIAS","text":"Vejo você à beira da morte... Vejo você dar seu último suspiro"}
+    ],
+    "vision_5":[
+      {"speaker":"TIRÉSIAS","text":"Eu vejo seu palácio coberto de vermelho, Rostos de homens que há muito acreditam que você está morto"}
+    ],
+    "vision_6":[
+      {"speaker":"TIRÉSIAS","text":"Vejo sua esposa com um homem que está assombrado, Um homem com um rastro de corpos"}
+    ],
+    "prophet":[
+      {"speaker":"TIRÉSIAS","text":"Vejo um homem que consegue voltar para casa vivo..."},
+      {"speaker":"TIRÉSIAS","text":"Mas não é você"}
+    ]
+  }
+}

@@ -57,7 +57,7 @@ func run() -> void:
 	root.add_child(map)
 	current_scene=map
 	await process_frame
-	check(map.stops.size()==7 and map.player.current_node==map.stops[0],"Map contains seven stops and begins at the latest unlocked destination")
+	check(map.stops.size()==19 and map.player.current_node==map.stops[0],"Map contains nineteen stops and begins at the latest unlocked destination")
 	check(map.info_label.text.contains("Troia"),"Unlocked current act has a real title rather than an anonymous station")
 	check(not map.player.request_travel(map.stops[6]),"Click travel cannot bypass a locked Poseidon chapter")
 	map.player.current_node=map.stops[6]
@@ -96,7 +96,7 @@ func run() -> void:
 	map.player.travel_tween.custom_step(1.0)
 	check(map.player.global_position.distance_to(map.stops[5].global_position)<0.01,"Resizing during travel keeps the avatar attached to its destination")
 	gm.complete_act4()
-	check(map.progress_label.text.begins_with("7 / 7") and map.stops[6].is_completed(),"Final completion lights the last route segment and all seven finished stops")
+	check(map.progress_label.text.begins_with("7 / 19") and map.stops[6].is_completed() and map.stops[7].is_unlocked() and not map.stops[8].is_unlocked(),"Poseidon completion unlocks the flower search, keeping Circe's battle locked")
 	map.player.snap_to(map.stops[6])
 	check(map.enter_button.text.contains("REJOGAR"),"Completed Poseidon remains replayable")
 	for stop in map.stops:
