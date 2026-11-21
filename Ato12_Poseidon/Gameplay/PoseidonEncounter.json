@@ -1,0 +1,18 @@
+{
+  "barrier_seals": 3,
+  "guard_formations": 3,
+  "background_sequence": ["spears", "tide", "cross", "pools", "rain", "tide"],
+  "attack_interval": 2.35,
+  "finisher_duration": 2.65,
+  "wind_opening": 2.6,
+  "opening_recovery": 1.3,
+  "wind_recharge": 4.4,
+  "guard_hp": 24,
+  "captain_hp": 84,
+  "duel_hp": 288,
+  "duel_combos": [
+    ["thrust", "sweep", "thrust"],
+    ["wave", "thrust", "sweep", "thrust"],
+    ["thrust", "wave", "sweep", "thrust", "sweep"]
+  ]
+}

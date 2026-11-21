@@ -37,7 +37,7 @@ var action_label: Label
 var result_detail: Label
 var balance_bar: ProgressBar
 var action_bar: ProgressBar
-var dash_label: Label
+var stance_label: Label
 var warning_label: Label
 var notice_time: float = 0.0
 var ready_delay: float = 0.3
@@ -235,11 +235,8 @@ func _build_interface() -> void:
 		controls_hint.position=Vector2(190,599)
 		controls_hint.size=Vector2(766,38)
 		controls_hint.add_theme_font_size_override("font_size",13)
-	dash_label = _label("",Vector2(968,599),Vector2(148,27),14)
-	if cadence_enabled:
-		dash_label.size.y=38
-		dash_label.add_theme_font_size_override("font_size",13)
-	dash_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	stance_label = _label("",Vector2(968,599),Vector2(148,27),14)
+	stance_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	action_label = _label("",Vector2(315,111),Vector2(522,23),15)
 	action_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	action_bar = _bar(Vector2(408,138),Vector2(336,5),Color(0.44,0.87,0.82))
@@ -257,7 +254,7 @@ func _build_interface() -> void:
 	_label("O caminho ficou para trás. A frota ainda está adiante." if proof_enabled else "Poseidon destruiu a frota. Os ventos abriram a saída.",Vector2(28,83),Vector2(630,28),20,result)
 	result_detail = _label("",Vector2(28,135),Vector2(630,95),21,result)
 	_button("REPETIR TRECHO" if proof_enabled else "REPETIR A FUGA",Vector2(28,261),Vector2(290,39),replay,result)
-	legacy_continue = _button("CONTINUAR TRAVESSIA" if proof_enabled else "VOLTAR AO MAPA",Vector2(366,261),Vector2(290,39),func(): _continue_legacy(3) if proof_enabled else return_to_map(),result)
+	legacy_continue = _button("CONTINUAR TRAVESSIA" if proof_enabled else "VOLTAR AO MAPA",Vector2(366,261),Vector2(290,39),func(): _continue_legacy(3) if proof_enabled else _continue_journey(),result)
 	result.hide()
 	failure_panel = _panel(Vector2(246,190),Vector2(660,301),0.98)
 	failure_panel.z_index = 40
@@ -364,13 +361,10 @@ func _update_interface() -> void:
 	var playable: bool = model.phase not in [MODEL.Phase.ESCAPING,MODEL.Phase.COMPLETE]
 	balance_bar.visible = playable
 	balance_label.visible = playable
-	dash_label.visible = playable
-	dash_label.text = "ABAIXADO" if model.crouching else "NO AR" if not model.grounded else "EM APOIO"
+	stance_label.visible = playable
+	stance_label.text = "ABAIXADO" if model.crouching else "NO AR" if not model.grounded else "EM APOIO"
 	controls_hint.text = "A/D · CORRER   S/↓ · ABAIXAR   ESPAÇO · PULAR   Q / BOTÃO DIREITO · DASH\nJ/CLIQUE · ATACAR   SHIFT · DEFENDER   E · BOLSA" if cadence_enabled else "A / D · CORRER     S / ↓ · ABAIXAR     ESPAÇO · PULAR (SEGURE: MAIS ALTO)     E · INTERAGIR"
 	if cadence_enabled and aftermath_enabled: controls_hint.text=controls_hint.text.replace("   E · BOLSA","")
-	if cadence_enabled:
-		var dash_status: String="DASH ATIVO" if model.dash_time>0 else "DASH %.1fs" % model.dash_cooldown_remaining if model.dash_cooldown_remaining>0 else "DASH PRONTO"
-		dash_label.text=dash_status+"\n"+dash_label.text
 	prompt_label.text = model.prompt() if model.active() else ""
 	notice_label.visible = not cadence_enabled and notice_time > 0 and model.active()
 	warning_label.hide()
@@ -501,6 +495,7 @@ func _completed(record: Dictionary) -> void:
 		var file := FileAccess.open(record_file_path,FileAccess.WRITE)
 		if file: file.store_string(JSON.stringify(record))
 		if bool(record.get("aftermath_completed",false)): GameManager.complete_act4()
+		if GameManager.act4_completed: legacy_continue.text = "SEGUIR PARA CIRCE  ›"
 	result_detail.text = "11 navios perdidos  ·  1 navio sobrevivente\n10 barcos atravessados  ·  bolsa recuperada\n%.1f s  ·  %d impactos  ·  %d retomadas" % [record.seconds,record.hits,record.retries]
 	if aftermath_started:
 		result_detail.text="43 sobreviventes  ·  1 navio preservado\nOdisseu escapou com a bolsa dos ventos.\n%.1f s de travessia e combate  ·  %d impactos" % [record.seconds,record.hits]
@@ -525,6 +520,11 @@ func release_music() -> void:
 func replay() -> void:
 	_replace_scene(proof_enabled,legacy_start_boat,false,cadence_enabled)
 
+func _continue_journey() -> void:
+	if GameManager.act4_completed:
+		get_tree().change_scene_to_file("res://Ato5_Circe/Gameplay/CirceForest.tscn")
+	else: return_to_map()
+
 func return_to_map() -> void:
 	stop_audio()
 	release_music()
@@ -546,7 +546,7 @@ func _update_proof_interface() -> void:
 	balance_bar.value = model.balance
 	balance_label.text = "FÔLEGO  %d%%" % int(model.balance)
 	controls_hint.text = "A / D · CORRER     S / ↓ · ABAIXAR     ESPAÇO · PULAR (SEGURE: MAIS ALTO)     ESC · PAUSA"
-	dash_label.text = "ABAIXADO" if model.crouching else "NO AR" if not model.grounded else "EM APOIO"
+	stance_label.text = "ABAIXADO" if model.crouching else "NO AR" if not model.grounded else "EM APOIO"
 	prompt_label.text = model.prompt() if model.active() else ""
 	warning_label.hide()
 	action_label.hide()
@@ -557,7 +557,7 @@ func _update_proof_interface() -> void:
 		prompt_label.text = ""
 		balance_bar.hide()
 		balance_label.hide()
-		dash_label.hide()
+		stance_label.hide()
 
 func _continue_legacy(index: int) -> void:
 	_replace_scene(false,index,proof_enabled and model.phase == MODEL.Phase.COMPLETE)

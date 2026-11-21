@@ -30,11 +30,31 @@ func get_display_name() -> String:
 	return real_name if is_unlocked() else "???"
 
 func is_unlocked() -> bool:
+	if level_id==13: return GameManager.final_poseidon_completed
+	if level_id==12: return GameManager.charybdis_completed
+	if level_id==11: return GameManager.calypso_completed
+	if level_id==10: return GameManager.ogygia_paths_completed if chapter_index==1 else GameManager.mutiny_completed
+	if level_id==9: return GameManager.scylla_completed
+	if level_id==8: return GameManager.sirens_completed
+	if level_id==7: return GameManager.underworld_prophecy_completed
+	if level_id==6:
+		return GameManager.underworld_crossing_completed if chapter_index==1 else GameManager.circe_battle_completed
+	if level_id==5:
+		return GameManager.circe_search_completed if chapter_index==1 else GameManager.act4_completed or GameManager.highest_unlocked_level>=5
 	if GameManager.highest_unlocked_level<level_id: return false
 	return chapter_index<0 or chapter_index<=GameManager.act4_unlocked_stage
 
 func is_completed() -> bool:
 	if not is_unlocked(): return false
+	if level_id==13: return GameManager.ithaca_completed
+	if level_id==12: return GameManager.final_poseidon_completed
+	if level_id==11: return GameManager.charybdis_completed
+	if level_id==10: return GameManager.calypso_completed if chapter_index==1 else GameManager.ogygia_paths_completed
+	if level_id==9: return GameManager.mutiny_completed
+	if level_id==8: return GameManager.scylla_completed
+	if level_id==7: return GameManager.sirens_completed
+	if level_id==6: return GameManager.underworld_prophecy_completed if chapter_index==1 else GameManager.underworld_crossing_completed
+	if level_id==5: return GameManager.circe_battle_completed if chapter_index==1 else GameManager.circe_search_completed
 	if chapter_index<0: return GameManager.highest_unlocked_level>level_id
 	return GameManager.act4_completed or chapter_index<GameManager.act4_unlocked_stage
 

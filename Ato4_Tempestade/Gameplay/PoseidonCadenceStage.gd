@@ -2,12 +2,14 @@ extends "res://Ato4_Tempestade/Gameplay/PoseidonEscapeStage.gd"
 ## Camera and acting for the musical route. Every traversable timber is drawn
 ## from the same pair of endpoints used by the collision model.
 const DIVINE_MATERIAL := preload("res://Assets/act4_poseidon/acting.gdshader")
+const BOARDING := preload("res://Ato4_Tempestade/Gameplay/PoseidonWaterBoarding.gd")
 const SOLDIER_ATLAS := preload("res://Assets/act4_poseidon_soldiers/water_soldier_combat.png")
 const COMBAT_ATLAS := preload("res://Assets/act4_poseidon_soldiers/odysseus_combat.png")
 const SOLDIER_RECTS := [Rect2(0,0,627,440),Rect2(627,0,627,440),Rect2(0,440,627,430),Rect2(627,440,627,430),Rect2(0,870,657,384),Rect2(657,870,597,384)]
 const SOLDIER_FEET := [Vector2(312,432),Vector2(275,432),Vector2(321,423),Vector2(262,423),Vector2(320,367),Vector2(227,367)]
 const COMBAT_FEET := [Vector2(278,470),Vector2(285,470),Vector2(263,470),Vector2(280,452),Vector2(310,452),Vector2(300,452)]
 const SIDE_WAVE := preload("res://Assets/act4_poseidon_escape/wave_side_v2.png")
+const DASH_RECHARGE_BAR := preload("res://Code/DashRechargeBar.gd")
 var encounter: Variant
 var god: RIG.Performer
 var atmosphere: CadenceAtmosphere
@@ -17,6 +19,7 @@ var actor_lean := 0.0
 var last_section := ""
 var section_age := 99.0
 var death_starts: Dictionary = {}
+var dash_bar := DASH_RECHARGE_BAR.new()
 
 class CadenceAtmosphere extends Node2D:
 	var director: Node2D
@@ -46,6 +49,7 @@ func _ready() -> void:
 	atmosphere.director = self
 	add_child(atmosphere)
 	move_child(atmosphere,world.get_index())
+	add_child(dash_bar)
 	reset_camera()
 	update_visuals(0)
 
@@ -125,6 +129,10 @@ func update_visuals(dt: float) -> void:
 	sea.modulate = Color(0.68,0.79,0.83).lerp(Color(0.41,0.61,0.69),displayed_storm*0.72)
 	if _wind_has_released(): sea.modulate = sea.modulate.lerp(Color(0.72,0.82,0.85),_escape_progress()*0.44)
 	_update_actor(visual_dt)
+	dash_bar.update_at(world.transform * odysseus.position,
+		float(_value("dash_cooldown_remaining", 0.0)),
+		float(_value("dash_cooldown_seconds", 0.0)),
+		model.active() and odysseus.visible)
 	_update_death_clocks()
 	_update_divine(visual_dt,state,section)
 	geometry.queue_redraw()
@@ -625,7 +633,7 @@ func _draw_sword_motion(canvas: Node2D) -> void:
 	for i in 12:
 		var t: float=i/11.0
 		var angle: float=lerpf(-0.75,0.65,clampf(progress-t*0.48,0,1))
-		path.append(origin+Vector2(cos(angle)*face,sin(angle))*92)
+		path.append(origin+Vector2(cos(angle)*face,sin(angle))*(BOARDING.SWORD_REACH+9.0))
 	canvas.draw_polyline(path,Color(0.9,0.85,0.65,sin(progress*PI)*0.48),1.8,true)
 
 func draw_foreground(canvas: Node2D) -> void:

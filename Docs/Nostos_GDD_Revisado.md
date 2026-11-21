@@ -61,7 +61,7 @@ HIGH CONCEPT
 --------------------------------------------------
 Título: Nostos: Uma Epopeia de Volta pra Casa
 Um jogo de ação 2D com pixel art e cutscenes ilustradas onde o jogador
-guia Odisseu por treze estações míticas rumo a Ítaca, cada estação com
+guia Odisseu por quatorze estações míticas rumo a Ítaca, cada estação com
 uma dinâmica de jogo e provação própria.
 
 --------------------------------------------------
@@ -72,7 +72,7 @@ Gênero: Aventura de ação 2D híbrida, a estrutura muda de dinâmica a
 cada estação (furtividade, sobrevivência, combate, escolhas morais),
 unidas sob um gênero guarda-chuva próprio: "Épico".
 Resumo: Após a queda de Troia, Odisseu enfrenta uma jornada de anos pelo
-mar, parando em treze estações míticas que testam sua astúcia, sua
+mar, parando em quatorze estações míticas que testam sua astúcia, sua
 coragem e o que ele está disposto a sacrificar para voltar para casa.
 
 --------------------------------------------------
@@ -156,7 +156,7 @@ REGRAS E CONDIÇÕES
 --------------------------------------------------
 Vitória: completar o desafio específico de cada estação (ex: abrir os
 portões em Troia sem ser detectado; atravessar a frota, derrotar os
-soldados de água e fugir de Poseidon; capturar as Sereias antes do prazo)
+soldados de água e fugir de Poseidon; capturar a sereia antes que o canto tome o leme)
 e seguir viagem rumo à próxima parada. A vitória do jogo é reconquistar
 Ítaca na Batalha Final.
 
@@ -219,7 +219,7 @@ Protagonista (Odisseu):
   navegação, mira do arpão e vigília na estação de Éolo; plataforma e
   combate contra soldados de água na primeira fúria de Poseidon.
 
-Inimigos/Obstáculos por estação (treze estações no total, na ordem da
+Inimigos/Obstáculos por estação (quatorze estações no total, na ordem da
 jornada, cada uma com uma dinâmica própria adaptada da Odisseia):
 
 1. Rei de Troia (Furtividade + Chefão de nível): guardas patrulham com
@@ -272,37 +272,106 @@ jornada, cada uma com uma dinâmica própria adaptada da Odisseia):
    "Últimas palavras?". Odisseu abre a bolsa e foge no próprio navio;
    Poseidon reage com "O que?" e encerra à distância com "Lembre de mim".
 
-6. Circe (Escolha / Puzzle narrativo): sem combate direto, uma disputa
-   de mente e sorte, onde as decisões do jogador podem custar o
-   sacrifício de companheiros de tripulação.
+6. Circe (Exploração / Plataforma / Combate): após a captura dos homens,
+   Odisseu busca a holimoli com a orientação de Hermes. A fase atual
+   atravessa ruínas com passagens baixas, raízes móveis e madeira que
+   cede, caminhos ilusórios e a subida à clareira da flor. Observar
+   revela temporariamente a rota real, exigindo memória e execução.
+   A holimoli protege automaticamente dos feitiços e abre atalhos na
+   volta; árvores que tombam mantêm o perigo físico no retorno.
+   Armadilhas encadeadas reagem ao salto, à aterrissagem, ao dash e ao
+   recuo. A primeira flor é uma ilusão, e a entrada aparente do palácio
+   muda de posição no último trecho. Checkpoints próximos permitem
+   aprender cada conjunto com novas tentativas rápidas e consistentes.
+   A busca termina na entrada do palácio, onde começa o confronto.
+   O confronto usa movimentação livre em quatro direções, com mira
+   pelo mouse, espada, defesa e dash. A flor repele automaticamente os
+   encantamentos; mesas arremessadas, raízes e golpes do cajado mantêm
+   o perigo físico. Odisseu ataca nas recuperações de Circe. Na segunda
+   parte, surgem cópias: segurar E, parado, revela temporariamente a
+   verdadeira, enquanto movimentos e sombras oferecem pistas. Na
+   terceira, colunas caem, uma passagem fecha e o piso se rompe em
+   reação a ações específicas, em sequências fixas que se aprendem.
+   Checkpoints preservam os atributos entre tentativas e reiniciam
+   as mudanças do salão de forma consistente.
+   O resgate dos homens acontece depois da vitória e ainda não está
+   implementado.
 
 7. Submundo (Provação espiritual): estação sem suprimentos
-   físicos, uma descida ao mundo dos mortos para consultar o profeta
-   Tirésias e descobrir a rota segura adiante.
+   físicos, dividida em duas fases. Na primeira, Odisseu percorre as
+   margens do rio entre correntes de almas que o arrastam e aumentam
+   o apego. Passar pelas aberturas evita a influência; firmar os pés
+   com Shift interrompe o arrasto, mas não elimina o apego na exposição.
+   Lanternas oferecem recuperação e checkpoints. Perder-se nas vozes
+   exige retomar o último ponto seguro, sem alterar a vida física.
+   Anticleia pode ser ouvida em uma área segura; Polites não participa.
+   Na segunda fase, três provas de ecos temporais abrem o caminho até
+   Tirésias. Os ecos repetem os passos anteriores e ocupam selos junto
+   ao jogador, primeiro em dupla e depois com dois ecos. A inteligência
+   ajuda a resistir às almas e a ativar os selos; a velocidade e a
+   recarga do dash preservam os sacrifícios da campanha. As profecias
+   aparecem em falas e visões breves, encerradas pelo reflexo de Odisseu
+   seguindo adiante. O resgate e a transição narrativa após Circe ainda
+   serão feitos; as fases já podem ser acessadas após a vitória.
 
-8. Sereias (Captura sob tempo): causam 1 de dano por contato. O
-   objetivo não é derrotá-las, e sim capturá-las dentro de um tempo
-   limite, falhar nisso enfeitiça o jogador com o canto delas.
+8. Sereias (Perseguição em três fases): Odisseu tem 75 segundos para
+   capturar uma sereia. WASD ou setas movem o navio, o mouse mira,
+   clique ou Espaço lança a rede e E recolhe a corda. A sereia rompe a
+   primeira rede. Na segunda fase, o canto cria duas imagens; o rastro
+   na água identifica a verdadeira. Ela volta a escapar ao ser puxada.
+   Na terceira fase, o canto inverte as direções do leme. O jogador
+   contorna os recifes e recolhe quando a corda afrouxa. Se o tempo
+   acaba, Odisseu se entrega ao canto e a tentativa termina. A captura
+   final revela a gruta de Cila, e a primeira vitória registra a vida restante.
 
-9. Cila e Caríbdis (Escolha sob risco): navegação apertada entre dois
-   perigos simultâneos, exigindo decisão de rota sob risco constante.
+9. Cila (A gruta das seis tochas): após as Sereias, Odisseu manda
+   Euríloco acender seis tochas. O navio acompanha o canal enquanto o
+   jogador segura W ou seta para cima. A velocidade depende da agilidade
+   da campanha. Dentro da gruta, as tochas iluminam trechos do convés,
+   da água e das paredes. As investidas de Cila apagam as tochas uma de
+   cada vez. Depois da última, o jogador avança no escuro até a luz da
+   saída. Euríloco reconhece a relação entre os seis homens e as tochas.
 
-10. Euríloco / A Fúria de Zeus (Combate + Grande Provação): Euríloco
-    trai Odisseu e ataca diretamente, causando 2 de dano por golpe, o
-    confronto que também representa a Grande Provação da jornada, com a
-    ira de Zeus caindo sobre a tripulação logo em seguida.
+10. Euríloco / A Fúria de Zeus (Combate + Grande Provação): após Cila,
+    Euríloco confronta Odisseu pelas seis perdas. No duelo de quatro
+    direções, Euríloco tem 15 de vida e enfrenta Odisseu com um espadão
+    de duas mãos. Cada golpe de Euríloco causa 2 de dano. Odisseu pode usar
+    defesa, dash e a recuperação de Euríloco para desarmá-lo. Na segunda
+    parte, Euríloco pode emendar um avanço após errar a varrida. A tripulação
+    intervém após o desarme. Na ilha de Hélios, Euríloco contraria a ordem
+    de proteger o rebanho sagrado. O Motim termina no retorno ao navio,
+    com o primeiro trovão. O julgamento e a fúria de Zeus são a próxima
+    parte da provação, prevista para depois desse desfecho.
 
-11. Calipso (Resistência / Puzzle narrativo): não causa dano
-    diretamente, o desafio é resistir às tentações do paraíso que ela
-    oferece, sem ser um confronto de combate convencional.
+11. Calipso (Puzzle narrativo + Navegação): em A Ilha que Sempre Volta,
+    as trilhas devolvem Odisseu à casa de Calipso. As marcas nas pedras
+    permanecem e os sinais do mar indicam a rota até o mirante. Os sete
+    anos na ilha não alteram o sacrifício de idade. Atena obtém de Zeus
+    a ordem de libertá-lo. Em A Última Maré, Odisseu prepara a jangada
+    e escolhe entre os recifes da enseada ou as ondas da praia aberta.
+    Depois da arrebentação, Hermes aponta o caminho para Caríbdis.
 
-12. Poseidon -Tempestade Final (Sobrevivência extrema / Chefão de
-    nível): extremamente letal, apenas 2 golpes bastam para matar o
-    jogador. Arremessa objetos à distância e invoca soldados de água.
+12. Caríbdis (Sobrevivência cronometrada): a corrente leva a jangada
+    em círculos por 55 segundos. Odisseu muda entre três faixas para
+    desviar de destroços e dentes, que surgem onde a água se agita.
+    A corrente acelera e as passagens diminuem até Caríbdis perder a
+    força e soltar a jangada. Três impactos quebram a jangada.
 
-13. Pretendentes de Penélope (Combate / Batalha Final): múltiplos
-    inimigos simultâneos, cada um causando 1 de dano, que se escondem e
-    tentam cercar o jogador, a Batalha Final da jornada, em Ítaca.
+13. Poseidon - O Último Mar (Sobrevivência + Duelo): depois de
+    Caríbdis, Odisseu avista Ítaca e enfrenta Poseidon num recife.
+    Após a queda no mar, abre a bolsa de ventos e volta à superfície
+    com rajadas. O jogador atrai a estocada para a rocha, aproveita a
+    abertura para desarmar o deus e pega o tridente. A arma divina
+    causa dano durante as recuperações de Poseidon. A vitória faz
+    o deus dissipar a tempestade que impede a chegada a Ítaca.
+
+14. Pretendentes de Penélope (Prova do arco / Batalha Final): no
+    salão de Ítaca, Odisseu dispara pelos doze machados e enfrenta
+    três investidas. As colunas detêm flechas e bloqueiam a visão.
+    Arqueiros buscam cobertura, espadachins atacam pelos flancos e
+    os escudos abrem durante a recuperação. Cada golpe inimigo
+    causa 1 de dano. A vitória leva ao reencontro com Penélope e
+    Telêmaco.
 
 Itens/Coletáveis e Sistema de Armazenamento:
 O jogo possui um sistema de armazenamento (inventário) onde itens
@@ -326,15 +395,25 @@ LEVEL DESIGN
 --------------------------------------------------
 O jogo é estruturado como um mapa marítimo com nós, representando as
 paradas da jornada. Uma estação narrativa pode conter mais de uma fase
-jogável. O mapa atual apresenta sete entradas: Troia, Lotófagos, Ciclope,
-Tempestade, Éolia, Nove dias e Poseidon. Tempestade, Éolia e Nove dias
-pertencem à estação de Éolo; portanto, essas sete entradas cobrem as
-cinco primeiras estações da jornada prevista de treze. As demais
-estações permanecem como planejadas neste GDD.
+jogável. O mapa atual apresenta dezenove entradas: Troia, Lotófagos, Ciclope,
+Tempestade, Éolia, Nove dias, Poseidon, Circe - Holimoli, Circe - Confronto,
+Submundo - A Fuga das Almas, Tirésias - Ecos, Sereias - O Recife do Canto, Cila -
+A Gruta das Seis Tochas, Motim - O Convés Dividido, Ogígia - Trilhas
+Ogígia - Jangada, Caríbdis - O Redemoinho, Poseidon - O Último Mar e
+Ítaca - Os Pretendentes.
+Tempestade, Éolia e Nove dias pertencem à estação de Éolo; as entradas
+de Circe cobrem a busca da flor e a luta, antes do resgate. As duas entradas
+do Submundo separam a travessia e a consulta ao profeta, que libera o
+recife das Sereias. A captura libera Cila, cujo progresso é gravado após
+a cena de saída, que libera o Motim. Na versão atual, o Motim libera
+as Trilhas, e a intervenção de Atena libera a Jangada. A partida de
+Ogígia libera Caríbdis, cuja travessia abre o segundo confronto com
+Poseidon. O duelo libera Ítaca. O julgamento de
+Zeus na estação anterior segue planejado.
 
 Ordem da jornada: Troia -> Lotófagos -> Ciclope -> Ilha de Éolo ->
-Poseidon (Primeira Fúria) -> Circe -> Submundo -> Sereias -> Cila e
-Caríbdis -> Euríloco -> Calipso -> Poseidon (Tempestade Final) ->
+Poseidon (Primeira Fúria) -> Circe -> Submundo -> Sereias -> Cila ->
+Euríloco -> Calipso -> Caríbdis -> Poseidon (Tempestade Final) ->
 Pretendentes de Penélope.
 
 A dificuldade aumenta em duas camadas: dentro de cada estação (ex: em
@@ -342,8 +421,7 @@ Troia, mais guardas e rotas de patrulha mais apertadas quanto mais perto
 do portão); e entre estações, seguindo a ordem acima, terminando nas
 duas estações mais punitivas do jogo (a segunda fúria de Poseidon e a
 Batalha Final). O protótipo atual já apresenta variações de mecânica e
-dificuldade até a primeira fúria de Poseidon; as estações posteriores
-ainda serão desenvolvidas.
+dificuldade até o confronto final no salão de Ítaca.
 
 A primeira estação (Troia) é uma arena fechada de infiltração; a Sala do
 Trono (Rei de Troia) é uma arena de combate sem esconderijos,

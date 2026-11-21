@@ -4,7 +4,7 @@ extends RefCounted
 const SWORD_WINDUP := 0.075
 const SWORD_ACTIVE := 0.12
 const SWORD_DURATION := 0.46
-const SWORD_REACH := 96.0
+const SWORD_REACH := 115.0
 const ENEMY_HEIGHT := 108.0
 const PLAYER_HEIGHT := 76.0
 const CROUCH_HEIGHT := 52.0

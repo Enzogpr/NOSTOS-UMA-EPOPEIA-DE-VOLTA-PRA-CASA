@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+const SWORD_REACH := 78.0
+const DASH_RECHARGE_BAR := preload("res://Code/DashRechargeBar.gd")
+
 @export var move_speed: float = 120.0
 @export var max_hp: int = 10
 @export var dash_speed: float = 400.0
@@ -10,8 +13,7 @@ var facing_dir: Vector2 = Vector2.RIGHT
 var is_dashing: bool = false
 var dash_dir: Vector2 = Vector2.ZERO
 
-var dash_bar: ColorRect
-var dash_bar_bg: ColorRect
+var dash_bar := DASH_RECHARGE_BAR.new()
 
 var attack_area: Area2D
 var is_attacking: bool = false
@@ -48,33 +50,20 @@ func _ready() -> void:
 	attack_area.collision_mask = 4
 	var shape = CollisionShape2D.new()
 	var rect = RectangleShape2D.new()
-	rect.size = Vector2(65, 25)
+	rect.size = Vector2(SWORD_REACH, 25)
 	shape.shape = rect
-	shape.position = Vector2(32, 0)
+	shape.position = Vector2(SWORD_REACH * 0.5, 0)
 	attack_area.add_child(shape)
 
 	# Visual do ataque
 	attack_visual = Polygon2D.new()
 	attack_visual.polygon = PackedVector2Array(
-		[Vector2(10, -10), Vector2(50, -5), Vector2(65, 0), Vector2(50, 5), Vector2(10, 10)]
+		[Vector2(39, -10), Vector2(SWORD_REACH - 8, -7), Vector2(SWORD_REACH, 0), Vector2(SWORD_REACH - 8, 4), Vector2(15, 9)]
 	)
 	attack_visual.color = Color(0.9, 0.9, 0.9, 0.6)
 	attack_visual.visible = false
-	attack_area.add_child(attack_visual)
+	add_child(attack_visual)
 
-	# Interface do Dash
-	dash_bar_bg = ColorRect.new()
-	dash_bar_bg.size = Vector2(30, 4)
-	dash_bar_bg.position = Vector2(-15, 12)
-	dash_bar_bg.color = Color(0.2, 0.2, 0.2, 0.8)
-	dash_bar_bg.visible = false
-	add_child(dash_bar_bg)
-
-	dash_bar = ColorRect.new()
-	dash_bar.size = Vector2(30, 4)
-	dash_bar.position = Vector2(-15, 12)
-	dash_bar.color = Color(0.2, 0.8, 1.0, 1.0)
-	dash_bar.visible = false
 	add_child(dash_bar)
 
 	add_child(attack_area)
@@ -103,6 +92,7 @@ func _ready() -> void:
 	_attack_timer.timeout.connect(
 		func():
 			is_attacking = false
+			attack_visual.hide()
 			var anim_spr = get_node_or_null("AttackAnimSprite")
 			if anim_spr:
 				anim_spr.visible = false
@@ -197,6 +187,7 @@ func _setup_animations() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	dash_bar.update_at(Vector2.ZERO, _dash_cooldown.time_left, _dash_cooldown_total, not GameManager.game_over)
 	if GameManager.game_over:
 		return
 
@@ -206,16 +197,6 @@ func _physics_process(delta: float) -> void:
 			visual = get_node_or_null("Sprite2D")
 		if not visual:
 			visual = get_node_or_null("Polygon2D")
-
-	if not _dash_cooldown.is_stopped():
-		dash_bar.size.x = 30.0 * (
-			1.0 - (_dash_cooldown.time_left / GameManager.player_dash_cooldown)
-		)
-		dash_bar_bg.visible = true
-		dash_bar.visible = true
-	else:
-		dash_bar_bg.visible = false
-		dash_bar.visible = false
 
 	if is_dashing:
 		velocity = dash_dir * dash_speed
@@ -258,6 +239,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	attack_area.rotation = facing_dir.angle()
+	if is_attacking:
+		attack_visual.modulate.a = clampf((_attack_timer.time_left - 0.25) / 0.15, 0.0, 1.0)
 
 	# Process walking / idle animation
 	var spr := visual as Sprite2D
@@ -358,6 +341,9 @@ func _attack() -> void:
 	AudioManager.play_sword_sfx()
 	is_attacking = true
 	_attack_timer.start(0.4)
+	attack_visual.rotation = attack_area.rotation
+	attack_visual.modulate.a = 1.0
+	attack_visual.show()
 
 	var anim_spr = get_node_or_null("AttackAnimSprite") as AnimatedSprite2D
 	if anim_spr:
