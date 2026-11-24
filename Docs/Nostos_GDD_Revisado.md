@@ -122,10 +122,15 @@ Poseidon, a capacidade de fôlego corresponde a dez vezes a vida máxima.
 Vida do capitão não se transforma em vida do casco, e sacrificar anos
 não cura o personagem nem desperta Odisseu automaticamente.
 
-A idade e os atributos são salvos junto ao progresso. A contagem de anos
-sacrificados continua prevista para determinar uma das duas telas
-finais (ver Fim de Jogo Alternativo, na seção de Regras e Condições);
-essa ligação com os finais ainda não está implementada.
+A idade e os atributos são salvos junto ao progresso. O retorno avança
+automaticamente por marcos narrativos, somando dez anos entre Troia e
+Ítaca. Os sete anos de Calipso acompanham as marcas de tempo da fase.
+Tempo vivido e anos sacrificados são contados separadamente; ambos
+envelhecem Odisseu e aplicam a curva de atributos. Repetir fases não soma
+tempo novamente. A contagem de anos sacrificados continua prevista para
+determinar uma das duas telas finais (ver Fim de Jogo Alternativo, na
+seção de Regras e Condições); essa ligação com os finais ainda não está
+implementada.
 
 --------------------------------------------------
 CONTROLES
@@ -346,7 +351,8 @@ jornada, cada uma com uma dinâmica própria adaptada da Odisseia):
 11. Calipso (Puzzle narrativo + Navegação): em A Ilha que Sempre Volta,
     as trilhas devolvem Odisseu à casa de Calipso. As marcas nas pedras
     permanecem e os sinais do mar indicam a rota até o mirante. Os sete
-    anos na ilha não alteram o sacrifício de idade. Atena obtém de Zeus
+    anos na ilha envelhecem Odisseu automaticamente, sem serem contados
+    como anos sacrificados. Atena obtém de Zeus
     a ordem de libertá-lo. Em A Última Maré, Odisseu prepara a jangada
     e escolhe entre os recifes da enseada ou as ondas da praia aberta.
     Depois da arrebentação, Hermes aponta o caminho para Caríbdis.
@@ -393,23 +399,23 @@ futuras da jornada.
 --------------------------------------------------
 LEVEL DESIGN
 --------------------------------------------------
-O jogo é estruturado como um mapa marítimo com nós, representando as
-paradas da jornada. Uma estação narrativa pode conter mais de uma fase
-jogável. O mapa atual apresenta dezenove entradas: Troia, Lotófagos, Ciclope,
-Tempestade, Éolia, Nove dias, Poseidon, Circe - Holimoli, Circe - Confronto,
-Submundo - A Fuga das Almas, Tirésias - Ecos, Sereias - O Recife do Canto, Cila -
-A Gruta das Seis Tochas, Motim - O Convés Dividido, Ogígia - Trilhas
-Ogígia - Jangada, Caríbdis - O Redemoinho, Poseidon - O Último Mar e
-Ítaca - Os Pretendentes.
-Tempestade, Éolia e Nove dias pertencem à estação de Éolo; as entradas
-de Circe cobrem a busca da flor e a luta, antes do resgate. As duas entradas
-do Submundo separam a travessia e a consulta ao profeta, que libera o
-recife das Sereias. A captura libera Cila, cujo progresso é gravado após
-a cena de saída, que libera o Motim. Na versão atual, o Motim libera
-as Trilhas, e a intervenção de Atena libera a Jangada. A partida de
-Ogígia libera Caríbdis, cuja travessia abre o segundo confronto com
-Poseidon. O duelo libera Ítaca. O julgamento de
-Zeus na estação anterior segue planejado.
+O jogo é estruturado como um mapa marítimo com um ponto por ilha ou
+região, reunindo as fases de cada lugar. A nova arte representa doze
+destinos: Troia, Ilha dos Lotófagos, Ilha do Ciclope, Eólia, Costa dos
+Gigantes, Eeia (Circe), Submundo, Ilha das Sereias, o estreito de Cila e
+Caríbdis, Trinácia (Hélio), Ogígia (Calipso) e Ítaca.
+
+As dezenove entradas jogáveis anteriores continuam acessíveis no painel
+do destino, com seus bloqueios e progresso separados. Eólia reúne a
+tempestade, o arpão e a vigília. Circe reúne busca e confronto; o Submundo,
+travessia e profecia; Ogígia, cativeiro e jangada. O estreito tem um único
+ponto para Cila e para o retorno posterior a Caríbdis. As águas de Ítaca
+abrigam a batalha final contra Poseidon, antes de liberar os pretendentes.
+
+A captura da sereia libera Cila; a saída da gruta libera o Motim em
+Trinácia. O Motim abre Ogígia, e Atena libera a jangada. A partida de
+Calipso reabre o estreito para Caríbdis. O julgamento de Zeus após o
+Motim segue planejado.
 
 Ordem da jornada: Troia -> Lotófagos -> Ciclope -> Ilha de Éolo ->
 Poseidon (Primeira Fúria) -> Circe -> Submundo -> Sereias -> Cila ->

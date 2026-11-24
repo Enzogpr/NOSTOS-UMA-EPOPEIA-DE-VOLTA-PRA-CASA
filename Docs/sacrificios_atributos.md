@@ -1,5 +1,7 @@
 # Sacrifício de anos e efeitos por fase
 
+A idade agora também avança pelos dias da história: consulte `Docs/cronologia_jornada.md`. O retorno dura dez anos; sete são passados com Calipso. A curva abaixo vale para cada aniversário natural e para cada ano sacrificado. A contagem `sacrificed_years` é independente de `story_days`; apenas o sacrifício fica fora do calendário do mundo.
+
 O estado permanente continua em `Code/GameManager.gd`. `sacrifice_year()` calcula as mudanças existentes por idade, aplica limites, emite os sinais de atributos e vida e salva imediatamente. O novo `reset_encounter()` limpa apenas suspeita, derrota, modo de combate e primeiro movimento; a fase do portão usa essa operação ao entrar/reiniciar. `reset()` completo continua reservado às ações explícitas que já iniciavam/abandonavam uma campanha.
 
 O menu de atributos bloqueia abertura e sacrifício nas telas de título/splash e sem cena ativa. Se uma transição leva ao título com o painel aberto, ele fecha e libera sua pausa. Isso evita gravar os valores reiniciados da tela inicial por cima de uma campanha existente.

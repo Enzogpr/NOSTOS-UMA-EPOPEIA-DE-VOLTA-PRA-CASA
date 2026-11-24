@@ -181,7 +181,7 @@ func run() -> void:
 	check(gm.circe_battle_completed and scene.result.visible,"actual victory records the existing battle milestone")
 	scene.queue_free(); await process_frame
 	var map: Control=load("res://Scenes/WorldMap.tscn").instantiate(); root.add_child(map); current_scene=map; await process_frame
-	check(map.stops.size()==19 and map.stops[8].is_completed(),"new battle retains the same map slot and saved progression")
+	check(map.stops.size()==12 and map.DATA.chapter_completed(map.destination("aeaea").chapters[1]),"new battle retains the same map slot and saved progression")
 	map.queue_free(); await process_frame
 	check(original==(FileAccess.get_file_as_bytes(gm.SAVE_FILE_PATH) if FileAccess.file_exists(gm.SAVE_FILE_PATH) else PackedByteArray()),"test preserves the real campaign save")
 	print("CIRCE_BATTLE ",checks," CHECKS ",failures," FAILURES")

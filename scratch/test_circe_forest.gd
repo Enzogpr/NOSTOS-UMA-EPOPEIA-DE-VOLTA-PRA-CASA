@@ -313,15 +313,15 @@ func run() -> void:
 	root.add_child(map)
 	current_scene=map
 	await process_frame
-	check(map.stops.size()==19 and not map.stops[7].is_unlocked() and not map.stops[8].is_unlocked(),"Map includes Circe search and battle, locked before their prerequisites")
+	check(map.stops.size()==12 and not map.destination("aeaea").is_unlocked(),"Map includes Circe search and battle, locked before their prerequisites")
 	gm.complete_act4()
-	check(map.stops[7].is_unlocked() and not map.stops[7].is_completed(),"Only completed Poseidon aftermath unlocks the flower search")
+	check(map.destination("aeaea").is_unlocked() and not map.DATA.chapter_completed(map.destination("aeaea").chapters[0]),"Only completed Poseidon aftermath unlocks the flower search")
 	gm.collect_circe_moly()
-	check(not map.stops[7].is_completed(),"Picking the flower alone does not mark return to palace complete")
+	check(not map.DATA.chapter_completed(map.destination("aeaea").chapters[0]),"Picking the flower alone does not mark return to palace complete")
 	gm.complete_circe_search()
-	check(map.stops[7].is_completed() and map.stops[8].is_unlocked() and not map.stops[8].is_completed() and map.progress_label.text.begins_with("8 / 19"),"Returning to palace completes the search and unlocks the separate Circe confrontation")
+	check(map.DATA.chapter_completed(map.destination("aeaea").chapters[0]) and map.DATA.chapter_unlocked(map.destination("aeaea").chapters[1]) and not map.destination("aeaea").is_completed(),"Returning to palace completes the search and unlocks the separate Circe confrontation")
 	if "--capture" in OS.get_cmdline_user_args():
-		map.player.snap_to(map.stops[7])
+		map.player.snap_to(map.destination("aeaea"))
 		await process_frame
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("res://scratch/circe_preview/map.png")

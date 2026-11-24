@@ -81,12 +81,12 @@ func verify() -> void:
 	root.add_child(map)
 	current_scene = map
 	await process_frame
-	check(map.stops.size() == 19 and not map.stops[12].is_unlocked(), "The campaign map locks Cila until the Sirens are completed")
+	check(map.stops.size() == 12 and not map.destination("strait").is_unlocked(), "The campaign map locks Cila until the Sirens are completed")
 	gm.complete_scylla()
 	check(not gm.scylla_completed, "The campaign rejects an out-of-order completion")
 	gm.underworld_prophecy_completed = true
 	gm.complete_sirens(6)
-	check(map.stops[12].is_unlocked() and map.stops[12].level_scene == SCENE, "Completing the Sirens opens the authored cave scene")
+	check(map.destination("strait").is_unlocked() and map.destination("strait").entry_scene() == SCENE, "Completing the Sirens opens the authored cave scene")
 	map.queue_free()
 	await process_frame
 	var scene: Control = load(SCENE).instantiate()

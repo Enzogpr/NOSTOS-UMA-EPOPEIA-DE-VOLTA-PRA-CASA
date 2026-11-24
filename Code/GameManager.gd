@@ -11,6 +11,9 @@ signal game_over_combat
 signal player_first_move
 signal player_stats_changed
 signal act4_progress_changed
+signal journey_time_changed
+
+const CHRONOLOGY := preload("res://Code/JourneyChronology.gd")
 
 var suspicion: float = 0.0
 var max_suspicion: float = 100.0
@@ -20,6 +23,9 @@ var has_player_moved: bool = false
 var player_fake_name: String = ""
 
 var player_age: int = 20
+# Narrative days advance the world. Sacrifice years age only Odisseu.
+var story_days: int = 0
+var sacrificed_years: int = 0
 var player_max_hp: int = 10
 var player_current_hp: int = 10
 var player_speed_mult: float = 1.0
@@ -72,6 +78,10 @@ var save_file_path: String = SAVE_FILE_PATH
 var standalone_stage_preview := false
 
 func _ready() -> void:
+	# Scene transitions from an F6 run remain isolated, but use the age of
+	# the destination instead of silently falling back to twenty years old.
+	if get_tree().has_signal("scene_changed"):
+		get_tree().connect("scene_changed", _sync_preview_scene)
 	if not OS.has_feature("editor"): return
 	# F6 supplies the scene as a startup argument. Campaign transitions do not.
 	for argument in OS.get_cmdline_args():
@@ -83,10 +93,20 @@ func _ready() -> void:
 		elif path.ends_with(".tscn") and not path.begins_with("res://"):
 			if path.is_relative_path(): path="res://"+path
 			else: path=ProjectSettings.localize_path(path)
-		if path in STANDALONE_STAGES:
-			standalone_stage_preview=true
-			persistence_enabled=false
-			return
+		if prepare_standalone_stage(path): return
+
+func prepare_standalone_stage(path: String) -> bool:
+	if path not in STANDALONE_STAGES: return false
+	standalone_stage_preview = true
+	persistence_enabled = false
+	_advance_story_to_days(CHRONOLOGY.stage_entry_day(path))
+	return true
+
+func _sync_preview_scene() -> void:
+	if not standalone_stage_preview: return
+	var scene: Node = get_tree().current_scene
+	if is_instance_valid(scene):
+		prepare_standalone_stage(scene.scene_file_path)
 
 func add_item(id: String, item_name: String, icon_path: String, description: String, usage: String) -> void:
 	for item in inventory:
@@ -160,7 +180,9 @@ func reset_encounter() -> void:
 func reset() -> void:
 	reset_encounter()
 	
-	player_age = 20
+	player_age = CHRONOLOGY.START_AGE
+	story_days = 0
+	sacrificed_years = 0
 	player_max_hp = 10
 	player_current_hp = 10
 	player_speed_mult = 1.0
@@ -189,6 +211,7 @@ func reset() -> void:
 	ithaca_completed = false
 	inventory = []
 	
+	journey_time_changed.emit()
 	player_stats_changed.emit()
 	player_health_changed.emit(player_current_hp)
 	act4_progress_changed.emit()
@@ -196,6 +219,10 @@ func reset() -> void:
 func unlock_level(level: int) -> void:
 	if level > highest_unlocked_level:
 		highest_unlocked_level = level
+		match level:
+			2: _record_story_milestone("troy_departure")
+			3: _record_story_milestone("lotus_departure")
+			4: _record_story_milestone("cyclops_departure")
 		save_game()
 		act4_progress_changed.emit()
 
@@ -204,6 +231,10 @@ func unlock_act4_stage(stage: int) -> void:
 	if highest_unlocked_level>=4 and next_stage<=act4_unlocked_stage: return
 	highest_unlocked_level=maxi(4,highest_unlocked_level)
 	act4_unlocked_stage=maxi(act4_unlocked_stage,next_stage)
+	match next_stage:
+		1: _record_story_milestone("aeolia_arrival")
+		2: _record_story_milestone("aeolia_departure")
+		3: _record_story_milestone("wind_bag_opened")
 	act4_progress_changed.emit()
 	save_game()
 
@@ -212,6 +243,7 @@ func complete_act4() -> void:
 	highest_unlocked_level=maxi(4,highest_unlocked_level)
 	act4_unlocked_stage=3
 	act4_completed=true
+	_record_story_milestone("first_poseidon_escape")
 	act4_progress_changed.emit()
 	save_game()
 
@@ -232,12 +264,14 @@ func collect_circe_moly() -> void:
 func complete_circe_search() -> void:
 	if not circe_moly_found: return
 	circe_search_completed = true
+	_record_story_milestone("circe_search")
 	save_game()
 	act4_progress_changed.emit()
 
 func complete_circe_battle() -> void:
 	if not circe_moly_found or not circe_search_completed: return
 	circe_battle_completed=true
+	_record_story_milestone("circe_departure")
 	save_game()
 	act4_progress_changed.emit()
 
@@ -255,6 +289,7 @@ func record_underworld_mother() -> void:
 func complete_underworld_crossing() -> void:
 	if not circe_battle_completed: return
 	underworld_crossing_completed=true
+	_record_story_milestone("underworld_crossing")
 	highest_unlocked_level=maxi(6,highest_unlocked_level)
 	underworld_checkpoint=2
 	save_game()
@@ -268,6 +303,7 @@ func record_underworld_vision(index: int) -> void:
 func complete_underworld_prophecy() -> void:
 	if not underworld_crossing_completed or underworld_vision_index<UNDERWORLD_VISION_COUNT: return
 	underworld_prophecy_completed=true
+	_record_story_milestone("underworld_prophecy")
 	highest_unlocked_level = maxi(7, highest_unlocked_level)
 	save_game()
 	act4_progress_changed.emit()
@@ -278,6 +314,7 @@ func complete_sirens(remaining_hp: int) -> void:
 	sirens_completed = true
 	highest_unlocked_level = maxi(8, highest_unlocked_level)
 	player_current_hp = mini(remaining_hp, player_max_hp)
+	_record_story_milestone("sirens_departure")
 	player_health_changed.emit(player_current_hp)
 	save_game()
 	act4_progress_changed.emit()
@@ -286,6 +323,7 @@ func complete_scylla() -> void:
 	if not sirens_completed or scylla_completed:
 		return
 	scylla_completed = true
+	_record_story_milestone("scylla_passage")
 	highest_unlocked_level = maxi(9, highest_unlocked_level)
 	save_game()
 	act4_progress_changed.emit()
@@ -296,6 +334,7 @@ func complete_mutiny(remaining_hp: int) -> void:
 	mutiny_completed = true
 	highest_unlocked_level = maxi(10, highest_unlocked_level)
 	player_current_hp = mini(remaining_hp, player_max_hp)
+	_record_story_milestone("mutiny")
 	player_health_changed.emit(player_current_hp)
 	save_game()
 	act4_progress_changed.emit()
@@ -304,6 +343,7 @@ func complete_ogygia_paths() -> void:
 	if not mutiny_completed or ogygia_paths_completed:
 		return
 	ogygia_paths_completed = true
+	_record_story_milestone("calypso_departure")
 	save_game()
 	act4_progress_changed.emit()
 
@@ -311,6 +351,7 @@ func complete_calypso() -> void:
 	if not ogygia_paths_completed or calypso_completed:
 		return
 	calypso_completed = true
+	_record_story_milestone("calypso_departure")
 	highest_unlocked_level = maxi(11, highest_unlocked_level)
 	save_game()
 	act4_progress_changed.emit()
@@ -319,6 +360,7 @@ func complete_charybdis() -> void:
 	if not calypso_completed or charybdis_completed:
 		return
 	charybdis_completed = true
+	_record_story_milestone("charybdis_escape")
 	highest_unlocked_level = maxi(12, highest_unlocked_level)
 	save_game()
 	act4_progress_changed.emit()
@@ -329,6 +371,7 @@ func complete_final_poseidon(remaining_hp: int) -> void:
 	final_poseidon_completed = true
 	highest_unlocked_level = maxi(13, highest_unlocked_level)
 	player_current_hp = mini(remaining_hp, player_max_hp)
+	_record_story_milestone("ithaca_arrival")
 	player_health_changed.emit(player_current_hp)
 	save_game()
 	act4_progress_changed.emit()
@@ -387,6 +430,9 @@ func save_game() -> void:
 		"charybdis_completed": charybdis_completed,
 		"final_poseidon_completed": final_poseidon_completed,
 		"ithaca_completed": ithaca_completed,
+		"chronology_version": CHRONOLOGY.VERSION,
+		"story_days": story_days,
+		"sacrificed_years": sacrificed_years,
 		"player_age": player_age,
 		"player_max_hp": player_max_hp,
 		"player_current_hp": player_current_hp,
@@ -461,6 +507,8 @@ func load_game() -> bool:
 			elif underworld_prophecy_completed:
 				highest_unlocked_level = maxi(7, highest_unlocked_level)
 			
+			_restore_chronology(data)
+			journey_time_changed.emit()
 			player_stats_changed.emit()
 			player_health_changed.emit(player_current_hp)
 			act4_progress_changed.emit()
@@ -482,6 +530,14 @@ func heal_fully() -> void:
 	player_health_changed.emit(player_current_hp)
 
 func sacrifice_year() -> void:
+	sacrificed_years += 1
+	_apply_age_year()
+	player_stats_changed.emit()
+	player_health_changed.emit(player_current_hp)
+	journey_time_changed.emit()
+	save_game()
+
+func _apply_age_year() -> void:
 	player_age += 1
 	
 	if player_age >= 20 and player_age <= 29:
@@ -511,7 +567,69 @@ func sacrifice_year() -> void:
 	guard_detection_mult = clamp(1.0 - (player_intellect - 5) * 0.1, 0.4, 2.0)
 	
 	player_current_hp = clampi(player_current_hp, 0, player_max_hp)
-	
-	player_stats_changed.emit()
-	player_health_changed.emit(player_current_hp)
-	save_game()
+
+func story_years() -> int:
+	return CHRONOLOGY.years(story_days)
+
+func story_time_text() -> String:
+	return CHRONOLOGY.duration_text(story_days)
+
+func begin_calypso_stay() -> void:
+	if not mutiny_completed and not standalone_stage_preview: return
+	if _advance_story_to_days(CHRONOLOGY.day("calypso_arrival")): save_game()
+
+func record_calypso_years(years_elapsed: int) -> void:
+	if not mutiny_completed and not standalone_stage_preview: return
+	var target := CHRONOLOGY.day("calypso_arrival") + clampi(years_elapsed, 0, CHRONOLOGY.CALYPSO_YEARS) * CHRONOLOGY.DAYS_PER_YEAR
+	if _advance_story_to_days(target): save_game()
+
+func _record_story_milestone(milestone: String) -> bool:
+	if standalone_stage_preview: return false
+	return _advance_story_to_days(CHRONOLOGY.day(milestone))
+
+func _advance_story_to_days(target: int, notify := true) -> bool:
+	var next_days := clampi(target, story_days, CHRONOLOGY.RETURN_DAYS)
+	if next_days == story_days: return false
+	var added_years := CHRONOLOGY.years(next_days) - story_years()
+	story_days = next_days
+	for year in added_years: _apply_age_year()
+	if notify:
+		journey_time_changed.emit()
+		if added_years > 0:
+			player_stats_changed.emit()
+			player_health_changed.emit(player_current_hp)
+	return true
+
+func _inferred_story_days() -> int:
+	# Legacy saves held only sacrifice aging. Use validated progress, never
+	# unrelated per-scene records or wall-clock time, to recover world time.
+	if final_poseidon_completed or ithaca_completed: return CHRONOLOGY.day("ithaca_arrival")
+	if charybdis_completed: return CHRONOLOGY.day("charybdis_escape")
+	if calypso_completed or ogygia_paths_completed: return CHRONOLOGY.day("calypso_departure")
+	if mutiny_completed: return CHRONOLOGY.day("mutiny")
+	if scylla_completed: return CHRONOLOGY.day("scylla_passage")
+	if sirens_completed: return CHRONOLOGY.day("sirens_departure")
+	if underworld_prophecy_completed: return CHRONOLOGY.day("underworld_prophecy")
+	if underworld_crossing_completed: return CHRONOLOGY.day("underworld_crossing")
+	if circe_battle_completed: return CHRONOLOGY.day("circe_departure")
+	if circe_search_completed or circe_moly_found: return CHRONOLOGY.day("circe_search")
+	if act4_completed: return CHRONOLOGY.day("first_poseidon_escape")
+	if highest_unlocked_level >= 4:
+		match act4_unlocked_stage:
+			3: return CHRONOLOGY.day("wind_bag_opened")
+			2: return CHRONOLOGY.day("aeolia_departure")
+			1: return CHRONOLOGY.day("aeolia_arrival")
+		return CHRONOLOGY.day("cyclops_departure")
+	if highest_unlocked_level >= 3: return CHRONOLOGY.day("lotus_departure")
+	return 0
+
+func _restore_chronology(data: Dictionary) -> void:
+	story_days = 0
+	if int(data.get("chronology_version", 0)) >= CHRONOLOGY.VERSION:
+		story_days = clampi(int(data.get("story_days", 0)), 0, CHRONOLOGY.RETURN_DAYS)
+		sacrificed_years = maxi(0, int(data.get("sacrificed_years", player_age - CHRONOLOGY.START_AGE - story_years())))
+		# A progressed save can never predate its already completed events.
+		_advance_story_to_days(_inferred_story_days(), false)
+		return
+	sacrificed_years = maxi(0, player_age - CHRONOLOGY.START_AGE)
+	_advance_story_to_days(_inferred_story_days(), false)

@@ -116,7 +116,7 @@ func run() -> void:
 	root.add_child(map)
 	current_scene = map
 	await process_frame
-	check(map.stops.size() == 19 and map.stops[13].is_unlocked() and map.stops[13].level_scene == SCENE, "Cila opens the actual Motim scene on the campaign map")
+	check(map.stops.size() == 12 and map.destination("thrinacia").is_unlocked() and map.destination("thrinacia").entry_scene() == SCENE, "Cila opens the actual Motim scene on the campaign map")
 	map.queue_free()
 	await process_frame
 	var scene: Control = load(SCENE).instantiate()

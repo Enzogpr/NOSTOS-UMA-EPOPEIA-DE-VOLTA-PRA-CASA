@@ -4,6 +4,7 @@ signal thought(text: String)
 signal conversation_requested(key: String)
 signal escape_requested(route: int)
 signal completed
+signal years_elapsed(total: int)
 
 enum Place { SHORE, BENCH, HEADLAND }
 enum Beat { SALVAGE, CARVE, CARVED, CAST, DRIFT, RECOVER, PLAN, GRIP_READY, LAUNCH, AT_SEA, REUNION, REPAIR, LEAVE_TOOLS, HEADLAND, COMPLETE }
@@ -209,7 +210,10 @@ func _work_at_bench(delta: float, working: bool) -> void:
 		var phase_length := 3.45 if beat == Beat.REPAIR else 2.35
 		var season_start := 3.0 if beat == Beat.REPAIR else 0.0
 		var season_end := 7.0 if beat == Beat.REPAIR else 3.0
+		var previous_year := floori(seasons)
 		seasons = lerpf(season_start, season_end, smoothstep(0.0, phase_length, phase_length - time_cut))
+		if floori(seasons) > previous_year:
+			years_elapsed.emit(floori(seasons))
 		if beat == Beat.REPAIR and time_cut < 0.96:
 			oar_condition = 2
 		return

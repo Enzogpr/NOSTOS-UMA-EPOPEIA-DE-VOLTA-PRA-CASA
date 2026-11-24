@@ -45,6 +45,8 @@ func exercise() -> void:
 		expect(scene.locked, "A campaign entry is locked without completing Ogígia")
 	scene.queue_free()
 	await process_frame
+	# This age fixture already represents the completed captivity.
+	manager.story_days = manager.CHRONOLOGY.day("calypso_departure")
 	manager.ogygia_paths_completed = true
 	manager.complete_calypso()
 	expect(manager.highest_unlocked_level == 11, "Completing Calypso unlocks act XI")
@@ -52,7 +54,7 @@ func exercise() -> void:
 	var map: Control = load("res://Scenes/WorldMap.tscn").instantiate()
 	root.add_child(map)
 	await process_frame
-	expect(map.stops.size() == 19 and map.stops[16].level_scene == SCENE and map.stops[16].is_unlocked() and not map.stops[16].is_completed(), "The map offers the actual encounter after Ogígia")
+	expect(map.stops.size() == 12 and map.destination("strait").chapters[1].scene == SCENE and map.DATA.chapter_unlocked(map.destination("strait").chapters[1]) and not map.DATA.chapter_completed(map.destination("strait").chapters[1]), "The map offers the actual encounter after Ogígia")
 	map.queue_free()
 	await process_frame
 

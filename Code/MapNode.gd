@@ -1,74 +1,104 @@
 extends Node2D
 class_name MapNode
-
-@export var level_id: int = 1
-@export var level_scene: String = ""
-@export var real_name: String = ""
-@export var short_name: String = ""
-@export var journey_id: int = 1
-@export var chapter_index: int = -1
+const DATA := preload("res://Code/JourneyMapData.gd")
+var destination_id := ""
+var real_name := ""
+var short_name := ""
+var subtitle := ""
+var description := ""
+var chapters: Array = []
+var selected_chapter_id := ""
 var selected := false
+# These fields follow the selected chapter for existing scene callers.
+var level_id := 1
+var level_scene := ""
+var journey_id := 1
+var chapter_index := -1
+var previous: MapNode
+var following: MapNode
 
-@export var up_node: NodePath
-@export var down_node: NodePath
-@export var left_node: NodePath
-@export var right_node: NodePath
+func configure(place: Dictionary, index: int) -> void:
+	destination_id = place.id
+	real_name = place.name
+	short_name = real_name
+	subtitle = place.subtitle
+	description = place.description
+	chapters = place.chapters
+	position = place.position
+	journey_id = index + 1
+	select_chapter(recommended_chapter().get("id", ""))
 
-func get_up() -> MapNode:
-	return get_node_or_null(up_node) as MapNode
-
-func get_down() -> MapNode:
-	return get_node_or_null(down_node) as MapNode
-
-func get_left() -> MapNode:
-	return get_node_or_null(left_node) as MapNode
-
-func get_right() -> MapNode:
-	return get_node_or_null(right_node) as MapNode
-
-func get_display_name() -> String:
-	return real_name if is_unlocked() else "???"
+func get_up() -> MapNode: return previous
+func get_down() -> MapNode: return following
+func get_left() -> MapNode: return previous
+func get_right() -> MapNode: return following
+func get_display_name() -> String: return real_name
 
 func is_unlocked() -> bool:
-	if level_id==13: return GameManager.final_poseidon_completed
-	if level_id==12: return GameManager.charybdis_completed
-	if level_id==11: return GameManager.calypso_completed
-	if level_id==10: return GameManager.ogygia_paths_completed if chapter_index==1 else GameManager.mutiny_completed
-	if level_id==9: return GameManager.scylla_completed
-	if level_id==8: return GameManager.sirens_completed
-	if level_id==7: return GameManager.underworld_prophecy_completed
-	if level_id==6:
-		return GameManager.underworld_crossing_completed if chapter_index==1 else GameManager.circe_battle_completed
-	if level_id==5:
-		return GameManager.circe_search_completed if chapter_index==1 else GameManager.act4_completed or GameManager.highest_unlocked_level>=5
-	if GameManager.highest_unlocked_level<level_id: return false
-	return chapter_index<0 or chapter_index<=GameManager.act4_unlocked_stage
+	for entry in chapters:
+		if DATA.chapter_unlocked(entry): return true
+	return false
 
 func is_completed() -> bool:
-	if not is_unlocked(): return false
-	if level_id==13: return GameManager.ithaca_completed
-	if level_id==12: return GameManager.final_poseidon_completed
-	if level_id==11: return GameManager.charybdis_completed
-	if level_id==10: return GameManager.calypso_completed if chapter_index==1 else GameManager.ogygia_paths_completed
-	if level_id==9: return GameManager.mutiny_completed
-	if level_id==8: return GameManager.scylla_completed
-	if level_id==7: return GameManager.sirens_completed
-	if level_id==6: return GameManager.underworld_prophecy_completed if chapter_index==1 else GameManager.underworld_crossing_completed
-	if level_id==5: return GameManager.circe_battle_completed if chapter_index==1 else GameManager.circe_search_completed
-	if chapter_index<0: return GameManager.highest_unlocked_level>level_id
-	return GameManager.act4_completed or chapter_index<GameManager.act4_unlocked_stage
+	for entry in chapters:
+		if not DATA.chapter_completed(entry): return false
+	return not chapters.is_empty()
+
+func completed_chapters() -> int:
+	var count := 0
+	for entry in chapters:
+		if DATA.chapter_completed(entry): count += 1
+	return count
+
+func latest_unlocked_order() -> int:
+	var latest := -1
+	for entry in chapters:
+		if DATA.chapter_unlocked(entry): latest = maxi(latest, int(entry.order))
+	return latest
+
+func recommended_chapter() -> Dictionary:
+	var last: Dictionary = {}
+	for entry in chapters:
+		if not DATA.chapter_unlocked(entry): continue
+		last = entry
+		if not DATA.chapter_completed(entry): return entry
+	return last
+
+func selected_chapter() -> Dictionary:
+	for entry in chapters:
+		if entry.id == selected_chapter_id: return entry
+	return {}
+
+func select_chapter(id: String) -> bool:
+	for entry in chapters:
+		if entry.id != id or not DATA.chapter_unlocked(entry): continue
+		selected_chapter_id = id
+		level_scene = entry.scene
+		level_id = int(entry.act)
+		chapter_index = int(entry.chapter)
+		return true
+	return false
+
+func entry_scene() -> String:
+	var entry := selected_chapter()
+	return String(entry.scene) if not entry.is_empty() and DATA.chapter_unlocked(entry) else ""
 
 func get_status_text() -> String:
-	return "CONCLUÍDA" if is_completed() else "DISPONÍVEL" if is_unlocked() else "BLOQUEADA"
+	if is_completed(): return "CONCLUÍDO"
+	if completed_chapters() > 0: return "EM ANDAMENTO"
+	return "DISPONÍVEL" if is_unlocked() else "BLOQUEADO"
 
 func _draw() -> void:
-	var color:=Color(0.91,0.76,0.38) if is_completed() else Color(0.47,0.86,0.89) if is_unlocked() else Color(0.38,0.43,0.46)
+	var tint := Color("eccb83") if is_completed() else Color("91d5ce") if is_unlocked() else Color("758d94")
 	if selected:
-		draw_circle(Vector2.ZERO,26,Color(0.67,0.9,0.94,0.16))
-		draw_arc(Vector2.ZERO,25,0,TAU,48,Color(0.76,0.95,0.97),2,true)
-	draw_circle(Vector2.ZERO,18,Color(0.025,0.055,0.07,0.96))
-	draw_arc(Vector2.ZERO,18,0,TAU,40,color,2.5,true)
-	var text: String=str(journey_id) if is_unlocked() else "?"
-	var font: Font=ThemeDB.fallback_font
-	var width: float=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,18).x
-	draw_string(font,Vector2(-width*0.5,6),text,HORIZONTAL_ALIGNMENT_LEFT,-1,18,color)
+		draw_circle(Vector2.ZERO, 22, Color(0.96, 0.81, 0.48, 0.14))
+		draw_arc(Vector2.ZERO, 19, 0, TAU, 48, Color("f8d99a"), 1.5, true)
+	draw_circle(Vector2.ZERO, 10, Color("091d29"))
+	draw_arc(Vector2.ZERO, 10, 0, TAU, 40, tint, 1.5, true)
+	if is_completed():
+		draw_polyline(PackedVector2Array([Vector2(-4,0),Vector2(-1,3),Vector2(5,-4)]), tint, 1.8, true)
+	elif is_unlocked():
+		draw_circle(Vector2.ZERO, 3, tint)
+	else:
+		draw_rect(Rect2(-3,-1,6,5), tint)
+		draw_arc(Vector2(0,-1), 3, PI, TAU, 16, tint, 1.2, true)

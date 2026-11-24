@@ -115,7 +115,7 @@ func check_old_save() -> void:
 	check(manager.load_game() and manager.highest_unlocked_level == 13 and not manager.ithaca_completed, "An older post-Poseidon save unlocks the hall")
 	manager.complete_ithaca(6)
 	manager.reset()
-	check(not manager.ithaca_completed and manager.load_game() and manager.ithaca_completed and manager.player_current_hp == 6 and manager.player_age == 41, "The ending survives reload and resets for a new campaign")
+	check(not manager.ithaca_completed and manager.load_game() and manager.ithaca_completed and manager.player_current_hp == 1 and manager.player_age == 51 and manager.sacrificed_years == 21, "The ending persists after legacy natural aging and resets for a new campaign")
 	DirAccess.remove_absolute(manager.save_file_path)
 	manager.free()
 
@@ -169,12 +169,14 @@ func run() -> void:
 	check(scene.locked != preview, "F6 starts independently while campaign access is gated")
 	scene.queue_free()
 	await process_frame
+	# This age fixture already represents the return to Ithaca.
+	manager.story_days = manager.CHRONOLOGY.RETURN_DAYS
 	manager.charybdis_completed = true
 	manager.complete_final_poseidon(8)
 	var map: Control = load("res://Scenes/WorldMap.tscn").instantiate()
 	root.add_child(map)
 	await process_frame
-	check(manager.highest_unlocked_level == 13 and map.stops.size() == 19 and map.stops[18].level_scene == SCENE and map.stops[18].is_unlocked(), "The palace appears after winning against Poseidon")
+	check(manager.highest_unlocked_level == 13 and map.stops.size() == 12 and map.destination("ithaca").chapters[1].scene == SCENE and map.DATA.chapter_unlocked(map.destination("ithaca").chapters[1]), "The palace appears after winning against Poseidon")
 	map.queue_free()
 	await process_frame
 

@@ -175,13 +175,13 @@ func run() -> void:
 	root.add_child(map)
 	current_scene = map
 	await process_frame
-	check(map.stops.size() == 19 and not map.stops[11].is_unlocked(), "The cove is locked on the campaign map before Tiresias")
+	check(map.stops.size() == 12 and not map.destination("sirens").is_unlocked(), "The cove is locked on the campaign map before Tiresias")
 	gm.complete_sirens(3)
 	check(not gm.sirens_completed and gm.player_current_hp == 10, "A locked stage cannot award progression or change campaign health")
 	gm.underworld_crossing_completed = true
 	gm.record_underworld_vision(gm.UNDERWORLD_VISION_COUNT)
 	gm.complete_underworld_prophecy()
-	check(map.stops[11].is_unlocked() and map.stops[11].level_scene == SCENE, "The prophecy unlocks the actual cove scene")
+	check(map.destination("sirens").is_unlocked() and map.destination("sirens").entry_scene() == SCENE, "The prophecy unlocks the actual cove scene")
 	map.queue_free()
 	await process_frame
 	var scene: Control = load(SCENE).instantiate()

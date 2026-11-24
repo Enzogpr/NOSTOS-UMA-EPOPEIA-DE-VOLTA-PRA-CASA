@@ -1,22 +1,22 @@
 [gd_scene load_steps=7 format=3 uid="uid://c7k3v2p5s8can"]
 
 [ext_resource type="Script" path="res://Code/WorldMap.gd" id="1_map"]
-[ext_resource type="Texture2D" path="res://Assets/world_map_bg.jpg" id="2_bg"]
-[ext_resource type="Script" path="res://Code/MapNode.gd" id="3_node"]
+[ext_resource type="Texture2D" path="res://Assets/world_map/islands_v2.png" id="2_bg"]
+[ext_resource type="Script" path="res://Code/JourneyMapRoutes.gd" id="3_routes"]
 [ext_resource type="Script" path="res://Code/MapPlayer.gd" id="4_player"]
 [ext_resource type="Texture2D" path="res://Assets/act4_storm/ship_harpoon_side.png" id="5_ship"]
 
 [sub_resource type="StyleBoxFlat" id="Style_panel"]
-bg_color = Color(0.012, 0.035, 0.052, 0.94)
+bg_color = Color(0.025,0.065,0.09,0.97)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.38, 0.55, 0.57, 0.75)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_left = 6
-corner_radius_bottom_right = 6
+border_color = Color(0.4,0.46,0.43,0.7)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_left = 5
+corner_radius_bottom_right = 5
 
 [node name="WorldMap" type="Control"]
 layout_mode = 3
@@ -35,13 +35,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.008, 0.019, 0.025, 1)
+color = Color(0.014,0.038,0.056,1)
 
 [node name="Chart" type="Node2D" parent="."]
 
 [node name="BG" type="TextureRect" parent="Chart"]
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_left = 28.0
+offset_top = 110.0
+offset_right = 840.0
+offset_bottom = 548.0
 mouse_filter = 2
 texture = ExtResource("2_bg")
 expand_mode = 1
@@ -49,380 +51,18 @@ stretch_mode = 0
 
 [node name="Paths" type="Node2D" parent="Chart"]
 z_index = 1
-
-[node name="Line1_2" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(168, 178, 515, 380)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line2_3" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(515, 380, 972, 192)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line3_4" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(972, 192, 1005, 447)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line4_5" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(1005, 447, 815, 495)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line5_6" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(815, 495, 615, 495)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line6_7" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(615, 495, 350, 493)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line7_8" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(350, 493, 165, 390)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line8_9" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(165, 390, 165, 270)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line9_10" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(165, 270, 365, 235)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line10_11" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(365, 235, 595, 210)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line11_12" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(595, 210, 786, 169)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line12_13" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(786, 169, 904, 127)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line13_14" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(904, 127, 1050, 130)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line14_15" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(1050, 130, 1060, 244)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line15_16" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(1060, 244, 1035, 337)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line16_17" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(1035, 337, 1044, 447)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line17_18" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(1044, 447, 997, 400, 876, 351)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
-
-[node name="Line18_19" type="Line2D" parent="Chart/Paths"]
-points = PackedVector2Array(876, 351, 697, 359)
-width = 3.0
-antialiased = true
-default_color = Color(0.35, 0.4, 0.4, 0.6)
+script = ExtResource("3_routes")
 
 [node name="Nodes" type="Node2D" parent="Chart"]
 z_index = 2
-
-[node name="Node1" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(168, 178)
-script = ExtResource("3_node")
-level_id = 1
-journey_id = 1
-chapter_index = -1
-level_scene = "res://Ato1_Troia/Cutscenes/Act1_TitleCard.tscn"
-real_name = "Ato I: A Queda de Troia"
-short_name = "Troia"
-right_node = NodePath("../Node2")
-down_node = NodePath("../Node2")
-
-[node name="Node2" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(515, 380)
-script = ExtResource("3_node")
-level_id = 2
-journey_id = 2
-chapter_index = -1
-level_scene = "res://Ato2_Lotofagos/Cutscenes/Act2_TitleCard.tscn"
-real_name = "Ato II: A Ilha dos Lotófagos"
-short_name = "Lotófagos"
-left_node = NodePath("../Node1")
-up_node = NodePath("../Node1")
-right_node = NodePath("../Node3")
-down_node = NodePath("../Node3")
-
-[node name="Node3" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(972, 192)
-script = ExtResource("3_node")
-level_id = 3
-journey_id = 3
-chapter_index = -1
-level_scene = "res://Ato3_Ciclope/Cutscenes/Act3_TitleCard.tscn"
-real_name = "Ato III: A Caverna do Ciclope"
-short_name = "Ciclope"
-left_node = NodePath("../Node2")
-up_node = NodePath("../Node2")
-right_node = NodePath("../Node4")
-down_node = NodePath("../Node4")
-
-[node name="Node4" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(1005, 447)
-script = ExtResource("3_node")
-level_id = 4
-journey_id = 4
-chapter_index = 0
-level_scene = "res://Ato4_Tempestade/Cutscenes/Act4_StormCutscene.tscn"
-real_name = "Ato IV: A Tempestade"
-short_name = "Tempestade"
-left_node = NodePath("../Node3")
-up_node = NodePath("../Node3")
-right_node = NodePath("../Node5")
-down_node = NodePath("../Node5")
-
-[node name="Node5" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(815, 495)
-script = ExtResource("3_node")
-level_id = 4
-journey_id = 5
-chapter_index = 1
-level_scene = "res://Ato4_Tempestade/Cutscenes/AeoliaApproach.tscn"
-real_name = "Ato IV: Éolia, a Ilha dos Ventos"
-short_name = "Éolia"
-left_node = NodePath("../Node4")
-up_node = NodePath("../Node4")
-right_node = NodePath("../Node6")
-down_node = NodePath("../Node6")
-
-[node name="Node6" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(615, 495)
-script = ExtResource("3_node")
-level_id = 4
-journey_id = 6
-chapter_index = 2
-level_scene = "res://Ato4_Tempestade/Gameplay/NineDaysVigil.tscn"
-real_name = "Ato IV: Nove Dias de Vigília"
-short_name = "Nove dias"
-left_node = NodePath("../Node5")
-up_node = NodePath("../Node5")
-right_node = NodePath("../Node7")
-down_node = NodePath("../Node7")
-
-[node name="Node7" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(350, 493)
-script = ExtResource("3_node")
-level_id = 4
-journey_id = 7
-chapter_index = 3
-level_scene = "res://Ato4_Tempestade/Cutscenes/Ruthlessness.tscn"
-real_name = "Ato IV: Poseidon — Crueldade é Piedade"
-short_name = "Poseidon"
-left_node = NodePath("../Node6")
-up_node = NodePath("../Node6")
-right_node = NodePath("../Node8")
-down_node = NodePath("../Node8")
-
-[node name="Node8" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(165, 390)
-script = ExtResource("3_node")
-level_id = 5
-journey_id = 8
-level_scene = "res://Ato5_Circe/Gameplay/CirceForest.tscn"
-real_name = "Ato V: Circe — A Flor de Hermes"
-short_name = "Circe · Holimoli"
-left_node = NodePath("../Node7")
-up_node = NodePath("../Node7")
-right_node = NodePath("../Node9")
-down_node = NodePath("../Node9")
-
-[node name="Node9" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(165, 270)
-script = ExtResource("3_node")
-level_id = 5
-journey_id = 9
-chapter_index = 1
-level_scene = "res://Ato5_Circe/Gameplay/CirceBattle.tscn"
-real_name = "Ato V: Circe — O Palácio Enfeitiçado"
-short_name = "Circe · Confronto"
-left_node = NodePath("../Node8")
-up_node = NodePath("../Node8")
-right_node = NodePath("../Node10")
-down_node = NodePath("../Node10")
-
-[node name="Node10" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(365, 235)
-script = ExtResource("3_node")
-level_id = 6
-journey_id = 10
-chapter_index = 0
-level_scene = "res://Ato6_Submundo/Gameplay/UnderworldCrossing.tscn"
-real_name = "Ato VI: Submundo — A Fuga das Almas"
-short_name = "Submundo · Fuga"
-left_node = NodePath("../Node9")
-up_node = NodePath("../Node9")
-right_node = NodePath("../Node11")
-down_node = NodePath("../Node11")
-
-[node name="Node11" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(595, 210)
-script = ExtResource("3_node")
-level_id = 6
-journey_id = 11
-chapter_index = 1
-level_scene = "res://Ato6_Submundo/Gameplay/UnderworldOracle.tscn"
-real_name = "Ato VI: Submundo — Os Ecos de Tirésias"
-short_name = "Tirésias · Ecos"
-left_node = NodePath("../Node10")
-up_node = NodePath("../Node10")
-right_node = NodePath("../Node12")
-down_node = NodePath("../Node12")
-
-[node name="Node12" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(786, 169)
-script = ExtResource("3_node")
-level_id = 7
-journey_id = 12
-level_scene = "res://Ato7_Sereias/Gameplay/SirenCove.tscn"
-real_name = "Ato VII: Sereias — O Recife do Canto"
-short_name = "Sereias"
-left_node = NodePath("../Node11")
-up_node = NodePath("../Node11")
-right_node = NodePath("../Node13")
-down_node = NodePath("../Node13")
-
-[node name="Node13" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(904, 127)
-script = ExtResource("3_node")
-level_id = 8
-journey_id = 13
-level_scene = "res://Ato8_Cila/Gameplay/ScyllaPassage.tscn"
-real_name = "Ato VIII: Cila — A Gruta das Seis Tochas"
-short_name = "Cila"
-left_node = NodePath("../Node12")
-up_node = NodePath("../Node12")
-right_node = NodePath("../Node14")
-down_node = NodePath("../Node14")
-
-[node name="Node14" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(1050, 130)
-script = ExtResource("3_node")
-level_id = 9
-journey_id = 14
-level_scene = "res://Ato9_Motim/Gameplay/Mutiny.tscn"
-real_name = "Ato IX: Motim — O Convés Dividido"
-short_name = "Motim"
-left_node = NodePath("../Node13")
-up_node = NodePath("../Node13")
-right_node = NodePath("../Node15")
-down_node = NodePath("../Node15")
-
-[node name="Node15" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(1060, 244)
-script = ExtResource("3_node")
-level_id = 10
-journey_id = 15
-chapter_index = 0
-level_scene = "res://Ato10_Calipso/Gameplay/CalypsoPaths.tscn"
-real_name = "Ato X: Calipso — Os Sete Anos"
-short_name = "Ogígia · Cativeiro"
-left_node = NodePath("../Node14")
-up_node = NodePath("../Node14")
-right_node = NodePath("../Node16")
-down_node = NodePath("../Node16")
-
-[node name="Node16" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(1035, 337)
-script = ExtResource("3_node")
-level_id = 10
-journey_id = 16
-chapter_index = 1
-level_scene = "res://Ato10_Calipso/Gameplay/CalypsoDeparture.tscn"
-real_name = "Ato X: Calipso — A Última Maré"
-short_name = "Ogígia · Jangada"
-left_node = NodePath("../Node15")
-up_node = NodePath("../Node15")
-right_node = NodePath("../Node17")
-down_node = NodePath("../Node17")
-
-[node name="Node17" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(1044, 447)
-script = ExtResource("3_node")
-level_id = 11
-journey_id = 17
-level_scene = "res://Ato11_Caribdis/Gameplay/Charybdis.tscn"
-real_name = "Ato XI: Caríbdis — O Redemoinho"
-short_name = "Caríbdis"
-left_node = NodePath("../Node16")
-up_node = NodePath("../Node16")
-right_node = NodePath("../Node18")
-down_node = NodePath("../Node18")
-
-[node name="Node18" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(876, 351)
-script = ExtResource("3_node")
-level_id = 12
-journey_id = 18
-level_scene = "res://Ato12_Poseidon/Gameplay/FinalPoseidon.tscn"
-real_name = "Ato XII: Poseidon — O Último Mar"
-short_name = "Poseidon · Duelo"
-left_node = NodePath("../Node17")
-up_node = NodePath("../Node17")
-right_node = NodePath("../Node19")
-down_node = NodePath("../Node19")
-
-[node name="Node19" type="Node2D" parent="Chart/Nodes"]
-position = Vector2(697, 359)
-script = ExtResource("3_node")
-level_id = 13
-journey_id = 19
-level_scene = "res://Ato13_Itaca/Gameplay/Ithaca.tscn"
-real_name = "Ato XIII: Ítaca — Os Pretendentes"
-short_name = "Ítaca"
-left_node = NodePath("../Node18")
-up_node = NodePath("../Node18")
 
 [node name="MapPlayer" type="Node2D" parent="Chart"]
 z_index = 3
 script = ExtResource("4_player")
 
 [node name="Ship" type="Sprite2D" parent="Chart/MapPlayer"]
-position = Vector2(0, -40)
-scale = Vector2(0.032, 0.032)
+position = Vector2(-27,-9)
+scale = Vector2(0.026,0.026)
 texture = ExtResource("5_ship")
 
 [node name="UI" type="Control" parent="Chart"]
@@ -435,39 +75,114 @@ mouse_filter = 2
 offset_left = 24.0
 offset_top = 14.0
 offset_right = 1128.0
-offset_bottom = 80.0
+offset_bottom = 86.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("Style_panel")
 
 [node name="Title" type="Label" parent="Chart/UI"]
 offset_left = 42.0
-offset_top = 22.0
-offset_right = 720.0
-offset_bottom = 55.0
+offset_top = 23.0
+offset_right = 692.0
+offset_bottom = 56.0
+mouse_filter = 2
 theme_override_font_sizes/font_size = 27
-theme_override_colors/font_color = Color(0.98, 0.85, 0.55, 1)
+theme_override_colors/font_color = Color(0.96,0.83,0.59,1)
 text = "A JORNADA DE ODISSEU"
 
 [node name="Subtitle" type="Label" parent="Chart/UI"]
 offset_left = 44.0
-offset_top = 55.0
-offset_right = 650.0
-offset_bottom = 75.0
+offset_top = 59.0
+offset_right = 604.0
+offset_bottom = 79.0
+mouse_filter = 2
 theme_override_font_sizes/font_size = 13
-text = "Escolha uma etapa disponível para continuar ou rejogar."
+theme_override_colors/font_color = Color(0.85,0.9,0.88,1)
+text = "Um destino, todas as suas histórias."
 
 [node name="ProgressLabel" type="Label" parent="Chart/UI"]
-offset_left = 760.0
-offset_top = 29.0
+offset_left = 725.0
+offset_top = 28.0
 offset_right = 1105.0
-offset_bottom = 60.0
-horizontal_alignment = 2
+offset_bottom = 54.0
+mouse_filter = 2
 theme_override_font_sizes/font_size = 16
-text = "0 / 19 ETAPAS CONCLUÍDAS"
+theme_override_colors/font_color = Color(0.85,0.9,0.88,1)
+text = "0 / 12 DESTINOS CONCLUÍDOS"
+horizontal_alignment = 2
+
+[node name="TimeLabel" type="Label" parent="Chart/UI"]
+offset_left = 655.0
+offset_top = 58.0
+offset_right = 1105.0
+offset_bottom = 80.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.85,0.9,0.88,1)
+text = "RETORNO: 0 dias · IDADE: 20"
+horizontal_alignment = 2
+
+[node name="DestinationPanel" type="Panel" parent="Chart/UI"]
+offset_left = 858.0
+offset_top = 106.0
+offset_right = 1128.0
+offset_bottom = 554.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="DestinationSubtitle" type="Label" parent="Chart/UI"]
+offset_left = 876.0
+offset_top = 126.0
+offset_right = 1110.0
+offset_bottom = 148.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.96,0.83,0.59,1)
+text = ""
+
+[node name="DestinationTitle" type="Label" parent="Chart/UI"]
+offset_left = 876.0
+offset_top = 155.0
+offset_right = 1110.0
+offset_bottom = 191.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 25
+theme_override_colors/font_color = Color(0.96,0.83,0.59,1)
+text = ""
+
+[node name="DestinationDescription" type="Label" parent="Chart/UI"]
+offset_left = 876.0
+offset_top = 201.0
+offset_right = 1106.0
+offset_bottom = 267.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.85,0.9,0.88,1)
+text = ""
+autowrap_mode = 3
+
+[node name="ChapterCount" type="Label" parent="Chart/UI"]
+offset_left = 876.0
+offset_top = 481.0
+offset_right = 1110.0
+offset_bottom = 506.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.96,0.83,0.59,1)
+text = ""
+
+[node name="ChapterHint" type="Label" parent="Chart/UI"]
+offset_left = 876.0
+offset_top = 519.0
+offset_right = 1110.0
+offset_bottom = 539.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.85,0.9,0.88,1)
+text = "1 / 2 / 3 · ESCOLHER ETAPA"
 
 [node name="Footer" type="Panel" parent="Chart/UI"]
 offset_left = 24.0
-offset_top = 554.0
+offset_top = 572.0
 offset_right = 1128.0
 offset_bottom = 636.0
 mouse_filter = 2
@@ -475,33 +190,39 @@ theme_override_styles/panel = SubResource("Style_panel")
 
 [node name="InfoLabel" type="Label" parent="Chart/UI"]
 offset_left = 42.0
-offset_top = 560.0
-offset_right = 905.0
-offset_bottom = 590.0
-theme_override_font_sizes/font_size = 23
-text = "Selecione uma fase..."
+offset_top = 579.0
+offset_right = 762.0
+offset_bottom = 606.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+theme_override_colors/font_color = Color(0.96,0.83,0.59,1)
+text = "Selecione um destino"
 
 [node name="StatusLabel" type="Label" parent="Chart/UI"]
 offset_left = 44.0
-offset_top = 591.0
-offset_right = 810.0
-offset_bottom = 612.0
-theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.62, 0.86, 0.88, 1)
+offset_top = 609.0
+offset_right = 724.0
+offset_bottom = 628.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.85,0.9,0.88,1)
+text = ""
 
 [node name="HintLabel" type="Label" parent="Chart/UI"]
-offset_left = 44.0
-offset_top = 614.0
-offset_right = 950.0
-offset_bottom = 633.0
-theme_override_font_sizes/font_size = 12
-text = "A/D ou SETAS · NAVEGAR    CLIQUE · SELECIONAR    ENTER · ENTRAR    TAB · ATRIBUTOS    ESC · MENU"
+offset_left = 42.0
+offset_top = 89.0
+offset_right = 842.0
+offset_bottom = 107.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.53,0.66,0.69,1)
+text = "A/D OU SETAS · NAVEGAR    ENTER · JOGAR    TAB · ATRIBUTOS"
 
 [node name="EnterButton" type="Button" parent="Chart/UI"]
-offset_left = 936.0
-offset_top = 567.0
-offset_right = 1108.0
-offset_bottom = 612.0
+offset_left = 904.0
+offset_top = 586.0
+offset_right = 1110.0
+offset_bottom = 624.0
 focus_mode = 0
-theme_override_font_sizes/font_size = 18
-text = "INICIAR  ›"
+theme_override_font_sizes/font_size = 16
+text = "CONTINUAR  ›"

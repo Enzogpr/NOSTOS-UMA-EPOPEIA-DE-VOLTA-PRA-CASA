@@ -1,23 +1,36 @@
 extends CanvasLayer
 
+const DESIGN := Vector2(1000, 600)
+
 @onready var control = $Control
-@onready var age_label = $Control/Diagram/CenterNode/AgeLabel
-@onready var speed_label = $Control/Diagram/TopNode/SpeedLabel
-@onready var intellect_label = $Control/Diagram/RightNode/IntellectLabel
-@onready var hp_label = $Control/Diagram/BottomRightNode/HPLabel
-@onready var dash_label = $Control/Diagram/BottomLeftNode/DashLabel
-@onready var damage_label = $Control/Diagram/LeftNode/DamageLabel
-@onready var sacrifice_btn = $Control/ButtonsBox/SacrificeBtn
-@onready var close_btn = $Control/ButtonsBox/CloseBtn
-@onready var portrait_rect = $Control/PortraitPanel/Margin/VBox/PortraitRect
-@onready var status_label = $Control/PortraitPanel/Margin/VBox/StatusLabel
+@onready var layout: Control = $Control/Layout
+@onready var age_label = $Control/Layout/Diagram/CenterNode/AgeLabel
+@onready var speed_label = $Control/Layout/Diagram/TopNode/SpeedLabel
+@onready var intellect_label = $Control/Layout/Diagram/RightNode/IntellectLabel
+@onready var hp_label = $Control/Layout/Diagram/BottomRightNode/HPLabel
+@onready var dash_label = $Control/Layout/Diagram/BottomLeftNode/DashLabel
+@onready var damage_label = $Control/Layout/Diagram/LeftNode/DamageLabel
+@onready var sacrifice_btn = $Control/Layout/ButtonsBox/SacrificeBtn
+@onready var close_btn = $Control/Layout/ButtonsBox/CloseBtn
+@onready var portrait_rect = $Control/Layout/PortraitPanel/Margin/VBox/PortraitRect
+@onready var status_label = $Control/Layout/PortraitPanel/Margin/VBox/StatusLabel
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	control.visible = false
+	control.resized.connect(_fit_menu)
+	_fit_menu()
 	GameManager.player_stats_changed.connect(_update_stats_ui)
+	GameManager.journey_time_changed.connect(_update_stats_ui)
 	sacrifice_btn.pressed.connect(_on_sacrifice_pressed)
 	close_btn.pressed.connect(_on_close_pressed)
+
+func _fit_menu() -> void:
+	var available: Vector2 = control.size
+	var factor := minf(maxf(1.0, available.x - 32.0) / DESIGN.x, maxf(1.0, available.y - 32.0) / DESIGN.y)
+	layout.size = DESIGN
+	layout.scale = Vector2.ONE * factor
+	layout.position = (available - DESIGN * factor) * 0.5
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.keycode == KEY_TAB and event.pressed and not event.is_echo():
@@ -39,6 +52,7 @@ func toggle_menu() -> void:
 		get_tree().paused = false
 	else:
 		if not _can_use_attributes(): return
+		_fit_menu()
 		_update_stats_ui()
 		control.visible = true
 		get_tree().paused = true
@@ -59,6 +73,11 @@ func _update_stats_ui() -> void:
 		if ResourceLoader.exists("res://Assets/odisseu.png"):
 			portrait_rect.texture = load("res://Assets/odisseu.png")
 		status_label.text = "Jovem Guerreiro (" + str(GameManager.player_age) + " Anos)"
+
+	status_label.text += "\nRetorno: %s\nAnos sacrificados: %d" % [GameManager.story_time_text(), GameManager.sacrificed_years]
+
+	if GameManager.standalone_stage_preview:
+		status_label.text += "\nTeste da fase · sem salvar"
 
 func _on_sacrifice_pressed() -> void:
 	if not control.visible or not _can_use_attributes(): return

@@ -116,6 +116,7 @@ func _ready() -> void:
 	paths.escape_requested.connect(_start_escape)
 	paths.conversation_requested.connect(_island_conversation)
 	paths.completed.connect(_summit)
+	paths.years_elapsed.connect(_record_years)
 	paths.thought.connect(_message)
 	raft.notice.connect(_message)
 	raft.reached_sea.connect(_at_sea)
@@ -127,6 +128,8 @@ func _ready() -> void:
 	if audio_enabled and DisplayServer.get_name() != "headless":
 		_setup_audio()
 	var unlocked := GameManager.ogygia_paths_completed if episode == 1 else GameManager.mutiny_completed
+	if (unlocked or GameManager.standalone_stage_preview) and episode == 0:
+		GameManager.begin_calypso_stay()
 	if unlocked or GameManager.standalone_stage_preview:
 		_open_story(FAREWELL if episode == 1 else ARRIVAL, false)
 	else:
@@ -277,6 +280,10 @@ func _start_escape(route: int) -> void:
 	_set_mode(Mode.ESCAPE)
 	_update_hud()
 
+func _record_years(total: int) -> void:
+	if episode == 0:
+		GameManager.record_calypso_years(total)
+
 func _summit() -> void:
 	_open_story(APPEAL, true)
 
@@ -297,6 +304,8 @@ func _splash() -> void:
 		_update_hud()
 
 func _complete() -> void:
+	if GameManager.standalone_stage_preview and episode == 0:
+		GameManager.record_calypso_years(7)
 	if not GameManager.standalone_stage_preview:
 		if episode == 0: GameManager.complete_ogygia_paths()
 		else: GameManager.complete_calypso()

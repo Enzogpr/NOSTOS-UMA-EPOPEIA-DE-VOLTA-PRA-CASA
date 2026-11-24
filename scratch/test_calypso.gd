@@ -124,7 +124,7 @@ func check_saved_progress() -> void:
 	saved.complete_calypso()
 	saved.reset()
 	check(not saved.ogygia_paths_completed and not saved.calypso_completed, "A new campaign clears both milestones")
-	check(saved.load_game() and saved.ogygia_paths_completed and saved.calypso_completed and saved.player_age == 38 and saved.player_current_hp == 5, "Both milestones persist alongside health and age")
+	check(saved.load_game() and saved.ogygia_paths_completed and saved.calypso_completed and saved.player_age == 47 and saved.player_current_hp == 2 and saved.sacrificed_years == 18, "Migration preserves sacrificed years and applies nine natural years once")
 	DirAccess.remove_absolute(saved.save_file_path)
 	saved.free()
 
@@ -154,9 +154,9 @@ func run() -> void:
 	var map: Control = load("res://Scenes/WorldMap.tscn").instantiate()
 	root.add_child(map)
 	await process_frame
-	check(map.stops.size() == 19 and map.stops[14].is_unlocked() and not map.stops[15].is_unlocked(), "Only the first Ogígia stop is available after Motim")
-	check(map.stops[14].level_scene == PATH_SCENE and map.stops[15].level_scene == RAFT_SCENE, "Both map stops have independent scenes")
-	check(map.stops[14].short_name == "Ogígia · Cativeiro", "The new stage is identifiable on the map")
+	check(map.stops.size() == 12 and map.destination("ogygia").is_unlocked() and not map.DATA.chapter_unlocked(map.destination("ogygia").chapters[1]), "One Ogigia pin opens captivity while keeping the departure locked")
+	check(map.destination("ogygia").chapters[0].scene == PATH_SCENE and map.destination("ogygia").chapters[1].scene == RAFT_SCENE, "Both Ogigia chapters keep independent scenes inside the same destination")
+	check(map.destination("ogygia").real_name == "Ogígia · Calipso", "Calypso has one named island on the map")
 	map.queue_free()
 	await process_frame
 
@@ -224,6 +224,7 @@ func run() -> void:
 		work_at_bench(scene, 5.0)
 		interact(scene)
 		check(paths.beat == PATHS.Beat.LAUNCH and paths.seasons == 3.0, "Preparing the grip takes Odisseu back to the changed beach")
+		check(manager.player_age == (38 if not previously_unlocked else 42), "The first three island years reach campaign age without charging a replay")
 		visit(paths, PATHS.CURRENTS[origin])
 		interact(scene)
 		check(scene.mode == scene.Mode.ESCAPE and scene.raft.beach == origin, "The chosen coast changes the playable crossing")
@@ -257,6 +258,7 @@ func run() -> void:
 		interact(scene)
 		work_at_bench(scene, 5.15)
 		check(paths.seasons == 7.0 and paths.oar_condition == 2 and paths.place == PATHS.Place.BENCH, "The same bench shows seven marks and the worn-out, broken oar")
+		check(manager.player_age == 42, "All seven years are applied during the visible time cuts, without duplicate replay aging")
 		work_at_bench(scene, 2.0)
 		check(paths.beat == PATHS.Beat.LEAVE_TOOLS, "The player gets a quiet moment to decide to put the tools down")
 		if not told:
@@ -326,7 +328,7 @@ func run() -> void:
 	await capture(scene, "hermes")
 	advance_dialogue(scene)
 	check(scene.mode == scene.Mode.DONE and manager.calypso_completed, "Completing the conversation records Ogígia")
-	check(manager.player_age == 33 and manager.player_current_hp == 4, "Narrative years and retries do not alter campaign age or HP")
+	check(manager.player_age == 42 and manager.player_current_hp == 4 and manager.story_years() == 9, "Seven Ogigia years age the campaign once and preserve existing wounds")
 	check_saved_progress()
 	scene.queue_free()
 	await process_frame

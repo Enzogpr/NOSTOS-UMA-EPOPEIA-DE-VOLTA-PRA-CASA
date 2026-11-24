@@ -57,50 +57,93 @@ func run() -> void:
 	root.add_child(map)
 	current_scene=map
 	await process_frame
-	check(map.stops.size()==19 and map.player.current_node==map.stops[0],"Map contains nineteen stops and begins at the latest unlocked destination")
-	check(map.info_label.text.contains("Troia"),"Unlocked current act has a real title rather than an anonymous station")
-	check(not map.player.request_travel(map.stops[6]),"Click travel cannot bypass a locked Poseidon chapter")
-	map.player.current_node=map.stops[6]
-	check(map.player.entry_path().is_empty() and not map.player.enter_current(),"Entry also refuses a locked destination even if selected programmatically")
+	check(map.stops.size()==12 and map.player.current_node==map.destination("troy"),"The map has twelve unique places and starts in Troy")
+	check(map.get_node("Chart/BG").texture.resource_path=="res://Assets/world_map/islands_v2.png","The map uses a new painting of all destinations, not the old three-island art")
+	check(map.info_label.text.contains("Troia"),"The selected chapter keeps its own playable title")
+	var place_ids: Array[String]=[]
+	var chapters: Array[String]=[]
+	for stop in map.stops:
+		check(stop.destination_id not in place_ids,"Each geographic destination has exactly one pin")
+		place_ids.append(stop.destination_id)
+		for entry in stop.chapters:
+			check(entry.id not in chapters and ResourceLoader.exists(entry.scene),"Each original chapter has exactly one existing entry scene")
+			chapters.append(entry.id)
+	check(chapters.size()==19,"All nineteen prior entries remain playable within destinations")
+	check(not map.player.request_travel(map.destination("aeaea")),"A locked destination refuses travel")
+	map.player.current_node=map.destination("aeaea")
+	check(map.player.entry_path().is_empty() and not map.player.enter_current(),"A locked destination cannot launch through a forced selection")
 	map.player.entry_requested.disconnect(map._on_entry_requested)
 	var entries: Array[String]=[]
 	map.player.entry_requested.connect(func(path: String): entries.append(path))
 	gm.highest_unlocked_level=4
+	var aeolia: MapNode=map.destination("aeolia")
 	for stage in 4:
 		gm.act4_unlocked_stage=stage
 		gm.act4_progress_changed.emit()
 		var available:=0
 		for stop in map.stops:
 			if stop.is_unlocked(): available+=1
-		check(available==4+stage,"Each chapter unlock exposes exactly the next implemented stop")
-		map.player.snap_to(map.stops[3+stage])
-		check(map.player.enter_current() and ResourceLoader.exists(entries.back()),"Every unlocked stop launches an existing campaign scene")
+		check(available==(5 if stage==3 else 4),"Act IV chapters reuse Aeolia, with one separate coast for the first Poseidon encounter")
+		var current: MapNode=map.destination("giants") if stage==3 else aeolia
+		map.player.snap_to(current)
+		check(map.player.enter_current() and ResourceLoader.exists(entries.back()),"The island recommends the next unlocked chapter")
 	gm.act4_unlocked_stage=0
-	map.player.snap_to(map.stops[3])
+	map.player.snap_to(aeolia)
+	check(map.chapter_buttons.size()==3 and not map.select_chapter("harpoon"),"Aeolia exposes its three chapters with individual locks")
+	check(map.select_chapter("storm") and map.player.entry_path().contains("StormCutscene"),"The storm remains separately replayable from Aeolia")
 	var key:=InputEventKey.new()
 	key.keycode=KEY_D
 	key.pressed=true
 	map.player._unhandled_input(key)
-	check(not map.player.is_moving,"Keyboard navigation respects chapter locks")
-	gm.act4_unlocked_stage=1
-	gm.act4_progress_changed.emit()
-	map.player._unhandled_input(key)
-	check(map.player.is_moving and not map.player.enter_current(),"Keyboard starts travel and blocks entry mid-movement")
-	map.player.travel_tween.custom_step(1.0)
-	check(map.player.current_node==map.stops[4] and map.info_label.text.contains("Éolia"),"Arrival updates selection and contextual information")
+	check(not map.player.is_moving,"Navigation refuses the still-locked giant coast")
 	gm.act4_unlocked_stage=3
 	gm.act4_progress_changed.emit()
-	map.player.request_travel(map.stops[5])
+	map.player._unhandled_input(key)
+	check(map.player.is_moving and not map.player.enter_current(),"Travel blocks stage entry while the ship is moving")
 	map.size=Vector2(900,700)
 	map._fit_chart()
 	map.player.travel_tween.custom_step(1.0)
-	check(map.player.global_position.distance_to(map.stops[5].global_position)<0.01,"Resizing during travel keeps the avatar attached to its destination")
+	check(map.player.current_node==map.destination("giants") and map.player.global_position.distance_to(map.destination("giants").global_position)<0.01,"Travel stays attached to the island when resizing")
 	gm.complete_act4()
-	check(map.progress_label.text.begins_with("7 / 19") and map.stops[6].is_completed() and map.stops[7].is_unlocked() and not map.stops[8].is_unlocked(),"Poseidon completion unlocks the flower search, keeping Circe's battle locked")
-	map.player.snap_to(map.stops[6])
-	check(map.enter_button.text.contains("REJOGAR"),"Completed Poseidon remains replayable")
-	for stop in map.stops:
-		check(stop.real_name.length()>0 and not stop.level_scene.is_empty(),"All route markers retain a named destination")
+	check(map.progress_label.text.begins_with("5 / 12") and map.destination("aeaea").is_unlocked(),"The first escape clears five destinations and opens Circe's island")
+	gm.collect_circe_moly()
+	gm.complete_circe_search()
+	map.player.snap_to(map.destination("aeaea"))
+	check(map.chapter_buttons.size()==2 and map.destination("aeaea").completed_chapters()==1 and not map.destination("aeaea").is_completed(),"One Circe pin contains search and confrontation, with separate progress")
+	check(map.player.entry_path().ends_with("CirceBattle.tscn"),"Returning with the flower recommends the battle")
+	check(map.select_chapter("moly") and map.player.enter_current() and entries.back().ends_with("CirceForest.tscn"),"The search remains directly replayable after unlocking the battle")
+	gm.complete_circe_battle()
+	map.player.snap_to(map.destination("underworld"))
+	check(not map.select_chapter("prophet") and map.chapter_buttons.size()==2,"The prophet cannot be selected before the crossing")
+	gm.complete_underworld_crossing()
+	map.player.snap_to(map.destination("underworld"))
+	check(map.player.entry_path().ends_with("UnderworldOracle.tscn") and map.select_chapter("souls"),"The same Underworld pin offers the oracle and replay of the crossing")
+	gm.record_underworld_vision(gm.UNDERWORLD_VISION_COUNT)
+	gm.complete_underworld_prophecy()
+	gm.complete_sirens(gm.player_current_hp)
+	gm.complete_scylla()
+	gm.complete_mutiny(gm.player_current_hp)
+	gm.complete_ogygia_paths()
+	gm.complete_calypso()
+	map.queue_free()
+	await process_frame
+	map=load("res://Scenes/WorldMap.tscn").instantiate()
+	root.add_child(map)
+	current_scene=map
+	await process_frame
+	map.player.entry_requested.disconnect(map._on_entry_requested)
+	map.player.entry_requested.connect(func(path: String): entries.append(path))
+	check(map.stops.size()==12 and map.player.current_node==map.destination("strait"),"After Calypso the next chapter returns to the existing strait instead of adding another pin")
+	check(map.player.entry_path().ends_with("Charybdis.tscn") and map.destination("strait").completed_chapters()==1,"The strait now recommends Caribdis while preserving Cila's completion")
+	check(map.select_chapter("scylla") and map.player.entry_path().ends_with("ScyllaPassage.tscn"),"Cila remains independently replayable on the same strait")
+	gm.complete_charybdis()
+	map.player.snap_to(map.destination("ithaca"))
+	check(not map.select_chapter("suitors") and map.player.entry_path().ends_with("FinalPoseidon.tscn"),"Ithaca's approach opens Poseidon while the palace remains locked")
+	gm.complete_final_poseidon(gm.player_current_hp)
+	map.player.snap_to(map.destination("ithaca"))
+	check(map.player.entry_path().ends_with("Ithaca.tscn") and map.select_chapter("final_poseidon"),"The Ithaca pin offers the palace and independent replay of Poseidon")
+	gm.complete_ithaca(gm.player_current_hp)
+	check(map.progress_label.text.begins_with("12 / 12"),"Complete campaign clears twelve destinations without counting chapters as islands")
 	if "--capture" in OS.get_cmdline_user_args():
 		map.size=Vector2(1152,648)
 		map._fit_chart()

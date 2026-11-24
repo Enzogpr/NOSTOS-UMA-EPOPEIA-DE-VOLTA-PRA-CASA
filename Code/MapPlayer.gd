@@ -38,7 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func entry_path() -> String:
 	if is_moving or not is_instance_valid(current_node) or not current_node.is_unlocked(): return ""
-	return current_node.level_scene
+	return current_node.entry_scene()
 
 func enter_current() -> bool:
 	var path: String=entry_path()

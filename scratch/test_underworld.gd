@@ -237,6 +237,8 @@ func run() -> void:
 	root.add_child(journey); current_scene=journey; await process_frame
 	journey.begin(); check(journey.model.phase==journey.model.Phase.READY,"Real controller refuses direct entry without the campaign prerequisite")
 	journey.queue_free(); await process_frame
+	# This combat profile represents arrival after Circe, including her narrative year.
+	gm.story_days=gm.CHRONOLOGY.day("circe_departure")
 	gm.circe_moly_found=true; gm.circe_search_completed=true; gm.complete_circe_battle()
 	journey=load("res://Ato6_Submundo/Gameplay/UnderworldCrossing.tscn").instantiate(); journey.audio_enabled=false
 	root.add_child(journey); current_scene=journey; await process_frame; journey.begin()
@@ -303,8 +305,8 @@ func run() -> void:
 	check(prophecy.visuals.coda>1.9 and prophecy.result.visible and gm.player_current_hp==3 and gm.player_damage==8,"Moving reflection resolves without physical damage or changes to sacrifice attributes")
 	prophecy.queue_free(); await process_frame
 	var map: Control=load("res://Scenes/WorldMap.tscn").instantiate(); root.add_child(map); current_scene=map; await process_frame
-	check(map.stops.size()==19 and map.stops[9].is_completed() and map.stops[10].is_completed() and map.stops[11].is_unlocked() and not map.stops[11].is_completed() and map.player.current_node==map.stops[11],"The two Underworld stops are completed and the map selects the newly unlocked Sirens")
-	check(map.status_label.text.ends_with("VII") and map.stops[9].get_left()==map.stops[8] and map.stops[10].get_left()==map.stops[9],"Act numbering and navigable route include both new stages")
+	check(map.stops.size()==12 and map.destination("underworld").is_completed() and map.destination("sirens").is_unlocked() and not map.destination("sirens").is_completed() and map.player.current_node==map.destination("sirens"),"The two Underworld stops are completed and the map selects the newly unlocked Sirens")
+	check(map.status_label.text.ends_with("VII") and map.destination("underworld").get_left()==map.destination("aeaea") and map.destination("sirens").get_left()==map.destination("underworld"),"Act numbering and navigable route include both new stages")
 	map.queue_free(); await process_frame
 	var music_paused: bool=root.get_node("AudioManager").music_player.stream_paused
 	var prior_stream: AudioStream=root.get_node("AudioManager").music_player.stream
